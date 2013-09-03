@@ -1,0 +1,81 @@
+/*
+ * RadioInterface.cpp
+ *
+ * Created: 8/25/2013 6:11:13 PM
+ *  Author: HP User
+ */ 
+#include "commonheader.h"
+#include "RadioInterface.h"
+
+using namespace helicopter::util::common;
+using namespace helicopter::interfaces;
+
+int RadioInterface::transmit(Message *msgToSend)
+{
+	if (msgToSend != NULL)
+	{
+		byte *bytesToSend = msgToSend->getBytes();
+		
+		int numOfBytes = msgToSend->getNumOfBytes();
+		
+		for (int i = 0; i < numOfBytes; i++)
+		{
+			if (serialDriver->transmitByte(bytesToSend[i]) < 0)
+			{
+				return -1;
+			}
+		}
+		
+		delete bytesToSend;
+	}
+	
+	return 0;
+}
+
+int RadioInterface::receive(Message * &receivedMessage)
+{
+	byte msgType = 0;
+	
+	//Get the type of the message to build from the radio
+	if (serialDriver->receiveByte(msgType) == 0)
+	{
+		//Get the number of bytes that should be contained in that message
+		int numOfBytesInMsg = msgBuilder->getNumOfBytesForMessage(msgType);
+		
+		
+		if (numOfBytesInMsg > 0)
+		{
+			//Reset the message builder so it's ready to construct the new message
+			msgBuilder->initialize(numOfBytesInMsg, msgType);
+			
+			//Start reading the rest of the message. The first byte of the 
+			//message was already read (the message type).
+			for (int i = 1; i < numOfBytesInMsg; i++)
+			{
+				byte receivedByte = 0;
+				
+				//Read the byte from the radio
+				if (serialDriver->receiveByte(receivedByte) < 0)
+				{
+					//msg timed out
+					return -1;
+				}else
+				{
+					msgBuilder->addByte(receivedByte);
+				}
+			}
+			
+			receivedMessage = msgBuilder->buildMessage();
+		}else
+		{
+			//Unknown message type
+			return -2;
+		}
+	}else
+	{
+		//failed to receive the message type byte / timeout
+		return -3;
+	}
+	
+	return 0;
+}

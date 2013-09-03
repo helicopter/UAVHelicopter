@@ -1,0 +1,1 @@
+avr-ar -rcs libheli.a ..\helicopter\debug\helicopter.o ..\helicopter\debug\buffer\Buffer.o ..\helicopter\debug\buffer\Record.o ..\helicopter\debug\util\common\commonheader.o ..\helicopter\debug\tasks\Task.o ..\helicopter\debug\scheduler\Scheduler.o

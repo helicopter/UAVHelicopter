@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Atmel Studio Solution File, Format Version 11.00
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Helicopter", "Helicopter\Helicopter.cppproj", "{B75E43FA-53B4-4CF0-B762-8173D9CBFAA5}"
+EndProject
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "HelicopterUnitTests", "HelicopterUnitTests\HelicopterUnitTests.cppproj", "{51787DFB-4EBD-4591-A0E0-0BCA881AE879}"
+	ProjectSection(ProjectDependencies) = postProject
+		{884114AE-86AA-4956-AF67-E85CB582070D} = {884114AE-86AA-4956-AF67-E85CB582070D}
+		{B75E43FA-53B4-4CF0-B762-8173D9CBFAA5} = {B75E43FA-53B4-4CF0-B762-8173D9CBFAA5}
+	EndProjectSection
+EndProject
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "HelicopterIntegrationTests", "HelicopterIntegrationTests\HelicopterIntegrationTests.cppproj", "{9115AA6D-97F8-4F15-A04E-F536E06C6C27}"
+	ProjectSection(ProjectDependencies) = postProject
+		{884114AE-86AA-4956-AF67-E85CB582070D} = {884114AE-86AA-4956-AF67-E85CB582070D}
+		{B75E43FA-53B4-4CF0-B762-8173D9CBFAA5} = {B75E43FA-53B4-4CF0-B762-8173D9CBFAA5}
+	EndProjectSection
+EndProject
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "HelicopterTestsCommon", "HelicopterTestsCommon\HelicopterTestsCommon.cppproj", "{884114AE-86AA-4956-AF67-E85CB582070D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B75E43FA-53B4-4CF0-B762-8173D9CBFAA5} = {B75E43FA-53B4-4CF0-B762-8173D9CBFAA5}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		DebugCPU|AVR = DebugCPU|AVR
+		DebugSim|AVR = DebugSim|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B75E43FA-53B4-4CF0-B762-8173D9CBFAA5}.Debug|AVR.ActiveCfg = Debug|AVR
+		{B75E43FA-53B4-4CF0-B762-8173D9CBFAA5}.Debug|AVR.Build.0 = Debug|AVR
+		{B75E43FA-53B4-4CF0-B762-8173D9CBFAA5}.DebugCPU|AVR.ActiveCfg = Debug|AVR
+		{B75E43FA-53B4-4CF0-B762-8173D9CBFAA5}.DebugCPU|AVR.Build.0 = Debug|AVR
+		{B75E43FA-53B4-4CF0-B762-8173D9CBFAA5}.DebugSim|AVR.ActiveCfg = Debug|AVR
+		{B75E43FA-53B4-4CF0-B762-8173D9CBFAA5}.DebugSim|AVR.Build.0 = Debug|AVR
+		{B75E43FA-53B4-4CF0-B762-8173D9CBFAA5}.Release|AVR.ActiveCfg = Release|AVR
+		{B75E43FA-53B4-4CF0-B762-8173D9CBFAA5}.Release|AVR.Build.0 = Release|AVR
+		{51787DFB-4EBD-4591-A0E0-0BCA881AE879}.Debug|AVR.ActiveCfg = Debug|AVR
+		{51787DFB-4EBD-4591-A0E0-0BCA881AE879}.Debug|AVR.Build.0 = Debug|AVR
+		{51787DFB-4EBD-4591-A0E0-0BCA881AE879}.DebugCPU|AVR.ActiveCfg = Debug|AVR
+		{51787DFB-4EBD-4591-A0E0-0BCA881AE879}.DebugCPU|AVR.Build.0 = Debug|AVR
+		{51787DFB-4EBD-4591-A0E0-0BCA881AE879}.DebugSim|AVR.ActiveCfg = Debug|AVR
+		{51787DFB-4EBD-4591-A0E0-0BCA881AE879}.DebugSim|AVR.Build.0 = Debug|AVR
+		{51787DFB-4EBD-4591-A0E0-0BCA881AE879}.Release|AVR.ActiveCfg = Release|AVR
+		{51787DFB-4EBD-4591-A0E0-0BCA881AE879}.Release|AVR.Build.0 = Release|AVR
+		{9115AA6D-97F8-4F15-A04E-F536E06C6C27}.Debug|AVR.ActiveCfg = Debug|AVR
+		{9115AA6D-97F8-4F15-A04E-F536E06C6C27}.Debug|AVR.Build.0 = Debug|AVR
+		{9115AA6D-97F8-4F15-A04E-F536E06C6C27}.DebugCPU|AVR.ActiveCfg = Debug|AVR
+		{9115AA6D-97F8-4F15-A04E-F536E06C6C27}.DebugCPU|AVR.Build.0 = Debug|AVR
+		{9115AA6D-97F8-4F15-A04E-F536E06C6C27}.DebugSim|AVR.ActiveCfg = Debug|AVR
+		{9115AA6D-97F8-4F15-A04E-F536E06C6C27}.DebugSim|AVR.Build.0 = Debug|AVR
+		{9115AA6D-97F8-4F15-A04E-F536E06C6C27}.Release|AVR.ActiveCfg = Release|AVR
+		{9115AA6D-97F8-4F15-A04E-F536E06C6C27}.Release|AVR.Build.0 = Release|AVR
+		{884114AE-86AA-4956-AF67-E85CB582070D}.Debug|AVR.ActiveCfg = Debug|AVR
+		{884114AE-86AA-4956-AF67-E85CB582070D}.Debug|AVR.Build.0 = Debug|AVR
+		{884114AE-86AA-4956-AF67-E85CB582070D}.DebugCPU|AVR.ActiveCfg = Debug|AVR
+		{884114AE-86AA-4956-AF67-E85CB582070D}.DebugCPU|AVR.Build.0 = Debug|AVR
+		{884114AE-86AA-4956-AF67-E85CB582070D}.DebugSim|AVR.ActiveCfg = Debug|AVR
+		{884114AE-86AA-4956-AF67-E85CB582070D}.DebugSim|AVR.Build.0 = Debug|AVR
+		{884114AE-86AA-4956-AF67-E85CB582070D}.Release|AVR.ActiveCfg = Release|AVR
+		{884114AE-86AA-4956-AF67-E85CB582070D}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
