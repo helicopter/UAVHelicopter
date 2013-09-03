@@ -2,7 +2,7 @@
  * HelicopterIntegrationTests.cpp
  *
  * Created: 8/24/2013 4:25:38 PM
- *  Author: HP User
+ *  Author: HP User.
  */ 
 #include "TestSuite.h"
 #include "RadioInterfaceIntegrationTests.h"
