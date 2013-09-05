@@ -31,46 +31,48 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            this.TelemetryGraph = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            ((System.ComponentModel.ISupportInitialize)(this.TelemetryGraph)).BeginInit();
             this.SuspendLayout();
             // 
-            // chart1
+            // TelemetryGraph
             // 
-            this.chart1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.TelemetryGraph.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            chartArea1.AxisX.Title = "Time Interval";
+            chartArea1.AxisY.Title = "Telem Value";
             chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
+            this.TelemetryGraph.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(2, 2);
-            this.chart1.Name = "chart1";
+            this.TelemetryGraph.Legends.Add(legend1);
+            this.TelemetryGraph.Location = new System.Drawing.Point(2, 2);
+            this.TelemetryGraph.Name = "TelemetryGraph";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series1.IsVisibleInLegend = false;
             series1.Legend = "Legend1";
             series1.Name = "TelemData";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(458, 317);
-            this.chart1.TabIndex = 0;
-            this.chart1.Text = "chart1";
+            this.TelemetryGraph.Series.Add(series1);
+            this.TelemetryGraph.Size = new System.Drawing.Size(458, 317);
+            this.TelemetryGraph.TabIndex = 0;
+            this.TelemetryGraph.Text = "Telemetry Data";
             // 
             // GraphForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(459, 318);
-            this.Controls.Add(this.chart1);
+            this.Controls.Add(this.TelemetryGraph);
             this.Name = "GraphForm";
-            this.Text = "GraphForm";
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            this.Text = "Telemetry Graphs";
+            ((System.ComponentModel.ISupportInitialize)(this.TelemetryGraph)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart TelemetryGraph;
     }
 }

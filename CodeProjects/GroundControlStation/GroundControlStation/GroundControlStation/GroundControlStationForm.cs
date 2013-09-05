@@ -24,6 +24,15 @@ namespace GroundControlStation
             if (!headingGraph.Visible)
             {
                 headingGraph.Show();
+
+                headingGraph.PlotLineGraph(3.12);
+                headingGraph.PlotLineGraph(5.13);
+                headingGraph.PlotLineGraph(3.12);
+                headingGraph.PlotLineGraph(12.44);
+                headingGraph.PlotLineGraph(33.88);
+                headingGraph.PlotLineGraph(17.22);
+                headingGraph.PlotLineGraph(3.12);
+                headingGraph.PlotLineGraph(5.13);
             }
             else
             {
