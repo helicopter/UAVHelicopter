@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -50,8 +51,19 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="GraphingViewTests.cs" />
+    <Compile Include="mocks\MockDashboardView.cs" />
+    <Compile Include="mocks\MockFlightComputerInterface.cs" />
+    <Compile Include="mocks\MockGraphingView.cs" />
+    <Compile Include="ControllerUnitTests.cs" />
+    <Compile Include="mocks\MockSimulatorInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GroundControlStation\GroundControlStation.csproj">
+      <Project>{93a9f64a-3768-4e39-a1c0-2a44f0c8d11b}</Project>
+      <Name>GroundControlStation</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

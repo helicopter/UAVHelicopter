@@ -6,10 +6,11 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.VisualStyles;
+using GroundControlStation.Model;
 
 namespace GroundControlStation.Interfaces
 {
-    public class XPlaneInterface : IDisposable
+    public class SimulatorInterface : IDisposable
     {
         private int listenerPort;
 
@@ -31,7 +32,7 @@ namespace GroundControlStation.Interfaces
         /// <param name="listenerPort">The port on which to listen for xplane's UDP broadcast transmissions</param>
         /// <param name="transmissionPort">The port on which to send data to xplane via UDP broadcast transmissions</param>
         /// <param name="transmissionAddress">The local network's broadcast IP address to send UDP broadcasts to xplane</param>
-        public XPlaneInterface(int listenerPort, int transmissionPort, IPAddress transmissionAddress)
+        public SimulatorInterface(int listenerPort, int transmissionPort, IPAddress transmissionAddress)
         {
             this.listenerPort = listenerPort;
             this.transmissionPort = transmissionPort;
@@ -44,7 +45,7 @@ namespace GroundControlStation.Interfaces
         /// a socket to transmit broadcast udp data on the local network at the
         /// port given in the constructor. 
         /// </summary>
-        public void Open()
+        public virtual void Open()
         {
             //Setup a listener and endpoint listen for UDP data sent to the broadcast
             //local network ip address on the specified port.
@@ -64,17 +65,17 @@ namespace GroundControlStation.Interfaces
         /// null if there was an error parsing the received data, otherwise a
         /// XPlaneData object containing the received data.
         /// </returns>
-        public XPlaneData Receive()
+        public virtual SimulatorTelemetryData Receive()
         {
             byte[] xplaneBytes = broadcastUdpListener.Receive(ref broadcastUdpListenerEndpoint);
 
-            return XPlaneData.Create(xplaneBytes);
+            return SimulatorTelemetryData.Create(xplaneBytes);
         }
 
         /// <summary>
         /// Closes the UDP connection listening for XPlane messages.
         /// </summary>
-        public void Close()
+        public virtual void Close()
         {
             if (broadcastUdpListener != null)
             {

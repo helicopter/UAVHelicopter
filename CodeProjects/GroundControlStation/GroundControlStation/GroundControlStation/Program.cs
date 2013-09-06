@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GroundControlStation.Controller;
+using GroundControlStation.Interfaces;
+using GroundControlStation.Model;
+using GroundControlStation.Views;
 
 namespace GroundControlStation
 {
@@ -14,9 +20,38 @@ namespace GroundControlStation
         [STAThread]
         static void Main()
         {
+            //TODO focus on thread ui update.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GroundControlStationForm());
+
+            SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
+
+            SimulatorInterface xInterface = new SimulatorInterface(8089, 49000, IPAddress.Parse("127.0.0.255"));
+
+            FlightComputerInterface fcInterface = new FlightComputerInterface(port);
+
+            IGraphingView simHeadingGraph = new GraphForm();
+
+            IDashboardView dashboard = new GroundControlStationForm();
+
+            GroundControlStationView gcsView = new GroundControlStationView();
+            gcsView.DashboardView = dashboard;
+            gcsView.SimHeadingGraph = simHeadingGraph;
+
+
+            GroundControlStationModel model = new GroundControlStationModel();
+            model.SimTelmData = new SimulatorTelemetryData();
+            model.FcTelmData = new FlightControllerTelemetryData();
+
+            GroundControlStationController gcsController =
+                new GroundControlStationController(xInterface, fcInterface);
+
+            gcsController.View = gcsView;
+            gcsController.Model = model;
+
+            gcsController.Start();
+
+            Application.Run((GroundControlStationForm)dashboard);
         }
     }
 }

@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net.Configuration;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GroundControlStation.Interfaces
+namespace GroundControlStation.Model
 {
     /// <summary>
-    /// Class which represents the data received from xplane
+    /// Class which represents the data received from the xplane simulator
     ///
     /// </summary>
-    public class XPlaneData
+    public class SimulatorTelemetryData
     {
         public byte[] RawData { get; set; }
 
-        public float YawDegrees { get; set; }
+        /// <summary>
+        /// Heading of the aircraft in degrees from 0 - 259.99..., where 0/360 is north.
+        /// </summary>
+        public float HeadingDegrees { get; set; }
 
         /// <summary>
         /// Creates an XPlaneData object from the raw bytes received from xplane.
@@ -34,9 +32,9 @@ namespace GroundControlStation.Interfaces
         /// <param name="xplaneBytes">Raw bytes received from xplane</param>
         /// <returns>An object containing the parsed xplane data</returns>
         /// <exception cref="SystemException"></exception>
-        internal static XPlaneData Create(byte[] xplaneBytes)
+        internal static SimulatorTelemetryData Create(byte[] xplaneBytes)
         {
-            XPlaneData data = new XPlaneData();
+            SimulatorTelemetryData data = new SimulatorTelemetryData();
             data.RawData = xplaneBytes;
 
             try
@@ -46,7 +44,7 @@ namespace GroundControlStation.Interfaces
                 //Skip to the relevant data
                 byteReader.ReadBytes(89);
 
-                data.YawDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
+                data.HeadingDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
             }
             catch (SystemException ex)
             {

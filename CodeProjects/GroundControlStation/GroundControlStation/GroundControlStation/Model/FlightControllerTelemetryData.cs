@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GroundControlStation.Interfaces
+namespace GroundControlStation.Model
 {
-    public class TelemetryData
+    public class FlightControllerTelemetryData
     {
         /// <summary>
         /// This represents the number of bytes in this message including the message type.
@@ -16,7 +11,7 @@ namespace GroundControlStation.Interfaces
 
         public byte MsgType { get; set; }
 
-        public short Yaw { get; set; }
+        public short HeadingDegrees { get; set; }
 
         public static int GetNumOfBytesInMsg()
         {
@@ -27,7 +22,7 @@ namespace GroundControlStation.Interfaces
         internal void BuildMessage(byte[] byteBuffer)
         {
             this.MsgType = byteBuffer[0];
-            this.Yaw = BitConverter.ToInt16(byteBuffer, 1);
+            this.HeadingDegrees = BitConverter.ToInt16(byteBuffer, 1);
         }
 
         internal byte[] GetRawBytes()
@@ -36,7 +31,7 @@ namespace GroundControlStation.Interfaces
 
             byte[] temp = null;
 
-            temp = BitConverter.GetBytes(Yaw);
+            temp = BitConverter.GetBytes(HeadingDegrees);
 
             rawMsg[0] = MsgType;
             rawMsg[1] = temp[0];

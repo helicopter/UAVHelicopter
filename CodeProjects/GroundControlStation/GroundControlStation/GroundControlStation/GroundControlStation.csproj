@@ -45,30 +45,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GraphForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GraphForm.Designer.cs">
-      <DependentUpon>GraphForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GroundControlStationForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GroundControlStationForm.Designer.cs">
-      <DependentUpon>GroundControlStationForm.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Controller\GroundControlStationController.cs" />
     <Compile Include="Interfaces\FlightComputerInterface.cs" />
-    <Compile Include="Interfaces\TelemetryData.cs" />
-    <Compile Include="Interfaces\XPlaneData.cs" />
-    <Compile Include="Interfaces\XPlaneInterface.cs" />
+    <Compile Include="Interfaces\SimulatorInterface.cs" />
+    <Compile Include="Model\FlightControllerTelemetryData.cs" />
+    <Compile Include="Model\GroundControlStationModel.cs" />
+    <Compile Include="Model\SimulatorTelemetryData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="GraphForm.resx">
+    <Compile Include="Views\GraphForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\GraphForm.Designer.cs">
       <DependentUpon>GraphForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GroundControlStationForm.resx">
+    </Compile>
+    <Compile Include="Views\GroundControlStationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\GroundControlStationForm.Designer.cs">
       <DependentUpon>GroundControlStationForm.cs</DependentUpon>
-    </EmbeddedResource>
+    </Compile>
+    <Compile Include="Views\GroundControlStationView.cs" />
+    <Compile Include="Views\IDashboardView.cs" />
+    <Compile Include="Views\IGraphingView.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -78,6 +77,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Views\GraphForm.resx">
+      <DependentUpon>GraphForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\GroundControlStationForm.resx">
+      <DependentUpon>GroundControlStationForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -91,6 +96,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

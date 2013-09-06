@@ -1,4 +1,4 @@
-﻿namespace GroundControlStation
+﻿namespace GroundControlStation.Views
 {
     partial class GraphForm
     {

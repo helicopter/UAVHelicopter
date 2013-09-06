@@ -1,0 +1,90 @@
+﻿using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
+
+namespace GroundControlStation.Views
+{
+    public partial class GraphForm : Form, IGraphingView
+    {
+        private int xAxisCounter = 0;
+
+        private const int MaxNumGraphingPoints = 30;
+
+        public GraphForm()
+        {
+            InitializeComponent();
+        }
+
+        public void PlotLineGraph(double dataPointValue)
+        {
+            if (this.TelemetryGraph.Series["TelemData"].Points.Count >= 30)
+            {
+                this.TelemetryGraph.Series["TelemData"].Points.RemoveAt(0);
+            }
+
+            DataPoint datapoint = new DataPoint(this.TelemetryGraph.Series["TelemData"].Points.Count, dataPointValue);
+            
+            this.TelemetryGraph.Series["TelemData"].Points.Add(datapoint);
+            /*
+            this.TelemetryGraph.Series["TelemData"].Points.Clear();
+
+            for (int i = 0; i < values.Count; i++)
+            {
+                DataPoint datapoint = new DataPoint(i, values[i]);
+
+                this.TelemetryGraph.Series["TelemData"].Points.Add(datapoint);
+
+            }
+             * */
+        }
+
+        public void ActivateView()
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke((MethodInvoker)delegate() { this.ActivateView(); });
+            }
+            else
+            {
+                this.Show();
+            }
+        }
+
+        public bool IsActive
+        {
+            get { return this.Visible; }
+        }
+
+        public void InactivateView()
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke((MethodInvoker)delegate() { this.InactivateView(); });
+            }
+            else
+            {
+                this.Hide();
+            }
+        }
+
+        public void AddValueToGraph(double value)
+        {
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke((MethodInvoker) delegate() { this.AddValueToGraph(value); });
+            }
+            else
+            {
+                if (TelemetryGraph.Series[0].Points.Count >= MaxNumGraphingPoints)
+                {
+                    TelemetryGraph.Series[0].Points.RemoveAt(0);
+                }
+
+                DataPoint datapoint = new DataPoint(xAxisCounter++, value);
+
+                TelemetryGraph.Series[0].Points.Add(datapoint);
+
+                TelemetryGraph.ChartAreas[0].RecalculateAxesScale();
+            }
+        }
+    }
+}

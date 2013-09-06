@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using GroundControlStation.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GroundControlStation.Interfaces;
 
@@ -16,18 +17,18 @@ namespace GCSIntegrationTests
         public void TestReceiveData()
         {
             
-            using (XPlaneInterface xInterface = new XPlaneInterface(8089, 49000, IPAddress.Parse("127.0.0.255")))
+            using (SimulatorInterface xInterface = new SimulatorInterface(8089, 49000, IPAddress.Parse("127.0.0.255")))
             {
                 xInterface.Open();
 
-                XPlaneData data = null;
+                SimulatorTelemetryData data = null;
 
                 data = xInterface.Receive();
 
                 xInterface.Close();
 
-                Assert.IsTrue(data.YawDegrees != 0);
-                //Assert.IsTrue(data.YawDegrees > 8 && data.YawDegrees < 11);
+                Assert.IsTrue(data.HeadingDegrees != 0);
+                //Assert.IsTrue(data.HeadingDegrees > 8 && data.HeadingDegrees < 11);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO.Ports;
+using GroundControlStation.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GroundControlStation.Interfaces;
 
@@ -22,11 +23,11 @@ namespace HelicopterIntegrationTests
             {
                 fcInt.Open();
 
-                TelemetryData telemetryData = fcInt.Receive();
+                FlightControllerTelemetryData telemetryData = fcInt.Receive();
 
                 Assert.IsTrue(telemetryData.MsgType == 122);
 
-                Assert.IsTrue(telemetryData.Yaw == 321);
+                Assert.IsTrue(telemetryData.HeadingDegrees == 321);
 
                 fcInt.Transmit(telemetryData);
 
@@ -34,14 +35,14 @@ namespace HelicopterIntegrationTests
                 {
                     telemetryData = fcInt.Receive();
 
-                    Assert.IsTrue(telemetryData.Yaw == i);
+                    Assert.IsTrue(telemetryData.HeadingDegrees == i);
 
                     fcInt.Transmit(telemetryData);
                 }
 
                 telemetryData = fcInt.Receive();
 
-                Assert.IsTrue(telemetryData.Yaw == 12);
+                Assert.IsTrue(telemetryData.HeadingDegrees == 12);
             }
         }
 

@@ -4,6 +4,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GroundControlStation.Model;
 
 namespace GroundControlStation.Interfaces
 {
@@ -20,7 +21,7 @@ namespace GroundControlStation.Interfaces
             this.port = port;
         }
 
-        public void Open()
+        public virtual void Open()
         {
             if (!port.IsOpen)
             {
@@ -28,7 +29,7 @@ namespace GroundControlStation.Interfaces
             }
         }
 
-        public void Close()
+        public virtual void Close()
         {
             if (port.IsOpen)
             {
@@ -47,16 +48,16 @@ namespace GroundControlStation.Interfaces
         /// </summary>
         /// <returns>An object containing the telemetry data</returns>
         /// <exception cref="SystemException">Thrown when there is an issue parsing the received telemetry data</exception>
-        public TelemetryData Receive()
+        public virtual FlightControllerTelemetryData Receive()
         {
             //TODO should I check to see if the port is opened first?
-            TelemetryData data = null;
+            FlightControllerTelemetryData data = null;
 
             try
             {
-                byte[] byteBuffer = new byte[TelemetryData.GetNumOfBytesInMsg()];
+                byte[] byteBuffer = new byte[FlightControllerTelemetryData.GetNumOfBytesInMsg()];
 
-                for (int i = 0; i < TelemetryData.GetNumOfBytesInMsg(); i++)
+                for (int i = 0; i < FlightControllerTelemetryData.GetNumOfBytesInMsg(); i++)
                 {
                     int temp = port.ReadByte();
 
@@ -70,7 +71,7 @@ namespace GroundControlStation.Interfaces
                     }
                 }
 
-                data = new TelemetryData();
+                data = new FlightControllerTelemetryData();
 
                 data.BuildMessage(byteBuffer);
 
@@ -83,9 +84,9 @@ namespace GroundControlStation.Interfaces
             return data;
         }
 
-        public void Transmit(TelemetryData telemetryData)
+        public virtual void Transmit(FlightControllerTelemetryData telemetryData)
         {
-            port.Write(telemetryData.GetRawBytes(), 0, TelemetryData.GetNumOfBytesInMsg());
+            port.Write(telemetryData.GetRawBytes(), 0, FlightControllerTelemetryData.GetNumOfBytesInMsg());
         }
     }
 }
