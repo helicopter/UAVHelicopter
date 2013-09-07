@@ -10,7 +10,6 @@ namespace GroundControlStation.Views
 {
     public interface IDashboardView
     {
-
         GroundControlStationController Controller { get; set; }
 
         void UpdateLatestValues(List<Tuple<String, String>> items);

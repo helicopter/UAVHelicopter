@@ -82,7 +82,7 @@
             this.btnHeadingGraph.Name = "btnHeadingGraph";
             this.btnHeadingGraph.Size = new System.Drawing.Size(129, 23);
             this.btnHeadingGraph.TabIndex = 0;
-            this.btnHeadingGraph.Text = "HeadingDegrees Graph";
+            this.btnHeadingGraph.Text = "TrueHeadingDegrees Graph";
             this.btnHeadingGraph.UseVisualStyleBackColor = true;
             this.btnHeadingGraph.Click += new System.EventHandler(this.btnHeadingGraph_Click);
             // 

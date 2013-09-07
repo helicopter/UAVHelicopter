@@ -15,7 +15,7 @@ using namespace helicopter::util::common;
 
 namespace helicopter
 {
-	namespace interfaces
+	namespace messages
 	{
 		/**
 		 * Class which represents messages to be transmitted.

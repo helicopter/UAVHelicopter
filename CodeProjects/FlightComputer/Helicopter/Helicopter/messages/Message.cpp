@@ -7,7 +7,7 @@
 
 #include "Message.h"
 
-using namespace helicopter::interfaces;
+using namespace helicopter::messages;
 
 Message::Message (byte msgType, int numOfBytesInMessage):
 msgType(msgType),

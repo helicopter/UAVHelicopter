@@ -27,8 +27,8 @@ namespace GCSIntegrationTests
 
                 xInterface.Close();
 
-                Assert.IsTrue(data.HeadingDegrees != 0);
-                //Assert.IsTrue(data.HeadingDegrees > 8 && data.HeadingDegrees < 11);
+                Assert.IsTrue(data.TrueHeadingDegrees != 0);
+                //Assert.IsTrue(data.TrueHeadingDegrees > 8 && data.TrueHeadingDegrees < 11);
             }
         }
     }

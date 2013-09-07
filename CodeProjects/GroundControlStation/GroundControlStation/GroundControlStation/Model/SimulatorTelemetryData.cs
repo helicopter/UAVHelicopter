@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace GroundControlStation.Model
@@ -24,7 +25,7 @@ namespace GroundControlStation.Model
         /// <summary>
         /// Heading of the aircraft in degrees from 0 - 259.99..., where 0/360 is north.
         /// </summary>
-        public float HeadingDegrees { get; set; }
+        public float TrueHeadingDegrees { get; set; }
 
         public float XLattitudeDegrees { get; set; }
 
@@ -75,7 +76,7 @@ namespace GroundControlStation.Model
                 byteReader.ReadBytes(24);
                 data.PitchDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
                 data.RollDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
-                data.HeadingDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
+                data.TrueHeadingDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
 
                 //Skip to the relevant data
                 byteReader.ReadBytes(24);
@@ -94,7 +95,7 @@ namespace GroundControlStation.Model
 
                 /*byteReader.ReadBytes(89);
 
-                data.HeadingDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);*/
+                data.TrueHeadingDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);*/
             }
             catch (SystemException ex)
             {
@@ -102,6 +103,26 @@ namespace GroundControlStation.Model
             }
 
             return data;
+        }
+
+        internal List<Tuple<string, string>> ListValues()
+        {
+            List<Tuple<string,string>> lstValues = new List<Tuple<string, string>>();
+
+            lstValues.Add(new Tuple<string, string>("Pitch V Ms", PitchVelocityMs.ToString()));
+            lstValues.Add(new Tuple<string, string>("Roll V Ms", RollVelocityMs.ToString()));
+            lstValues.Add(new Tuple<string, string>("Yaw V Ms", YawVelocityMs.ToString()));
+            lstValues.Add(new Tuple<string, string>("Pitch Deg", PitchDegrees.ToString()));
+            lstValues.Add(new Tuple<string, string>("Roll Deg", RollDegrees.ToString()));
+            lstValues.Add(new Tuple<string, string>("True Heading Deg", TrueHeadingDegrees.ToString()));
+            lstValues.Add(new Tuple<string, string>("X Lat Deg", XLattitudeDegrees.ToString()));
+            lstValues.Add(new Tuple<string, string>("Y Long Deg", YLongitudeDegrees.ToString()));
+            lstValues.Add(new Tuple<string, string>("Z Alt Ft Agl", ZAltitudeFtAgl.ToString()));
+            lstValues.Add(new Tuple<string, string>("Y V Ms", YVelocityNEDFrameMs.ToString()));
+            lstValues.Add(new Tuple<string, string>("Z V Ms", ZVelocityNEDFrameMs.ToString()));
+            lstValues.Add(new Tuple<string, string>("X V Ms", XVelocityNEDFrameMs.ToString()));
+
+            return lstValues;
         }
     }
 }

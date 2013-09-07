@@ -16,7 +16,7 @@ using namespace helicopter::util::common;
 
 namespace helicopter
 {
-	namespace interfaces
+	namespace messages
 	{
 		class MessageBuilder
 		{

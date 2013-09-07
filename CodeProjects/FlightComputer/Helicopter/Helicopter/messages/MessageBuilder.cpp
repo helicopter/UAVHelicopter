@@ -6,7 +6,7 @@
  */ 
 #include "MessageBuilder.h"
 
-using namespace helicopter::interfaces;
+using namespace helicopter::messages;
 
 Message *MessageBuilder::buildMessage()
 {

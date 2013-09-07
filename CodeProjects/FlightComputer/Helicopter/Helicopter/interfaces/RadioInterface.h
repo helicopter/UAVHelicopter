@@ -14,6 +14,7 @@
 #include "MessageBuilder.h"
 
 using namespace helicopter::drivers;
+using namespace helicopter::messages;
 
 namespace helicopter
 {

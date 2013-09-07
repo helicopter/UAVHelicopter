@@ -57,19 +57,23 @@ namespace GroundControlStation.Controller
         /// </summary>
         public void UpdateViews()
         {
-            UpdateView(View.SimHeadingGraph, Model.SimTelmData.HeadingDegrees);
+            UpdateView(View.SimHeadingGraph, Model.SimTelmData.TrueHeadingDegrees);
 
             UpdateLatestValues();
         }
 
         private void UpdateLatestValues()
         {
-            Tuple<String,String> value = new Tuple<string, string>("Sim Heading", Model.SimTelmData.HeadingDegrees.ToString());
+            List<Tuple<String, String>> simValues = Model.SimTelmData.ListValues();
+
+            /*
+            Tuple<String,String> value = new Tuple<string, string>("Sim Heading", Model.SimTelmData.TrueHeadingDegrees.ToString());
 
             List<Tuple<String,String>> listValues = new List<Tuple<string, string>>();
             listValues.Add(value);
+            */
 
-            View.DashboardView.UpdateLatestValues(listValues);
+            View.DashboardView.UpdateLatestValues(simValues);
         }
 
         private void UpdateView(IGraphingView view, double valueToGraph)

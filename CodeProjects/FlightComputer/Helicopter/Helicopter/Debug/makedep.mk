@@ -12,11 +12,11 @@ drivers\SerialDriver.cpp
 
 Helicopter.cpp
 
-interfaces\Message.cpp
-
-interfaces\MessageBuilder.cpp
-
 interfaces\RadioInterface.cpp
+
+messages\Message.cpp
+
+messages\MessageBuilder.cpp
 
 scheduler\Scheduler.cpp
 

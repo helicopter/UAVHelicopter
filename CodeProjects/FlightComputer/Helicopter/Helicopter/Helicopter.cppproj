@@ -159,6 +159,7 @@
       <Value>../drivers</Value>
       <Value>../sensors</Value>
       <Value>../interfaces</Value>
+      <Value>../messages</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
   <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
@@ -207,22 +208,22 @@
     <Compile Include="Helicopter.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="interfaces\Message.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="interfaces\Message.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="interfaces\MessageBuilder.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="interfaces\MessageBuilder.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="interfaces\RadioInterface.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="interfaces\RadioInterface.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="messages\Message.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="messages\Message.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="messages\MessageBuilder.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="messages\MessageBuilder.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="scheduler\Scheduler.cpp">
@@ -257,6 +258,7 @@
     <Folder Include="buffer" />
     <Folder Include="drivers" />
     <Folder Include="interfaces" />
+    <Folder Include="messages" />
     <Folder Include="sensors" />
     <Folder Include="scheduler" />
     <Folder Include="tasks" />

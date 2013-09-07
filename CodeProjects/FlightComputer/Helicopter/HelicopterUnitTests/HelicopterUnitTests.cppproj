@@ -171,6 +171,7 @@
       <Value>../radio</Value>
       <Value>../../HelicopterTestsCommon/mocks</Value>
       <Value>..</Value>
+      <Value>../../Helicopter/messages</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
   <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>

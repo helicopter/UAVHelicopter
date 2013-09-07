@@ -47,7 +47,7 @@ namespace UnitTests
 
             //Verify that the initial model values are zeros.
             Assert.IsTrue(gcsController.Model.FcTelmData.HeadingDegrees == 0);
-            Assert.IsTrue(gcsController.Model.SimTelmData.HeadingDegrees == 0);
+            Assert.IsTrue(gcsController.Model.SimTelmData.TrueHeadingDegrees == 0);
 
             /*
              * Verify that after retrieving mock telemetry data, the model
@@ -57,7 +57,7 @@ namespace UnitTests
             gcsController.GetFlightComputerTelemetry();
 
             Assert.IsTrue(gcsController.Model.FcTelmData.HeadingDegrees == 22);
-            Assert.IsTrue(gcsController.Model.SimTelmData.HeadingDegrees == 22);
+            Assert.IsTrue(gcsController.Model.SimTelmData.TrueHeadingDegrees == 22);
 
             Assert.IsTrue(((MockGraphingView)simHeadingGraph).Values.Count == 0);
 
