@@ -18,6 +18,8 @@ messages\Message.cpp
 
 messages\MessageBuilder.cpp
 
+messages\SimTelemetryMessage.cpp
+
 scheduler\Scheduler.cpp
 
 sensors\MagnetometerSensor.cpp

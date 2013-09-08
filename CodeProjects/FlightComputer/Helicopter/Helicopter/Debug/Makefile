@@ -54,6 +54,7 @@ C_SRCS +=  \
 ../interfaces/RadioInterface.cpp \
 ../messages/Message.cpp \
 ../messages/MessageBuilder.cpp \
+../messages/SimTelemetryMessage.cpp \
 ../scheduler/Scheduler.cpp \
 ../sensors/MagnetometerSensor.cpp \
 ../tasks/Task.cpp \
@@ -75,6 +76,7 @@ Helicopter.o \
 interfaces/RadioInterface.o \
 messages/Message.o \
 messages/MessageBuilder.o \
+messages/SimTelemetryMessage.o \
 scheduler/Scheduler.o \
 sensors/MagnetometerSensor.o \
 tasks/Task.o \
@@ -89,6 +91,7 @@ Helicopter.o \
 interfaces/RadioInterface.o \
 messages/Message.o \
 messages/MessageBuilder.o \
+messages/SimTelemetryMessage.o \
 scheduler/Scheduler.o \
 sensors/MagnetometerSensor.o \
 tasks/Task.o \
@@ -103,6 +106,7 @@ Helicopter.d \
 interfaces/RadioInterface.d \
 messages/Message.d \
 messages/MessageBuilder.d \
+messages/SimTelemetryMessage.d \
 scheduler/Scheduler.d \
 sensors/MagnetometerSensor.d \
 tasks/Task.d \
@@ -117,6 +121,7 @@ Helicopter.d \
 interfaces/RadioInterface.d \
 messages/Message.d \
 messages/MessageBuilder.d \
+messages/SimTelemetryMessage.d \
 scheduler/Scheduler.d \
 sensors/MagnetometerSensor.d \
 tasks/Task.d \
@@ -133,6 +138,8 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

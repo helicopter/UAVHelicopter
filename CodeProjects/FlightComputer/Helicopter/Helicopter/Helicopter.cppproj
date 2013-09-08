@@ -226,6 +226,12 @@
     <Compile Include="messages\MessageBuilder.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="messages\SimTelemetryMessage.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="messages\SimTelemetryMessage.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="scheduler\Scheduler.cpp">
       <SubType>compile</SubType>
     </Compile>
