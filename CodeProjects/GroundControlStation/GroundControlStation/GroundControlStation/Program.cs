@@ -29,14 +29,22 @@ namespace GroundControlStation
             SimulatorInterface xInterface = new SimulatorInterface(8089, 49000, IPAddress.Parse("127.0.0.255"));
 
             FlightComputerInterface fcInterface = new FlightComputerInterface(port);
+            fcInterface.Open();
 
             IGraphingView simHeadingGraph = new GraphForm();
+            IGraphingView fcMagX = new GraphForm();
+            IGraphingView fcMagY = new GraphForm();
+            IGraphingView fcMagZ = new GraphForm();
 
             IDashboardView dashboard = new GroundControlStationForm();
 
-            GroundControlStationView gcsView = new GroundControlStationView();
-            gcsView.DashboardView = dashboard;
-            gcsView.SimHeadingGraph = simHeadingGraph;
+            GroundControlStationDashboardView gcsDashboardView = new GroundControlStationDashboardView();
+            gcsDashboardView.DashboardView = dashboard;
+            gcsDashboardView.SimHeadingGraph = simHeadingGraph;
+            gcsDashboardView.FcMagX = fcMagX;
+            gcsDashboardView.FcMagY = fcMagY;
+            gcsDashboardView.FcMagZ = fcMagZ;
+            
 
 
             GroundControlStationModel model = new GroundControlStationModel();
@@ -46,7 +54,7 @@ namespace GroundControlStation
             GroundControlStationController gcsController =
                 new GroundControlStationController(xInterface, fcInterface);
 
-            gcsController.View = gcsView;
+            gcsController.DashboardView = gcsDashboardView;
             gcsController.Model = model;
 
             gcsController.Start();

@@ -28,30 +28,40 @@ namespace helicopter
 			class FlashLEDTask : public Task
 			{
 				private:
+					static const int BLUELED = PA3;
+					static const int YELLOWLED = PA4;
+					static const int REDLED = PA5;
+				
 					bool isOn;
+					
+					int ledToBlink;
 				
 				public:
 
-				FlashLEDTask (int delay, int period) : 
+				FlashLEDTask (int delay, int period, int ledToBlink = BLUELED) : 
 					Task(delay, period),
-					isOn(false)
+					isOn(false),
+					ledToBlink(ledToBlink)
 				{
 					
 				}
 	
 				void init()
 				{
-					DDRA |= (1<<PA3);
+					DDRA |= (1<<ledToBlink);
 				}
 	
+				/**
+				 * Flashes the LED
+				 */
 				void runTaskImpl() {
 					if (isOn)
 					{
-						PORTA &= ~(1<<PA3);
+						PORTA &= ~(1<<ledToBlink);
 						isOn = false;
 					}else
 					{
-						PORTA |= (1<<PA3);
+						PORTA |= (1<<ledToBlink);
 						isOn = true;
 					}
 				}

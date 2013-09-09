@@ -42,5 +42,10 @@ namespace GroundControlStation.Views
         {
             Controller.ToggleSimHeadingGraph();
         }
+
+        private void btnFcMagX_Click(object sender, EventArgs e)
+        {
+            Controller.ToggleFcMagXGraph();
+        }
     }
 }

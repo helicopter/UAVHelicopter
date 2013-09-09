@@ -36,6 +36,7 @@
             this.TelemValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnHeadingGraph = new System.Windows.Forms.Button();
+            this.btnFcMagX = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,6 +71,7 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.btnFcMagX);
             this.panel1.Controls.Add(this.btnHeadingGraph);
             this.panel1.Location = new System.Drawing.Point(177, -1);
             this.panel1.Name = "panel1";
@@ -85,6 +87,16 @@
             this.btnHeadingGraph.Text = "TrueHeadingDegrees Graph";
             this.btnHeadingGraph.UseVisualStyleBackColor = true;
             this.btnHeadingGraph.Click += new System.EventHandler(this.btnHeadingGraph_Click);
+            // 
+            // btnFcMagX
+            // 
+            this.btnFcMagX.Location = new System.Drawing.Point(3, 33);
+            this.btnFcMagX.Name = "btnFcMagX";
+            this.btnFcMagX.Size = new System.Drawing.Size(129, 23);
+            this.btnFcMagX.TabIndex = 1;
+            this.btnFcMagX.Text = "FCMagX";
+            this.btnFcMagX.UseVisualStyleBackColor = true;
+            this.btnFcMagX.Click += new System.EventHandler(this.btnFcMagX_Click);
             // 
             // GroundControlStationForm
             // 
@@ -107,6 +119,7 @@
         private System.Windows.Forms.ColumnHeader TelemValue;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnHeadingGraph;
+        private System.Windows.Forms.Button btnFcMagX;
     }
 }
 

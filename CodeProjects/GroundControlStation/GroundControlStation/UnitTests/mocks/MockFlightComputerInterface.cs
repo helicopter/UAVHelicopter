@@ -37,7 +37,7 @@ namespace UnitTests.mocks
         public override FlightControllerTelemetryData Receive()
         {
             FlightControllerTelemetryData data = new FlightControllerTelemetryData();
-            data.HeadingDegrees = (short) testValue;
+            data.MagX = (short)testValue;
 
             return data;
         }

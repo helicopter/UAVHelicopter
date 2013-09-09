@@ -17,18 +17,18 @@ namespace GroundControlStation.Controller
 
         private Thread controllerThread;
 
-        private GroundControlStationView view;
+        private GroundControlStationDashboardView _dashboardView;
 
-        public GroundControlStationView View {
+        public GroundControlStationDashboardView DashboardView {
             get
             {
-                return view;
+                return _dashboardView;
             }
 
             set
             {
                 value.DashboardView.Controller = this;
-                view = value;
+                _dashboardView = value;
             }
         }
 
@@ -57,7 +57,10 @@ namespace GroundControlStation.Controller
         /// </summary>
         public void UpdateViews()
         {
-            UpdateView(View.SimHeadingGraph, Model.SimTelmData.TrueHeadingDegrees);
+            UpdateView(DashboardView.SimHeadingGraph, Model.SimTelmData.TrueHeadingDegrees);
+            UpdateView(DashboardView.FcMagX, Model.FcTelmData.MagX);
+            UpdateView(DashboardView.FcMagY, Model.FcTelmData.MagY);
+            UpdateView(DashboardView.FcMagZ, Model.FcTelmData.MagZ);
 
             UpdateLatestValues();
         }
@@ -65,15 +68,9 @@ namespace GroundControlStation.Controller
         private void UpdateLatestValues()
         {
             List<Tuple<String, String>> simValues = Model.SimTelmData.ListValues();
+            simValues.AddRange(Model.FcTelmData.ListValues());
 
-            /*
-            Tuple<String,String> value = new Tuple<string, string>("Sim Heading", Model.SimTelmData.TrueHeadingDegrees.ToString());
-
-            List<Tuple<String,String>> listValues = new List<Tuple<string, string>>();
-            listValues.Add(value);
-            */
-
-            View.DashboardView.UpdateLatestValues(simValues);
+            DashboardView.DashboardView.UpdateLatestValues(simValues);
         }
 
         private void UpdateView(IGraphingView view, double valueToGraph)
@@ -86,23 +83,23 @@ namespace GroundControlStation.Controller
 
         public void ActivateSimHeadingGraph()
         {
-            View.SimHeadingGraph.ActivateView();
+            DashboardView.SimHeadingGraph.ActivateView();
         }
 
         public void DeactivateSimHeadingGraph()
         {
-            View.SimHeadingGraph.InactivateView();
+            DashboardView.SimHeadingGraph.DeactivateView();
         }
 
         internal void ToggleSimHeadingGraph()
         {
-            if (View.SimHeadingGraph.IsActive)
+            if (DashboardView.SimHeadingGraph.IsActive)
             {
-                DeactivateSimHeadingGraph();
+                DashboardView.SimHeadingGraph.DeactivateView();
             }
             else
             {
-                ActivateSimHeadingGraph();
+                DashboardView.SimHeadingGraph.ActivateView();
             }
         }
 
@@ -119,7 +116,30 @@ namespace GroundControlStation.Controller
             {
                 Model.SimTelmData = xplaneInterface.Receive();
 
+                FlightControllerTelemetryData data = new FlightControllerTelemetryData();
+
+                //TODO don't hard code this.
+                data.MagX = 93;
+                data.MagY = 93;
+                data.MagZ = 93;
+
+                fcInterface.Transmit(data);
+
+                Model.FcTelmData = fcInterface.Receive();
+
                 UpdateViews();
+            }
+        }
+
+        internal void ToggleFcMagXGraph()
+        {
+            if (DashboardView.FcMagX.IsActive)
+            {
+                DashboardView.FcMagX.DeactivateView();
+            }
+            else
+            {
+                DashboardView.FcMagX.ActivateView();
             }
         }
     }

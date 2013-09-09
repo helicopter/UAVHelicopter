@@ -1,14 +1,17 @@
 /*
- * SimTelemetryMessage.cpp
+ * SystemTelemetryMessage.cpp
  *
- * Created: 9/7/2013 12:05:47 PM
+ * Created: 9/8/2013 7:22:48 PM
  *  Author: HP User
  */ 
-#include "SimTelemetryMessage.h"
+
+#include "SystemTelemetryMessage.h"
+
+#include <string.h>
 
 using namespace helicopter::messages;
 
-byte *SimTelemetryMessage::getBytes()
+byte *SystemTelemetryMessage::getBytes()
 {
 	byte *msg = new byte[MessageSize];
 	msg[0] = this->msgType;
@@ -21,11 +24,11 @@ byte *SimTelemetryMessage::getBytes()
 	
 	msg += sizeof(magY);
 	memcpy(msg, &magZ, sizeof(magZ));
-		
+	
 	return msg;
 }
-	
-void SimTelemetryMessage::buildMessage(byte *message)
+
+void SystemTelemetryMessage::buildMessage(byte *message)
 {
 	if (message != NULL)
 	{

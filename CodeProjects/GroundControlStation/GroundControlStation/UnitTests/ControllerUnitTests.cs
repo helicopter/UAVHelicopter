@@ -27,9 +27,9 @@ namespace UnitTests
 
             IDashboardView dashboard = new MockDashboardView();
 
-            GroundControlStationView gcsView = new GroundControlStationView();
-            gcsView.DashboardView = dashboard;
-            gcsView.SimHeadingGraph = simHeadingGraph;
+            GroundControlStationDashboardView gcsDashboardView = new GroundControlStationDashboardView();
+            gcsDashboardView.DashboardView = dashboard;
+            gcsDashboardView.SimHeadingGraph = simHeadingGraph;
 
 
             GroundControlStationModel model = new GroundControlStationModel();
@@ -39,14 +39,14 @@ namespace UnitTests
             GroundControlStationController gcsController =
                 new GroundControlStationController(xplaneInterface, fcInterface);
 
-            gcsController.View = gcsView;
+            gcsController.DashboardView = gcsDashboardView;
             gcsController.Model = model;
 
             //Verify that the controller was set on the dashboard.
             Assert.IsTrue(dashboard.Controller == gcsController);
 
             //Verify that the initial model values are zeros.
-            Assert.IsTrue(gcsController.Model.FcTelmData.HeadingDegrees == 0);
+            Assert.IsTrue(gcsController.Model.FcTelmData.MagX == 0);
             Assert.IsTrue(gcsController.Model.SimTelmData.TrueHeadingDegrees == 0);
 
             /*
@@ -56,7 +56,7 @@ namespace UnitTests
             gcsController.GetSimulatorTelemetry();
             gcsController.GetFlightComputerTelemetry();
 
-            Assert.IsTrue(gcsController.Model.FcTelmData.HeadingDegrees == 22);
+            Assert.IsTrue(gcsController.Model.FcTelmData.MagX == 22);
             Assert.IsTrue(gcsController.Model.SimTelmData.TrueHeadingDegrees == 22);
 
             Assert.IsTrue(((MockGraphingView)simHeadingGraph).Values.Count == 0);

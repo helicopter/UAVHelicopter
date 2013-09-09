@@ -20,11 +20,19 @@ messages\MessageBuilder.cpp
 
 messages\SimTelemetryMessage.cpp
 
+messages\SystemTelemetryMessage.cpp
+
+model\SystemModel.cpp
+
 scheduler\Scheduler.cpp
 
 sensors\MagnetometerSensor.cpp
 
+tasks\misctasks\SimTelemetryTask.cpp
+
 tasks\Task.cpp
+
+tasks\TransmitTelemetryTask.cpp
 
 util\common\commonheader.cpp
 

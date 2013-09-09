@@ -19,7 +19,7 @@ namespace GroundControlStation.Views
 
         void ActivateView();
 
-        void InactivateView();
+        void DeactivateView();
 
         void AddValueToGraph(double value);
     }

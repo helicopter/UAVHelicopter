@@ -54,11 +54,11 @@ namespace GroundControlStation.Views
             get { return this.Visible; }
         }
 
-        public void InactivateView()
+        public void DeactivateView()
         {
             if (this.InvokeRequired)
             {
-                this.BeginInvoke((MethodInvoker)delegate() { this.InactivateView(); });
+                this.BeginInvoke((MethodInvoker)delegate() { this.DeactivateView(); });
             }
             else
             {

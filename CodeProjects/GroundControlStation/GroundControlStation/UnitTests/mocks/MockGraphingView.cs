@@ -38,7 +38,7 @@ namespace UnitTests.mocks
             isActive = true;
         }
 
-        public void InactivateView()
+        public void DeactivateView()
         {
             isActive = false;
         }

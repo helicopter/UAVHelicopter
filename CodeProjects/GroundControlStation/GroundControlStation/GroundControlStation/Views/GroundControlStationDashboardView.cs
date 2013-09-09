@@ -6,10 +6,16 @@ using System.Threading.Tasks;
 
 namespace GroundControlStation.Views
 {
-    public class GroundControlStationView
+    public class GroundControlStationDashboardView
     {
         public IDashboardView DashboardView { get; set; }
 
         public IGraphingView SimHeadingGraph { get; set; }
+
+        public IGraphingView FcMagX { get; set; }
+
+        public IGraphingView FcMagY { get; set; }
+
+        public IGraphingView FcMagZ { get; set; }
     }
 }

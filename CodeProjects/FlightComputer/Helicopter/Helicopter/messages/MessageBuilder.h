@@ -14,6 +14,9 @@
 
 using namespace helicopter::util::common;
 
+//TODO I don't like this message builder idea. I think it can just be a function or something
+//that can just be passed in like state pattern so you don't have one message builder with all
+//the different messages in it.
 namespace helicopter
 {
 	namespace messages
@@ -43,8 +46,11 @@ namespace helicopter
 				 * Creates a Message object from the bytes received.
 				 * The object that gets created is the MessageType
 				 * that was passed in from the initialize method.
+				 *
+				 * The caller is responsible for deleting off of the heap.
 				 * 
-				 * @return The created message.
+				 * @return The created message. Null if there was a problem creating the message or
+				 * if the message type wasn't recognized.
 				 */
 				virtual Message *buildMessage();
 				

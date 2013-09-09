@@ -31,7 +31,7 @@ namespace UnitTests
 
             Assert.IsTrue(((MockGraphingView) view).GetValue() == 3.14159d);
 
-            view.InactivateView();
+            view.DeactivateView();
 
             Assert.IsFalse(view.IsActive);
         }
