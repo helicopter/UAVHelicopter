@@ -13,11 +13,12 @@
 #include "RadioInterface.h"
 #include "UnitTestUtils.h"
 #include "MockSerialDriver.h"
+#include "SystemTelemetryMessage.h"
 
 using namespace helicopter::drivers;
 using namespace std;
 using namespace helicopter::interfaces;
-
+using namespace helicopter::messages;
 
 
 class TestMessage : public Message
@@ -153,6 +154,111 @@ int radiotransandrec_test(TestCase *test)
 	delete msgBuilder;
 	
 	
+	
+	return 0;
+}
+
+
+
+
+
+
+
+int telemetry_test(TestCase *test)
+{
+	MessageBuilder *messageBuilder = new MessageBuilder();
+	
+	//Create a driver for communicating with the radio.
+	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, true, true);
+	serialDriver->initialize();
+
+
+	SystemTelemetryMessage *message = new SystemTelemetryMessage();
+	
+	message->MagX(33);
+	message->MagY(32);
+	message->MagZ(31);
+	
+	
+	
+	MockSerialDriver *mockDriver = new MockSerialDriver(message->getNumOfBytes());
+		
+		
+	RadioInterface radioInterface(mockDriver, messageBuilder);
+		
+		
+	
+	
+	//TODO add some error handling in here
+	AssertTrue(radioInterface.transmit(message) == 0, 1);
+	
+	delete message;
+	message = NULL;
+
+
+
+	Message *message2 = NULL;
+	AssertTrue(radioInterface.receive(message2) == 0, 2);
+	
+	AssertTrue(message2->getType() == SystemTelemetryMessage::SystemTelemetryMessageType, 3);
+	
+	SystemTelemetryMessage *testMsg = (SystemTelemetryMessage *)message2;
+	
+	AssertTrue(testMsg->MagX() == 33, 4);
+	AssertTrue(testMsg->MagY() == 32, 5);
+	AssertTrue(testMsg->MagZ() == 31, 6);
+	
+	
+	
+	
+	
+
+
+	//////////////////////////////////////////////////////////////////////////
+	// Transmit transmitting and receiving a message
+	//////////////////////////////////////////////////////////////////////////
+	/*
+	byte testMessage[] = "This is a test message";
+	
+	int sizeOfMsg = strlen(testMessage) + sizeof(byte); //msg size + msgType size.
+	
+	MockSerialDriver *mockDriver = new MockSerialDriver(sizeOfMsg);
+	
+	MessageBuilder *msgBuilder = new DummyMessageBuilder(sizeOfMsg);
+	
+	RadioInterface radioInterface(mockDriver, msgBuilder);
+	
+	
+	
+	Message *transmitMessage = new TestMessage(testMessage);
+	
+	AssertTrue(radioInterface.transmit(transmitMessage) == 0, 1);
+	
+	delete transmitMessage;
+	
+	//Corrupt the original message to ensure memory isn't being 'held' onto.
+	testMessage[2]='z';
+	testMessage[3]='w';
+	testMessage[4]='c';
+	
+	Message *receiveMessage = NULL;
+	AssertTrue(radioInterface.receive(receiveMessage) == 0, 2);
+	
+	AssertTrue(receiveMessage->getType() == TestMessage::YAWMSGID, 3);
+	
+	TestMessage *testMsg = (TestMessage *)receiveMessage;
+	
+	char *blahMsg = testMsg->getMessage();
+	
+	AssertTrue(strncmp(testMsg->getMessage(), "This is a test message", strlen(testMessage)) == 0, 4);
+	
+	delete testMsg;
+	
+	delete mockDriver;
+	
+	delete msgBuilder;
+	
+	*/
 	
 	return 0;
 }

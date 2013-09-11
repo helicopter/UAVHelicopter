@@ -41,7 +41,10 @@ namespace helicopter
 			sizeof(magY) +
 			sizeof(magZ);
 						
-			SimTelemetryMessage(): Message(SimTelemetryMessageType, MessageSize)
+			SimTelemetryMessage(): Message(SimTelemetryMessageType, MessageSize),
+				magX(0),
+				magY(0),
+				magZ(0)
 			{
 				
 			}

@@ -6,24 +6,9 @@
  */ 
 #include "MessageBuilder.h"
 #include "SimTelemetryMessage.h"
+#include "SystemTelemetryMessage.h"
 
 using namespace helicopter::messages;
-
-Message *MessageBuilder::buildMessage()
-{
-	Message *message = NULL;
-	
-	if (messageType == SimTelemetryMessage::SimTelemetryMessageType)
-	{
-		message = new SimTelemetryMessage();
-		
-		message->buildMessage(internalMessage);
-	}
-	//TODO IMPLEMENT
-	//do a bunch of switch statements on which message to build.
-	
-	return message;
-}
 
 void MessageBuilder::initialize(int numOfBytesInMessage, byte messageType)
 {
@@ -53,6 +38,32 @@ int MessageBuilder::getNumOfBytesForMessage(byte messageType)
 	if (messageType == SimTelemetryMessage::SimTelemetryMessageType)
 	{
 		return SimTelemetryMessage::MessageSize;
+	}else if (messageType == SystemTelemetryMessage::SystemTelemetryMessageType)
+	{
+		return SystemTelemetryMessage::MessageSize;
 	}
+	
 	return 0;
+}
+
+Message *MessageBuilder::buildMessage()
+{
+	Message *message = NULL;
+	
+	if (messageType == SimTelemetryMessage::SimTelemetryMessageType)
+	{
+		message = new SimTelemetryMessage();
+	}else if (messageType == SystemTelemetryMessage::SystemTelemetryMessageType)
+	{
+		message = new SystemTelemetryMessage();
+	}
+	
+	if (message != NULL)
+	{
+		message->buildMessage(internalMessage);
+	}
+	//TODO IMPLEMENT
+	//do a bunch of switch statements on which message to build.
+	
+	return message;
 }

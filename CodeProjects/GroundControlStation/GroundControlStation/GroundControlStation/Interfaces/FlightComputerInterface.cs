@@ -84,6 +84,11 @@ namespace GroundControlStation.Interfaces
             return data;
         }
 
+        public virtual void Transmit(SimulatorTelemetryDataToFlightComputer telemetryData)
+        {
+            port.Write(telemetryData.GetRawBytes(), 0, SimulatorTelemetryDataToFlightComputer.GetNumOfBytesInMsg());
+        }
+
         public virtual void Transmit(FlightControllerTelemetryData telemetryData)
         {
             port.Write(telemetryData.GetRawBytes(), 0, FlightControllerTelemetryData.GetNumOfBytesInMsg());

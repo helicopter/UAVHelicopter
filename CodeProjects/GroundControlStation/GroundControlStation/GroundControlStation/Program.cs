@@ -60,6 +60,8 @@ namespace GroundControlStation
             gcsController.Start();
 
             Application.Run((GroundControlStationForm)dashboard);
+
+            gcsController.Stop();
         }
     }
 }

@@ -31,7 +31,7 @@ int main(void)
 	MessageBuilder *messageBuilder = new MessageBuilder();
 	
 	//Create a driver for communicating with the radio.
-	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, true, true);
+	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, false, true);
 	serialDriver->initialize();
 	
 	
@@ -39,7 +39,7 @@ int main(void)
 	
 	SimTelemetryTask *simTelemTask = new SimTelemetryTask(radioInterface, model, 0, TIMER_FREQUENCY_HZ / 4);//starting at tick 1, execute 50 times a second
 
-	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(radioInterface, model, 1, TIMER_FREQUENCY_HZ * 2);//starting at tick 2, execute 50 times a second
+	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(radioInterface, model, 1, TIMER_FREQUENCY_HZ / 4);//starting at tick 2, execute 50 times a second
 	
 	FlashLEDTask *flashTask = new FlashLEDTask(2, TIMER_FREQUENCY_HZ);//starting at tick 3, execute once a second
 		

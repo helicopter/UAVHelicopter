@@ -23,5 +23,6 @@ using namespace helicoptertestscommon::util::testframework;
  */
 int radiotransandrec_test(TestCase *test);
 
+int telemetry_test(TestCase *test);
 
 #endif /* RADIOINTERFACEUNITTESTS_H_ */

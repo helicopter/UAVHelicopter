@@ -12,24 +12,24 @@ using namespace helicopter::interfaces;
 
 int RadioInterface::transmit(Message *msgToSend)
 {
+	int status = 0;
+	
 	if (msgToSend != NULL)
 	{
 		byte *bytesToSend = msgToSend->getBytes();
 		
 		int numOfBytes = msgToSend->getNumOfBytes();
 		
-		for (int i = 0; i < numOfBytes; i++)
+		//iterate over the bytes and transmit them, unless there was an error.
+		for (int i = 0; i < numOfBytes && status == 0; i++)
 		{
-			if (serialDriver->transmitByte(bytesToSend[i]) < 0)
-			{
-				return -1;
-			}
+			status = serialDriver->transmitByte(bytesToSend[i]);
 		}
 		
 		delete bytesToSend;
 	}
 	
-	return 0;
+	return status;
 }
 
 int RadioInterface::receive(Message * &receivedMessage)

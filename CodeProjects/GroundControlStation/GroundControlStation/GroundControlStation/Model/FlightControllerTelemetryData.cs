@@ -48,9 +48,9 @@ namespace GroundControlStation.Model
             rawMsg[3] = temp[0];
             rawMsg[4] = temp[1];
 
-            temp = BitConverter.GetBytes(MagX);
+            temp = BitConverter.GetBytes(MagZ);
             rawMsg[5] = temp[0];
-            rawMsg[6] = temp[0];
+            rawMsg[6] = temp[1];
 
             return rawMsg;
         }

@@ -47,7 +47,7 @@ namespace HelicopterIntegrationTests
         }
 
         [TestMethod]
-        public void TestFlightComputerInterface2()
+        public void TestSystemTelemetryTransmitAndReceive()
         {
             SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
@@ -61,19 +61,10 @@ namespace HelicopterIntegrationTests
                 Assert.IsTrue(telemetryData.MsgType == 2);
 
                 Assert.IsTrue(telemetryData.MagX == 33);
-                Assert.IsTrue(telemetryData.MagX == 32);
-                Assert.IsTrue(telemetryData.MagX == 31);
+                Assert.IsTrue(telemetryData.MagY == 32);
+                Assert.IsTrue(telemetryData.MagZ == 31);
 
                 fcInt.Transmit(telemetryData);
-
-                for (int i = 0; i < 127; i++)
-                {
-                    telemetryData = fcInt.Receive();
-
-                    Assert.IsTrue(telemetryData.MagX == i);
-
-                    fcInt.Transmit(telemetryData);
-                }
 
                 telemetryData = fcInt.Receive();
 

@@ -40,7 +40,10 @@ namespace helicopter
 				sizeof(magY) +
 				sizeof(magZ);
 			
-				SystemTelemetryMessage(): Message(SystemTelemetryMessageType, MessageSize)
+				SystemTelemetryMessage(): Message(SystemTelemetryMessageType, MessageSize),
+					magX(0),
+					magY(0),
+					magZ(0)
 				{
 				
 				}

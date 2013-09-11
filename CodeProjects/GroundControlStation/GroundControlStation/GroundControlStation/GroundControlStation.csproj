@@ -51,6 +51,7 @@
     <Compile Include="Model\FlightControllerTelemetryData.cs" />
     <Compile Include="Model\GroundControlStationModel.cs" />
     <Compile Include="Model\SimulatorTelemetryData.cs" />
+    <Compile Include="Model\SimulatorTelemetryDataToFlightComputer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\GraphForm.cs">

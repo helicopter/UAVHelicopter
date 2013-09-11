@@ -12,10 +12,17 @@ namespace GroundControlStation.Controller
 {
     public class GroundControlStationController
     {
+        private bool isSimThreadRunning = false;
+
+        private bool isFlightComputerThreadRunning = false;
+
         private SimulatorInterface xplaneInterface;
+
         private FlightComputerInterface fcInterface;
 
-        private Thread controllerThread;
+        private Thread simThread;
+
+        private Thread flightComputerThread;
 
         private GroundControlStationDashboardView _dashboardView;
 
@@ -39,7 +46,8 @@ namespace GroundControlStation.Controller
             this.xplaneInterface = xplaneInterface;
             this.fcInterface = fcInterface;
 
-            controllerThread = new Thread(new ThreadStart(BeginPolling));
+            simThread = new Thread(new ThreadStart(BeginSimPolling));
+            flightComputerThread = new Thread(new ThreadStart(BeginFlightComputerPolling));
         }
 
         public void GetSimulatorTelemetry()
@@ -105,25 +113,56 @@ namespace GroundControlStation.Controller
 
         public void Start()
         {
+            isSimThreadRunning = true;
+            isFlightComputerThreadRunning = true;
+
             xplaneInterface.Open();
 
-            controllerThread.Start();
+            simThread.Start();
+
+            flightComputerThread.Start();
         }
 
-        private void BeginPolling()
+        public void Stop()
         {
-            while (true)
+            isSimThreadRunning = false;
+            isFlightComputerThreadRunning = false;
+
+            simThread.Abort();
+            flightComputerThread.Abort();
+
+            simThread.Join();
+            flightComputerThread.Join();
+
+            xplaneInterface.Close();
+        }
+
+        private void BeginSimPolling()
+        {
+            while (isSimThreadRunning)
             {
                 Model.SimTelmData = xplaneInterface.Receive();
 
-                FlightControllerTelemetryData data = new FlightControllerTelemetryData();
+                UpdateViews();
+            }
+        }
+
+        private void BeginFlightComputerPolling()
+        {
+            while (isFlightComputerThreadRunning)
+            {
+                /*FlightControllerTelemetryData data = new FlightControllerTelemetryData();
 
                 //TODO don't hard code this.
                 data.MagX = 93;
                 data.MagY = 93;
-                data.MagZ = 93;
+                data.MagZ = 93;*/
 
-                fcInterface.Transmit(data);
+      //          SimulatorTelemetryData data = new SimulatorTelemetryData();
+      //          data.
+                SimulatorTelemetryDataToFlightComputer data = Model.SimTelmData.CreateToFlightComputerMessage();
+
+  //              fcInterface.Transmit(data);
 
                 Model.FcTelmData = fcInterface.Receive();
 

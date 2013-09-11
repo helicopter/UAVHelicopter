@@ -24,8 +24,9 @@ int main(void)
 	//helicopterTests.addTest(buffercreation_test, 1);
 	//helicopterTests.addTest(addbufferrecord_test, 2);
 	//helicopterTests.addTest(schedulertask_test, 3);
-	helicopterTests.addTest(radiotransandrec_test, 2);
-	helicopterTests.addTest(readandconvertmagnetometer_test, 3);
+	//helicopterTests.addTest(radiotransandrec_test, 2);
+	//helicopterTests.addTest(readandconvertmagnetometer_test, 3);
+	helicopterTests.addTest(telemetry_test, 4);
 	
 	helicopterTests.runTests();
 	

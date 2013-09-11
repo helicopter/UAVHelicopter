@@ -14,16 +14,17 @@ using namespace helicopter::messages;
 byte *SystemTelemetryMessage::getBytes()
 {
 	byte *msg = new byte[MessageSize];
-	msg[0] = this->msgType;
+	byte *msgPtr = msg;
+	msgPtr[0] = this->msgType;
 	
-	msg++;
-	memcpy(msg, &magX, sizeof(magX));
+	msgPtr++;
+	memcpy(msgPtr, &magX, sizeof(magX));
 	
-	msg += sizeof(magX);
-	memcpy(msg, &magY, sizeof(magY));
+	msgPtr += sizeof(magX);
+	memcpy(msgPtr, &magY, sizeof(magY));
 	
-	msg += sizeof(magY);
-	memcpy(msg, &magZ, sizeof(magZ));
+	msgPtr += sizeof(magY);
+	memcpy(msgPtr, &magZ, sizeof(magZ));
 	
 	return msg;
 }
