@@ -125,17 +125,5 @@ namespace GroundControlStation.Model
             return lstValues;
         }
 
-        internal SimulatorTelemetryDataToFlightComputer CreateToFlightComputerMessage()
-        {
-            SimulatorTelemetryDataToFlightComputer data = new SimulatorTelemetryDataToFlightComputer();
-            
-            //the sensor data on the flight computer consists of 3 magnetic values (x,y,z). So the heading
-            //has to be split up into those values.
-            data.MagX = (short) this.TrueHeadingDegrees;
-            data.MagY = (short) this.TrueHeadingDegrees;
-            data.MagZ = (short) this.TrueHeadingDegrees;
-
-            return data;
-        }
     }
 }
