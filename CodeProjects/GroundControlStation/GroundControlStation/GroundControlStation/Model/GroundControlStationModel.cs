@@ -8,14 +8,14 @@ namespace GroundControlStation.Model
 {
     public class GroundControlStationModel
     {
-        public FlightControllerTelemetryData FcTelmData { get; set; }
+        public FlightComputerTelemetry FcTelm { get; set; }
 
-        public SimulatorTelemetryData SimTelmData { get; set; }
+        public SimulatorTelemetry SimTelm { get; set; }
 
         public GroundControlStationModel()
         {
-            FcTelmData = new FlightControllerTelemetryData();
-            SimTelmData = new SimulatorTelemetryData();
+            FcTelm = new FlightComputerTelemetry();
+            SimTelm = new SimulatorTelemetry();
         }
     }
 }

@@ -52,12 +52,12 @@ namespace GroundControlStation.Controller
 
         public void GetSimulatorTelemetry()
         {
-            Model.SimTelmData = xplaneInterface.Receive();
+            Model.SimTelm = xplaneInterface.Receive();
         }
 
         public void GetFlightComputerTelemetry()
         {
-            Model.FcTelmData = fcInterface.Receive();
+            Model.FcTelm = fcInterface.Receive();
         }
 
         /// <summary>
@@ -65,18 +65,18 @@ namespace GroundControlStation.Controller
         /// </summary>
         public void UpdateViews()
         {
-            UpdateView(DashboardView.SimHeadingGraph, Model.SimTelmData.TrueHeadingDegrees);
-            UpdateView(DashboardView.FcMagX, Model.FcTelmData.MagX);
-            UpdateView(DashboardView.FcMagY, Model.FcTelmData.MagY);
-            UpdateView(DashboardView.FcMagZ, Model.FcTelmData.MagZ);
+            UpdateView(DashboardView.SimHeadingGraph, Model.SimTelm.TrueHeadingDegrees);
+            UpdateView(DashboardView.FcMagX, Model.FcTelm.MagX);
+            UpdateView(DashboardView.FcMagY, Model.FcTelm.MagY);
+            UpdateView(DashboardView.FcMagZ, Model.FcTelm.MagZ);
 
             UpdateLatestValues();
         }
 
         private void UpdateLatestValues()
         {
-            List<Tuple<String, String>> simValues = Model.SimTelmData.ListValues();
-            simValues.AddRange(Model.FcTelmData.ListValues());
+            List<Tuple<String, String>> simValues = Model.SimTelm.ListValues();
+            simValues.AddRange(Model.FcTelm.ListValues());
 
             DashboardView.DashboardView.UpdateLatestValues(simValues);
         }
@@ -141,9 +141,16 @@ namespace GroundControlStation.Controller
         {
             while (isSimThreadRunning)
             {
-                Model.SimTelmData = xplaneInterface.Receive();
+                Model.SimTelm = xplaneInterface.Receive();
 
                 UpdateViews();
+
+                FlightComputerTelemetry data = new FlightComputerTelemetry();
+                data.MagX = 22;
+                data.MagY = 23;
+                data.MagZ = 24;
+
+                fcInterface.Transmit(data);
             }
         }
 
@@ -151,20 +158,20 @@ namespace GroundControlStation.Controller
         {
             while (isFlightComputerThreadRunning)
             {
-                /*FlightControllerTelemetryData data = new FlightControllerTelemetryData();
+                /*FlightComputerTelemetry data = new FlightComputerTelemetry();
 
                 //TODO don't hard code this.
                 data.MagX = 93;
                 data.MagY = 93;
                 data.MagZ = 93;*/
 
-      //          SimulatorTelemetryData data = new SimulatorTelemetryData();
+      //          SimulatorTelemetry data = new SimulatorTelemetry();
       //          data.
-                SimulatorTelemetryDataToFlightComputer data = Model.SimTelmData.CreateToFlightComputerMessage();
+//                SimulatorTelemetryDataToFlightComputer data = Model.SimTelm.CreateToFlightComputerMessage();
 
   //              fcInterface.Transmit(data);
 
-                Model.FcTelmData = fcInterface.Receive();
+                Model.FcTelm = fcInterface.Receive();
 
                 UpdateViews();
             }

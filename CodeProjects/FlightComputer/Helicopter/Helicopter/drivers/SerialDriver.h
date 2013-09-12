@@ -27,8 +27,8 @@ namespace helicopter
 				enum UartPort {Zero};
 					
 			private:
-				static const int SENDTIMEOUTCOUNTER = 40;
-				static const int RECEIVETIMEOUTCOUNTER = 40;
+				static const int SENDTIMEOUTCOUNTER = 400;
+				static const int RECEIVETIMEOUTCOUNTER = 400;
 			
 				unsigned long baudRate;
 				

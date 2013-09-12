@@ -31,7 +31,7 @@ int main(void)
 	MessageBuilder *messageBuilder = new MessageBuilder();
 	
 	//Create a driver for communicating with the radio.
-	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, false, true);
+	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, true, true);
 	serialDriver->initialize();
 	
 	
@@ -49,7 +49,7 @@ int main(void)
 	
 	scheduler->addTask(flashTask);
 	
-//	scheduler->addTask(simTelemTask);
+	scheduler->addTask(simTelemTask);
 	
 	scheduler->addTask(transTelemTask);
 	

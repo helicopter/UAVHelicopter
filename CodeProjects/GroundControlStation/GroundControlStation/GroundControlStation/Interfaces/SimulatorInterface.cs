@@ -65,11 +65,11 @@ namespace GroundControlStation.Interfaces
         /// null if there was an error parsing the received data, otherwise a
         /// XPlaneData object containing the received data.
         /// </returns>
-        public virtual SimulatorTelemetryData Receive()
+        public virtual SimulatorTelemetry Receive()
         {
             byte[] xplaneBytes = broadcastUdpListener.Receive(ref broadcastUdpListenerEndpoint);
 
-            return SimulatorTelemetryData.Create(xplaneBytes);
+            return SimulatorTelemetry.Create(xplaneBytes);
         }
 
         /// <summary>

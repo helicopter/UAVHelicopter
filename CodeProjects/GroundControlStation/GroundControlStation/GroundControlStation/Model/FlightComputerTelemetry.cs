@@ -3,12 +3,14 @@ using System.Collections.Generic;
 
 namespace GroundControlStation.Model
 {
-    public class FlightControllerTelemetryData
+    public class FlightComputerTelemetry
     {
+        public const int FlightControllerTelemetryMessageType = 2;
+
         /// <summary>
         /// This represents the number of bytes in this message including the message type.
         /// </summary>
-        private const int NumOfBytesInMsg = 7;
+        public const int NumOfBytesInMsg = 7;
 
         public byte MsgType { get; set; }
 
@@ -18,13 +20,25 @@ namespace GroundControlStation.Model
 
         public short MagZ { get; set; }
 
+        public FlightComputerTelemetry()
+        {
+            MsgType = FlightControllerTelemetryMessageType;
+        }
+
         public static int GetNumOfBytesInMsg()
         {
             return NumOfBytesInMsg;
         }
 
+        public static FlightComputerTelemetry BuildMessageSt(byte[] byteBuffer)
+        {
+            FlightComputerTelemetry fct = new FlightComputerTelemetry();
+            fct.BuildMessage(byteBuffer);
 
-        internal void BuildMessage(byte[] byteBuffer)
+            return fct;
+        }
+
+        public void BuildMessage(byte[] byteBuffer)
         {
             this.MsgType = byteBuffer[0];
             this.MagX = BitConverter.ToInt16(byteBuffer, 1);
@@ -32,7 +46,7 @@ namespace GroundControlStation.Model
             this.MagZ = BitConverter.ToInt16(byteBuffer, 5);
         }
 
-        internal byte[] GetRawBytes()
+        public byte[] GetRawBytes()
         {
             byte[] rawMsg = new byte[NumOfBytesInMsg];
 
@@ -55,7 +69,7 @@ namespace GroundControlStation.Model
             return rawMsg;
         }
 
-        internal System.Collections.Generic.IEnumerable<Tuple<string, string>> ListValues()
+        public System.Collections.Generic.IEnumerable<Tuple<string, string>> ListValues()
         {
             List<Tuple<string,string>> lstValues = new List<Tuple<string, string>>();
 

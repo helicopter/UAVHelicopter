@@ -19,30 +19,32 @@ namespace HelicopterIntegrationTests
             SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
 
-            using (FlightComputerInterface fcInt = new FlightComputerInterface(port))
+            SerialPortInterface portInterface = new SerialPortInterface(port);
+
+            using (FlightComputerInterface fcInt = new FlightComputerInterface(portInterface))
             {
                 fcInt.Open();
 
-                FlightControllerTelemetryData telemetryData = fcInt.Receive();
+                FlightComputerTelemetry telemetry = fcInt.Receive();
 
-                Assert.IsTrue(telemetryData.MsgType == 122);
+                Assert.IsTrue(telemetry.MsgType == 122);
 
-                Assert.IsTrue(telemetryData.MagX == 321);
+                Assert.IsTrue(telemetry.MagX == 321);
 
-                fcInt.Transmit(telemetryData);
+                fcInt.Transmit(telemetry);
 
                 for (int i = 0; i < 127; i++)
                 {
-                    telemetryData = fcInt.Receive();
+                    telemetry = fcInt.Receive();
 
-                    Assert.IsTrue(telemetryData.MagX == i);
+                    Assert.IsTrue(telemetry.MagX == i);
 
-                    fcInt.Transmit(telemetryData);
+                    fcInt.Transmit(telemetry);
                 }
 
-                telemetryData = fcInt.Receive();
+                telemetry = fcInt.Receive();
 
-                Assert.IsTrue(telemetryData.MagX == 12);
+                Assert.IsTrue(telemetry.MagX == 12);
             }
         }
 
@@ -52,23 +54,25 @@ namespace HelicopterIntegrationTests
             SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
 
-            using (FlightComputerInterface fcInt = new FlightComputerInterface(port))
+            SerialPortInterface portInterface = new SerialPortInterface(port);
+
+            using (FlightComputerInterface fcInt = new FlightComputerInterface(portInterface))
             {
                 fcInt.Open();
 
-                FlightControllerTelemetryData telemetryData = fcInt.Receive();
+                FlightComputerTelemetry telemetry = fcInt.Receive();
 
-                Assert.IsTrue(telemetryData.MsgType == 2);
+                Assert.IsTrue(telemetry.MsgType == 2);
 
-                Assert.IsTrue(telemetryData.MagX == 33);
-                Assert.IsTrue(telemetryData.MagY == 32);
-                Assert.IsTrue(telemetryData.MagZ == 31);
+                Assert.IsTrue(telemetry.MagX == 33);
+                Assert.IsTrue(telemetry.MagY == 32);
+                Assert.IsTrue(telemetry.MagZ == 31);
 
-                fcInt.Transmit(telemetryData);
+                fcInt.Transmit(telemetry);
 
-                telemetryData = fcInt.Receive();
+                telemetry = fcInt.Receive();
 
-                Assert.IsTrue(telemetryData.MagX == 12);
+                Assert.IsTrue(telemetry.MagX == 12);
             }
         }
 

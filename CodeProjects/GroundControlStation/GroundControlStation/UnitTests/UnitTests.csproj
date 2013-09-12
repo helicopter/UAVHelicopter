@@ -56,8 +56,10 @@
     <Compile Include="mocks\MockFlightComputerInterface.cs" />
     <Compile Include="mocks\MockGraphingView.cs" />
     <Compile Include="ControllerUnitTests.cs" />
+    <Compile Include="mocks\MockSerialPortInterface.cs" />
     <Compile Include="mocks\MockSimulatorInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TelemetryMessageTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GroundControlStation\GroundControlStation.csproj">

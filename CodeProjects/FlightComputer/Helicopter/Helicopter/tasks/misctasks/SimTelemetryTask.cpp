@@ -5,7 +5,7 @@
  *  Author: HP User
  */ 
 #include "SimTelemetryTask.h"
-#include "SimTelemetryMessage.h"
+#include "SystemTelemetryMessage.h"
 
 using namespace helicopter::tasks::misctasks;
 using namespace helicopter::messages;
@@ -31,14 +31,14 @@ void SimTelemetryTask::runTaskImpl()
 	if (radioInterface->receive(message) == 0 && message != NULL)
 	{
 		//If it's a sim telemetry message, then process it. 
-		if (message->getType() == SimTelemetryMessage::SimTelemetryMessageType)
+		if (message->getType() == SystemTelemetryMessage::SystemTelemetryMessageType)
 		{
-			SimTelemetryMessage *simMsg = (SimTelemetryMessage*) message;
+			SystemTelemetryMessage *telemMsg = (SystemTelemetryMessage*) message;
 			
 			//Update the model using the new data received from the simulator.
-			model->RawMagX(simMsg->MagX());
-			model->RawMagY(simMsg->MagY());
-			model->RawMagZ(simMsg->MagZ());
+			model->RawMagX(telemMsg->MagX());
+			model->RawMagY(telemMsg->MagY());
+			model->RawMagZ(telemMsg->MagZ());
 		}
 		
 		delete message;

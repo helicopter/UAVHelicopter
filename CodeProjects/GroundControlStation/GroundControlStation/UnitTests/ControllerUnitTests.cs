@@ -33,8 +33,8 @@ namespace UnitTests
 
 
             GroundControlStationModel model = new GroundControlStationModel();
-            model.SimTelmData = new SimulatorTelemetryData();
-            model.FcTelmData = new FlightControllerTelemetryData();
+            model.SimTelm = new SimulatorTelemetry();
+            model.FcTelm = new FlightComputerTelemetry();
 
             GroundControlStationController gcsController =
                 new GroundControlStationController(xplaneInterface, fcInterface);
@@ -46,8 +46,8 @@ namespace UnitTests
             Assert.IsTrue(dashboard.Controller == gcsController);
 
             //Verify that the initial model values are zeros.
-            Assert.IsTrue(gcsController.Model.FcTelmData.MagX == 0);
-            Assert.IsTrue(gcsController.Model.SimTelmData.TrueHeadingDegrees == 0);
+            Assert.IsTrue(gcsController.Model.FcTelm.MagX == 0);
+            Assert.IsTrue(gcsController.Model.SimTelm.TrueHeadingDegrees == 0);
 
             /*
              * Verify that after retrieving mock telemetry data, the model
@@ -56,8 +56,8 @@ namespace UnitTests
             gcsController.GetSimulatorTelemetry();
             gcsController.GetFlightComputerTelemetry();
 
-            Assert.IsTrue(gcsController.Model.FcTelmData.MagX == 22);
-            Assert.IsTrue(gcsController.Model.SimTelmData.TrueHeadingDegrees == 22);
+            Assert.IsTrue(gcsController.Model.FcTelm.MagX == 22);
+            Assert.IsTrue(gcsController.Model.SimTelm.TrueHeadingDegrees == 22);
 
             Assert.IsTrue(((MockGraphingView)simHeadingGraph).Values.Count == 0);
 

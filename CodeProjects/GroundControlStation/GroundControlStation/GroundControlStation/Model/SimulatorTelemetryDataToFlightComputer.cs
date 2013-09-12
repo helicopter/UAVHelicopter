@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace GroundControlStation.Model
 {
@@ -15,11 +16,11 @@ namespace GroundControlStation.Model
 
         public byte MsgType { get; set; }
 
-        public float MagX { get; set; }
+        public short MagX { get; set; }
 
-        public float MagY { get; set; }
+        public short MagY { get; set; }
 
-        public float MagZ { get; set; }
+        public short MagZ { get; set; }
 
         public SimulatorTelemetryDataToFlightComputer()
         {

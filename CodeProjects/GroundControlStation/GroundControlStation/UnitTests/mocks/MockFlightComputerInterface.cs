@@ -34,15 +34,15 @@ namespace UnitTests.mocks
         /// </summary>
         /// <returns>An object containing the telemetry data</returns>
         /// <exception cref="SystemException">Thrown when there is an issue parsing the received telemetry data</exception>
-        public override FlightControllerTelemetryData Receive()
+        public override FlightComputerTelemetry Receive()
         {
-            FlightControllerTelemetryData data = new FlightControllerTelemetryData();
+            FlightComputerTelemetry data = new FlightComputerTelemetry();
             data.MagX = (short)testValue;
 
             return data;
         }
 
-        public override void Transmit(FlightControllerTelemetryData telemetryData)
+        public override void Transmit(FlightComputerTelemetry telemetry)
         {
             
         }

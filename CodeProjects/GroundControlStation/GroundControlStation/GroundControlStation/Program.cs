@@ -25,10 +25,13 @@ namespace GroundControlStation
             Application.SetCompatibleTextRenderingDefault(false);
 
             SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
+            port.ReadTimeout = 50;
 
             SimulatorInterface xInterface = new SimulatorInterface(8089, 49000, IPAddress.Parse("127.0.0.255"));
 
-            FlightComputerInterface fcInterface = new FlightComputerInterface(port);
+            SerialPortInterface portInterface = new SerialPortInterface(port);
+
+            FlightComputerInterface fcInterface = new FlightComputerInterface(portInterface);
             fcInterface.Open();
 
             IGraphingView simHeadingGraph = new GraphForm();
@@ -48,8 +51,8 @@ namespace GroundControlStation
 
 
             GroundControlStationModel model = new GroundControlStationModel();
-            model.SimTelmData = new SimulatorTelemetryData();
-            model.FcTelmData = new FlightControllerTelemetryData();
+            model.SimTelm = new SimulatorTelemetry();
+            model.FcTelm = new FlightComputerTelemetry();
 
             GroundControlStationController gcsController =
                 new GroundControlStationController(xInterface, fcInterface);

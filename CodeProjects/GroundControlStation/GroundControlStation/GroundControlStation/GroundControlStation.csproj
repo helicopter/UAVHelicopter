@@ -47,10 +47,11 @@
   <ItemGroup>
     <Compile Include="Controller\GroundControlStationController.cs" />
     <Compile Include="Interfaces\FlightComputerInterface.cs" />
+    <Compile Include="Interfaces\SerialPortInterface.cs" />
     <Compile Include="Interfaces\SimulatorInterface.cs" />
-    <Compile Include="Model\FlightControllerTelemetryData.cs" />
+    <Compile Include="Model\FlightComputerTelemetry.cs" />
     <Compile Include="Model\GroundControlStationModel.cs" />
-    <Compile Include="Model\SimulatorTelemetryData.cs" />
+    <Compile Include="Model\SimulatorTelemetry.cs" />
     <Compile Include="Model\SimulatorTelemetryDataToFlightComputer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

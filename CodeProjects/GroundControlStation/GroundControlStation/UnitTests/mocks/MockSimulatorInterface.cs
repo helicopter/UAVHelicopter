@@ -23,9 +23,9 @@ namespace UnitTests.mocks
         }
 
         
-        public override SimulatorTelemetryData Receive()
+        public override SimulatorTelemetry Receive()
         {
-            SimulatorTelemetryData data = new SimulatorTelemetryData();
+            SimulatorTelemetry data = new SimulatorTelemetry();
             data.TrueHeadingDegrees = testValue;
 
             return data;

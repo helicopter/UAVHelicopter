@@ -8,7 +8,7 @@ namespace GroundControlStation.Model
     /// Class which represents the data received from the xplane simulator
     ///
     /// </summary>
-    public class SimulatorTelemetryData
+    public class SimulatorTelemetry
     {
         public byte[] RawData { get; set; }
 
@@ -57,9 +57,9 @@ namespace GroundControlStation.Model
         /// <param name="xplaneBytes">Raw bytes received from xplane</param>
         /// <returns>An object containing the parsed xplane data</returns>
         /// <exception cref="SystemException"></exception>
-        internal static SimulatorTelemetryData Create(byte[] xplaneBytes)
+        internal static SimulatorTelemetry Create(byte[] xplaneBytes)
         {
-            SimulatorTelemetryData data = new SimulatorTelemetryData();
+            SimulatorTelemetry data = new SimulatorTelemetry();
             data.RawData = xplaneBytes;
 
             try
@@ -131,9 +131,9 @@ namespace GroundControlStation.Model
             
             //the sensor data on the flight computer consists of 3 magnetic values (x,y,z). So the heading
             //has to be split up into those values.
-            data.MagX = this.TrueHeadingDegrees;
-            data.MagY = this.TrueHeadingDegrees;
-            data.MagZ = this.TrueHeadingDegrees;
+            data.MagX = (short) this.TrueHeadingDegrees;
+            data.MagY = (short) this.TrueHeadingDegrees;
+            data.MagZ = (short) this.TrueHeadingDegrees;
 
             return data;
         }

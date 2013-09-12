@@ -21,7 +21,7 @@ namespace GCSIntegrationTests
             {
                 xInterface.Open();
 
-                SimulatorTelemetryData data = null;
+                SimulatorTelemetry data = null;
 
                 data = xInterface.Receive();
 
