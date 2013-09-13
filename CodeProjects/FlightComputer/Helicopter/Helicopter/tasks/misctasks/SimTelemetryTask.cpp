@@ -17,7 +17,7 @@ SimTelemetryTask::SimTelemetryTask(RadioInterface *radioInterface, SystemModel *
 {
 	
 }
-
+/*
 
 void SimTelemetryTask::runTaskImpl() 
 {
@@ -45,3 +45,4 @@ void SimTelemetryTask::runTaskImpl()
 	}
 	
 }
+*/

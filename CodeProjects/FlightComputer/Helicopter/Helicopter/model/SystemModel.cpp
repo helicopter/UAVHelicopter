@@ -11,7 +11,7 @@
 using namespace helicopter::model;
 
 
-Message *SystemModel::CreateTelemetryMessage()
+SystemTelemetryMessage *SystemModel::CreateTelemetryMessage()
 {
 	SystemTelemetryMessage *message = new SystemTelemetryMessage();
 	

@@ -17,18 +17,21 @@ using namespace helicopter::drivers;
 class MockSerialDriver : public SerialDriver
 {
 	private:
-	byte *buffer;
 	int transmitCounter;
 	int receiveCounter;
 	int numOfCharsInMsg;
+	int timeoutcount;
 	public:
+	
+	byte *buffer;
 
 	MockSerialDriver (int numOfChars):
 	SerialDriver(0, SerialDriver::Zero),
-	buffer(NULL),
 	transmitCounter(0),
 	receiveCounter(0),
-	numOfCharsInMsg(numOfChars)
+	numOfCharsInMsg(numOfChars),
+	timeoutcount(0),
+		buffer(NULL)
 	{
 		buffer = new byte[numOfChars];
 	}
@@ -47,7 +50,8 @@ class MockSerialDriver : public SerialDriver
 	{
 		if (buffer != NULL)
 		{
-			delete buffer;
+			//commenting out in order to support new test cases.
+			//delete buffer;
 			buffer = NULL;
 		}
 		buffer = new byte[numOfCharsInMsg];
@@ -64,6 +68,8 @@ class MockSerialDriver : public SerialDriver
 	int transmitByte(byte byteToSend);
 
 	int receiveByte(byte &receivedByte);
+	
+	void enableTimeout(int timoutCount);
 };
 
 #endif /* MOCKSERIALDRIVER_H_ */

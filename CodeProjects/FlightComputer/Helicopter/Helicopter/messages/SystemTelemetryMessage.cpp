@@ -11,6 +11,8 @@
 
 using namespace helicopter::messages;
 
+static SystemTelemetryMessage buildMessageSt(byte *message);
+
 byte *SystemTelemetryMessage::getBytes()
 {
 	byte *msg = new byte[MessageSize];
@@ -44,4 +46,12 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		message += sizeof(magY);
 		memcpy(&magZ, message, sizeof(magZ));
 	}
+}
+
+SystemTelemetryMessage* SystemTelemetryMessage::buildMessageSt(byte *message)
+{
+	SystemTelemetryMessage *msg = new SystemTelemetryMessage();
+	msg->buildMessage(message);
+	
+	return msg;
 }

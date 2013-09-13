@@ -9,7 +9,7 @@
 #ifndef SYSTEMMODEL_H_
 #define SYSTEMMODEL_H_
 
-#include "Message.h"
+#include "SystemTelemetryMessage.h"
 
 using namespace helicopter::messages;
 
@@ -47,7 +47,7 @@ namespace helicopter
 			int RawMagZ() const { return rawMagZ; }
 			void RawMagZ(int val) { rawMagZ = val; }
 				
-			Message *CreateTelemetryMessage();
+			SystemTelemetryMessage *CreateTelemetryMessage();
 		};
 	}
 	

@@ -10,7 +10,7 @@
 using namespace helicopter::util::common;
 using namespace helicopter::interfaces;
 
-int RadioInterface::transmit(Message *msgToSend)
+int RadioInterface::transmit(SystemTelemetryMessage *msgToSend)
 {
 	int status = 0;
 	
@@ -32,7 +32,7 @@ int RadioInterface::transmit(Message *msgToSend)
 	return status;
 }
 
-int RadioInterface::receive(Message * &receivedMessage)
+int RadioInterface::receive(SystemTelemetryMessage * &receivedMessage)
 {
 	byte msgType = 0;
 	
@@ -40,13 +40,14 @@ int RadioInterface::receive(Message * &receivedMessage)
 	if (serialDriver->receiveByte(msgType) == 0)
 	{
 		//Get the number of bytes that should be contained in that message
-		int numOfBytesInMsg = msgBuilder->getNumOfBytesForMessage(msgType);
+		//int numOfBytesInMsg = msgBuilder->getNumOfBytesForMessage(msgType);
+		int numOfBytesInMsg = 0;
 		
 		
 		if (numOfBytesInMsg > 0)
 		{
 			//Reset the message builder so it's ready to construct the new message
-			msgBuilder->initialize(numOfBytesInMsg, msgType);
+//			msgBuilder->initialize(numOfBytesInMsg, msgType);
 			
 			//Start reading the rest of the message. The first byte of the 
 			//message was already read (the message type).
@@ -61,11 +62,11 @@ int RadioInterface::receive(Message * &receivedMessage)
 					return -1;
 				}else
 				{
-					msgBuilder->addByte(receivedByte);
+//					msgBuilder->addByte(receivedByte);
 				}
 			}
 			
-			receivedMessage = msgBuilder->buildMessage();
+//			receivedMessage = msgBuilder->buildMessage();
 		}else
 		{
 			//Unknown message type

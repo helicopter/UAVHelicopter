@@ -62,6 +62,10 @@ namespace helicopter
 			
 				int MagZ() const { return magZ; }
 				void MagZ(int val) { magZ = val; }
+					
+				//Static method which creates a telemetry message on the heap
+				//and then calls buildMessage on that created object.
+				static SystemTelemetryMessage* buildMessageSt(byte *message);
 		};
 	}
 }

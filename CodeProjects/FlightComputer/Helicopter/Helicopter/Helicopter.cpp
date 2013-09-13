@@ -28,14 +28,12 @@ int main(void)
 {	
 	SystemModel *model = new SystemModel();
 	
-	MessageBuilder *messageBuilder = new MessageBuilder();
-	
 	//Create a driver for communicating with the radio.
 	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, true, true);
 	serialDriver->initialize();
 	
 	
-	RadioInterface *radioInterface = new RadioInterface(serialDriver, messageBuilder);
+	RadioInterface *radioInterface = new RadioInterface(serialDriver);
 	
 	SimTelemetryTask *simTelemTask = new SimTelemetryTask(radioInterface, model, 0, TIMER_FREQUENCY_HZ / 4);//starting at tick 1, execute 50 times a second
 

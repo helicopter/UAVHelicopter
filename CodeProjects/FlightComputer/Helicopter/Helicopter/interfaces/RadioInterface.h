@@ -10,8 +10,7 @@
 #define RADIOINTERFACE_H_
 
 #include "SerialDriver.h"
-#include "Message.h"
-#include "MessageBuilder.h"
+#include "SystemTelemetryMessage.h"
 
 using namespace helicopter::drivers;
 using namespace helicopter::messages;
@@ -27,7 +26,6 @@ namespace helicopter
 		{
 			private:
 				SerialDriver *serialDriver;
-				MessageBuilder *msgBuilder;
 			
 			public:
 				/**
@@ -44,9 +42,8 @@ namespace helicopter
 				 * bytes into the same internal message structure, it will corrupt the message
 				 * being built. 
 				 */
-				RadioInterface(SerialDriver *serialDriver, MessageBuilder *builder):
-					serialDriver(serialDriver),
-					msgBuilder(builder)
+				RadioInterface(SerialDriver *serialDriver):
+					serialDriver(serialDriver)
 					{}
 						
 				//TODO:
@@ -59,7 +56,7 @@ namespace helicopter
 				 * @param msgToSend The message to transmit over the radio.
 				 * @return less than 0 in the event of an error (timeout), 0 otherwise
 				 */
-				int transmit(Message *msgToSend);
+				int transmit(SystemTelemetryMessage *msgToSend);
 				
 				/**
 				 * Receives an incoming message.
@@ -67,7 +64,7 @@ namespace helicopter
 				 * for 'freeing' the message since this message is on the heap.
 				 * @return -1 in the event of an error (timeout), 0 otherwise
 				 */
-				int receive(Message * &receivedMessage);
+				int receive(SystemTelemetryMessage * &receivedMessage);
 		};
 	}
 }

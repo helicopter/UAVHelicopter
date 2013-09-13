@@ -20,9 +20,9 @@ using namespace helicoptertestscommon::util::testframework;
  * software is running on the other end to echo the
  * sent data back.
  */
-int radiotransmitandreceive_test(TestCase *test);
+//int radiotransmitandreceive_test(TestCase *test);
 
-int systemtelemetrytransmitandreceive_test(TestCase *test);
+//int systemtelemetrytransmitandreceive_test(TestCase *test);
 
 
 #endif /* RADIOINTERFACEINTEGRATIONTESTS_H_ */

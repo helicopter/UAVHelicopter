@@ -20,7 +20,7 @@ TransmitTelemetryTask::TransmitTelemetryTask(RadioInterface *radioInterface, Sys
 
 void TransmitTelemetryTask::runTaskImpl()
 {
-	Message *message = model->CreateTelemetryMessage();
+	SystemTelemetryMessage *message = model->CreateTelemetryMessage();
 	
 /*	SystemTelemetryMessage *message = new SystemTelemetryMessage();
 	
