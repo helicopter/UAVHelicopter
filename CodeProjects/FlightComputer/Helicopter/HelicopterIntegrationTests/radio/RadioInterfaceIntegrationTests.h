@@ -22,7 +22,9 @@ using namespace helicoptertestscommon::util::testframework;
  */
 //int radiotransmitandreceive_test(TestCase *test);
 
-//int systemtelemetrytransmitandreceive_test(TestCase *test);
+int systemtelemetrytransmitandreceive_test(TestCase *test);
+
+int reliablyreceive_test(TestCase *test);
 
 
 #endif /* RADIOINTERFACEINTEGRATIONTESTS_H_ */

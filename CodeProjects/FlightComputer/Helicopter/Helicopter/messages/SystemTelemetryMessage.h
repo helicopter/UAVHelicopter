@@ -9,9 +9,9 @@
 #ifndef SYSTEMTELEMETRYMESSAGE_H_
 #define SYSTEMTELEMETRYMESSAGE_H_
 
-#include "Message.h"
+#include "commonheader.h"
 
-using namespace helicopter::messages;
+using namespace helicopter::util::common;
 
 /**
  * This file represents the telemetry messages going from the flight computer to the ground station. These
@@ -22,7 +22,7 @@ namespace helicopter
 	
 	namespace messages
 	{
-		class SystemTelemetryMessage : public Message
+		class SystemTelemetryMessage
 		{
 			private:
 				int magX;
@@ -30,6 +30,8 @@ namespace helicopter
 				int magY;
 
 				int magZ;
+				
+				byte msgType;
 			
 			public:
 				static const byte SystemTelemetryMessageType = 2;
@@ -40,15 +42,26 @@ namespace helicopter
 				sizeof(magY) +
 				sizeof(magZ);
 			
-				SystemTelemetryMessage(): Message(SystemTelemetryMessageType, MessageSize),
+				SystemTelemetryMessage():
 					magX(0),
 					magY(0),
-					magZ(0)
+					magZ(0),
+					msgType(SystemTelemetryMessageType)
 				{
 				
 				}
 			
 				~SystemTelemetryMessage() {}
+					
+				byte getType()
+				{
+					return msgType;
+				}
+				
+				int getMessageSize()
+				{
+					return MessageSize;
+				}
 			
 				byte *getBytes();
 			

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
@@ -109,11 +110,21 @@ namespace GroundControlStation.Interfaces
                                 //build the message
                                 data = FlightComputerTelemetry.BuildMessageSt(messagePayload);
                             }
+                            else
+                            {
+                                
+                                Debug.WriteLine("Invalid CRC");
+                            }
+                        }
+                        else
+                        {
+                            Debug.WriteLine("Invalid Message Type Received");
                         }
                     }
                     catch (TimeoutException)
                     {
                         //swallow the timeout since this is expected behavior.
+                        Debug.WriteLine("Timed out");
                     }
                 }
                 catch (SystemException ex)

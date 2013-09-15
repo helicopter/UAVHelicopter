@@ -9,7 +9,6 @@
 
 #include "RadioInterfaceUnitTests.h"
 #include "SerialDriver.h"
-#include "MessageBuilder.h"
 #include "RadioInterface.h"
 #include "UnitTestUtils.h"
 #include "MockSerialDriver.h"
@@ -176,7 +175,7 @@ int telemetry_test(TestCase *test)
 	
 	
 	
-	MockSerialDriver *mockDriver = new MockSerialDriver(message->getNumOfBytes());
+	MockSerialDriver *mockDriver = new MockSerialDriver(message->getMessageSize());
 		
 		
 	RadioInterface radioInterface(mockDriver);

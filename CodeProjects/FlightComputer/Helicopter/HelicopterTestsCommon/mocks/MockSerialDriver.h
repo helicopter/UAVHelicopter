@@ -69,7 +69,7 @@ class MockSerialDriver : public SerialDriver
 
 	int receiveByte(byte &receivedByte);
 	
-	void enableTimeout(int timoutCount);
+	void enableTimeout(int tCount);
 };
 
 #endif /* MOCKSERIALDRIVER_H_ */

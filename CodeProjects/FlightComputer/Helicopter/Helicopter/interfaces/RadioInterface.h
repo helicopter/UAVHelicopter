@@ -26,8 +26,16 @@ namespace helicopter
 		{
 			private:
 				SerialDriver *serialDriver;
+				
+				/**
+				 * Calculates the checksum of a message payload using a simple 8-bit fletcher algorithm
+				 */
+				void calculateChecksum (byte *msgPayload, int payloadSize, byte &checksumA, byte &checksumB);
 			
 			public:
+				static const byte SyncByte1 = 0xB5;
+				static const byte SyncByte2 = 0x62;
+			
 				/**
 				 * The radio interface interfaces with the radio for reading data and sending
 				 * data utilizing the radio.
@@ -62,7 +70,9 @@ namespace helicopter
 				 * Receives an incoming message.
 				 * @param receivedMessage the message received. The caller is responsible
 				 * for 'freeing' the message since this message is on the heap.
-				 * @return -1 in the event of an error (timeout), 0 otherwise
+				 * @return -1 in the event of an error (timeout), -2 if the message type
+				 * received was not a system telemetry message, -3 if the checksum failed
+				 * 0 otherwise (success).
 				 */
 				int receive(SystemTelemetryMessage * &receivedMessage);
 		};

@@ -11,6 +11,7 @@
 #include "SchedulerTest.h"
 #include "MagnetometerSensorTests.h"
 #include "RadioInterfaceUnitTests.h"
+#include "TimerTests.h"
 
 #include <stdio.h>
 
@@ -29,7 +30,9 @@ int main(void)
 //	helicopterTests.addTest(telemetry_test, 4);
 //	helicopterTests.addTest(telemetrymessage_test, 5);
 //	helicopterTests.addTest(telemetrybuildmessage_test, 6);
-	helicopterTests.addTest(gcsinterfacemessagereceivingandtransmitting_test, 7);
+//	helicopterTests.addTest(gcsinterfacemessagereceivingandtransmitting_test, 7);
+	helicopterTests.addTest(timeout_test, 8);
+
 	
 	helicopterTests.runTests();
 	

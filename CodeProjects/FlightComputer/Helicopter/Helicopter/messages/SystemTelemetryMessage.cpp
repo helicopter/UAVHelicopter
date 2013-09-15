@@ -11,7 +11,6 @@
 
 using namespace helicopter::messages;
 
-static SystemTelemetryMessage buildMessageSt(byte *message);
 
 byte *SystemTelemetryMessage::getBytes()
 {

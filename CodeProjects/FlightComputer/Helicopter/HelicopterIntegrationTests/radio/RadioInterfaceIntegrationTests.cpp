@@ -9,8 +9,6 @@
 #include "SerialDriver.h"
 #include "UnitTestUtils.h"
 #include "RadioInterface.h"
-#include "Message.h"
-#include "MessageBuilder.h"
 #include "MockSerialDriver.h"
 #include "SystemTelemetryMessage.h"
 
@@ -160,56 +158,128 @@ using namespace helicopter::messages;
 //
 //
 //
-//int systemtelemetrytransmitandreceive_test(TestCase *test)
-//{
-//
-	////////////////////////////////////////////////////////////////////////////
-	//// Transmit a test message
-	////////////////////////////////////////////////////////////////////////////
-	//
-	//MessageBuilder *msgBuilder = new MessageBuilder();
-	//
-	////note:for production, we'll want to set the variable to 'true'
-	//SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, false, true);
-	//serialDriver->initialize();
-	//
-	//
-	//RadioInterface radioInterface(serialDriver, msgBuilder);
-	//
-	//SystemTelemetryMessage *transmitMessage = new SystemTelemetryMessage();
-	//transmitMessage->MagX(33);
-	//transmitMessage->MagY(32);
-	//transmitMessage->MagZ(31);
-	//
-	//AssertTrue(radioInterface.transmit(transmitMessage) == 0, 1);
-	//
-	//delete transmitMessage;
-	//
-	////////////////////////////////////////////////////////////////////////////
-	//// Test receiving a message
-	////////////////////////////////////////////////////////////////////////////
-	//Message *receiveMessage = NULL;
-	//
-	//AssertTrue(radioInterface.receive(receiveMessage) == 0, 2);
-	//
-	//AssertTrue(receiveMessage->getType() == SystemTelemetryMessage::SystemTelemetryMessageType, 3);
-	//
-	//SystemTelemetryMessage *receivedMsg = (SystemTelemetryMessage *)receiveMessage;
-	//
-	//AssertTrue(receivedMsg->MagX() == 33, 4);
-	//AssertTrue(receivedMsg->MagY() == 32, 5);
-	//AssertTrue(receivedMsg->MagZ() == 31, 6);
-	//
-	//delete receivedMsg;
-	//
-	//
-	////Send a signal to the other software indicating that this test passed.
-	//transmitMessage = new SystemTelemetryMessage();
-	//transmitMessage->MagX(12);
-	//
-	//AssertTrue(radioInterface.transmit(transmitMessage) == 0, 7);
-	//
-	//delete transmitMessage;
-	//
-	//return 0;
-//}
+int systemtelemetrytransmitandreceive_test(TestCase *test)
+{
+
+	//////////////////////////////////////////////////////////////////////////
+	// Transmit a test message
+	//////////////////////////////////////////////////////////////////////////
+	
+	//note:for production, we'll want to set the variable to 'true'
+	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, false, true);
+	serialDriver->initialize();
+	
+	
+	RadioInterface radioInterface(serialDriver);
+	
+	SystemTelemetryMessage *transmitMessage = new SystemTelemetryMessage();
+	transmitMessage->MagX(33);
+	transmitMessage->MagY(32);
+	transmitMessage->MagZ(31);
+	
+	AssertTrue(radioInterface.transmit(transmitMessage) == 0, 1);
+	
+	delete transmitMessage;
+	
+	//////////////////////////////////////////////////////////////////////////
+	// Test receiving a message
+	//////////////////////////////////////////////////////////////////////////
+	SystemTelemetryMessage *receiveMessage = NULL;
+	
+	AssertTrue(radioInterface.receive(receiveMessage) == 0, 2);
+	
+	AssertTrue(receiveMessage->getType() == SystemTelemetryMessage::SystemTelemetryMessageType, 3);
+	
+	SystemTelemetryMessage *receivedMsg = (SystemTelemetryMessage *)receiveMessage;
+	
+	AssertTrue(receivedMsg->MagX() == 33, 4);
+	AssertTrue(receivedMsg->MagY() == 32, 5);
+	AssertTrue(receivedMsg->MagZ() == 31, 6);
+	
+	delete receivedMsg;
+	
+	
+	//Send a signal to the other software indicating that this test passed.
+	transmitMessage = new SystemTelemetryMessage();
+	transmitMessage->MagX(12);
+	
+	AssertTrue(radioInterface.transmit(transmitMessage) == 0, 7);
+	
+	delete transmitMessage;
+	
+	return 0;
+}
+
+
+
+
+/**
+ * Test that the system can reliably send and receive data repeatedly. 
+ */
+int reliablyreceive_test(TestCase *test)
+{
+
+	//////////////////////////////////////////////////////////////////////////
+	// Transmit a test message
+	//////////////////////////////////////////////////////////////////////////
+	
+	//note:for production, we'll want to set the variable to 'true'
+	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, true, true);
+	serialDriver->initialize();
+	
+	
+	RadioInterface radioInterface(serialDriver);
+	
+	//////////////////////////////////////////////////////////////////////////
+	// Test receiving a message
+	//////////////////////////////////////////////////////////////////////////
+	int status = 0;
+	int timeoutErrors = 0;
+	int crcErrors = 0;
+	int msgTypeErrors = 0;
+	
+	for (int i = 0; i < 127; i++)
+	{
+		status = 0;
+		
+		SystemTelemetryMessage *receiveMessage = NULL;
+		
+		status = radioInterface.receive(receiveMessage);
+		
+		switch (status)
+		{
+			case 0:
+				break;
+			case -1:
+				timeoutErrors++;
+				break;
+			case -2:
+				msgTypeErrors++;
+				break;
+			case -3:
+				crcErrors++;
+				break;
+			default:
+				break;
+		}
+		
+		delete receiveMessage;
+	}
+	
+
+	SystemTelemetryMessage *transmitMessage = new SystemTelemetryMessage();
+	
+	transmitMessage->MagX(timeoutErrors);
+	transmitMessage->MagY(msgTypeErrors);
+	transmitMessage->MagZ(crcErrors);
+	
+	radioInterface.transmit(transmitMessage);
+	
+	AssertTrue(timeoutErrors == 0, 1);
+	AssertTrue(msgTypeErrors == 0, 2);
+	AssertTrue(crcErrors == 0, 3);
+	
+	delete transmitMessage;
+	
+	return 0;
+}

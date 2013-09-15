@@ -137,20 +137,41 @@ namespace GroundControlStation.Controller
             xplaneInterface.Close();
         }
 
+        private int counter = 0;
+        private int counter2 = 0;
+
         private void BeginSimPolling()
         {
             while (isSimThreadRunning)
             {
-                Model.SimTelm = xplaneInterface.Receive();
+ //               Model.SimTelm = xplaneInterface.Receive();
+                Thread.Sleep(200);
 
-                UpdateViews();
+         //       UpdateViews();
 
-                FlightComputerTelemetry data = new FlightComputerTelemetry();
+             //   if (counter2++ >= 20)
+                {
+                    FlightComputerTelemetry data = new FlightComputerTelemetry();
+                    data.MagX = (short) counter;
+                    data.MagY = (short) counter;
+                    data.MagZ = (short) counter;
+                    counter ++;
+
+                    if (counter == 100) counter = 0;
+
+                    /*
+                data.MagX = (short) Model.SimTelm.TrueHeadingDegrees;
+                data.MagY = (short) Model.SimTelm.TrueHeadingDegrees;
+                data.MagZ = (short) Model.SimTelm.TrueHeadingDegrees;
+                */
+                    /*FlightComputerTelemetry data = new FlightComputerTelemetry();
                 data.MagX = 22;
                 data.MagY = 23;
-                data.MagZ = 24;
+                data.MagZ = 24;*/
 
-                fcInterface.Transmit(data);
+                    fcInterface.Transmit(data);
+                    counter2 = 0;
+                }
             }
         }
 
@@ -170,10 +191,14 @@ namespace GroundControlStation.Controller
 //                SimulatorTelemetryDataToFlightComputer data = Model.SimTelm.CreateToFlightComputerMessage();
 
   //              fcInterface.Transmit(data);
+                FlightComputerTelemetry telem = fcInterface.Receive();
 
-                Model.FcTelm = fcInterface.Receive();
+                if (telem != null)
+                {
+                    Model.FcTelm = telem;
 
-                UpdateViews();
+                    UpdateViews();
+                }
             }
         }
 

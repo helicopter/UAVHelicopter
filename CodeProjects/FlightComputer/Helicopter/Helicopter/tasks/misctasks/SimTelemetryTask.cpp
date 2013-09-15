@@ -17,12 +17,17 @@ SimTelemetryTask::SimTelemetryTask(RadioInterface *radioInterface, SystemModel *
 {
 	
 }
-/*
+
 
 void SimTelemetryTask::runTaskImpl() 
 {
+	
+	PORTA |= (1<<PA5);
+	
+	
+	
 	//Use the radio interface to get the telemetry message from the simulator
-	Message *message = NULL;
+	SystemTelemetryMessage *message = NULL;
 	
 	//TODO: keep in mind that the message received might not have been received in the
 	//expected order. I.e. this message might actually be a different type of message.
@@ -30,19 +35,17 @@ void SimTelemetryTask::runTaskImpl()
 	//only message.
 	if (radioInterface->receive(message) == 0 && message != NULL)
 	{
-		//If it's a sim telemetry message, then process it. 
-		if (message->getType() == SystemTelemetryMessage::SystemTelemetryMessageType)
-		{
-			SystemTelemetryMessage *telemMsg = (SystemTelemetryMessage*) message;
+		SystemTelemetryMessage *telemMsg = (SystemTelemetryMessage*) message;
 			
-			//Update the model using the new data received from the simulator.
-			model->RawMagX(telemMsg->MagX());
-			model->RawMagY(telemMsg->MagY());
-			model->RawMagZ(telemMsg->MagZ());
-		}
+		//Update the model using the new data received from the simulator.
+		model->RawMagX(telemMsg->MagX());
+		model->RawMagY(telemMsg->MagY());
+		model->RawMagZ(telemMsg->MagZ());
 		
 		delete message;
 	}
 	
+	
+	PORTA &= ~(1<<PA5);
+	
 }
-*/

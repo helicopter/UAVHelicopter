@@ -172,6 +172,8 @@
       <Value>../../HelicopterTestsCommon/mocks</Value>
       <Value>../../Helicopter/messages</Value>
       <Value>..</Value>
+      <Value>../../Helicopter/util</Value>
+      <Value>../util</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
   <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
@@ -232,10 +234,17 @@
     <Compile Include="sensors\MagnetometerSensorTests.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="util\TimerTests.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="util\TimerTests.cpp">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="mocks" />
     <Folder Include="buffer" />
+    <Folder Include="util" />
     <Folder Include="radio" />
     <Folder Include="scheduler" />
     <Folder Include="sensors" />

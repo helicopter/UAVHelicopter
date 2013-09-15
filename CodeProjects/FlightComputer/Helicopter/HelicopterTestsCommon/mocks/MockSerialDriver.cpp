@@ -16,7 +16,7 @@ int MockSerialDriver::transmitByte(byte byteToSend)
 
 int MockSerialDriver::receiveByte(byte &receivedByte)
 {
-	if (timeoutcount != 0 && timeoutcount == receiveCounter)
+	if (timeoutcount != 0 && receiveCounter >= timeoutcount)
 	{
 		//simulate 'timeout'
 		return -1;
@@ -27,7 +27,7 @@ int MockSerialDriver::receiveByte(byte &receivedByte)
 	return 0;
 }
 
-void MockSerialDriver::enableTimeout(int timoutCount)
+void MockSerialDriver::enableTimeout(int tCount)
 {
-	this->timeoutcount = timeoutcount;
+	this->timeoutcount = tCount;
 }

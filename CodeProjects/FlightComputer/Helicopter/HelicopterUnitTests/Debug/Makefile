@@ -34,6 +34,7 @@ LIB_DEP:=
 SUBDIRS :=  \
 ../mocks \
 ../buffer \
+../util \
 ../radio \
 ../scheduler \
 ../sensors
@@ -46,7 +47,8 @@ C_SRCS +=  \
 ../mocks/MockMagnetometerDriver.cpp \
 ../radio/RadioInterfaceUnitTests.cpp \
 ../scheduler/SchedulerTest.cpp \
-../sensors/MagnetometerSensorTests.cpp
+../sensors/MagnetometerSensorTests.cpp \
+../util/TimerTests.cpp
 
 
 PREPROCESSING_SRCS += 
@@ -61,7 +63,8 @@ HelicopterUnitTests.o \
 mocks/MockMagnetometerDriver.o \
 radio/RadioInterfaceUnitTests.o \
 scheduler/SchedulerTest.o \
-sensors/MagnetometerSensorTests.o
+sensors/MagnetometerSensorTests.o \
+util/TimerTests.o
 
 OBJS_AS_ARGS +=  \
 buffer/BufferTests.o \
@@ -69,7 +72,8 @@ HelicopterUnitTests.o \
 mocks/MockMagnetometerDriver.o \
 radio/RadioInterfaceUnitTests.o \
 scheduler/SchedulerTest.o \
-sensors/MagnetometerSensorTests.o
+sensors/MagnetometerSensorTests.o \
+util/TimerTests.o
 
 C_DEPS +=  \
 buffer/BufferTests.d \
@@ -77,7 +81,8 @@ HelicopterUnitTests.d \
 mocks/MockMagnetometerDriver.d \
 radio/RadioInterfaceUnitTests.d \
 scheduler/SchedulerTest.d \
-sensors/MagnetometerSensorTests.d
+sensors/MagnetometerSensorTests.d \
+util/TimerTests.d
 
 C_DEPS_AS_ARGS +=  \
 buffer/BufferTests.d \
@@ -85,7 +90,8 @@ HelicopterUnitTests.d \
 mocks/MockMagnetometerDriver.d \
 radio/RadioInterfaceUnitTests.d \
 scheduler/SchedulerTest.d \
-sensors/MagnetometerSensorTests.d
+sensors/MagnetometerSensorTests.d \
+util/TimerTests.d
 
 OUTPUT_FILE_PATH +=HelicopterUnitTests.elf
 
@@ -113,45 +119,54 @@ C:/Heli/GitRepository/UAVHelicopter/CodeProjects/FlightComputer/Helicopter/Helic
 
 
 
+
+
 buffer/%.o: ../buffer/%.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../../Helicopter/util/common" -I"../../Helicopter/buffer" -I"../../Helicopter/tasks" -I"../../Helicopter/scheduler" -I"../../Helicopter/drivers" -I"../../Helicopter/sensors" -I"../mocks" -I"../sensors" -I"../../HelicopterTestsCommon/util/testframework" -I"../buffer" -I"../scheduler" -I"../../Helicopter/interfaces" -I"../radio" -I"../../HelicopterTestsCommon/mocks" -I"../../Helicopter/messages" -I".."  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../../Helicopter/util/common" -I"../../Helicopter/buffer" -I"../../Helicopter/tasks" -I"../../Helicopter/scheduler" -I"../../Helicopter/drivers" -I"../../Helicopter/sensors" -I"../mocks" -I"../sensors" -I"../../HelicopterTestsCommon/util/testframework" -I"../buffer" -I"../scheduler" -I"../../Helicopter/interfaces" -I"../radio" -I"../../HelicopterTestsCommon/mocks" -I"../../Helicopter/messages" -I".." -I"../../Helicopter/util" -I"../util"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 
 ./%.o: .././%.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../../Helicopter/util/common" -I"../../Helicopter/buffer" -I"../../Helicopter/tasks" -I"../../Helicopter/scheduler" -I"../../Helicopter/drivers" -I"../../Helicopter/sensors" -I"../mocks" -I"../sensors" -I"../../HelicopterTestsCommon/util/testframework" -I"../buffer" -I"../scheduler" -I"../../Helicopter/interfaces" -I"../radio" -I"../../HelicopterTestsCommon/mocks" -I"../../Helicopter/messages" -I".."  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../../Helicopter/util/common" -I"../../Helicopter/buffer" -I"../../Helicopter/tasks" -I"../../Helicopter/scheduler" -I"../../Helicopter/drivers" -I"../../Helicopter/sensors" -I"../mocks" -I"../sensors" -I"../../HelicopterTestsCommon/util/testframework" -I"../buffer" -I"../scheduler" -I"../../Helicopter/interfaces" -I"../radio" -I"../../HelicopterTestsCommon/mocks" -I"../../Helicopter/messages" -I".." -I"../../Helicopter/util" -I"../util"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 
 mocks/%.o: ../mocks/%.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../../Helicopter/util/common" -I"../../Helicopter/buffer" -I"../../Helicopter/tasks" -I"../../Helicopter/scheduler" -I"../../Helicopter/drivers" -I"../../Helicopter/sensors" -I"../mocks" -I"../sensors" -I"../../HelicopterTestsCommon/util/testframework" -I"../buffer" -I"../scheduler" -I"../../Helicopter/interfaces" -I"../radio" -I"../../HelicopterTestsCommon/mocks" -I"../../Helicopter/messages" -I".."  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../../Helicopter/util/common" -I"../../Helicopter/buffer" -I"../../Helicopter/tasks" -I"../../Helicopter/scheduler" -I"../../Helicopter/drivers" -I"../../Helicopter/sensors" -I"../mocks" -I"../sensors" -I"../../HelicopterTestsCommon/util/testframework" -I"../buffer" -I"../scheduler" -I"../../Helicopter/interfaces" -I"../radio" -I"../../HelicopterTestsCommon/mocks" -I"../../Helicopter/messages" -I".." -I"../../Helicopter/util" -I"../util"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 
 radio/%.o: ../radio/%.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../../Helicopter/util/common" -I"../../Helicopter/buffer" -I"../../Helicopter/tasks" -I"../../Helicopter/scheduler" -I"../../Helicopter/drivers" -I"../../Helicopter/sensors" -I"../mocks" -I"../sensors" -I"../../HelicopterTestsCommon/util/testframework" -I"../buffer" -I"../scheduler" -I"../../Helicopter/interfaces" -I"../radio" -I"../../HelicopterTestsCommon/mocks" -I"../../Helicopter/messages" -I".."  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../../Helicopter/util/common" -I"../../Helicopter/buffer" -I"../../Helicopter/tasks" -I"../../Helicopter/scheduler" -I"../../Helicopter/drivers" -I"../../Helicopter/sensors" -I"../mocks" -I"../sensors" -I"../../HelicopterTestsCommon/util/testframework" -I"../buffer" -I"../scheduler" -I"../../Helicopter/interfaces" -I"../radio" -I"../../HelicopterTestsCommon/mocks" -I"../../Helicopter/messages" -I".." -I"../../Helicopter/util" -I"../util"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 
 scheduler/%.o: ../scheduler/%.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../../Helicopter/util/common" -I"../../Helicopter/buffer" -I"../../Helicopter/tasks" -I"../../Helicopter/scheduler" -I"../../Helicopter/drivers" -I"../../Helicopter/sensors" -I"../mocks" -I"../sensors" -I"../../HelicopterTestsCommon/util/testframework" -I"../buffer" -I"../scheduler" -I"../../Helicopter/interfaces" -I"../radio" -I"../../HelicopterTestsCommon/mocks" -I"../../Helicopter/messages" -I".."  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../../Helicopter/util/common" -I"../../Helicopter/buffer" -I"../../Helicopter/tasks" -I"../../Helicopter/scheduler" -I"../../Helicopter/drivers" -I"../../Helicopter/sensors" -I"../mocks" -I"../sensors" -I"../../HelicopterTestsCommon/util/testframework" -I"../buffer" -I"../scheduler" -I"../../Helicopter/interfaces" -I"../radio" -I"../../HelicopterTestsCommon/mocks" -I"../../Helicopter/messages" -I".." -I"../../Helicopter/util" -I"../util"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 
 sensors/%.o: ../sensors/%.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../../Helicopter/util/common" -I"../../Helicopter/buffer" -I"../../Helicopter/tasks" -I"../../Helicopter/scheduler" -I"../../Helicopter/drivers" -I"../../Helicopter/sensors" -I"../mocks" -I"../sensors" -I"../../HelicopterTestsCommon/util/testframework" -I"../buffer" -I"../scheduler" -I"../../Helicopter/interfaces" -I"../radio" -I"../../HelicopterTestsCommon/mocks" -I"../../Helicopter/messages" -I".."  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../../Helicopter/util/common" -I"../../Helicopter/buffer" -I"../../Helicopter/tasks" -I"../../Helicopter/scheduler" -I"../../Helicopter/drivers" -I"../../Helicopter/sensors" -I"../mocks" -I"../sensors" -I"../../HelicopterTestsCommon/util/testframework" -I"../buffer" -I"../scheduler" -I"../../Helicopter/interfaces" -I"../radio" -I"../../HelicopterTestsCommon/mocks" -I"../../Helicopter/messages" -I".." -I"../../Helicopter/util" -I"../util"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	@echo Finished building: $<
+	
+
+util/%.o: ../util/%.cpp
+	@echo Building file: $<
+	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../../Helicopter/util/common" -I"../../Helicopter/buffer" -I"../../Helicopter/tasks" -I"../../Helicopter/scheduler" -I"../../Helicopter/drivers" -I"../../Helicopter/sensors" -I"../mocks" -I"../sensors" -I"../../HelicopterTestsCommon/util/testframework" -I"../buffer" -I"../scheduler" -I"../../Helicopter/interfaces" -I"../radio" -I"../../HelicopterTestsCommon/mocks" -I"../../Helicopter/messages" -I".." -I"../../Helicopter/util" -I"../util"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 
