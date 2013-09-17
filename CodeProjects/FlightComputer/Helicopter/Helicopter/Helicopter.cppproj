@@ -153,6 +153,7 @@
   <avrgcccpp.compiler.directories.IncludePaths>
     <ListValues>
       <Value>../util/common</Value>
+      <Value>../util</Value>
       <Value>../scheduler</Value>
       <Value>../tasks</Value>
       <Value>../tasks/misctasks</Value>
@@ -161,7 +162,6 @@
       <Value>../interfaces</Value>
       <Value>../messages</Value>
       <Value>../model</Value>
-      <Value>../util</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
   <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
@@ -178,9 +178,9 @@
   <avrgcccpp.archiver.general.ArchiverFlags>-rcs</avrgcccpp.archiver.general.ArchiverFlags>
 </AvrGccCpp>
     </ToolchainSettings>
-    <OutputFileName>libHelicopter</OutputFileName>
-    <OutputFileExtension>.a</OutputFileExtension>
-    <OutputType>StaticLibrary</OutputType>
+    <OutputFileName>Helicopter</OutputFileName>
+    <OutputFileExtension>.elf</OutputFileExtension>
+    <OutputType>Executable</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="buffer\Buffer.cpp">
@@ -214,6 +214,18 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="interfaces\RadioInterface.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="messages\Message.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="messages\Message.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="messages\SyncMessage.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="messages\SyncMessage.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="messages\SystemTelemetryMessage.cpp">
@@ -267,10 +279,10 @@
     <Compile Include="util\common\commonheader.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="util\Timer.cpp">
+    <Compile Include="util\common\Timer.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="util\Timer.h">
+    <Compile Include="util\common\Timer.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
@@ -280,8 +292,8 @@
     <Folder Include="interfaces" />
     <Folder Include="messages" />
     <Folder Include="model" />
+    <Folder Include="scheduler\" />
     <Folder Include="sensors" />
-    <Folder Include="scheduler" />
     <Folder Include="tasks" />
     <Folder Include="tasks\misctasks" />
     <Folder Include="util" />

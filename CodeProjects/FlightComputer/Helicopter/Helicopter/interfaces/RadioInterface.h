@@ -10,7 +10,7 @@
 #define RADIOINTERFACE_H_
 
 #include "SerialDriver.h"
-#include "SystemTelemetryMessage.h"
+#include "Message.h"
 
 using namespace helicopter::drivers;
 using namespace helicopter::messages;
@@ -35,6 +35,9 @@ namespace helicopter
 			public:
 				static const byte SyncByte1 = 0xB5;
 				static const byte SyncByte2 = 0x62;
+				static const byte SyncByte3 = SyncByte1 ^ SyncByte2;
+				
+				static const int MsgHeaderFooterSize = 5;
 			
 				/**
 				 * The radio interface interfaces with the radio for reading data and sending
@@ -64,7 +67,7 @@ namespace helicopter
 				 * @param msgToSend The message to transmit over the radio.
 				 * @return less than 0 in the event of an error (timeout), 0 otherwise
 				 */
-				int transmit(SystemTelemetryMessage *msgToSend);
+				int transmit(Message *msgToSend);
 				
 				/**
 				 * Receives an incoming message.
@@ -74,7 +77,7 @@ namespace helicopter
 				 * received was not a system telemetry message, -3 if the checksum failed
 				 * 0 otherwise (success).
 				 */
-				int receive(SystemTelemetryMessage * &receivedMessage);
+				int receive(Message * &receivedMessage);
 		};
 	}
 }

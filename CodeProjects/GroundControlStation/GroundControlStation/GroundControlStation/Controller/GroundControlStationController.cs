@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -50,6 +51,7 @@ namespace GroundControlStation.Controller
             flightComputerThread = new Thread(new ThreadStart(BeginFlightComputerPolling));
         }
 
+        /*
         public void GetSimulatorTelemetry()
         {
             Model.SimTelm = xplaneInterface.Receive();
@@ -59,6 +61,7 @@ namespace GroundControlStation.Controller
         {
             Model.FcTelm = fcInterface.Receive();
         }
+         */
 
         /// <summary>
         /// Updates the views based on the received data.
@@ -140,45 +143,141 @@ namespace GroundControlStation.Controller
         private int counter = 0;
         private int counter2 = 0;
 
+        //Polls for new simulator data and updates the model.
         private void BeginSimPolling()
         {
             while (isSimThreadRunning)
             {
- //               Model.SimTelm = xplaneInterface.Receive();
-                Thread.Sleep(200);
+                Model.SimTelm = xplaneInterface.Receive();
 
-         //       UpdateViews();
+         //       Thread.Sleep(200);
 
-             //   if (counter2++ >= 20)
-                {
-                    FlightComputerTelemetry data = new FlightComputerTelemetry();
-                    data.MagX = (short) counter;
-                    data.MagY = (short) counter;
-                    data.MagZ = (short) counter;
-                    counter ++;
+         ////       UpdateViews();
 
-                    if (counter == 100) counter = 0;
+         //    //   if (counter2++ >= 20)
+         //       {
+         //           FlightComputerTelemetry data = new FlightComputerTelemetry();
+         //           data.MagX = (short) counter;
+         //           data.MagY = (short) counter;
+         //           data.MagZ = (short) counter;
+         //           counter ++;
 
-                    /*
-                data.MagX = (short) Model.SimTelm.TrueHeadingDegrees;
-                data.MagY = (short) Model.SimTelm.TrueHeadingDegrees;
-                data.MagZ = (short) Model.SimTelm.TrueHeadingDegrees;
-                */
-                    /*FlightComputerTelemetry data = new FlightComputerTelemetry();
-                data.MagX = 22;
-                data.MagY = 23;
-                data.MagZ = 24;*/
+         //           if (counter == 100) counter = 0;
 
-                    fcInterface.Transmit(data);
-                    counter2 = 0;
-                }
+         //           /*
+         //       data.MagX = (short) Model.SimTelm.TrueHeadingDegrees;
+         //       data.MagY = (short) Model.SimTelm.TrueHeadingDegrees;
+         //       data.MagZ = (short) Model.SimTelm.TrueHeadingDegrees;
+         //       */
+         //           /*FlightComputerTelemetry data = new FlightComputerTelemetry();
+         //       data.MagX = 22;
+         //       data.MagY = 23;
+         //       data.MagZ = 24;*/
+
+         //           fcInterface.Transmit(data);
+         //           counter2 = 0;
+         //       }
             }
         }
 
+        private int previousX = 0;
+
+        //Receives data from the flight computer.
         private void BeginFlightComputerPolling()
         {
             while (isFlightComputerThreadRunning)
             {
+
+
+                Message msg = fcInterface.Receive();
+
+                if (msg != null)
+                {
+                    if (msg.MsgType == FlightComputerTelemetry.MessageType)
+                    {
+                        //Receive model data from FC
+                        FlightComputerTelemetry telem = (FlightComputerTelemetry) msg;
+
+                        Model.FcTelm = telem;
+
+                        if (previousX != telem.MagX)
+                        {
+                            if (previousX + 1 != telem.MagX && telem.MagX != 0)
+                            {
+                                Debug.WriteLine("Skipped a value");
+                            }
+                            else if (previousX + 1 == telem.MagX)
+                            {
+                                counter2++;
+                              //  Debug.WriteLine("counter2: " + counter2);
+                            }
+                            
+                            
+
+
+                        }
+                        else
+                        {
+                            //Debug.WriteLine("Same value received");
+                        }
+
+
+                        if (Model.FcTelm.MagZ == -4)
+                        {
+                            Debug.WriteLine("Negative value");
+                        }
+
+                        if (Model.FcTelm.MagZ == -3)
+                        {
+                            Debug.WriteLine("bad crc");
+                        }
+
+                        if (Model.FcTelm.MagZ == -2)
+                        {
+                        //    Debug.WriteLine("unknown type");
+                        }
+
+                        if (Model.FcTelm.MagZ == -1)
+                        {
+                            Debug.WriteLine("timedout");
+                        }
+
+                        if (Model.FcTelm.MagX == -10)
+                        {
+                            Debug.WriteLine(Model.FcTelm.MagZ);
+                        }
+
+                        previousX = telem.MagX;
+                        UpdateViews();
+
+                    }
+                    else if (msg.MsgType == SyncMessage.MessageType)
+                    {
+                        //Send sim model data to FC.
+
+                               
+                        FlightComputerTelemetry data = new FlightComputerTelemetry();
+                        data.MagX = (short) counter;
+                        data.MagY = (short) counter;
+                        data.MagZ = (short) counter;
+                        counter ++;
+
+                        if (counter >= 100) counter = 0;
+
+                        /*
+                        data.MagX = (short) Model.SimTelm.TrueHeadingDegrees;
+                        data.MagY = (short) Model.SimTelm.TrueHeadingDegrees;
+                        data.MagZ = (short) Model.SimTelm.TrueHeadingDegrees;
+                        */
+                        /*FlightComputerTelemetry data = new FlightComputerTelemetry();
+                        data.MagX = 22;
+                        data.MagY = 23;
+                        data.MagZ = 24;*/
+
+                        fcInterface.Transmit(data);
+                        counter2 = 0;
+                    }
+                }
                 /*FlightComputerTelemetry data = new FlightComputerTelemetry();
 
                 //TODO don't hard code this.
@@ -190,15 +289,30 @@ namespace GroundControlStation.Controller
       //          data.
 //                SimulatorTelemetryDataToFlightComputer data = Model.SimTelm.CreateToFlightComputerMessage();
 
-  //              fcInterface.Transmit(data);
-                FlightComputerTelemetry telem = fcInterface.Receive();
+  ////              fcInterface.Transmit(data);
+  //              FlightComputerTelemetry telem = fcInterface.Receive();
 
-                if (telem != null)
-                {
-                    Model.FcTelm = telem;
+  //              if (telem != null)
+  //              {
+  //                  Model.FcTelm = telem;
+  //                  if (previousX != telem.MagX)
+  //                  {
+  //                      if (previousX + 1 != telem.MagX && telem.MagX != 0)
+  //                      {
+  //                          Debug.WriteLine("Skipped a value");
+  //                      }
+  //                      UpdateViews();
+  //                      previousX = telem.MagX;
 
-                    UpdateViews();
-                }
+                        
+  //                  }
+  //                  else
+  //                  {
+  //                      //Debug.WriteLine("Same value received");
+  //                  }
+
+                    
+  //              }
             }
         }
 

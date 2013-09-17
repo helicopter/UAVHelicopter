@@ -51,7 +51,9 @@
     <Compile Include="Interfaces\SimulatorInterface.cs" />
     <Compile Include="Model\FlightComputerTelemetry.cs" />
     <Compile Include="Model\GroundControlStationModel.cs" />
+    <Compile Include="Model\Message.cs" />
     <Compile Include="Model\SimulatorTelemetry.cs" />
+    <Compile Include="Model\SyncMessage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\GraphForm.cs">

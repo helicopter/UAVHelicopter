@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace GroundControlStation.Model
 {
-    public class FlightComputerTelemetry
+    public class FlightComputerTelemetry : Message
     {
-        public const int FlightControllerTelemetryMessageType = 2;
+        public const byte MessageType = 2;
 
         /// <summary>
         /// This represents the number of bytes in this message including the message type.
         /// </summary>
         public const int NumOfBytesInMsg = 7;
 
-        public byte MsgType { get; set; }
+        //public byte MsgType { get; set; }
 
         public short MagX { get; set; }
 
@@ -20,16 +20,19 @@ namespace GroundControlStation.Model
 
         public short MagZ { get; set; }
 
+
+
         public FlightComputerTelemetry()
+            : base(MessageType, NumOfBytesInMsg)
         {
-            MsgType = FlightControllerTelemetryMessageType;
         }
 
+        /*
         public static int GetNumOfBytesInMsg()
         {
             return NumOfBytesInMsg;
         }
-
+        */
         public static FlightComputerTelemetry BuildMessageSt(byte[] byteBuffer)
         {
             FlightComputerTelemetry fct = new FlightComputerTelemetry();
@@ -38,7 +41,7 @@ namespace GroundControlStation.Model
             return fct;
         }
 
-        public void BuildMessage(byte[] byteBuffer)
+        public override void BuildMessage(byte[] byteBuffer)
         {
             this.MsgType = byteBuffer[0];
             this.MagX = BitConverter.ToInt16(byteBuffer, 1);
@@ -46,7 +49,7 @@ namespace GroundControlStation.Model
             this.MagZ = BitConverter.ToInt16(byteBuffer, 5);
         }
 
-        public byte[] GetRawBytes()
+        public override byte[] GetRawBytes()
         {
             byte[] rawMsg = new byte[NumOfBytesInMsg];
 

@@ -60,12 +60,12 @@ int SerialDriver::transmitByte(byte byteToSend)
 			//Check for timeout
 			if (isTimeoutEnabled)
 			{
-				if (counter > SENDTIMEOUTCOUNTER)
+/*				if (counter > SENDTIMEOUTCOUNTER)
 				{
 					return -1;
 				}
 				
-				counter++;
+				counter++;*/
 			}
 		}
 				
@@ -79,14 +79,26 @@ int SerialDriver::transmitByte(byte byteToSend)
 
 int SerialDriver::receiveByte(byte &receivedByte)
 {
+	bool hasDataOverrun = false;
+	
 	if (uartPort == Zero)
 	{
-		int counter = 0;
+		
+		if (isTimeoutEnabled)
+		{
+			timer.startTimer();
+		}
+		//int counter = 0;
 		
 		/* Wait for data on the receive buffer */
 		while ( !(UCSR0A & (1<<RXC0)) )
 		{
-			if (isTimeoutEnabled)
+			if (timer.hasTimedout())
+			{
+				timer.stopTimer();
+				return -1;
+			}
+			/*if (isTimeoutEnabled)
 			{
 				//Check for timeout
 				if (counter > RECEIVETIMEOUTCOUNTER)
@@ -95,13 +107,18 @@ int SerialDriver::receiveByte(byte &receivedByte)
 				}
 			
 				counter++;			
-			}
+			}*/
 		}
 		
+		//determine if there has been a data overrun.
+		//Swallow the overrun because nothing can be done.
+		hasDataOverrun = (UCSR0A & (1 << DOR0)) != 0;
 		
 		/* Put data into buffer, sends the data */
 		receivedByte = UDR0;
 	}
+	
+	timer.stopTimer();
 	
 	return 0;
 }

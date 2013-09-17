@@ -184,11 +184,11 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	//////////////////////////////////////////////////////////////////////////
 	// Test receiving a message
 	//////////////////////////////////////////////////////////////////////////
-	SystemTelemetryMessage *receiveMessage = NULL;
+	Message *receiveMessage = NULL;
 	
 	AssertTrue(radioInterface.receive(receiveMessage) == 0, 2);
 	
-	AssertTrue(receiveMessage->getType() == SystemTelemetryMessage::SystemTelemetryMessageType, 3);
+	AssertTrue(receiveMessage->getType() == SystemTelemetryMessage::MessageType, 3);
 	
 	SystemTelemetryMessage *receivedMsg = (SystemTelemetryMessage *)receiveMessage;
 	
@@ -238,11 +238,15 @@ int reliablyreceive_test(TestCase *test)
 	int crcErrors = 0;
 	int msgTypeErrors = 0;
 	
+	SystemTelemetryMessage message;
+	message.MagX(12);
+	radioInterface.transmit(&message);
+	
 	for (int i = 0; i < 127; i++)
 	{
 		status = 0;
 		
-		SystemTelemetryMessage *receiveMessage = NULL;
+		Message *receiveMessage = NULL;
 		
 		status = radioInterface.receive(receiveMessage);
 		
@@ -262,6 +266,10 @@ int reliablyreceive_test(TestCase *test)
 			default:
 				break;
 		}
+		
+		AssertTrue(((SystemTelemetryMessage*)receiveMessage)->MagX() == i, 1);
+		AssertTrue(((SystemTelemetryMessage*)receiveMessage)->MagY() == i, 1);
+		AssertTrue(((SystemTelemetryMessage*)receiveMessage)->MagZ() == i, 1);
 		
 		delete receiveMessage;
 	}

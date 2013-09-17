@@ -20,6 +20,7 @@ Buffer::Buffer()
 
 Buffer::~Buffer()
 {
+	//TODO should this be delete[]?
 	delete this->records;
 }
 
@@ -28,7 +29,7 @@ void Buffer::enqueue(Record *record)
 	if (record != NULL)
 	{
 		//Copy the record
-		//danger not deep copy. 
+		//TODO danger not deep copy. 
 		Record *newRecord = record->Copy();
 		
 		//Add the record to the linked list.

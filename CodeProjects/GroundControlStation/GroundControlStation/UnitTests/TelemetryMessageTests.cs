@@ -21,13 +21,13 @@ namespace UnitTests
             message.MagY = (short) 125;
             message.MagZ = (short) 32;
 
-            Assert.IsTrue(message.MsgType == FlightComputerTelemetry.FlightControllerTelemetryMessageType);
+            Assert.IsTrue(message.MsgType == FlightComputerTelemetry.MessageType);
             Assert.IsTrue(FlightComputerTelemetry.NumOfBytesInMsg == 7);
 
             byte[] bytes = message.GetRawBytes();
 
             //verify bytes in the message.
-            Assert.IsTrue(bytes[0] == FlightComputerTelemetry.FlightControllerTelemetryMessageType);
+            Assert.IsTrue(bytes[0] == FlightComputerTelemetry.MessageType);
             Assert.IsTrue(bytes[1] == (32767 & 0xFF));
             Assert.IsTrue(bytes[2] == ((32767 >> 8) & 0xFF));
             Assert.IsTrue(bytes[3] == 125);
@@ -45,7 +45,7 @@ namespace UnitTests
         {
             byte[] msgBytes = new byte[FlightComputerTelemetry.NumOfBytesInMsg];
 
-            msgBytes[0] = FlightComputerTelemetry.FlightControllerTelemetryMessageType;
+            msgBytes[0] = FlightComputerTelemetry.MessageType;
             msgBytes[1] = (32767 & 0xFF);
             msgBytes[2] = ((32767 >> 8) & 0xFF);
             msgBytes[3] = (32766 & 0xFF);
@@ -89,18 +89,19 @@ namespace UnitTests
 
             Assert.IsTrue(bytes[0] == 0xB5);
             Assert.IsTrue(bytes[1] == 0x62);
-            Assert.IsTrue(bytes[2] == FlightComputerTelemetry.FlightControllerTelemetryMessageType);
-            Assert.IsTrue(bytes[3] == (32767 & 0xFF));
-            Assert.IsTrue(bytes[4] == ((32767 >> 8) & 0xFF));
-            Assert.IsTrue(bytes[5] == 125);
-            Assert.IsTrue(bytes[6] == 0);
-            Assert.IsTrue(bytes[7] == 32);
-            Assert.IsTrue(bytes[8] == 0);
-            Assert.IsTrue(bytes[9] == 29); 
-            Assert.IsTrue(bytes[10] == 183); 
+            Assert.IsTrue(bytes[2] == 0xD7);
+            Assert.IsTrue(bytes[3] == FlightComputerTelemetry.MessageType);
+            Assert.IsTrue(bytes[4] == (32767 & 0xFF));
+            Assert.IsTrue(bytes[5] == ((32767 >> 8) & 0xFF));
+            Assert.IsTrue(bytes[6] == 125);
+            Assert.IsTrue(bytes[7] == 0);
+            Assert.IsTrue(bytes[8] == 32);
+            Assert.IsTrue(bytes[9] == 0);
+            Assert.IsTrue(bytes[10] == 29); 
+            Assert.IsTrue(bytes[11] == 183);
 
 
-            FlightComputerTelemetry message2 = fci.Receive();
+            FlightComputerTelemetry message2 = (FlightComputerTelemetry)fci.Receive();
 
             Assert.IsTrue(message2.MagX == message.MagX);
             Assert.IsTrue(message2.MagY == message.MagY);
@@ -115,6 +116,7 @@ namespace UnitTests
             List<byte> lbytes = new List<byte>();
 
             //junk data
+            lbytes.Add(0xD7);
             lbytes.Add(0x22);
             lbytes.Add(0x42);
             lbytes.Add(0x62);
@@ -128,7 +130,7 @@ namespace UnitTests
 
             ((MockSerialPortInterface) serialPortInterface).Bytes = lbytes;
 
-            message2 = fci.Receive();
+            message2 = (FlightComputerTelemetry)fci.Receive();
 
             Assert.IsTrue(message2.MagX == message.MagX);
             Assert.IsTrue(message2.MagY == message.MagY);
@@ -146,7 +148,7 @@ namespace UnitTests
 
             mockSPI.Bytes = lbytes;
 
-            message2 = fci.Receive();
+            message2 = (FlightComputerTelemetry)fci.Receive();
 
             Assert.IsTrue(message2 == null);
 
@@ -156,7 +158,7 @@ namespace UnitTests
             mockSPI.Reset();
             mockSPI.Bytes = lbytes;
 
-            message2 = fci.Receive();
+            message2 = (FlightComputerTelemetry)fci.Receive();
 
             Assert.IsTrue(message2 == null);
 
@@ -165,7 +167,7 @@ namespace UnitTests
             mockSPI.Reset();
             mockSPI.Bytes = lbytes;
 
-            message2 = fci.Receive();
+            message2 = (FlightComputerTelemetry)fci.Receive();
 
             Assert.IsTrue(message2 != null);
 
@@ -174,27 +176,27 @@ namespace UnitTests
              */
             mockSPI.Reset();
             mockSPI.Bytes = bytesCopy;
-            message2 = fci.Receive();
+            message2 = (FlightComputerTelemetry)fci.Receive();
             Assert.IsTrue(message2 != null);
 
             //corrupt the ID field.
             mockSPI.Reset();
             mockSPI.Bytes = bytesCopy;
-            mockSPI.Bytes[2] = 22;
-            message2 = fci.Receive();
+            mockSPI.Bytes[3] = 22;
+            message2 = (FlightComputerTelemetry)fci.Receive();
             Assert.IsTrue(message2 == null);
 
             mockSPI.Reset();
             mockSPI.Bytes = bytesCopy;
-            mockSPI.Bytes[2] = FlightComputerTelemetry.FlightControllerTelemetryMessageType;
-            message2 = fci.Receive();
+            mockSPI.Bytes[3] = FlightComputerTelemetry.MessageType;
+            message2 = (FlightComputerTelemetry)fci.Receive();
             Assert.IsTrue(message2 != null);
 
             //Remove the last byte simulating a timeout exception since it tried to receive more bytes than were transmited.
             mockSPI.Reset();
             mockSPI.Bytes = bytesCopy;
-            mockSPI.Bytes.RemoveAt(10);
-            message2 = fci.Receive();
+            mockSPI.Bytes.RemoveAt(11);
+            message2 = (FlightComputerTelemetry)fci.Receive();
             Assert.IsTrue(message2 == null);
         }
 

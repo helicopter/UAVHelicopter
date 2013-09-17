@@ -9,11 +9,6 @@
 #ifndef SIMTELEMETRYTASK_H_
 #define SIMTELEMETRYTASK_H_
 
-
-
-#include <avr/io.h>
-#include <util/delay.h>
-
 #include "Task.h"
 #include "SystemModel.h"
 #include "RadioInterface.h"

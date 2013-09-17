@@ -163,8 +163,8 @@ using namespace helicopter::messages;
 int telemetry_test(TestCase *test)
 {	
 	//Create a driver for communicating with the radio.
-	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, true, true);
-	serialDriver->initialize();
+//	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, true, true);
+//	serialDriver->initialize();
 
 
 	SystemTelemetryMessage *message = new SystemTelemetryMessage();
@@ -191,10 +191,11 @@ int telemetry_test(TestCase *test)
 
 
 
-	SystemTelemetryMessage *message2 = NULL;
+	Message *message2 = NULL;
 	AssertTrue(radioInterface.receive(message2) == 0, 2);
 	
-	AssertTrue(message2->getType() == SystemTelemetryMessage::SystemTelemetryMessageType, 3);
+	
+	AssertTrue(message2->getType() == SystemTelemetryMessage::MessageType, 3);
 	
 	SystemTelemetryMessage *testMsg = (SystemTelemetryMessage *)message2;
 	
@@ -267,13 +268,13 @@ int telemetrymessage_test(TestCase *test)
 	message->MagY(125);
 	message->MagZ(32);
 
-	AssertTrue(message->getType() == SystemTelemetryMessage::SystemTelemetryMessageType, 1);
+	AssertTrue(message->getType() == SystemTelemetryMessage::MessageType, 1);
 	AssertTrue(SystemTelemetryMessage::MessageSize == 7, 2);
 
 	byte* bytes = message->getBytes();
 
 	//verify bytes in the message.
-	AssertTrue(bytes[0] == SystemTelemetryMessage::SystemTelemetryMessageType,3);
+	AssertTrue(bytes[0] == SystemTelemetryMessage::MessageType,3);
 	AssertTrue(bytes[1] == (32767 & 0xFF), 4);
 	AssertTrue(bytes[2] == ((32767 >> 8) & 0xFF), 5);
 	AssertTrue(bytes[3] == 125, 6);
@@ -281,7 +282,7 @@ int telemetrymessage_test(TestCase *test)
 	AssertTrue(bytes[5] == 32, 8);
 	AssertTrue(bytes[6] == 0, 9);
 	
-	delete bytes;
+	delete [] bytes;
 	
 	return 0;
 }
@@ -290,7 +291,7 @@ int telemetrybuildmessage_test(TestCase *test)
 {
 	byte* msgBytes = new byte[SystemTelemetryMessage::MessageSize];
 
-	msgBytes[0] = SystemTelemetryMessage::SystemTelemetryMessageType;
+	msgBytes[0] = SystemTelemetryMessage::MessageType;
 	msgBytes[1] = (32767 & 0xFF);
 	msgBytes[2] = ((32767 >> 8) & 0xFF);
 	msgBytes[3] = (32766 & 0xFF);
@@ -305,13 +306,14 @@ int telemetrybuildmessage_test(TestCase *test)
 	AssertTrue(telMsg->MagZ() == (short)32765, 3);
 	
 	delete telMsg;
+	delete [] msgBytes;
 	
 	return 0;
 }
 
 int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 {
-	int numOfBytesInFullMsg = SystemTelemetryMessage::MessageSize + 4;
+	int numOfBytesInFullMsg = SystemTelemetryMessage::MessageSize + RadioInterface::MsgHeaderFooterSize;
 	
 	SerialDriver *serialPortInterface = new MockSerialDriver(7+numOfBytesInFullMsg);
 	MockSerialDriver *mockSPI = (MockSerialDriver*) serialPortInterface;
@@ -333,22 +335,25 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	memcpy(bytesCopy, bytes, numOfBytesInFullMsg);
 
 
-	AssertTrue(bytes[0] == 0xB5, 1);
-	AssertTrue(bytes[1] == 0x62, 1);
-	AssertTrue(bytes[2] == SystemTelemetryMessage::SystemTelemetryMessageType, 1);
-	AssertTrue(bytes[3] == (32767 & 0xFF), 1);
-	AssertTrue(bytes[4] == ((32767 >> 8) & 0xFF), 1);
-	AssertTrue(bytes[5] == 125, 1);
-	AssertTrue(bytes[6] == 0, 1);
-	AssertTrue(bytes[7] == 32, 1);
-	AssertTrue(bytes[8] == 0, 1);
-	AssertTrue(bytes[9] == 29, 1); 
-	AssertTrue(bytes[10] == 183, 1); 
+	AssertTrue(bytes[0] == RadioInterface::SyncByte1, 1);
+	AssertTrue(bytes[1] == RadioInterface::SyncByte2, 1);
+	AssertTrue(bytes[2] == RadioInterface::SyncByte3, 1);
+	AssertTrue(bytes[3] == SystemTelemetryMessage::MessageType, 1);
+	AssertTrue(bytes[4] == (32767 & 0xFF), 1);
+	AssertTrue(bytes[5] == ((32767 >> 8) & 0xFF), 1);
+	AssertTrue(bytes[6] == 125, 1);
+	AssertTrue(bytes[7] == 0, 1);
+	AssertTrue(bytes[8] == 32, 1);
+	AssertTrue(bytes[9] == 0, 1);
+	AssertTrue(bytes[10] == 29, 1); 
+	AssertTrue(bytes[11] == 183, 1); 
 
 	
-	SystemTelemetryMessage *message2 = NULL;
+	Message *msg = NULL;
 	
-	fci->receive(message2);
+	fci->receive(msg);
+	
+	SystemTelemetryMessage *message2 = (SystemTelemetryMessage*) msg;
 
 	AssertTrue(message2->MagX() == message->MagX(), 1);
 	AssertTrue(message2->MagY() == message->MagY(), 1);
@@ -377,7 +382,8 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 
 	mockSPI->buffer = lbytes;
 
-	fci->receive(message2);
+	fci->receive(msg);
+	message2 = (SystemTelemetryMessage *) msg;
 
 	AssertTrue(message2->MagX() == message->MagX(), 1);
 	AssertTrue(message2->MagY() == message->MagY(), 1);
@@ -395,7 +401,8 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 
 	mockSPI->buffer = lbytes;
 
-	fci->receive(message2);
+	fci->receive(msg);
+	message2 = (SystemTelemetryMessage *) msg;
 
 	AssertTrue(message2 == NULL, 1);
 
@@ -405,7 +412,8 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	mockSPI->reset();
 	mockSPI->buffer = lbytes;
 
-	fci->receive(message2);
+	fci->receive(msg);
+	message2 = (SystemTelemetryMessage *) msg;
 
 	AssertTrue(message2 == NULL, 1);
 
@@ -414,7 +422,8 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	mockSPI->reset();
 	mockSPI->buffer = lbytes;
 
-	fci->receive(message2);
+	fci->receive(msg);
+	message2 = (SystemTelemetryMessage *) msg;
 
 	AssertTrue(message2 != NULL, 1);
 
@@ -423,27 +432,31 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	*/
 	mockSPI->reset();
 	mockSPI->buffer = bytesCopy;
-	fci->receive(message2);
+	fci->receive(msg);
+	message2 = (SystemTelemetryMessage *) msg;
 	AssertTrue(message2 != NULL, 1);
 
 	//corrupt the ID field.
 	mockSPI->reset();
 	mockSPI->buffer = bytesCopy;
-	mockSPI->buffer[2] = 22;
-	fci->receive(message2);
+	mockSPI->buffer[3] = 22;
+	fci->receive(msg);
+	message2 = (SystemTelemetryMessage *) msg;
 	AssertTrue(message2 == NULL, 1);
 
 	mockSPI->reset();
 	mockSPI->buffer = bytesCopy;
-	mockSPI->buffer[2] = SystemTelemetryMessage::SystemTelemetryMessageType;
-	fci->receive(message2);
+	mockSPI->buffer[3] = SystemTelemetryMessage::MessageType;
+	fci->receive(msg);
+	message2 = (SystemTelemetryMessage *) msg;
 	AssertTrue(message2 != NULL, 1);
 
 	//Remove the last byte simulating a timeout exception since it tried to receive more bytes than were transmited.
 	mockSPI->reset();
 	mockSPI->buffer = bytesCopy;
-	mockSPI->enableTimeout(10);
-	fci->receive(message2);
+	mockSPI->enableTimeout(11);
+	fci->receive(msg);
+	message2 = (SystemTelemetryMessage *) msg;
 	AssertTrue(message2 == NULL, 1);
 	
 	return 0;

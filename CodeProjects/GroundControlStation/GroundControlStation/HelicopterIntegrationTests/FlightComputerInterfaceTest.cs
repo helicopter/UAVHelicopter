@@ -61,7 +61,7 @@ namespace HelicopterIntegrationTests
             {
                 fcInt.Open();
 
-                FlightComputerTelemetry telemetry = fcInt.Receive();
+                FlightComputerTelemetry telemetry = (FlightComputerTelemetry)fcInt.Receive();
 
                 Assert.IsTrue(telemetry.MsgType == 2);
 
@@ -71,7 +71,7 @@ namespace HelicopterIntegrationTests
 
                 fcInt.Transmit(telemetry);
 
-                telemetry = fcInt.Receive();
+                telemetry = (FlightComputerTelemetry) fcInt.Receive();
 
                 Assert.IsTrue(telemetry.MagX == 12);
             }
@@ -86,6 +86,7 @@ namespace HelicopterIntegrationTests
             SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
 
+
             SerialPortInterface portInterface = new SerialPortInterface(port);
 
             using (FlightComputerInterface fcInt = new FlightComputerInterface(portInterface))
@@ -94,6 +95,10 @@ namespace HelicopterIntegrationTests
 
 
                 FlightComputerTelemetry telemetry = null;
+
+                //wait for the starting message.
+                telemetry = (FlightComputerTelemetry) fcInt.Receive();
+                Assert.IsTrue(telemetry.MagX == 12);
 
                 for (short i = 0; i < 127; i++)
                 {
@@ -106,7 +111,7 @@ namespace HelicopterIntegrationTests
                 }
 
 
-                telemetry = fcInt.Receive();
+                telemetry = (FlightComputerTelemetry) fcInt.Receive();
 
                 Assert.IsTrue(telemetry.MagX == 0);
                 Assert.IsTrue(telemetry.MagY == 0);

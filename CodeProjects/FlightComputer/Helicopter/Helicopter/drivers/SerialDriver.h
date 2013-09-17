@@ -9,11 +9,14 @@
 #ifndef SERIALDRIVER_H_
 #define SERIALDRIVER_H_
 
+#include "Timer.h"
 #include "commonheader.h"
 
+using namespace helicopter::util;
 using namespace helicopter::util::common;
 
-namespace helicopter
+
+namespace helicopter 
 {
 	namespace drivers
 	{
@@ -27,8 +30,10 @@ namespace helicopter
 				enum UartPort {Zero};
 					
 			private:
-				static const int SENDTIMEOUTCOUNTER = 32000;
-				static const int RECEIVETIMEOUTCOUNTER = 32000;
+				static const int SENDTIMEOUTCOUNTER = 50;
+				static const int RECEIVETIMEOUTCOUNTER = 50;
+				
+				Timer timer;
 			
 				unsigned long baudRate;
 				
@@ -53,6 +58,7 @@ namespace helicopter
 					UartPort uartPort,
 					bool enableTimeout = true,
 					bool useDoubleSpeedMode = false) :
+				timer(F_CPU, 1024, 300), 
 				baudRate(baudRate),
 				uartPort(uartPort),
 				isTimeoutEnabled(enableTimeout),
@@ -80,7 +86,8 @@ namespace helicopter
 				/**
 				 * Receive Bytes over Serial
 				 * @receivedByte byte received from serial
-				 * @return -1 if there was an error (timeout), 0 otherwise
+				 * @return -1 if there was an error (timeout), 
+				 * 0 otherwise (success)
 				 */
 				virtual int receiveByte(byte &receivedByte);
 		};

@@ -9,6 +9,7 @@
 #ifndef SYSTEMTELEMETRYMESSAGE_H_
 #define SYSTEMTELEMETRYMESSAGE_H_
 
+#include "Message.h"
 #include "commonheader.h"
 
 using namespace helicopter::util::common;
@@ -22,7 +23,7 @@ namespace helicopter
 	
 	namespace messages
 	{
-		class SystemTelemetryMessage
+		class SystemTelemetryMessage : public Message
 		{
 			private:
 				int magX;
@@ -31,10 +32,8 @@ namespace helicopter
 
 				int magZ;
 				
-				byte msgType;
-			
 			public:
-				static const byte SystemTelemetryMessageType = 2;
+				static const byte MessageType = 2;
 			
 				static const byte MessageSize =
 				sizeof(msgType) +
@@ -42,30 +41,15 @@ namespace helicopter
 				sizeof(magY) +
 				sizeof(magZ);
 			
-				SystemTelemetryMessage():
+				SystemTelemetryMessage(): Message(MessageType,MessageSize),
 					magX(0),
 					magY(0),
-					magZ(0),
-					msgType(SystemTelemetryMessageType)
+					magZ(0)
 				{
 				
 				}
 			
 				~SystemTelemetryMessage() {}
-					
-				byte getType()
-				{
-					return msgType;
-				}
-				
-				int getMessageSize()
-				{
-					return MessageSize;
-				}
-			
-				byte *getBytes();
-			
-				void buildMessage(byte *message);
 			
 				int MagX() const { return magX; }
 				void MagX(int val) { magX = val; }
@@ -75,6 +59,10 @@ namespace helicopter
 			
 				int MagZ() const { return magZ; }
 				void MagZ(int val) { magZ = val; }
+					
+				byte *getBytes();
+				
+				void buildMessage(byte *message);
 					
 				//Static method which creates a telemetry message on the heap
 				//and then calls buildMessage on that created object.

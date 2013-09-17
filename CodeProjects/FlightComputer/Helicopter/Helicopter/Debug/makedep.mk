@@ -14,6 +14,10 @@ Helicopter.cpp
 
 interfaces\RadioInterface.cpp
 
+messages\Message.cpp
+
+messages\SyncMessage.cpp
+
 messages\SystemTelemetryMessage.cpp
 
 model\SystemModel.cpp
@@ -30,5 +34,5 @@ tasks\TransmitTelemetryTask.cpp
 
 util\common\commonheader.cpp
 
-util\Timer.cpp
+util\common\Timer.cpp
 

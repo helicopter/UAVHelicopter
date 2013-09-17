@@ -18,6 +18,22 @@ namespace GroundControlStation.Interfaces
         public const byte SyncByte1 = 0xB5;
         public const byte SyncByte2 = 0x62;
 
+        /// <summary>
+        /// I needed to introduce the third checksum byte because the buffer is apparently 3 bytes large
+        /// on the avr processor. So the first two sync bytes were getting put on, and then the
+        /// third byte was just constantly getting overwritten. So on the receiving end the
+        /// processor thought it had a valid message because of the sync bytes but would then
+        /// puke because the third byte was an invalid msg type. 
+        /// </summary>
+
+        public const byte SyncByte3 = SyncByte1 ^ SyncByte2; //0xD7, 215
+
+        /// <summary>
+        /// The number of bytes of the header and footer information.
+        /// 3 header bytes (the three sync bytes) and 2 checksum bytes.
+        /// </summary>
+        static int MsgHeaderFooterSize = 5;
+
         private SerialPortInterface port;
 
         public FlightComputerInterface(SerialPortInterface port)
@@ -55,11 +71,11 @@ namespace GroundControlStation.Interfaces
         /// Null in the event of a timeout, or if the port is closed, or the message checksum is invalid. 
         /// </returns>
         /// <exception cref="SystemException">Thrown when there is an issue parsing the received telemetry data</exception>
-        public virtual FlightComputerTelemetry Receive()
+        public virtual Message Receive()
         {
             
             //TODO should I check to see if the port is opened first?
-            FlightComputerTelemetry data = null;
+            Message data = null;
 
             if (port.IsOpen)
             {
@@ -71,54 +87,72 @@ namespace GroundControlStation.Interfaces
                     {
                         //Read until the sync bytes are received or we time out.
                         //Throw away the 'garbage' bytes.
-                        byte previousByte = 0;
-                        byte currentByte = 0;
+                        byte firstSyncByte = 0;
+                        byte secondSyncByte = 0;
+                        byte thirdSyncByte = 0;
 
-                        while (!(previousByte == SyncByte1 && currentByte == SyncByte2))
+                        while (!(firstSyncByte == SyncByte1 && secondSyncByte == SyncByte2 && thirdSyncByte == SyncByte3))
                         {
-                            previousByte = currentByte;
-                            currentByte = port.ReadByte();
+                            firstSyncByte = secondSyncByte;
+                            secondSyncByte = thirdSyncByte;
+                            thirdSyncByte = port.ReadByte();
                         }
 
                         //once we have found a valid message, get the message ID
                         byte messageType = port.ReadByte();
 
-                        if (messageType == FlightComputerTelemetry.FlightControllerTelemetryMessageType)
+                        int messageSize = 0;
+
+                        if (messageType == FlightComputerTelemetry.MessageType)
                         {
-                            byte[] messagePayload = new byte[FlightComputerTelemetry.NumOfBytesInMsg];
+                            messageSize = FlightComputerTelemetry.NumOfBytesInMsg;
+                        }else if (messageType == SyncMessage.MessageType)
+                        {
+                            messageSize = SyncMessage.NumOfBytesInMsg;
+                        }
+                        else
+                        {
+                            Debug.WriteLine("Invalid msgType");
 
-                            messagePayload[0] = messageType;
+                            return data;
+                        }
 
-                            //skip the first position since thats where the message type is located.
-                            for (int i = 1; i < FlightComputerTelemetry.NumOfBytesInMsg; i++)
+
+                        byte[] messagePayload = new byte[messageSize];
+
+                        messagePayload[0] = messageType;
+
+                        //skip the first position since thats where the message type is located.
+                        for (int i = 1; i < messageSize; i++)
+                        {
+                            messagePayload[i] = port.ReadByte();
+                        }
+
+                        //Read the two checksum bytes
+                        byte messageChecksumA = port.ReadByte();
+                        byte messageChecksumB = port.ReadByte();
+
+                        byte calculatedChecksumA = 0;
+                        byte calculatedChecksumB = 0;
+
+                        calculateChecksum(messagePayload, ref calculatedChecksumA, ref calculatedChecksumB);
+
+                        //verify that the checksum is correct
+                        if (calculatedChecksumA == messageChecksumA && calculatedChecksumB == messageChecksumB)
+                        {
+                            //build the message
+                            if (messageType == FlightComputerTelemetry.MessageType)
                             {
-                                messagePayload[i] = port.ReadByte();
-                            }
-
-                            //Read the two checksum bytes
-                            byte messageChecksumA = port.ReadByte();
-                            byte messageChecksumB = port.ReadByte();
-
-                            byte calculatedChecksumA = 0;
-                            byte calculatedChecksumB = 0;
-
-                            calculateChecksum(messagePayload, ref calculatedChecksumA, ref calculatedChecksumB);
-
-                            //verify that the checksum is correct
-                            if (calculatedChecksumA == messageChecksumA && calculatedChecksumB == messageChecksumB)
-                            {
-                                //build the message
                                 data = FlightComputerTelemetry.BuildMessageSt(messagePayload);
-                            }
-                            else
+                            }else if (messageType == SyncMessage.MessageType)
                             {
-                                
-                                Debug.WriteLine("Invalid CRC");
+                                data = SyncMessage.BuildMessageSt(messagePayload);
                             }
                         }
                         else
                         {
-                            Debug.WriteLine("Invalid Message Type Received");
+                                
+                            Debug.WriteLine("Invalid CRC");
                         }
                     }
                     catch (TimeoutException)
@@ -144,13 +178,14 @@ namespace GroundControlStation.Interfaces
         {
             byte[] msgPayload = telemetry.GetRawBytes();
 
-            byte[] completeMsg = new byte[msgPayload.Length + 4];
+            byte[] completeMsg = new byte[msgPayload.Length + MsgHeaderFooterSize];
 
             //First synch byte used to determine if this data is a start of a new msg.
             completeMsg[0] = SyncByte1;
             completeMsg[1] = SyncByte2;
+            completeMsg[2] = SyncByte3;
 
-            msgPayload.CopyTo(completeMsg, 2);
+            msgPayload.CopyTo(completeMsg, 3);
 
             byte checksumA = 0;
             byte checksumB = 0;
