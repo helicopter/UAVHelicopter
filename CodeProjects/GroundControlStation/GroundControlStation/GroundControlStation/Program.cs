@@ -22,7 +22,7 @@ namespace GroundControlStation
         {
             //TODO focus on thread ui update.
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetCompatibleTextRenderingDefault(false); 
 
             SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
