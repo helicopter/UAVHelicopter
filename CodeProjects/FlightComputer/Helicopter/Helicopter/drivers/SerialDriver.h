@@ -58,7 +58,8 @@ namespace helicopter
 					UartPort uartPort,
 					bool enableTimeout = true,
 					bool useDoubleSpeedMode = false) :
-				timer(F_CPU, 1024, 300), 
+//				timer(F_CPU, 1024, 75), //This is decent for the radio. it drops a packet every now and then.
+				timer(F_CPU, 1024, 10),   //this is decent for the usb. it drops a packet every now and then.
 				baudRate(baudRate),
 				uartPort(uartPort),
 				isTimeoutEnabled(enableTimeout),

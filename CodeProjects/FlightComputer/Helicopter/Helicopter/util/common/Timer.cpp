@@ -19,8 +19,11 @@ void Timer::startTimer()
 	OCR3A = ((cpuSpeed /  timerPrescaler) / frequency); //Set Clear Timer on Compare (auto reset) (CTC)
 		
 	TCCR3B |= (1 << WGM32); //Configure timer 1 for ctc mode
-		
-	TIMSK3 |= (1 << OCIE3A); //enable ctc interrupt
+	
+	
+	
+//lets try to keep this commented out because since we are checking the flag, we don't want interrupts enabled. 		
+//	TIMSK3 |= (1 << OCIE3A); //enable ctc interrupt
 		
 	switch(timerPrescaler)
 	{
@@ -53,6 +56,9 @@ void Timer::stopTimer()
 {
 	//stop the timer
 	TCCR3B = 0;
+	
+	//Then clear the timer counter. Clear after stopping in order to avoid missing a compare match.
+	TCNT3 = 0;
 	
 	//clear the timeout flag.
 	TIFR3 |= (1<<OCF3A);

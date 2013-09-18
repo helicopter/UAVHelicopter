@@ -30,15 +30,25 @@ int main(void)
 	
 	//Create a driver for communicating with the radio.
 	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, true, true);
+	
+	
 	serialDriver->initialize();
 	
 	
 	RadioInterface *radioInterface = new RadioInterface(serialDriver);
 	
-	SimTelemetryTask *simTelemTask = new SimTelemetryTask(radioInterface, model, 0, 10);//starting at tick 1, execute 50 times a second
+	//This frequency works well for radio.
+//	SimTelemetryTask *simTelemTask = new SimTelemetryTask(radioInterface, model, 0, 10);//starting at tick 1, execute 50 times a second
+//	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(radioInterface, model, 1, 10);//starting at tick 2, execute 50 times a second
 
-	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(radioInterface, model, 1, 10);//starting at tick 2, execute 50 times a second
+
+
+	//this frequency works well for USB.
+	SimTelemetryTask *simTelemTask = new SimTelemetryTask(radioInterface, model, 0, 4);//starting at tick 1, execute 50 times a second
+
+	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(radioInterface, model, 1, 4);//starting at tick 2, execute 50 times a second
 	
+		
 	FlashLEDTask *flashTask = new FlashLEDTask(2, TIMER_FREQUENCY_HZ);//starting at tick 3, execute once a second
 		
 	
