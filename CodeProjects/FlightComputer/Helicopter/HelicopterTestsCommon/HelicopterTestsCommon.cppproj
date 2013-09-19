@@ -108,7 +108,7 @@
     <ListValues>
       <Value>../util</Value>
       <Value>../util/testframework</Value>
-      <Value>../../Helicopter/util/common</Value>
+      <Value>../../Helicopter/util</Value>
       <Value>../../Helicopter/drivers</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>

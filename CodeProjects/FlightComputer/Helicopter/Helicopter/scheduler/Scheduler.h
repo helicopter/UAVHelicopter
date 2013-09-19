@@ -14,7 +14,7 @@
 #include <string.h>
 
 #include "Task.h"
-#include "commonheader.h"
+#include "CommonHeader.h"
 
 
 using namespace helicopter::tasks;
@@ -23,12 +23,20 @@ namespace helicopter
 {
 	namespace scheduler
 	{
+		/**
+		 * This class represents a scheduler used to schedule tasks to execute at precise intervals.
+		 * This class uses a timer to setup an interrupt routine. That routine gets kicked off at
+		 * a given frequency. The tasks which are to be executed at that frequency are then marked
+		 * as being ready to be executed within the interrupt service handler. However
+		 * the execution of the task isn't done until the dispatcher gets called in the main
+		 * routine (outside of the interrupt handler)
+		 */
 		class Scheduler
 		{
 			private:
 			
 			
-				static Scheduler *scheduler;
+				//static Scheduler *scheduler;
 			
 			    //TODO Switch this to an ENUM.
 				static const int NoPrescaling = 1;
@@ -49,22 +57,48 @@ namespace helicopter
 				//desired frequency.
 				int targetTimerCount;
 				
+				//This is a value feed to the timer to prescale the clock by this number
 				PRESCALER prescaler;
 				
-				/*
-				 * Prescaler must be 1,8,24,256, or 1024                                
-				 */
-				Scheduler(int targetTimerCount, PRESCALER prescaler);
+				
+				
+				static Scheduler *scheduler;
+				
+				/**
+				 * Create a scheduler object.
+				 * The variables for constructing the scheduler to run at a certain time
+				 * should be set in a specific manner to adhere to this formula:
+				 * Target Timer Count = (((Input Frequency / Prescaler) / Target Frequency) 
+				 * Where target timer count is the number that the timer will use to
+				 * determine if the interrupt routine will execute.
+				 * @param cpuSpeed The speed of the processor (e.g. 16,000,000 hz)
+				 * @param prescaler The prescaler to be applied to the scheduler's timer
+				 * @param schedulerTickFrequencyHz the desired frequency that the scheduler should run at.
+				 * This will be how frequently per second the interrupt routine which drives
+				 * the scheduler will get called (tick).
+				 * Examples:
+				 * Target Timer Count = (((Input Frequency / Prescaler) / Target Frequency)
+				 * (((16000000 / 64) / 200)) = 1250
+				 * (((1000000 / 8) / 200)) = 625
+				*/
+				Scheduler(unsigned long cpuSpeed, PRESCALER prescaler, int schedulerTickFrequencyHz);
 				~Scheduler();
+			
 			
 			public:
 				
-
+				/**
+				 * If the Scheduler hasn't been created yet, then construct the 
+				 * scheduler 'singleton' and return it.
+				 */
 				static Scheduler  *getScheduler();
-			
-
-
-			
+				
+				
+				/**
+				 * Adds a task to the scheduler.
+				 * @param task the task to add to the scheduler to be scheduled
+				 * @return -1 if the task list is full, 0 otherwise.
+				 */
 				int addTask(Task *task);
 			
 				/*
@@ -75,10 +109,16 @@ namespace helicopter
 				*/
 				void init();
 			
+				/**
+				 * When called, it iterates through the tasks, and for each task that has been marked ready to
+				 * run, dispatches (executes) that task. This should be called in the
+				 * 'main' loop. Whereas the determination for which tasks should be marked as ready
+				 * to execute is done in the interrupt service handler.
+				 */
 				void dispatch();
 			
 			    /*
-				* Starts the timer for task execution.
+				* Starts the timer for determining which tasks are ready to run.
 				*/
 				void start();
 				

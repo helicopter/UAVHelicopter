@@ -8,7 +8,7 @@ HelicopterUnitTests.cpp
 
 mocks\MockMagnetometerDriver.cpp
 
-radio\RadioInterfaceUnitTests.cpp
+radio\GroundControlStationUnitTests.cpp
 
 scheduler\SchedulerTest.cpp
 

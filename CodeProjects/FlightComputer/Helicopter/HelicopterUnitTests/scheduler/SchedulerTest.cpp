@@ -10,7 +10,7 @@
 #include <util/delay.h>
 #include "UnitTestUtils.h"
 #include "TestCase.h"
-#include "commonheader.h"
+#include "CommonHeader.h"
 #include "SchedulerTest.h"
 #include "Task.h"
 #include "Scheduler.h"

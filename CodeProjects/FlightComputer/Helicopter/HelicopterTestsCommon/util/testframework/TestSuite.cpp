@@ -5,7 +5,7 @@
  *  Author: HP User
  */ 
 #include "TestSuite.h"
-#include "commonheader.h"
+#include "CommonHeader.h"
 
 using namespace helicoptertestscommon::util::testframework;
 

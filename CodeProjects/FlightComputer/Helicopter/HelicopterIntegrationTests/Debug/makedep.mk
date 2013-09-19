@@ -6,5 +6,5 @@ drivers\SerialDriverIntegrationTests.cpp
 
 HelicopterIntegrationTests.cpp
 
-radio\RadioInterfaceIntegrationTests.cpp
+radio\GroundControlStationIntegrationTests.cpp
 

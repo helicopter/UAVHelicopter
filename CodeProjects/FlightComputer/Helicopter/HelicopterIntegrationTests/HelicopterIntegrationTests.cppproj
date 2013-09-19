@@ -125,7 +125,7 @@
       <Value>../../Helicopter/drivers</Value>
       <Value>../../Helicopter/scheduler</Value>
       <Value>../../Helicopter/sensors</Value>
-      <Value>../../Helicopter/util/common</Value>
+      <Value>../../Helicopter/util</Value>
       <Value>../../HelicopterUnitTests</Value>
       <Value>../radio</Value>
       <Value>../drivers</Value>
@@ -166,10 +166,10 @@
     <Compile Include="HelicopterIntegrationTests.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="radio\RadioInterfaceIntegrationTests.h">
+    <Compile Include="radio\GroundControlStationIntegrationTests.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="radio\RadioInterfaceIntegrationTests.cpp">
+    <Compile Include="radio\GroundControlStationIntegrationTests.cpp">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

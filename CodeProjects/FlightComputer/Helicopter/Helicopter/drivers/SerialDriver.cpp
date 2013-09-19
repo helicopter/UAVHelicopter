@@ -9,7 +9,7 @@
 #include <avr/io.h>
 
 #include "SerialDriver.h"
-#include "commonheader.h"
+#include "CommonHeader.h"
 
 using namespace helicopter::drivers;
 
@@ -52,7 +52,10 @@ int SerialDriver::transmitByte(byte byteToSend)
 {
 	if (uartPort == Zero)
 	{
-		int counter = 0;
+		if (isTimeoutEnabled)
+		{
+			timer->startTimer();
+		}
 		
 		/* Wait for empty transmit buffer */
 		while ( !( UCSR0A & (1<<UDRE0)) )
@@ -60,18 +63,19 @@ int SerialDriver::transmitByte(byte byteToSend)
 			//Check for timeout
 			if (isTimeoutEnabled)
 			{
-/*				if (counter > SENDTIMEOUTCOUNTER)
+				if (timer->hasTimedout())
 				{
+					timer->stopTimer();
 					return -1;
 				}
-				
-				counter++;*/
 			}
 		}
 				
 				
 		/* Put data into buffer, sends the data */
 		UDR0 = byteToSend;
+		
+		timer->stopTimer();
 	}
 	
 	return 0;
@@ -86,16 +90,16 @@ int SerialDriver::receiveByte(byte &receivedByte)
 		
 		if (isTimeoutEnabled)
 		{
-			timer.startTimer();
+			timer->startTimer();
 		}
 		//int counter = 0;
 		
 		/* Wait for data on the receive buffer */
 		while ( !(UCSR0A & (1<<RXC0)) )
 		{
-			if (timer.hasTimedout())
+			if (timer->hasTimedout())
 			{
-				timer.stopTimer();
+				timer->stopTimer();
 				return -1;
 			}
 			/*if (isTimeoutEnabled)
@@ -118,7 +122,7 @@ int SerialDriver::receiveByte(byte &receivedByte)
 		receivedByte = UDR0;
 	}
 	
-	timer.stopTimer();
+	timer->stopTimer();
 	
 	return 0;
 }

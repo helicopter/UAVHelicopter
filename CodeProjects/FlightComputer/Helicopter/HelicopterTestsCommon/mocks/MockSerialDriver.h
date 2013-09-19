@@ -10,7 +10,7 @@
 #define MOCKSERIALDRIVER_H_
 
 #include "SerialDriver.h"
-#include "commonheader.h"
+#include "CommonHeader.h"
 
 using namespace helicopter::drivers;
 
@@ -26,7 +26,7 @@ class MockSerialDriver : public SerialDriver
 	byte *buffer;
 
 	MockSerialDriver (int numOfChars):
-	SerialDriver(0, SerialDriver::Zero),
+	SerialDriver(0, SerialDriver::Zero,NULL),
 	transmitCounter(0),
 	receiveCounter(0),
 	numOfCharsInMsg(numOfChars),

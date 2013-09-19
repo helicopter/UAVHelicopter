@@ -10,7 +10,7 @@
 #define TRANSMITTELEMETRYTASK_H_
 
 #include "Task.h"
-#include "RadioInterface.h"
+#include "GroundControlStationInterface.h"
 #include "SystemModel.h"
 
 using namespace helicopter::interfaces;
@@ -20,15 +20,18 @@ namespace helicopter
 {
 	namespace tasks
 	{
+		/**
+		 * This class transmits flight computer telemetry information to the ground control station.
+		 */
 		class TransmitTelemetryTask : public Task
 		{
 			private:
-				RadioInterface *radioInterface;
+				GroundControlStationInterface *radioInterface;
 				SystemModel *model;
 				
 			public:
 
-				TransmitTelemetryTask (RadioInterface *radioInterface, SystemModel *model, int delay, int period);
+				TransmitTelemetryTask (GroundControlStationInterface *radioInterface, SystemModel *model, int delay, int period);
 
 				void runTaskImpl();
 		};

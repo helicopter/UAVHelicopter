@@ -11,7 +11,7 @@
 
 #include <math.h>
 
-#include "commonheader.h"
+#include "CommonHeader.h"
 #include "MagnetometerDriver.h"
 
 using namespace helicopter::drivers;

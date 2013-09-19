@@ -10,10 +10,9 @@
 #define SERIALDRIVER_H_
 
 #include "Timer.h"
-#include "commonheader.h"
+#include "CommonHeader.h"
 
 using namespace helicopter::util;
-using namespace helicopter::util::common;
 
 
 namespace helicopter 
@@ -27,28 +26,34 @@ namespace helicopter
 		class SerialDriver
 		{
 			public: 
+				/**
+				 * Data type for identifying which UART port 
+				 */
 				enum UartPort {Zero};
 					
 			private:
-				static const int SENDTIMEOUTCOUNTER = 50;
-				static const int RECEIVETIMEOUTCOUNTER = 50;
 				
-				Timer timer;
-			
 				unsigned long baudRate;
 				
 				UartPort uartPort;
+				
+				Timer *timer;
 				
 				bool isTimeoutEnabled;
 				
 				bool useDoubleSpeedMode;
 				
 			public:
+			
+			//				timer(F_CPU, 1024, 75), //This is decent for the radio. it drops a packet every now and then.
+			//timer(F_CPU, 1024, 10),   //this is decent for the usb. it drops a packet every now and then.
 				
 				/**
 				 * Creates a driver for communicating with the UART serial port
 				 * @param baudRate the baud rate for communicating with the serial modem
 				 * @param uartPort Which UART port on the board to utilize.
+				 * @param timer Timer object which controls when to timeout when receiving and transmitting data
+				 * only used when enableTimeout = true.
 				 * @param enableTimeout Bool indicating if the system should timeout
 				 * while waiting to send or receive data. True by default so that the
 				 * driver will timeout if it can't send or receive data after a short timeout period.
@@ -56,15 +61,17 @@ namespace helicopter
 				SerialDriver(
 					unsigned long baudRate, 
 					UartPort uartPort,
+					Timer *timer,
 					bool enableTimeout = true,
 					bool useDoubleSpeedMode = false) :
-//				timer(F_CPU, 1024, 75), //This is decent for the radio. it drops a packet every now and then.
-				timer(F_CPU, 1024, 10),   //this is decent for the usb. it drops a packet every now and then.
 				baudRate(baudRate),
 				uartPort(uartPort),
+				timer(timer),
 				isTimeoutEnabled(enableTimeout),
 				useDoubleSpeedMode(useDoubleSpeedMode)
-				{}
+				{
+					
+				}
 						
 				virtual ~SerialDriver()
 				{

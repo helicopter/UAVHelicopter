@@ -9,7 +9,7 @@
 #include "Buffer.h"
 #include "UnitTestUtils.h"
 #include "TestCase.h"
-#include "commonheader.h"
+#include "CommonHeader.h"
 
 
 using namespace helicopter::buffer;

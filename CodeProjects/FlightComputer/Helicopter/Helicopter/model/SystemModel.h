@@ -18,7 +18,10 @@ namespace helicopter
 	namespace model
 	{
 		
-	
+		/**
+		 * This class represents the model of the flight computer. This contains the 
+		 * current representation of various points of data used throughout the system.
+		 */
 		class SystemModel
 		{
 			private:
@@ -37,6 +40,14 @@ namespace helicopter
 			{
 				
 			}
+			
+			/**
+			 * RawMag values represents the raw magnetic heading values received from
+			 * the sensors in the x y and z axis, in the following frame of reference:
+			 * X axis is left out of the FC
+			 * Y axis is pointing behind the FC
+			 * Z axis is pointing up out of the FC
+			 */
 			
 			int RawMagX() const { return rawMagX; }
 			void RawMagX(int val) { rawMagX = val; }

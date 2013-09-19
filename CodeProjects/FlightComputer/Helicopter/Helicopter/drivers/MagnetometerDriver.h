@@ -9,7 +9,7 @@
 #ifndef MAGNETOMETERDRIVER_H_
 #define MAGNETOMETERDRIVER_H_
 
-#include "commonheader.h"
+#include "CommonHeader.h"
 
 namespace helicopter
 {

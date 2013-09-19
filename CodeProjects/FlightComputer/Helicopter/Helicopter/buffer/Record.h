@@ -9,14 +9,16 @@
 #ifndef RECORD_H_
 #define RECORD_H_
 
-#include "commonheader.h"
-
-using namespace helicopter::util::common;
+#include "CommonHeader.h"
 
 namespace helicopter
 {
 	namespace buffer
 	{
+		/**
+		 * A generic record for a linked list which just stores
+		 * a list of bytes up to 256 bytes.
+		 */
 		class Record
 		{
 			

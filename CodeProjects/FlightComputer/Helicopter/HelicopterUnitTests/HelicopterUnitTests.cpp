@@ -10,7 +10,7 @@
 #include "BufferTests.h"
 #include "SchedulerTest.h"
 #include "MagnetometerSensorTests.h"
-#include "RadioInterfaceUnitTests.h"
+#include "GroundControlStationUnitTests.h"
 #include "TimerTests.h"
 
 #include <stdio.h>

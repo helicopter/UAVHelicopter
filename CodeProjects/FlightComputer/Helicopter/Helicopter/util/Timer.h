@@ -38,6 +38,12 @@ namespace helicopter
 
 				/**
 				 * timeoutMilliseconds has to be <= 1000.
+				 * @param cpuSpeed The speed that the cpu processor is running at
+				 * @param timerPrescaler The prescaler that should be used for this processor
+				 * @timeoutMilliseconds the milliseconds that should go by before the
+				 * timer times out. This value must be under 1000.
+				 * These variables will have to adhere to this equation:
+				 * OCR = ((cpuSpeed /  timerPrescaler) / frequency)
 				 */
 				Timer (unsigned long cpuSpeed, int timerPrescaler, unsigned long timeoutMilliseconds):
 					cpuSpeed(cpuSpeed), timerPrescaler(timerPrescaler), timeoutMilliseconds(timeoutMilliseconds)
@@ -45,11 +51,23 @@ namespace helicopter
 						
 					}
 					
-					
+				
+				/**
+				* Start the timer. 
+				* This method will ensure that the timer is stopped (by calling stop()) before it starts.
+				*/
 				void startTimer();
 				
+				/**
+				 * Determines if the timer has timed out
+				 * @return true if the timer has timed out
+				 * false if it has not timed out, or if the timer wasn't started.
+				 */
 				bool hasTimedout();
 				
+				/**
+				 * Stops the timer, and resets the clock.
+				 */
 				void stopTimer();
 		};
 	}

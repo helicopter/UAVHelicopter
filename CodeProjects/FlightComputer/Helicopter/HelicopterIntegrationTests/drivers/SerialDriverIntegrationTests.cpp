@@ -8,12 +8,16 @@
 #include "SerialDriverIntegrationTests.h"
 #include "SerialDriver.h"
 #include "UnitTestUtils.h"
+#include "Timer.h"
 
 using namespace helicopter::drivers;
+using namespace helicopter::util;
 
 int serialreceivetransmit_test(TestCase *test)
 {
-	SerialDriver serialDriver (38400, SerialDriver::Zero, false);
+	Timer *t = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 75);
+	
+	SerialDriver serialDriver (38400, SerialDriver::Zero, t, false);
 	serialDriver.initialize();
 	
 	byte transmitVal = 127;

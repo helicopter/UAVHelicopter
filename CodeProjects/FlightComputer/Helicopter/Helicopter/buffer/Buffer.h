@@ -15,6 +15,9 @@ namespace helicopter
 {
 	namespace buffer
 	{
+		/**
+		 * This class represents a linked list of records.
+		 */
 		class Buffer
 		{
 			private:

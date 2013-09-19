@@ -7,9 +7,9 @@
 #include <string.h>
 #include <math.h>
 
-#include "RadioInterfaceUnitTests.h"
+#include "GroundControlStationUnitTests.h"
 #include "SerialDriver.h"
-#include "RadioInterface.h"
+#include "GroundControlStationInterface.h"
 #include "UnitTestUtils.h"
 #include "MockSerialDriver.h"
 #include "SystemTelemetryMessage.h"
@@ -178,7 +178,7 @@ int telemetry_test(TestCase *test)
 	MockSerialDriver *mockDriver = new MockSerialDriver(message->getMessageSize());
 		
 		
-	RadioInterface radioInterface(mockDriver);
+	GroundControlStationInterface radioInterface(mockDriver);
 		
 		
 	
@@ -313,13 +313,13 @@ int telemetrybuildmessage_test(TestCase *test)
 
 int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 {
-	int numOfBytesInFullMsg = SystemTelemetryMessage::MessageSize + RadioInterface::MsgHeaderFooterSize;
+	int numOfBytesInFullMsg = SystemTelemetryMessage::MessageSize + GroundControlStationInterface::MsgHeaderFooterSize;
 	
 	SerialDriver *serialPortInterface = new MockSerialDriver(7+numOfBytesInFullMsg);
 	MockSerialDriver *mockSPI = (MockSerialDriver*) serialPortInterface;
             
 
-	RadioInterface *fci = new RadioInterface(serialPortInterface);
+	GroundControlStationInterface *fci = new GroundControlStationInterface(serialPortInterface);
 
 	SystemTelemetryMessage *message = new SystemTelemetryMessage();
 
@@ -335,9 +335,9 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	memcpy(bytesCopy, bytes, numOfBytesInFullMsg);
 
 
-	AssertTrue(bytes[0] == RadioInterface::SyncByte1, 1);
-	AssertTrue(bytes[1] == RadioInterface::SyncByte2, 1);
-	AssertTrue(bytes[2] == RadioInterface::SyncByte3, 1);
+	AssertTrue(bytes[0] == GroundControlStationInterface::SyncByte1, 1);
+	AssertTrue(bytes[1] == GroundControlStationInterface::SyncByte2, 1);
+	AssertTrue(bytes[2] == GroundControlStationInterface::SyncByte3, 1);
 	AssertTrue(bytes[3] == SystemTelemetryMessage::MessageType, 1);
 	AssertTrue(bytes[4] == (32767 & 0xFF), 1);
 	AssertTrue(bytes[5] == ((32767 >> 8) & 0xFF), 1);

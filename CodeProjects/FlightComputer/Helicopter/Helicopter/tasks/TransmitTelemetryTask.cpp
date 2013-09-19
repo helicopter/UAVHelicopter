@@ -9,7 +9,7 @@
 
 using namespace helicopter::tasks;
 
-TransmitTelemetryTask::TransmitTelemetryTask(RadioInterface *radioInterface, SystemModel *model, int delay, int period) :
+TransmitTelemetryTask::TransmitTelemetryTask(GroundControlStationInterface *radioInterface, SystemModel *model, int delay, int period) :
 	Task(delay, period),
 	radioInterface(radioInterface),
 	model(model)
@@ -21,13 +21,6 @@ TransmitTelemetryTask::TransmitTelemetryTask(RadioInterface *radioInterface, Sys
 void TransmitTelemetryTask::runTaskImpl()
 {
 	SystemTelemetryMessage *message = model->CreateTelemetryMessage();
-	
-/*	SystemTelemetryMessage *message = new SystemTelemetryMessage();
-	
-	message->MagX(33);
-	message->MagY(32);
-	message->MagZ(31);
-	*/
 	
 	//TODO add some error handling in here
 	radioInterface->transmit(message);

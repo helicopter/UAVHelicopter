@@ -12,7 +12,7 @@ drivers\SerialDriver.cpp
 
 Helicopter.cpp
 
-interfaces\RadioInterface.cpp
+interfaces\GroundControlStationInterface.cpp
 
 messages\Message.cpp
 
@@ -26,13 +26,13 @@ scheduler\Scheduler.cpp
 
 sensors\MagnetometerSensor.cpp
 
-tasks\misctasks\SimTelemetryTask.cpp
+tasks\SimTelemetryTask.cpp
 
 tasks\Task.cpp
 
 tasks\TransmitTelemetryTask.cpp
 
-util\common\commonheader.cpp
+util\CommonHeader.cpp
 
-util\common\Timer.cpp
+util\Timer.cpp
 

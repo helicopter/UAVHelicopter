@@ -5,7 +5,7 @@
  *  Author: HP User.
  */ 
 #include "TestSuite.h"
-#include "RadioInterfaceIntegrationTests.h"
+#include "GroundControlStationIntegrationTests.h"
 #include "SerialDriverIntegrationTests.h"
 
 #include <stdio.h>

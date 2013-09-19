@@ -8,7 +8,7 @@
 #include "Timer.h"
 #include "TimerTests.h"
 #include "UnitTestUtils.h"
-#include "commonheader.h"
+#include "CommonHeader.h"
 
 using namespace helicopter::util;
 

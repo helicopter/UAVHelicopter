@@ -10,7 +10,7 @@
 #define MOCKMAGNETOMETERDRIVER_H_
 
 #include "MagnetometerDriver.h"
-#include "commonheader.h"
+#include "CommonHeader.h"
 
 using namespace helicopter::drivers;
 

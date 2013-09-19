@@ -6,7 +6,7 @@
  */ 
 #include "Buffer.h"
 #include "string.h"
-#include "commonheader.h"
+#include "CommonHeader.h"
 
 using namespace helicopter::buffer;
 

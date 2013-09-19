@@ -6,26 +6,26 @@
  */ 
 #include <string.h>
 
-#include "commonheader.h"
-#include "RadioInterface.h"
+#include "CommonHeader.h"
+#include "GroundControlStationInterface.h"
 #include "SystemTelemetryMessage.h"
 
-using namespace helicopter::util::common;
+using namespace helicopter::util;
 using namespace helicopter::interfaces;
 
-void RadioInterface::calculateChecksum (byte *msgPayload, int payloadSize, byte &checksumA, byte &checksumB)
+void GroundControlStationInterface::calculateChecksum (byte *msgPayload, int payloadSize, byte &checksumA, byte &checksumB)
 {
-	//These fields can overflow, but that is intentional.
 	for (int i = 0; i < payloadSize; i++)
 	{
 		byte b = msgPayload[i];
 		
+		//These fields can overflow, but that is intentional.
 		checksumA = (byte) (checksumA + b);
 		checksumB = (byte) (checksumB + checksumA);
 	}
 }
 
-int RadioInterface::transmit(Message *msgToSend)
+int GroundControlStationInterface::transmit(Message *msgToSend)
 {
 	int status = 0;
 	
@@ -39,9 +39,9 @@ int RadioInterface::transmit(Message *msgToSend)
 
 		byte completeMsg[completeMsgSize];
 		
-		completeMsg[0] = RadioInterface::SyncByte1;
-		completeMsg[1] = RadioInterface::SyncByte2;
-		completeMsg[2] = RadioInterface::SyncByte3;
+		completeMsg[0] = GroundControlStationInterface::SyncByte1;
+		completeMsg[1] = GroundControlStationInterface::SyncByte2;
+		completeMsg[2] = GroundControlStationInterface::SyncByte3;
 		
 		memcpy(&completeMsg[3], msgPayload, payloadSize);
 		
@@ -60,12 +60,19 @@ int RadioInterface::transmit(Message *msgToSend)
 		}
 		
 		delete [] msgPayload;
+		msgPayload = NULL;
 	}
 	
 	return status;
 }
 
-int RadioInterface::receive(Message * &receivedMessage)
+/**
+ * Note: While receiving a byte, the serial driver may timeout. However, if 
+ * a lot of data is constantly received before that timeout, and none of the data
+ * is a sync byte, then this method will never stop receiving bytes and will
+ * lock up the rest of the system. 
+ */
+int GroundControlStationInterface::receive(Message * &receivedMessage)
 {
 	int status = 0;
 	
@@ -75,22 +82,16 @@ int RadioInterface::receive(Message * &receivedMessage)
 	
 
 	//Read until the sync bytes are received or we time out.
-	//Throw away the 'garbage' bytes.
+	//Throw away any 'garbage' bytes.
 	while(!(firstSyncByte == SyncByte1 && secondSyncByte == SyncByte2 && thirdSyncByte == SyncByte3) && status == 0)
 	{
 		firstSyncByte = secondSyncByte;
 		secondSyncByte = thirdSyncByte;
 		status = serialDriver->receiveByte(thirdSyncByte);
-		/*previousByte = currentByte;
-		status = serialDriver->receiveByte(currentByte);*/
-		//TODO note:
-		//While there is a timeout mechanism for waiting on the port, if a huge amount of
-		//data arrived very rapidly and this kept processing the data, it would never timeout.
 	}
 	
 	if (status == 0)
 	{
-		
 		//once we have found a valid message, get the message ID
 		byte msgType = 0;
 		
@@ -107,12 +108,8 @@ int RadioInterface::receive(Message * &receivedMessage)
 					break;
 				default:
 					//unrecognized message type.
-//					status = -2;
-status = serialDriver->receiveByte(msgType);
-if (status == -1) {break;}else {
-					status = msgType;
+					status = -2;
 					break;
-}
 			}
 			
 			if (status == 0)
@@ -121,7 +118,7 @@ if (status == -1) {break;}else {
 							
 				messagePayload[0] = msgType;
 							
-							
+				//Read the bytes in the payload of the message.
 				//skip the first position since thats where the message type is located.
 				for (int i = 1; i < msgSize && status == 0; i++)
 				{
@@ -136,11 +133,11 @@ if (status == -1) {break;}else {
 					byte calculatedChecksumA = 0;
 					byte calculatedChecksumB = 0;
 								
-					//TODO status is overwritten
+					//Note: status is getting overwritten here.
 					status = serialDriver->receiveByte(messageChecksumA);
 					status = serialDriver->receiveByte(messageChecksumB);
 								
-								
+					//Generate checksum for the message			
 					calculateChecksum(messagePayload, msgSize, calculatedChecksumA, calculatedChecksumB);
 								
 					//verify that the checksum is correct
@@ -159,6 +156,7 @@ if (status == -1) {break;}else {
 						}
 					}else
 					{
+						//checksum mismatch
 						status = -3;
 					}
 				}

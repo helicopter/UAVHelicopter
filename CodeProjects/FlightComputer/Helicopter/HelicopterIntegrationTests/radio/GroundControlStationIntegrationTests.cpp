@@ -5,10 +5,10 @@
  *  Author: HP User
  */ 
 
-#include "RadioInterfaceIntegrationTests.h"
+#include "GroundControlStationIntegrationTests.h"
 #include "SerialDriver.h"
 #include "UnitTestUtils.h"
-#include "RadioInterface.h"
+#include "GroundControlStationInterface.h"
 #include "MockSerialDriver.h"
 #include "SystemTelemetryMessage.h"
 
@@ -164,13 +164,14 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	//////////////////////////////////////////////////////////////////////////
 	// Transmit a test message
 	//////////////////////////////////////////////////////////////////////////
+	Timer *t = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 75);
 	
 	//note:for production, we'll want to set the variable to 'true'
-	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, false, true);
+	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, t, false, true);
 	serialDriver->initialize();
 	
 	
-	RadioInterface radioInterface(serialDriver);
+	GroundControlStationInterface radioInterface(serialDriver);
 	
 	SystemTelemetryMessage *transmitMessage = new SystemTelemetryMessage();
 	transmitMessage->MagX(33);
@@ -224,11 +225,12 @@ int reliablyreceive_test(TestCase *test)
 	//////////////////////////////////////////////////////////////////////////
 	
 	//note:for production, we'll want to set the variable to 'true'
-	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, true, true);
+	Timer *timer = new Timer(F_CPU,PRESCALE_BY_TENTWENTYFOUR,75);
+	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, timer, true, true);
 	serialDriver->initialize();
 	
 	
-	RadioInterface radioInterface(serialDriver);
+	GroundControlStationInterface radioInterface(serialDriver);
 	
 	//////////////////////////////////////////////////////////////////////////
 	// Test receiving a message

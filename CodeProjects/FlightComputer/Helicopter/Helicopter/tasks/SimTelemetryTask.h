@@ -11,7 +11,7 @@
 
 #include "Task.h"
 #include "SystemModel.h"
-#include "RadioInterface.h"
+#include "GroundControlStationInterface.h"
 
 using namespace helicopter::model;
 using namespace helicopter::tasks;
@@ -19,25 +19,22 @@ using namespace helicopter::interfaces;
 
 namespace helicopter
 {
-	
 	namespace tasks
 	{
-		namespace misctasks
+		/**
+		 * Task to receive simulator telemetry data from the ground control station.
+		 */
+		class SimTelemetryTask : public Task
 		{
+			private:
+				GroundControlStationInterface *radioInterface;
+				SystemModel *model;
+			public:
+
+				SimTelemetryTask (GroundControlStationInterface *radioInterface, SystemModel *model, int delay, int period);
 			
-
-			class SimTelemetryTask : public Task
-			{
-				private:
-					RadioInterface *radioInterface;
-					SystemModel *model;
-				public:
-
-				SimTelemetryTask (RadioInterface *radioInterface, SystemModel *model, int delay, int period);
-				
 				void runTaskImpl();
-			};
-		}
+		};
 	}
 }
 
