@@ -20,7 +20,7 @@ int timeout_test(TestCase *test)
 {	
 	bool isOn = false;
 	
-	Timer t(F_CPU,1024,500);
+	Timer t(F_CPU,PRESCALE_BY_TENTWENTYFOUR,500);
 	
 	t.startTimer();
 	

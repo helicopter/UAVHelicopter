@@ -12,6 +12,8 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+#include "CommonHeader.h"
+
 namespace helicopter
 {
 	namespace util
@@ -31,7 +33,7 @@ namespace helicopter
 				static const int PrescaleByTentwentyfour = (1 << CS32) | (1 << CS30);
 				
 				unsigned long cpuSpeed;
-				int timerPrescaler;
+				PRESCALER timerPrescaler;
 				int timeoutMilliseconds;
 			
 			public:
@@ -45,7 +47,7 @@ namespace helicopter
 				 * These variables will have to adhere to this equation:
 				 * OCR = ((cpuSpeed /  timerPrescaler) / frequency)
 				 */
-				Timer (unsigned long cpuSpeed, int timerPrescaler, unsigned long timeoutMilliseconds):
+				Timer (unsigned long cpuSpeed, PRESCALER timerPrescaler, unsigned long timeoutMilliseconds):
 					cpuSpeed(cpuSpeed), timerPrescaler(timerPrescaler), timeoutMilliseconds(timeoutMilliseconds)
 					{
 						

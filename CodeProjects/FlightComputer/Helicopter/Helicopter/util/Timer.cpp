@@ -34,19 +34,19 @@ void Timer::startTimer()
 	//which causes the timer counter to start (i.e. the timer starts).
 	switch(timerPrescaler)
 	{
-		case 1:
+		case NO_PRESCALER:
 		TCCR3B |= NoPrescaling;
 		break;
-		case 8:
+		case PRESCALE_BY_EIGHT:
 		TCCR3B |= PrescaleByEight;
 		break;
-		case 64:
+		case PRESCALE_BY_SIXTYFOUR:
 		TCCR3B |= PrescaleBySixtyFour;
 		break;
-		case 256:
+		case PRESCALE_BY_TWOFIFTYSIX:
 		TCCR3B |= PrescaleByTwofiftysix;
 		break;
-		case 1024:
+		case PRESCALE_BY_TENTWENTYFOUR:
 		TCCR3B |= PrescaleByTentwentyfour;
 		break;
 		default:

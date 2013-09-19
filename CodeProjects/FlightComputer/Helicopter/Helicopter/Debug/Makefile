@@ -60,7 +60,7 @@ C_SRCS +=  \
 ../tasks/SimTelemetryTask.cpp \
 ../tasks/Task.cpp \
 ../tasks/TransmitTelemetryTask.cpp \
-../util/CommonHeader.cpp \
+../util/commonheader.cpp \
 ../util/Timer.cpp
 
 
@@ -86,7 +86,7 @@ sensors/MagnetometerSensor.o \
 tasks/SimTelemetryTask.o \
 tasks/Task.o \
 tasks/TransmitTelemetryTask.o \
-util/CommonHeader.o \
+util/commonheader.o \
 util/Timer.o
 
 OBJS_AS_ARGS +=  \
@@ -105,7 +105,7 @@ sensors/MagnetometerSensor.o \
 tasks/SimTelemetryTask.o \
 tasks/Task.o \
 tasks/TransmitTelemetryTask.o \
-util/CommonHeader.o \
+util/commonheader.o \
 util/Timer.o
 
 C_DEPS +=  \
@@ -124,7 +124,7 @@ sensors/MagnetometerSensor.d \
 tasks/SimTelemetryTask.d \
 tasks/Task.d \
 tasks/TransmitTelemetryTask.d \
-util/CommonHeader.d \
+util/commonheader.d \
 util/Timer.d
 
 C_DEPS_AS_ARGS +=  \
@@ -143,7 +143,7 @@ sensors/MagnetometerSensor.d \
 tasks/SimTelemetryTask.d \
 tasks/Task.d \
 tasks/TransmitTelemetryTask.d \
-util/CommonHeader.d \
+util/commonheader.d \
 util/Timer.d
 
 OUTPUT_FILE_PATH +=libHelicopter.a
