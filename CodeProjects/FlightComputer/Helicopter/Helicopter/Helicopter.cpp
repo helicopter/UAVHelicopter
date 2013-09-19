@@ -30,7 +30,7 @@ int main(void)
 	Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 10); //Good timeout when using the USB
 	
 	//Create a driver for communicating with the radio.
-	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, timer, true, true);
+	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, timer, true, true);  
 	serialDriver->initialize();
 	
 	GroundControlStationInterface *gcsInterface = new GroundControlStationInterface(serialDriver);
