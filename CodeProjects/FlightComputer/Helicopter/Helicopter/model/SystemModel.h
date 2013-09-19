@@ -31,12 +31,22 @@ namespace helicopter
 			
 			int rawMagZ;
 			
+			// Instrumentation fields
+			int timeouts;
+			
+			int unrecognizedMsgTypes;
+			
+			int checksumErrors;
+			
 			public:
 			
 			SystemModel():
 			rawMagX(0),
 			rawMagY(0),
-			rawMagZ(0)
+			rawMagZ(0),
+			timeouts(0),
+			unrecognizedMsgTypes(0),
+			checksumErrors(0)
 			{
 				
 			}
@@ -57,6 +67,15 @@ namespace helicopter
 			
 			int RawMagZ() const { return rawMagZ; }
 			void RawMagZ(int val) { rawMagZ = val; }
+						
+			int Timeouts() const {return timeouts; }
+			void Timeouts(int val) { timeouts = val; }
+			
+			int UnrecognizedMsgTypes() const {return unrecognizedMsgTypes; }
+			void UnrecognizedMsgTypes(int val) { unrecognizedMsgTypes = val; }
+			
+			int ChecksumErrors() const {return checksumErrors; }
+			void ChecksumErrors(int val) { checksumErrors = val; }
 				
 			SystemTelemetryMessage *CreateTelemetryMessage();
 		};

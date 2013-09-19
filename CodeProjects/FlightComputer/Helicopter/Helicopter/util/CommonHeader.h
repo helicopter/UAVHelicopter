@@ -36,7 +36,7 @@ void * operator new[](size_t size);
  */
 void operator delete[](void * ptr);
 
-typedef char byte;
+typedef unsigned char byte;
 
 enum PRESCALER {NO_PRESCALER=1, PRESCALE_BY_EIGHT=8,
 	PRESCALE_BY_SIXTYFOUR=64,

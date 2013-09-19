@@ -267,9 +267,12 @@ int telemetrymessage_test(TestCase *test)
 	message->MagX(32767);
 	message->MagY(125);
 	message->MagZ(32);
+	message->Timeouts(12);
+	message->UnrecognizedMsgTypes(33);
+	message->ChecksumErrors(44);
 
 	AssertTrue(message->getType() == SystemTelemetryMessage::MessageType, 1);
-	AssertTrue(SystemTelemetryMessage::MessageSize == 7, 2);
+	AssertTrue(SystemTelemetryMessage::MessageSize == 13, 2);
 
 	byte* bytes = message->getBytes();
 
@@ -281,6 +284,12 @@ int telemetrymessage_test(TestCase *test)
 	AssertTrue(bytes[4] == 0, 7);
 	AssertTrue(bytes[5] == 32, 8);
 	AssertTrue(bytes[6] == 0, 9);
+	AssertTrue(bytes[7] == 12, 8);
+	AssertTrue(bytes[8] == 0, 9);
+	AssertTrue(bytes[9] == 33, 8);
+	AssertTrue(bytes[10] == 0, 9);
+	AssertTrue(bytes[11] == 44, 8);
+	AssertTrue(bytes[12] == 0, 9);
 	
 	delete [] bytes;
 	
@@ -326,6 +335,9 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	message->MagX(32767);
 	message->MagY(125);
 	message->MagZ(32);
+	message->Timeouts(33);
+	message->UnrecognizedMsgTypes(34);
+	message->ChecksumErrors(35);
 
 	fci->transmit(message);
 	
@@ -345,8 +357,16 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	AssertTrue(bytes[7] == 0, 1);
 	AssertTrue(bytes[8] == 32, 1);
 	AssertTrue(bytes[9] == 0, 1);
-	AssertTrue(bytes[10] == 29, 1); 
-	AssertTrue(bytes[11] == 183, 1); 
+	
+	AssertTrue(bytes[10] == 33, 1);
+	AssertTrue(bytes[11] == 0, 1);
+	AssertTrue(bytes[12] == 34, 1);
+	AssertTrue(bytes[13] == 0, 1);
+	AssertTrue(bytes[14] == 35, 1);
+	AssertTrue(bytes[15] == 0, 1);
+	
+	AssertTrue(bytes[16] == 131, 1); 
+	AssertTrue(bytes[17] == 249, 1); 
 
 	
 	Message *msg = NULL;
@@ -359,7 +379,10 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	AssertTrue(message2->MagY() == message->MagY(), 1);
 	AssertTrue(message2->MagZ() == message->MagZ(), 1);
 
-
+	AssertTrue(message2->Timeouts() == message->Timeouts(), 1);
+	AssertTrue(message2->UnrecognizedMsgTypes() == message->UnrecognizedMsgTypes(), 1);
+	AssertTrue(message2->ChecksumErrors() == message->ChecksumErrors(), 1);
+	
 	mockSPI->reset();
 
 	/**
@@ -388,6 +411,10 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	AssertTrue(message2->MagX() == message->MagX(), 1);
 	AssertTrue(message2->MagY() == message->MagY(), 1);
 	AssertTrue(message2->MagZ() == message->MagZ(), 1);
+	
+	AssertTrue(message2->Timeouts() == message->Timeouts(), 1);
+	AssertTrue(message2->UnrecognizedMsgTypes() == message->UnrecognizedMsgTypes(), 1);
+	AssertTrue(message2->ChecksumErrors() == message->ChecksumErrors(), 1);
 
 	mockSPI->reset();
 

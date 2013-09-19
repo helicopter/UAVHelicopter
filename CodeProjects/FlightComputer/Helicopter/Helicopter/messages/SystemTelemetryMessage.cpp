@@ -26,7 +26,17 @@ byte *SystemTelemetryMessage::getBytes()
 	
 	msgPtr += sizeof(magY);
 	memcpy(msgPtr, &magZ, sizeof(magZ));
+		
+		
+	msgPtr += sizeof(magZ);
+	memcpy(msgPtr, &timeouts, sizeof(timeouts));
 	
+	msgPtr += sizeof(timeouts);
+	memcpy(msgPtr, &unrecognizedMsgTypes, sizeof(unrecognizedMsgTypes));
+	
+	msgPtr += sizeof(unrecognizedMsgTypes);
+	memcpy(msgPtr, &checksumErrors, sizeof(checksumErrors));
+				
 	return msg;
 }
 
@@ -44,6 +54,16 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		
 		message += sizeof(magY);
 		memcpy(&magZ, message, sizeof(magZ));
+		
+		
+		message += sizeof(magZ);
+		memcpy(&timeouts, message, sizeof(timeouts));
+
+		message += sizeof(timeouts);
+		memcpy(&unrecognizedMsgTypes, message, sizeof(unrecognizedMsgTypes));
+		
+		message += sizeof(unrecognizedMsgTypes);
+		memcpy(&checksumErrors, message, sizeof(checksumErrors));
 	}
 }
 

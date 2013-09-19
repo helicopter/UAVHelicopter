@@ -33,6 +33,7 @@ int buffercreation_test(TestCase *test)
 	return 0;
 };
 
+/*
 int addbufferrecord_test(TestCase *test)
 {
 
@@ -85,7 +86,7 @@ int addbufferrecord_test(TestCase *test)
 	
 	return 0;
 };
-
+*/
 /*
 int testMaxMinBuffer_test(TestCase *test)
 {

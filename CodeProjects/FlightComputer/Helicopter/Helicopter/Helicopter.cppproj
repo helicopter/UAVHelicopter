@@ -178,9 +178,9 @@
         <avrgcccpp.archiver.general.ArchiverFlags>-rcs</avrgcccpp.archiver.general.ArchiverFlags>
       </AvrGccCpp>
     </ToolchainSettings>
-    <OutputFileName>libHelicopter</OutputFileName>
-    <OutputFileExtension>.a</OutputFileExtension>
-    <OutputType>StaticLibrary</OutputType>
+    <OutputFileName>Helicopter</OutputFileName>
+    <OutputFileExtension>.elf</OutputFileExtension>
+    <OutputType>Executable</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="buffer\Buffer.cpp">
@@ -273,7 +273,7 @@
     <Compile Include="tasks\TransmitTelemetryTask.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="util\commonheader.cpp">
+    <Compile Include="util\CommonHeader.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="util\CommonHeader.h">

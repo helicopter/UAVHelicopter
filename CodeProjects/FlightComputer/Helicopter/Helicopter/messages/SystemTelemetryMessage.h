@@ -29,6 +29,13 @@ namespace helicopter
 
 				int magZ;
 				
+				//Instrumentation fields
+				int timeouts;
+				
+				int unrecognizedMsgTypes;
+				
+				int checksumErrors;
+				
 			public:
 				static const byte MessageType = 2;
 			
@@ -36,12 +43,18 @@ namespace helicopter
 				sizeof(msgType) +
 				sizeof(magX) +
 				sizeof(magY) +
-				sizeof(magZ);
+				sizeof(magZ) + 
+				sizeof(timeouts) + 
+				sizeof(unrecognizedMsgTypes) + 
+				sizeof(checksumErrors);
 			
 				SystemTelemetryMessage(): Message(MessageType,MessageSize),
 					magX(0),
 					magY(0),
-					magZ(0)
+					magZ(0),
+					timeouts(0),
+					unrecognizedMsgTypes(0),
+					checksumErrors(0)
 				{
 				
 				}
@@ -60,6 +73,17 @@ namespace helicopter
 			
 				int MagZ() const { return magZ; }
 				void MagZ(int val) { magZ = val; }
+					
+					
+				int Timeouts() const {return timeouts; }
+				void Timeouts(int val) { timeouts = val; }
+				
+				int UnrecognizedMsgTypes() const {return unrecognizedMsgTypes; }
+				void UnrecognizedMsgTypes(int val) { unrecognizedMsgTypes = val; }
+				
+				int ChecksumErrors() const {return checksumErrors; }
+				void ChecksumErrors(int val) { checksumErrors = val; }
+					
 					
 				byte *getBytes();
 				

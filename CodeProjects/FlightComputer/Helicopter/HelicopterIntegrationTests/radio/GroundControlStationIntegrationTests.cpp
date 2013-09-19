@@ -177,6 +177,9 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	transmitMessage->MagX(33);
 	transmitMessage->MagY(32);
 	transmitMessage->MagZ(31);
+	transmitMessage->ChecksumErrors(30);
+	transmitMessage->Timeouts(29);
+	transmitMessage->UnrecognizedMsgTypes(28);
 	
 	AssertTrue(radioInterface.transmit(transmitMessage) == 0, 1);
 	
@@ -273,6 +276,10 @@ int reliablyreceive_test(TestCase *test)
 		AssertTrue(((SystemTelemetryMessage*)receiveMessage)->MagY() == i, 1);
 		AssertTrue(((SystemTelemetryMessage*)receiveMessage)->MagZ() == i, 1);
 		
+		AssertTrue(((SystemTelemetryMessage*)receiveMessage)->ChecksumErrors() == i, 1);
+		AssertTrue(((SystemTelemetryMessage*)receiveMessage)->Timeouts() == i, 1);
+		AssertTrue(((SystemTelemetryMessage*)receiveMessage)->UnrecognizedMsgTypes() == i, 1);
+		
 		delete receiveMessage;
 	}
 	
@@ -282,6 +289,9 @@ int reliablyreceive_test(TestCase *test)
 	transmitMessage->MagX(timeoutErrors);
 	transmitMessage->MagY(msgTypeErrors);
 	transmitMessage->MagZ(crcErrors);
+	transmitMessage->ChecksumErrors(0);
+	transmitMessage->Timeouts(0);
+	transmitMessage->UnrecognizedMsgTypes(0);
 	
 	radioInterface.transmit(transmitMessage);
 	

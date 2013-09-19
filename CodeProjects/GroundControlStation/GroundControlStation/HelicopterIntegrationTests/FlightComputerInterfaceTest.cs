@@ -69,6 +69,10 @@ namespace HelicopterIntegrationTests
                 Assert.IsTrue(telemetry.MagY == 32);
                 Assert.IsTrue(telemetry.MagZ == 31);
 
+                Assert.IsTrue(telemetry.ChecksumErrors == 30);
+                Assert.IsTrue(telemetry.Timeouts == 29);
+                Assert.IsTrue(telemetry.UnrecognizedMsgTypes == 28);
+
                 fcInt.Transmit(telemetry);
 
                 telemetry = (FlightComputerTelemetry) fcInt.Receive();
@@ -106,6 +110,9 @@ namespace HelicopterIntegrationTests
                     telemetry.MagX = i;
                     telemetry.MagY = i;
                     telemetry.MagZ = i;
+                    telemetry.Timeouts = i;
+                    telemetry.UnrecognizedMsgTypes = i;
+                    telemetry.ChecksumErrors = i;
 
                     fcInt.Transmit(telemetry);
                 }
@@ -116,7 +123,10 @@ namespace HelicopterIntegrationTests
                 Assert.IsTrue(telemetry.MagX == 0);
                 Assert.IsTrue(telemetry.MagY == 0);
                 Assert.IsTrue(telemetry.MagZ == 0);
-            }
+                Assert.IsTrue(telemetry.Timeouts == 0);
+                Assert.IsTrue(telemetry.UnrecognizedMsgTypes == 0);
+                Assert.IsTrue(telemetry.ChecksumErrors == 0);
+            } 
         }
 
 

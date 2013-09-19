@@ -32,7 +32,7 @@ tasks\Task.cpp
 
 tasks\TransmitTelemetryTask.cpp
 
-util\commonheader.cpp
+util\CommonHeader.cpp
 
 util\Timer.cpp
 

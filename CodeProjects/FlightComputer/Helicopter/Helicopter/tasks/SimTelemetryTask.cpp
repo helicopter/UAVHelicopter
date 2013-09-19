@@ -51,4 +51,22 @@ void SimTelemetryTask::runTaskImpl()
 		
 		//TODO put in error messages into model.
 	}
+	
+	//Update instrumentation fields
+	switch (status)
+	{
+		case 0:
+			break;
+		case -1:
+			model->Timeouts(model->Timeouts() + 1);
+			break;
+		case -2:
+			model->UnrecognizedMsgTypes(model->UnrecognizedMsgTypes() + 1);
+			break;
+		case -3:
+			model->ChecksumErrors(model->ChecksumErrors() + 1);
+		default:
+			break;
+		
+	}
 }

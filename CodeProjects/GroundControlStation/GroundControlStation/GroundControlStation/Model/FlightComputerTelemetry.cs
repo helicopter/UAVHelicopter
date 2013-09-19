@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace GroundControlStation.Model
 {
@@ -10,9 +11,7 @@ namespace GroundControlStation.Model
         /// <summary>
         /// This represents the number of bytes in this message including the message type.
         /// </summary>
-        public const int NumOfBytesInMsg = 7;
-
-        //public byte MsgType { get; set; }
+        public const int NumOfBytesInMsg = 13;
 
         public short MagX { get; set; }
 
@@ -21,18 +20,17 @@ namespace GroundControlStation.Model
         public short MagZ { get; set; }
 
 
+        public short Timeouts { get; set; }
+
+        public short UnrecognizedMsgTypes { get; set; }
+
+        public short ChecksumErrors { get; set; }
 
         public FlightComputerTelemetry()
             : base(MessageType, NumOfBytesInMsg)
         {
         }
 
-        /*
-        public static int GetNumOfBytesInMsg()
-        {
-            return NumOfBytesInMsg;
-        }
-        */
         public static FlightComputerTelemetry BuildMessageSt(byte[] byteBuffer)
         {
             FlightComputerTelemetry fct = new FlightComputerTelemetry();
@@ -43,21 +41,71 @@ namespace GroundControlStation.Model
 
         public override void BuildMessage(byte[] byteBuffer)
         {
+            int positionCounter = 0;
+            MsgType = decodeByte(byteBuffer, ref positionCounter);
+            MagX = decodeShort(byteBuffer, ref positionCounter);
+            MagY = decodeShort(byteBuffer, ref positionCounter);
+            MagZ = decodeShort(byteBuffer, ref positionCounter);
+
+            Timeouts = decodeShort(byteBuffer, ref positionCounter);
+            UnrecognizedMsgTypes = decodeShort(byteBuffer, ref positionCounter);
+            ChecksumErrors = decodeShort(byteBuffer, ref positionCounter);
+
+            /*
             this.MsgType = byteBuffer[0];
             this.MagX = BitConverter.ToInt16(byteBuffer, 1);
             this.MagY = BitConverter.ToInt16(byteBuffer, 3);
             this.MagZ = BitConverter.ToInt16(byteBuffer, 5);
+            */
+        }
+
+        private short decodeShort(byte[] byteBuffer, ref int positionCounter)
+        {
+            short val = BitConverter.ToInt16(byteBuffer, positionCounter);
+            positionCounter += sizeof (short);
+            return val;
+        }
+
+        private byte decodeByte(byte[] byteBuffer, ref int positionCounter)
+        {
+            byte val = byteBuffer[positionCounter];
+            positionCounter += sizeof(byte);
+            return val;
+        }
+
+        private void encode(ref byte[] rawMsg, byte data, ref int positionCounter)
+        {
+            rawMsg[positionCounter++] = data;
+        }
+
+        private void encode(ref byte[] rawMsg, short data, ref int positionCounter)
+        {
+            byte[] temp = BitConverter.GetBytes(data);
+
+            rawMsg[positionCounter++] = temp[0];
+            rawMsg[positionCounter++] = temp[1];   
         }
 
         public override byte[] GetRawBytes()
         {
             byte[] rawMsg = new byte[NumOfBytesInMsg];
 
+            int positionCounter = 0;
+
+            encode(ref rawMsg, MsgType, ref positionCounter);
+            encode(ref rawMsg, MagX, ref positionCounter);
+            encode(ref rawMsg, MagY, ref positionCounter);
+            encode(ref rawMsg, MagZ, ref positionCounter);
+            encode(ref rawMsg, Timeouts, ref positionCounter);
+            encode(ref rawMsg, UnrecognizedMsgTypes, ref positionCounter);
+            encode(ref rawMsg, ChecksumErrors, ref positionCounter);
+
+            /*
             byte[] temp = null;
 
-            temp = BitConverter.GetBytes(MagX);
-
             rawMsg[0] = MsgType;
+
+            temp = BitConverter.GetBytes(MagX);
             rawMsg[1] = temp[0];
             rawMsg[2] = temp[1];
 
@@ -68,6 +116,7 @@ namespace GroundControlStation.Model
             temp = BitConverter.GetBytes(MagZ);
             rawMsg[5] = temp[0];
             rawMsg[6] = temp[1];
+             */
 
             return rawMsg;
         }
@@ -79,6 +128,11 @@ namespace GroundControlStation.Model
             lstValues.Add(new Tuple<string, string>("FC Mag X", MagX.ToString()));
             lstValues.Add(new Tuple<string, string>("FC Mag Y", MagY.ToString()));
             lstValues.Add(new Tuple<string, string>("FC Mag Z", MagZ.ToString()));
+
+            lstValues.Add(new Tuple<string, string>("FC Timeouts", Timeouts.ToString()));
+            lstValues.Add(new Tuple<string, string>("FC UnrecognizedMsgTypes", UnrecognizedMsgTypes.ToString()));
+            lstValues.Add(new Tuple<string, string>("FC ChecksumErrors", ChecksumErrors.ToString()));
+
 
             return lstValues;
         }
