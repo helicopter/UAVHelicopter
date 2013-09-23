@@ -31,6 +31,8 @@ namespace helicopter
 			
 			int rawMagZ;
 			
+			int magYaw;
+			
 			// Instrumentation fields
 			int timeouts;
 			
@@ -44,6 +46,7 @@ namespace helicopter
 			rawMagX(0),
 			rawMagY(0),
 			rawMagZ(0),
+			magYaw(0),
 			timeouts(0),
 			unrecognizedMsgTypes(0),
 			checksumErrors(0)
@@ -67,6 +70,10 @@ namespace helicopter
 			
 			int RawMagZ() const { return rawMagZ; }
 			void RawMagZ(int val) { rawMagZ = val; }
+				
+
+			int MagYaw() const { return magYaw; }
+			void MagYaw(int val) { magYaw = val; }				
 						
 			int Timeouts() const {return timeouts; }
 			void Timeouts(int val) { timeouts = val; }

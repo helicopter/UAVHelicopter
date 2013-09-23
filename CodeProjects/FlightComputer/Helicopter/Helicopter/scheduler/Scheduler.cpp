@@ -130,6 +130,7 @@ void Scheduler::start()
  */
 ISR(TIMER1_COMPA_vect)
 {
+	//TODO do we want to stop interrupts in this method?
 	Scheduler *scheduler = Scheduler::getScheduler();
 	
 	Task *task = NULL;

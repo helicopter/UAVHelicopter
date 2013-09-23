@@ -12,7 +12,7 @@ namespace GroundControlStation.Views
 
         public IGraphingView SimHeadingGraph { get; set; }
 
-        public IGraphingView FcMagX { get; set; }
+        public IGraphingView FcMagYaw { get; set; }
 
         public IGraphingView FcMagY { get; set; }
 

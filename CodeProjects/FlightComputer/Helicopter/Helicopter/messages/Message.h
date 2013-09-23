@@ -9,6 +9,7 @@
 #ifndef MESSAGE_H_
 #define MESSAGE_H_
 
+#include <string.h>
 
 #include "CommonHeader.h"
 
@@ -28,6 +29,37 @@ namespace helicopter
 				
 				int msgSize;
 				
+				/**
+				 * Mem copies the value into the buffer pointer then increments
+				 * the pointer location by the size of the value copied.
+				 */
+				void encode (byte *&buffPtr, int &val)
+				{
+					memcpy(buffPtr, &val, sizeof(val));
+					buffPtr += sizeof(val);
+				}
+				
+				void encode (byte *&buffPtr, byte &val)
+				{
+					*buffPtr = val;
+					buffPtr += sizeof(val);
+				}
+				
+				/**
+				 * Copies the the value at the buff pointer location into the given val parameter and
+				 * increments the buffer by the sizeof(val)
+				 */
+				void decode (byte *&buffPtr, byte &val)
+				{
+					val = *buffPtr;
+					buffPtr += sizeof(val);
+				}
+				
+				void decode (byte *&buffPtr, int &val)
+				{
+					memcpy(&val, buffPtr, sizeof(val));
+					buffPtr += sizeof(val);
+				}
 			public:
 			
 				/**

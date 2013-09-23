@@ -45,7 +45,7 @@ namespace GroundControlStation.Views
 
         private void btnFcMagX_Click(object sender, EventArgs e)
         {
-            Controller.ToggleFcMagXGraph();
+            Controller.ToggleFcMagYawGraph();
         }
     }
 }

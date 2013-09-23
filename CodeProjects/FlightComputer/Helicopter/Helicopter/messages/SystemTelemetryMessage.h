@@ -29,6 +29,8 @@ namespace helicopter
 
 				int magZ;
 				
+				int magYaw;
+				
 				//Instrumentation fields
 				int timeouts;
 				
@@ -44,6 +46,7 @@ namespace helicopter
 				sizeof(magX) +
 				sizeof(magY) +
 				sizeof(magZ) + 
+				sizeof(magYaw) +
 				sizeof(timeouts) + 
 				sizeof(unrecognizedMsgTypes) + 
 				sizeof(checksumErrors);
@@ -52,6 +55,7 @@ namespace helicopter
 					magX(0),
 					magY(0),
 					magZ(0),
+					magYaw(0),
 					timeouts(0),
 					unrecognizedMsgTypes(0),
 					checksumErrors(0)
@@ -73,6 +77,9 @@ namespace helicopter
 			
 				int MagZ() const { return magZ; }
 				void MagZ(int val) { magZ = val; }
+					
+				int MagYaw() const { return magYaw; }
+				void MagYaw(int val) { magYaw = val; }
 					
 					
 				int Timeouts() const {return timeouts; }

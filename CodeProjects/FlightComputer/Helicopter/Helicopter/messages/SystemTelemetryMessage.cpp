@@ -16,6 +16,17 @@ byte *SystemTelemetryMessage::getBytes()
 {
 	byte *msg = new byte[MessageSize];
 	byte *msgPtr = msg;
+	
+	encode (msgPtr, msgType);
+	encode (msgPtr, magX);
+	encode (msgPtr, magY);
+	encode (msgPtr, magZ);
+	encode (msgPtr, magYaw);
+	encode (msgPtr, timeouts);
+	encode (msgPtr, unrecognizedMsgTypes);
+	encode (msgPtr, checksumErrors);
+	
+	/*
 	msgPtr[0] = this->msgType;
 	
 	msgPtr++;
@@ -36,6 +47,7 @@ byte *SystemTelemetryMessage::getBytes()
 	
 	msgPtr += sizeof(unrecognizedMsgTypes);
 	memcpy(msgPtr, &checksumErrors, sizeof(checksumErrors));
+	*/
 				
 	return msg;
 }
@@ -44,6 +56,15 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 {
 	if (message != NULL)
 	{
+		decode (message,msgType);
+		decode (message,magX);
+		decode (message,magY);
+		decode (message,magZ);
+		decode (message,magYaw);
+		decode (message,timeouts);
+		decode (message,unrecognizedMsgTypes);
+		decode (message,checksumErrors);
+		/*
 		msgType = message[0];
 		
 		message++;
@@ -64,6 +85,7 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		
 		message += sizeof(unrecognizedMsgTypes);
 		memcpy(&checksumErrors, message, sizeof(checksumErrors));
+		*/
 	}
 }
 

@@ -25,7 +25,7 @@ namespace GroundControlStation.Model
         /// <summary>
         /// Heading of the aircraft in degrees from 0 - 259.99..., where 0/360 is north.
         /// </summary>
-        public float TrueHeadingDegrees { get; set; }
+        public float MagHeadingDegrees { get; set; }
 
         public float XLattitudeDegrees { get; set; }
 
@@ -76,7 +76,10 @@ namespace GroundControlStation.Model
                 byteReader.ReadBytes(24);
                 data.PitchDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
                 data.RollDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
-                data.TrueHeadingDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
+
+                //Skip true heading to get to mag heading.
+                byteReader.ReadBytes(4);
+                data.MagHeadingDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
 
                 //Skip to the relevant data
                 byteReader.ReadBytes(24);
@@ -95,7 +98,7 @@ namespace GroundControlStation.Model
 
                 /*byteReader.ReadBytes(89);
 
-                data.TrueHeadingDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);*/
+                data.MagHeadingDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);*/
             }
             catch (SystemException ex)
             {
@@ -114,7 +117,7 @@ namespace GroundControlStation.Model
             lstValues.Add(new Tuple<string, string>("Yaw V Ms", YawVelocityMs.ToString()));
             lstValues.Add(new Tuple<string, string>("Pitch Deg", PitchDegrees.ToString()));
             lstValues.Add(new Tuple<string, string>("Roll Deg", RollDegrees.ToString()));
-            lstValues.Add(new Tuple<string, string>("True Heading Deg", TrueHeadingDegrees.ToString()));
+            lstValues.Add(new Tuple<string, string>("Mag Heading Deg", MagHeadingDegrees.ToString()));
             lstValues.Add(new Tuple<string, string>("X Lat Deg", XLattitudeDegrees.ToString()));
             lstValues.Add(new Tuple<string, string>("Y Long Deg", YLongitudeDegrees.ToString()));
             lstValues.Add(new Tuple<string, string>("Z Alt Ft Agl", ZAltitudeFtAgl.ToString()));

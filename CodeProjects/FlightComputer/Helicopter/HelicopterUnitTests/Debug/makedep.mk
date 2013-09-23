@@ -4,6 +4,8 @@
 
 buffer\BufferTests.cpp
 
+controllers\PIDControllerTests.cpp
+
 HelicopterUnitTests.cpp
 
 mocks\MockMagnetometerDriver.cpp

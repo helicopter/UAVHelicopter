@@ -18,6 +18,7 @@ SystemTelemetryMessage *SystemModel::CreateTelemetryMessage()
 	message->MagX(RawMagX());
 	message->MagY(RawMagY());
 	message->MagZ(RawMagZ());
+	message->MagYaw(MagYaw());
 	message->ChecksumErrors(ChecksumErrors());
 	message->Timeouts(Timeouts());
 	message->UnrecognizedMsgTypes(UnrecognizedMsgTypes());

@@ -35,8 +35,8 @@
             this.TelemName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TelemValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnHeadingGraph = new System.Windows.Forms.Button();
             this.btnFcMagX = new System.Windows.Forms.Button();
+            this.btnHeadingGraph = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,25 +78,25 @@
             this.panel1.Size = new System.Drawing.Size(137, 632);
             this.panel1.TabIndex = 3;
             // 
-            // btnHeadingGraph
-            // 
-            this.btnHeadingGraph.Location = new System.Drawing.Point(3, 3);
-            this.btnHeadingGraph.Name = "btnHeadingGraph";
-            this.btnHeadingGraph.Size = new System.Drawing.Size(129, 23);
-            this.btnHeadingGraph.TabIndex = 0;
-            this.btnHeadingGraph.Text = "TrueHeadingDegrees Graph";
-            this.btnHeadingGraph.UseVisualStyleBackColor = true;
-            this.btnHeadingGraph.Click += new System.EventHandler(this.btnHeadingGraph_Click);
-            // 
             // btnFcMagX
             // 
             this.btnFcMagX.Location = new System.Drawing.Point(3, 33);
             this.btnFcMagX.Name = "btnFcMagX";
             this.btnFcMagX.Size = new System.Drawing.Size(129, 23);
             this.btnFcMagX.TabIndex = 1;
-            this.btnFcMagX.Text = "FCMagX";
+            this.btnFcMagX.Text = "MagYaw";
             this.btnFcMagX.UseVisualStyleBackColor = true;
             this.btnFcMagX.Click += new System.EventHandler(this.btnFcMagX_Click);
+            // 
+            // btnHeadingGraph
+            // 
+            this.btnHeadingGraph.Location = new System.Drawing.Point(3, 3);
+            this.btnHeadingGraph.Name = "btnHeadingGraph";
+            this.btnHeadingGraph.Size = new System.Drawing.Size(129, 23);
+            this.btnHeadingGraph.TabIndex = 0;
+            this.btnHeadingGraph.Text = "MagHeadingDegrees Graph";
+            this.btnHeadingGraph.UseVisualStyleBackColor = true;
+            this.btnHeadingGraph.Click += new System.EventHandler(this.btnHeadingGraph_Click);
             // 
             // GroundControlStationForm
             // 

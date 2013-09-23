@@ -15,6 +15,7 @@
 	 test->setFailedEvaluationId(failedEvalId); \
 	 return -1; \
 }
+
 	 
 #define AssertFalse(evaluation) if (evaluation){ return -1;}						
 

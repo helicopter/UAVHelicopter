@@ -46,7 +46,7 @@ namespace GroundControlStation
             GroundControlStationDashboardView gcsDashboardView = new GroundControlStationDashboardView();
             gcsDashboardView.DashboardView = dashboard;
             gcsDashboardView.SimHeadingGraph = simHeadingGraph;
-            gcsDashboardView.FcMagX = fcMagX;
+            gcsDashboardView.FcMagYaw = fcMagX;
             gcsDashboardView.FcMagY = fcMagY;
             gcsDashboardView.FcMagZ = fcMagZ;
             

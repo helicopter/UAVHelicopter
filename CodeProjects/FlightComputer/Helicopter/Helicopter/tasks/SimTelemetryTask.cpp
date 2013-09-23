@@ -45,11 +45,10 @@ void SimTelemetryTask::runTaskImpl()
 			model->RawMagX(telemMsg->MagX());
 			model->RawMagY(telemMsg->MagY());
 			model->RawMagZ(telemMsg->MagZ());
+			model->MagYaw(telemMsg->MagYaw());
 		
 			delete message;
 		}
-		
-		//TODO put in error messages into model.
 	}
 	
 	//Update instrumentation fields
