@@ -90,3 +90,26 @@ double PIDController::calculateYawIntegral(double yawProportional, double oldYaw
 	
 	return integral;
 }
+
+
+double PIDController::calculateYawDerivativeError(double yawVelocity, double referenceYawVelocity)
+{
+	return yawVelocity - referenceYawVelocity;
+}
+
+double PIDController::calculateYawControl(double yawProportional, double yawDerivativeError, double yawIntegral)
+{
+	double controlValue = 0;
+	
+	controlValue = yawIntegral * yawIntegralGain + yawProportional * yawProportionalGain + yawDerivativeError * yawDerivativeGain;
+	
+	if (controlValue > controlMaxValue)
+	{
+		controlValue = controlMaxValue;
+	}else if (controlValue < controlMinValue)
+	{
+		controlValue = controlMinValue;
+	}
+	
+	return controlValue;
+}

@@ -15,9 +15,9 @@ int calculateYaw_test(TestCase *test)
 	SystemModel *model = new SystemModel();
 	
 	//Semi constants that will be tuned during development
-	double yawIntegralGain = 0;
-	double yawDerivativeGain = 0;
-	double yawProportionalGain = 0;
+	double yawIntegralGain = .13;
+	double yawDerivativeGain = .11;
+	double yawProportionalGain = .12;
 	double yawAntiWindupGain = .1;
 	
 	//These will be controlled by the 'servo controller' though.
@@ -134,11 +134,13 @@ int calculateYaw_test(TestCase *test)
 	AssertTrue(yawIntegral < -.65, 0);
 	AssertTrue(yawIntegral > -.67, 0);
 	
+	/**
+	 * Test that if the anti-windup would cause the integral term to pass 0, that it just gets set to 0 instead.
+	 */
 	oldYawIntegral = .8;
 	yawProportional = .4;
 	yawAntiWindup = .9;
 		
-	//.8 +.4 * .15 - .2 = .66
 	yawIntegral = pidController->calculateYawIntegral(yawProportional, oldYawIntegral, yawAntiWindup);
 		
 	AssertTrue(yawIntegral == 0, 0);
@@ -147,29 +149,107 @@ int calculateYaw_test(TestCase *test)
 	yawProportional = -.4;
 	yawAntiWindup = -.9;
 		
-	//.8 +.4 * .15 - .2 = .66
 	yawIntegral = pidController->calculateYawIntegral(yawProportional, oldYawIntegral, yawAntiWindup);
 		
 	AssertTrue(yawIntegral == 0, 0);
 	
-	//Test the yaw antiwindup causing integral to go negative (verify it just gets set to 0.
-	//verify 0 in the opposite direction. negative going positive.
+	
+	//test with no anti windup
+	oldYawIntegral = .8;
+	yawProportional = .4;
+	yawAntiWindup = 0;
+		
+	yawIntegral = pidController->calculateYawIntegral(yawProportional, oldYawIntegral, yawAntiWindup);
+		
+	AssertTrue(yawIntegral == .86, 0);
 	
 	
-	/*
+	/**
+	 * Test the derivative calculations
+	 */
 	double yawVelocity = 0;
 	
 	double referenceYawVelocity = 0;
 	
 	double yawDerivativeError = pidController->calculateYawDerivativeError(yawVelocity, referenceYawVelocity);
 	
+	AssertTrue(yawDerivativeError == 0, 0);
+	
+	AssertTrue(pidController->calculateYawDerivativeError(.5, .25) == .25, 0);
 	
 	
-	//???not done - still need to define.
+	/**
+	 * Test calculating the yaw control value.
+	 */
+	yawProportional = .25;
+	yawDerivativeError = 1.50;
+	yawIntegral = .15;
+	
+	//(-1 * .13*.15 - .12*.25 - .11*1.50)*-1
 	double yawControl = pidController->calculateYawControl(yawProportional, yawDerivativeError, yawIntegral);
+	AssertTrue(yawControl == .2145, 0);
 	
+	yawProportional = -.25;
+	yawDerivativeError = -1.50;
+	yawIntegral = -.15;
+	
+	yawControl = pidController->calculateYawControl(yawProportional, yawDerivativeError, yawIntegral);
+	AssertTrue(yawControl == -.2145, 0);
+	
+	yawProportional = -10.25;
+	yawDerivativeError = -1.50;
+	yawIntegral = -.15;
+	
+	yawControl = pidController->calculateYawControl(yawProportional, yawDerivativeError, yawIntegral);
+	AssertTrue(yawControl == controlMinValue, 0);
+	
+	yawProportional = 10.25;
+	yawDerivativeError = -1.50;
+	yawIntegral = -.15;
+	
+	yawControl = pidController->calculateYawControl(yawProportional, yawDerivativeError, yawIntegral);
+	AssertTrue(yawControl == controlMaxValue, 0);
+	
+	yawProportional = .25;
+	yawDerivativeError = .015;
+	yawIntegral = -.15;
+	
+	yawControl = pidController->calculateYawControl(yawProportional, yawDerivativeError, yawIntegral);
+	AssertTrue(yawControl == .05115, 0);
+	//.01215
+	//Run a test to ensure that the control values are restricted within the bounds of control max and min
+	//test max
+	//test min
 	//Ensure that the control value is within -1, and 1.
-	AssertTrue(yawControl >= controlMinValue && yawControl <= controlMaxValue);
+	AssertTrue(yawControl >= controlMinValue && yawControl <= controlMaxValue, 0);
+	
+	//TODO Problem: I can't describe why we multiply by so many negative 1 terms.
+	//TODO: Since it seems so odd that the yaw error is - for counter clockwise, which means that
+	//when we calculate yawDerivativeError it's off, which also affects the final summ/addition for
+	//yawControl, should we look at reversing that?
+	//I think the way i calculate error is also all messed up. It's causing the yaw control to
+	//have a bunch of -1 terms multiplied in order to not lose control. generally it
+	//seems to be Reference - Actual (AC2-09-AntiWIndup.pdf #2). But I'm doing the opposite. 
+	//I think if I reverse the terms I can clean up the negatives. I would need to change
+	//my 180 - 180 conversion direction.
+	//But i think this also works because you think of everything from the perspective of the 'reference'
+	//so from the reference point, if its at 20, and the actual is at 10, then your -10 counter clockwise
+	//away from the reference point's perspective.
+	
+	//in terms of pitch angle, what does -1, and 1 mean?
+	//In terms of rotation, what does -1 and 1 mean? -1 means clockwise rotation? 1 means counter?
+	//I'll want to align the rotations with the errors in my mind.
+	//And I'll want to document how 1 means positive pitch, and -1 means negative pitch (helicopter goes down).
+	
+	
+	//TODO up next I'll want to create and test the method that calls all of the above methods for realz.
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -182,7 +262,7 @@ int calculateYaw_test(TestCase *test)
 	
 	//then we test the function which acts as the 'outer loop' (service) which
 	//calls the pedal command generation, then calls the the servo controller
-	*/
+	
 	
 	//Limits.
 	//time between outer loop processing
@@ -190,3 +270,4 @@ int calculateYaw_test(TestCase *test)
 	
 	return 0;
 }
+

@@ -179,6 +179,25 @@ namespace helicopter
 				 * @return the calculated integral value (without weighting).
 				 */
 				double calculateYawIntegral(double yawProportional, double oldYawIntegral, double yawAntiWindup);
+				
+				/**
+				 * Subtracts the yawVelocity and referenceYawVelocity.
+				 * @yawVelocity the current velocity of rotation in the yaw direction
+				 * @referenceYawVelocity the desired velocity of rotation in the yaw direction
+				 */
+				double calculateYawDerivativeError(double yawVelocity, double referenceYawVelocity);
+				
+				/**
+				 * Calculates the control value for the yaw (pedal) control. The value
+				 * will be between controlMaxValue, and controlMinValue. This method takes the
+				 * arguments, applies the appropriate weights, and sums the variables to get the control
+				 * value.
+				 * @param yawProportional The proportional error term between the desired yaw heading and the actual yaw heading
+				 * @param yawDerivativeError The error between the desired speed of rotation, and the reference speed of rotation for yaw rotation.
+				 * @param yawIntegral The integral term.
+				 * @return a control value between controlMaxValue and controlMinValue (generally between -1 and 1 where 0 is neutral - no blade angle).
+				 */
+				double calculateYawControl(double yawProportional, double yawDerivativeError, double yawIntegral);
 		};
 	}
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DoxySettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SettingsFile>C:\Heli\GitRepository\UAVHelicopter\CodeProjects\FlightComputer\Helicopter\HelicopterUnitTests\doxySettings.xml</SettingsFile>
+  <ProjectName>HelicopterUnitTests</ProjectName>
+  <DoxyExePath>C:\Users\HP User\AppData\Local\Atmel\AtmelStudio\6.1\Extensions\Atmel\Doxygen Integrator\6.1.0.6\Doxygen/doxygen.exe</DoxyExePath>
+  <UseDefaultSettings>true</UseDefaultSettings>
+  <GenerateAsPartOfBuild>false</GenerateAsPartOfBuild>
+  <ConfigFilePath>C:\Heli\GitRepository\UAVHelicopter\CodeProjects\FlightComputer\Helicopter\HelicopterUnitTests\doxyfile</ConfigFilePath>
+  <OutputDirPath>C:\Heli\GitRepository\UAVHelicopter\CodeProjects\FlightComputer\Helicopter\HelicopterUnitTests\doxygen</OutputDirPath>
+  <ShowErrorsAndWarnings>false</ShowErrorsAndWarnings>
+</DoxySettings>
