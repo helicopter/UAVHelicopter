@@ -51,6 +51,7 @@ C_SRCS +=  \
 ../controller/PIDController.cpp \
 ../drivers/MagnetometerDriver.cpp \
 ../drivers/SerialDriver.cpp \
+../drivers/ServoDriver.cpp \
 ../Helicopter.cpp \
 ../interfaces/GroundControlStationInterface.cpp \
 ../messages/Message.cpp \
@@ -78,6 +79,7 @@ buffer/Record.o \
 controller/PIDController.o \
 drivers/MagnetometerDriver.o \
 drivers/SerialDriver.o \
+drivers/ServoDriver.o \
 Helicopter.o \
 interfaces/GroundControlStationInterface.o \
 messages/Message.o \
@@ -98,6 +100,7 @@ buffer/Record.o \
 controller/PIDController.o \
 drivers/MagnetometerDriver.o \
 drivers/SerialDriver.o \
+drivers/ServoDriver.o \
 Helicopter.o \
 interfaces/GroundControlStationInterface.o \
 messages/Message.o \
@@ -118,6 +121,7 @@ buffer/Record.d \
 controller/PIDController.d \
 drivers/MagnetometerDriver.d \
 drivers/SerialDriver.d \
+drivers/ServoDriver.d \
 Helicopter.d \
 interfaces/GroundControlStationInterface.d \
 messages/Message.d \
@@ -138,6 +142,7 @@ buffer/Record.d \
 controller/PIDController.d \
 drivers/MagnetometerDriver.d \
 drivers/SerialDriver.d \
+drivers/ServoDriver.d \
 Helicopter.d \
 interfaces/GroundControlStationInterface.d \
 messages/Message.d \
@@ -163,6 +168,8 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

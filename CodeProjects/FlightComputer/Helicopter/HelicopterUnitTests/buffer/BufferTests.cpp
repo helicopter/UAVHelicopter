@@ -26,8 +26,8 @@ class TestDataClass
 int buffercreation_test(TestCase *test)
 {
 	Buffer buff;
-	AssertTrue(buff.getBufferSize() == 0, 1);
-	AssertTrue(buff.dequeue() == NULL, 2);
+	AssertTrue2(buff.getBufferSize() == 0, 1);
+	AssertTrue2(buff.dequeue() == NULL, 2);
 	
 	
 	return 0;

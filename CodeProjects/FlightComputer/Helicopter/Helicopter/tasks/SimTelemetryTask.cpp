@@ -45,7 +45,9 @@ void SimTelemetryTask::runTaskImpl()
 			model->RawMagX(telemMsg->MagX());
 			model->RawMagY(telemMsg->MagY());
 			model->RawMagZ(telemMsg->MagZ());
-			model->MagYaw(telemMsg->MagYaw());
+			
+			//TODO make this a double throughout the system.
+			model->MagYawDegrees(telemMsg->MagYaw());
 		
 			delete message;
 		}

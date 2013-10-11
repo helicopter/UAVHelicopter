@@ -4,6 +4,8 @@
 
 buffer\BufferTests.cpp
 
+controllers\ServoDriverTests.cpp
+
 controllers\PIDControllerTests.cpp
 
 HelicopterUnitTests.cpp

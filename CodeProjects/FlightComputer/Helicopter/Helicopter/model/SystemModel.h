@@ -31,7 +31,23 @@ namespace helicopter
 			
 			int rawMagZ;
 			
-			int magYaw;
+			double magYawDegrees;
+			
+			double referenceMagYawDegrees;
+			
+			double yawControl;
+			
+			//This variable is used for calculating integral anti-windup.
+			double yawControlBeforeServoLimitsAdjustment;
+			
+			double yawVelocityDegreesPerSecond;
+			
+			double referenceYawVelocityDegreesPerSecond;
+			
+			double yawIntegral;
+			
+			
+			
 			
 			// Instrumentation fields
 			int timeouts;
@@ -46,7 +62,13 @@ namespace helicopter
 			rawMagX(0),
 			rawMagY(0),
 			rawMagZ(0),
-			magYaw(0),
+			magYawDegrees(0),
+			referenceMagYawDegrees(0),
+			yawControl(0),
+			yawControlBeforeServoLimitsAdjustment(0),
+			yawVelocityDegreesPerSecond(0),
+			referenceYawVelocityDegreesPerSecond(0),
+			yawIntegral(0),
 			timeouts(0),
 			unrecognizedMsgTypes(0),
 			checksumErrors(0)
@@ -72,8 +94,31 @@ namespace helicopter
 			void RawMagZ(int val) { rawMagZ = val; }
 				
 
-			int MagYaw() const { return magYaw; }
-			void MagYaw(int val) { magYaw = val; }				
+			double MagYawDegrees() const { return magYawDegrees; }
+			void MagYawDegrees(double val) { magYawDegrees = val; }	
+				
+				
+				
+			double ReferenceMagYawDegrees() const {return referenceMagYawDegrees;}
+			void ReferenceMagYawDegrees(double val) { referenceMagYawDegrees = val;}
+				
+				
+			double YawControl() const {return yawControl;}
+			void YawControl(double val) { yawControl = val;}
+				
+			double YawControlBeforeServoLimitsAdjustment() const {return yawControlBeforeServoLimitsAdjustment;}
+			void YawControlBeforeServoLimitsAdjustment(double val) { yawControlBeforeServoLimitsAdjustment = val;}
+				
+			double YawVelocityDegreesPerSecond() const {return yawVelocityDegreesPerSecond;}
+			void YawVelocityDegreesPerSecond(double val) { yawVelocityDegreesPerSecond = val;}
+				
+			double ReferenceYawVelocityDegreesPerSecond() const {return referenceYawVelocityDegreesPerSecond;}
+			void ReferenceYawVelocityDegreesPerSecond(double val) { referenceYawVelocityDegreesPerSecond = val;}
+				
+			double YawIntegral() const {return yawIntegral;}
+			void YawIntegral(double val) { yawIntegral = val;}
+				
+																							
 						
 			int Timeouts() const {return timeouts; }
 			void Timeouts(int val) { timeouts = val; }
@@ -85,6 +130,7 @@ namespace helicopter
 			void ChecksumErrors(int val) { checksumErrors = val; }
 				
 			SystemTelemetryMessage *CreateTelemetryMessage();
+
 		};
 	}
 	

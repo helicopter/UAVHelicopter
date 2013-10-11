@@ -13,6 +13,7 @@
 #include "GroundControlStationUnitTests.h"
 #include "TimerTests.h"
 #include "PIDControllerTests.h"
+#include "ServoDriverTests.h"
 
 #include <stdio.h>
 
@@ -34,6 +35,7 @@ int main(void)
 //	helicopterTests.addTest(gcsinterfacemessagereceivingandtransmitting_test, 7);
 	//helicopterTests.addTest(timeout_test, 8);
 	helicopterTests.addTest(calculateYaw_test, 9);
+	//helicopterTests.addTest(controltailrotorcollective_test, 10);
 
 	
 	helicopterTests.runTests();

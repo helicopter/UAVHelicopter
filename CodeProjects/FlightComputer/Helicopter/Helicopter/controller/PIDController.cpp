@@ -9,8 +9,9 @@
 
 using namespace helicopter::controller;
 
-PIDController::PIDController(SystemModel *model): 
+PIDController::PIDController(SystemModel *model, ServoDriver *servoDriver): 
 model(model),
+servoDriver(servoDriver),
 yawIntegralGain(0),
 yawDerivativeGain(0),
 yawProportionalGain(0),
@@ -30,9 +31,9 @@ PIDController::~PIDController()
 }
 
 //TODO refactor to make this common for all PID calculations
-double PIDController::calculateYawProportional(double currentYaw, double referenceYaw)
+double PIDController::calculateYawProportional(double currentYawDegrees, double referenceYawDegrees)
 {
-	double yawError = currentYaw - referenceYaw;
+	double yawError = currentYawDegrees - referenceYawDegrees;
 	
 	if (yawError >= 180)
 	{
@@ -64,11 +65,11 @@ double PIDController::calculateYawIntegralAntiWindup(double oldYawControlValue)
 }
 
 //TODO refactor to make this common for all PID calculations
-double PIDController::calculateYawIntegral(double yawProportional, double oldYawIntegral, double yawAntiWindup)
+double PIDController::calculateYawIntegral(double yawProportionalDegrees, double oldYawIntegral, double yawAntiWindup)
 {
 	double integral = 0;
 	
-	integral = oldYawIntegral + yawProportional * intervalPeriodSecs;
+	integral = oldYawIntegral + yawProportionalDegrees * intervalPeriodSecs;
 	
 	if (yawAntiWindup != 0)
 	{
@@ -92,16 +93,16 @@ double PIDController::calculateYawIntegral(double yawProportional, double oldYaw
 }
 
 
-double PIDController::calculateYawDerivativeError(double yawVelocity, double referenceYawVelocity)
+double PIDController::calculateYawDerivativeError(double yawVelocityDegreesPerSecond, double referenceYawVelocityDegreesPerSecond)
 {
-	return yawVelocity - referenceYawVelocity;
+	return yawVelocityDegreesPerSecond - referenceYawVelocityDegreesPerSecond;
 }
 
-double PIDController::calculateYawControl(double yawProportional, double yawDerivativeError, double yawIntegral)
+double PIDController::calculateYawControl(double yawProportionalDegrees, double yawVelocityErrorDegreesPerSecond, double yawIntegral)
 {
 	double controlValue = 0;
 	
-	controlValue = yawIntegral * yawIntegralGain + yawProportional * yawProportionalGain + yawDerivativeError * yawDerivativeGain;
+	controlValue = yawIntegral * yawIntegralGain + yawProportionalDegrees * yawProportionalGain + yawVelocityErrorDegreesPerSecond * yawDerivativeGain;
 	
 	if (controlValue > controlMaxValue)
 	{
@@ -112,4 +113,37 @@ double PIDController::calculateYawControl(double yawProportional, double yawDeri
 	}
 	
 	return controlValue;
+}
+
+
+double PIDController::adjustControlForServoLimits( double controlValueToAdjust )
+{
+	double controlValue = controlValueToAdjust;
+	
+	if (controlValue > maxYawServoControlValue)
+	{
+		controlValue = maxYawServoControlValue;
+	}else if (controlValue < minYawServoControlValue)
+	{
+		controlValue = minYawServoControlValue;
+	}
+	
+	return controlValue;
+}
+
+void PIDController::tailRotorCollectiveOuterLoopUpdate()
+{
+	double yawProportional = calculateYawProportional(model->MagYawDegrees(), model->ReferenceMagYawDegrees());
+	double yawAntiWindup = calculateYawIntegralAntiWindup(model->YawControlBeforeServoLimitsAdjustment());
+	double yawIntegral = calculateYawIntegral(yawProportional, model->YawIntegral(), yawAntiWindup);
+	double yawDerivativeError = calculateYawDerivativeError(model->YawVelocityDegreesPerSecond(), model->ReferenceYawVelocityDegreesPerSecond());
+	double yawControlBeforeServoLimitsAdjustment = calculateYawControl(yawProportional, yawDerivativeError, yawIntegral);
+	double yawControl = adjustControlForServoLimits(yawControlBeforeServoLimitsAdjustment);
+	
+	//TODO problem: when does the final yaw control value get set? Since it's not done here.
+	model->YawControl(yawControl);
+	model->YawControlBeforeServoLimitsAdjustment(yawControlBeforeServoLimitsAdjustment);
+	model->YawIntegral(yawIntegral);
+	
+	servoDriver->controlTailRotorCollective(yawControl);
 }

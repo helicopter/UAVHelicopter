@@ -21,29 +21,29 @@ int serialreceivetransmit_test(TestCase *test)
 	serialDriver.initialize();
 	
 	byte transmitVal = 127;
-	AssertTrue(serialDriver.transmitByte(transmitVal) == 0, 1);
+	AssertTrue2(serialDriver.transmitByte(transmitVal) == 0, 1);
 	
 	byte receiveVal = 0;
 
-	AssertTrue(serialDriver.receiveByte(receiveVal) == 0, 2);
+	AssertTrue2(serialDriver.receiveByte(receiveVal) == 0, 2);
 
-	AssertTrue(receiveVal == transmitVal, 3);
+	AssertTrue2(receiveVal == transmitVal, 3);
 	
 	for (byte i = 0; i < 127; i++)
 	{
 		transmitVal = i;
 		
-		AssertTrue(serialDriver.transmitByte(transmitVal) == 0, 4);
+		AssertTrue2(serialDriver.transmitByte(transmitVal) == 0, 4);
 
-		AssertTrue(serialDriver.receiveByte(receiveVal) == 0, 5);
+		AssertTrue2(serialDriver.receiveByte(receiveVal) == 0, 5);
 			
-		AssertTrue(receiveVal == transmitVal, 6);
+		AssertTrue2(receiveVal == transmitVal, 6);
 	}
 	
 	
 	//Transmit 'success' message.
 	transmitVal = 12;
-	AssertTrue(serialDriver.transmitByte(transmitVal) == 0, 7);
+	AssertTrue2(serialDriver.transmitByte(transmitVal) == 0, 7);
 	
 	return 0;
 }

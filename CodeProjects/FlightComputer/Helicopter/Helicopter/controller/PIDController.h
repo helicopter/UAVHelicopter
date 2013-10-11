@@ -10,8 +10,10 @@
 #define PIDCONTROLLER_H_
 
 #include "SystemModel.h"
+#include "ServoDriver.h"
 
 using namespace helicopter::model;
+using namespace helicopter::drivers;
 
 namespace helicopter
 {
@@ -32,6 +34,8 @@ namespace helicopter
 			private:
 				SystemModel *model;
 				
+				ServoDriver *servoDriver;
+				
 				double yawIntegralGain;
 				double yawDerivativeGain;
 				double yawProportionalGain;
@@ -46,7 +50,7 @@ namespace helicopter
 				double controlMinValue;
 				
 			public:
-				PIDController (SystemModel *model);
+				PIDController (SystemModel *model, ServoDriver *servoDriver);
 					
 				~PIDController();
 				
@@ -103,7 +107,7 @@ namespace helicopter
 				 * integral anti-windup to determine when the actuators would be saturated.
 				 * The value should be no smaller than the controlMinValue (e.g. no less than -1)
 				 */
-				void setMinYawServoControlValue (double minYawServoControlValue)
+				void setMinTailRotorCollectiveControlValue (double minYawServoControlValue)
 				{
 					this->minYawServoControlValue = minYawServoControlValue;
 				}
@@ -113,7 +117,7 @@ namespace helicopter
 				 * integral anti-windup to determine when the actuators would be saturated.
 				 * The value should be no larger than the controlMaxValue (e.g. no greater than 1)
 				 */
-				void setMaxYawServoControlValue(double maxYawServoControlValue)
+				void setMaxTailRotorCollectiveValue(double maxYawServoControlValue)
 				{
 					this->maxYawServoControlValue = maxYawServoControlValue;
 				}
@@ -139,22 +143,25 @@ namespace helicopter
 				/**
 				 * Calculates the proportional error between the current yaw value from the sensors
 				 * and the reference yaw value from the mission planner.
-				 * @param currentYawValue The current heading from the sensors where 0 = Magnetic North. This value should be between
+				 * @param currentYawDegrees The current heading from the sensors where 0 = Magnetic North. This value should be in degrees between
 				 * 0 - 359.99 (it may get set to 360 due to rounding)
-				 * @param referenceYawValue The desired heading between 0-359.99. Where 0 = Magnetic North.
-				 * @return the error between the current yaw and the reference yaw (Gain is NOT applied).
+				 * @param referenceYawDegrees The desired heading between 0-359.99 in degrees. Where 0 = Magnetic North.
+				 * @return the error between the current yaw and the reference yaw (Gain is NOT applied) in degrees.
 				 * This value will be between -180 - 179.99. This is because the larger the possible jump in
 				 * error, the more it disturbs the calculations. So an error going from 0 then suddenly jumping to
 				 * -360 would cause a large disturbance in the PID calculations. 
 				 * Positive errors mean the helicopter needs to rotate counterclockwise to reduce the error, negative errors
 				 * mean the helicopter should rotate clockwise to reduce the error.
 				 */
-				double calculateYawProportional(double currentYaw, double referenceYaw);
+				double calculateYawProportional(double currentYawDegrees, double referenceYawDegrees);
 				
 				/**
 				 * Calculates the anti windup term using the old yaw control value 
 				 * between the values of controlMaxValue and controlMinValue
-				 * and using the anti windup gain value.
+				 * and using the anti windup gain value. This should be the control value
+				 * before the servo limits were applied. This is so that this function
+				 * knows if the previously calculated control value tried to control
+				 * the control surfaces beyond their limits.
 				 * If the previous yaw control value was greater than the servoMin/Max
 				 * values, then an antiwindup term will be calculated which will be used
 				 * to reset the integral term back to 0 since the servos are being 'saturated'.
@@ -164,7 +171,8 @@ namespace helicopter
 				 * then the integral term basically shouldn't be used until the helicopter
 				 * gets close to the target.
 				 * @param oldYawControlValue The control value calculated for the Yaw term
-				 * in the previous iteration. Should be between controlMax and Min Values.
+				 * in the previous iteration. Should be between controlMax and Min Values. This value should be
+				 * the value before the servo boundaries were applied.
 				 * @return returns the anti windup term with the gain applied which should be
 				 * applied to this iterations integral term.
 				 */
@@ -172,32 +180,48 @@ namespace helicopter
 				
 				/**
 				 * Calculates the integral of the yaw without weighting.
-				 * @param yawProportional The proportional error component of the yaw (between -180, 180)
+				 * @param yawProportionalDegrees The proportional error component of the yaw (between -180, 180)
 				 * @param oldYawIntegral The previously calculated integral term without weighting
 				 * @param yawAntiWindup The anti-windup component which will be subtracted from
 				 * the integral term to reset the integral term to 0 if the servos are saturated (at their max value)
 				 * @return the calculated integral value (without weighting).
 				 */
-				double calculateYawIntegral(double yawProportional, double oldYawIntegral, double yawAntiWindup);
+				double calculateYawIntegral(double yawProportionalDegrees, double oldYawIntegral, double yawAntiWindup);
 				
 				/**
-				 * Subtracts the yawVelocity and referenceYawVelocity.
-				 * @yawVelocity the current velocity of rotation in the yaw direction
-				 * @referenceYawVelocity the desired velocity of rotation in the yaw direction
+				 * Subtracts the yawVelocityDegreesPerSecond and referenceYawVelocityDegreesPerSecond.
+				 * @yawVelocityDegreesPerSecond the current velocity of rotation in the yaw direction in degrees per second
+				 * @referenceYawVelocityDegreesPerSecond the desired velocity of rotation in the yaw direction in degrees per second
+				 * @return the difference between the two parameters in degrees per second.
 				 */
-				double calculateYawDerivativeError(double yawVelocity, double referenceYawVelocity);
+				double calculateYawDerivativeError(double yawVelocityDegreesPerSecond, double referenceYawVelocityDegreesPerSecond);
 				
 				/**
 				 * Calculates the control value for the yaw (pedal) control. The value
 				 * will be between controlMaxValue, and controlMinValue. This method takes the
 				 * arguments, applies the appropriate weights, and sums the variables to get the control
 				 * value.
-				 * @param yawProportional The proportional error term between the desired yaw heading and the actual yaw heading
-				 * @param yawDerivativeError The error between the desired speed of rotation, and the reference speed of rotation for yaw rotation.
+				 * @param yawProportionalDegrees The proportional error term between the desired yaw heading and the actual yaw heading in degrees.
+				 * @param yawDerivativeError The error between the desired speed of rotation, and the reference speed of rotation for yaw rotation in degrees per second.
 				 * @param yawIntegral The integral term.
 				 * @return a control value between controlMaxValue and controlMinValue (generally between -1 and 1 where 0 is neutral - no blade angle).
 				 */
-				double calculateYawControl(double yawProportional, double yawDerivativeError, double yawIntegral);
+				double calculateYawControl(double yawProportionalDegrees, double yawVelocityErrorDegreesPerSecond, double yawIntegral);
+				
+				/**
+				 * Adjusts the given control value by the servo limits. If the value is above the limit it's adjusted
+				 * to the max servo value. If the value is below the limit, it's set to the minimum servo limit.
+				 * @param controlValueToAdjust value to adjust
+				 * @return the adjusted value.
+				 */
+				double adjustControlForServoLimits( double controlValueToAdjust );
+				
+				
+				/**
+				 * Calculates the control value for the tail rotor given the various parameters defined in the model
+				 */
+				void tailRotorCollectiveOuterLoopUpdate();
+
 		};
 	}
 }

@@ -9,11 +9,18 @@
 #ifndef UnitTestUtils_H_
 #define UnitTestUtils_H_
 
-#define AssertTrue(evaluation,failedEvalId) \
+#define AssertTrue2(evaluation,failedEvalId) \
  if (!(evaluation)) \
  { \
 	 test->setFailedEvaluationId(failedEvalId); \
 	 return -1; \
+}
+
+#define AssertTrue(evaluation) \
+if (!(evaluation)) \
+{ \
+	test->setFailedEvaluationId(0); \
+	return -1; \
 }
 
 	 

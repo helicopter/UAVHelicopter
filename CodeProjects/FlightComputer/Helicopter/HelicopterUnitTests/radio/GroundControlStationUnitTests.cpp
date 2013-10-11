@@ -184,7 +184,7 @@ int telemetry_test(TestCase *test)
 	
 	
 	//TODO add some error handling in here
-	AssertTrue(radioInterface.transmit(message) == 0, 1);
+	AssertTrue2(radioInterface.transmit(message) == 0, 1);
 	
 	delete message;
 	message = NULL;
@@ -192,16 +192,16 @@ int telemetry_test(TestCase *test)
 
 
 	Message *message2 = NULL;
-	AssertTrue(radioInterface.receive(message2) == 0, 2);
+	AssertTrue2(radioInterface.receive(message2) == 0, 2);
 	
 	
-	AssertTrue(message2->getType() == SystemTelemetryMessage::MessageType, 3);
+	AssertTrue2(message2->getType() == SystemTelemetryMessage::MessageType, 3);
 	
 	SystemTelemetryMessage *testMsg = (SystemTelemetryMessage *)message2;
 	
-	AssertTrue(testMsg->MagX() == 33, 4);
-	AssertTrue(testMsg->MagY() == 32, 5);
-	AssertTrue(testMsg->MagZ() == 31, 6);
+	AssertTrue2(testMsg->MagX() == 33, 4);
+	AssertTrue2(testMsg->MagY() == 32, 5);
+	AssertTrue2(testMsg->MagZ() == 31, 6);
 	
 	
 	
@@ -271,25 +271,25 @@ int telemetrymessage_test(TestCase *test)
 	message->UnrecognizedMsgTypes(33);
 	message->ChecksumErrors(44);
 
-	AssertTrue(message->getType() == SystemTelemetryMessage::MessageType, 1);
-	AssertTrue(SystemTelemetryMessage::MessageSize == 13, 2);
+	AssertTrue2(message->getType() == SystemTelemetryMessage::MessageType, 1);
+	AssertTrue2(SystemTelemetryMessage::MessageSize == 13, 2);
 
 	byte* bytes = message->getBytes();
 
 	//verify bytes in the message.
-	AssertTrue(bytes[0] == SystemTelemetryMessage::MessageType,3);
-	AssertTrue(bytes[1] == (32767 & 0xFF), 4);
-	AssertTrue(bytes[2] == ((32767 >> 8) & 0xFF), 5);
-	AssertTrue(bytes[3] == 125, 6);
-	AssertTrue(bytes[4] == 0, 7);
-	AssertTrue(bytes[5] == 32, 8);
-	AssertTrue(bytes[6] == 0, 9);
-	AssertTrue(bytes[7] == 12, 8);
-	AssertTrue(bytes[8] == 0, 9);
-	AssertTrue(bytes[9] == 33, 8);
-	AssertTrue(bytes[10] == 0, 9);
-	AssertTrue(bytes[11] == 44, 8);
-	AssertTrue(bytes[12] == 0, 9);
+	AssertTrue2(bytes[0] == SystemTelemetryMessage::MessageType,3);
+	AssertTrue2(bytes[1] == (32767 & 0xFF), 4);
+	AssertTrue2(bytes[2] == ((32767 >> 8) & 0xFF), 5);
+	AssertTrue2(bytes[3] == 125, 6);
+	AssertTrue2(bytes[4] == 0, 7);
+	AssertTrue2(bytes[5] == 32, 8);
+	AssertTrue2(bytes[6] == 0, 9);
+	AssertTrue2(bytes[7] == 12, 8);
+	AssertTrue2(bytes[8] == 0, 9);
+	AssertTrue2(bytes[9] == 33, 8);
+	AssertTrue2(bytes[10] == 0, 9);
+	AssertTrue2(bytes[11] == 44, 8);
+	AssertTrue2(bytes[12] == 0, 9);
 	
 	delete [] bytes;
 	
@@ -310,9 +310,9 @@ int telemetrybuildmessage_test(TestCase *test)
 
 	SystemTelemetryMessage *telMsg = SystemTelemetryMessage::buildMessageSt(msgBytes);
 
-	AssertTrue(telMsg->MagX() == (short)32767, 1);
-	AssertTrue(telMsg->MagY() == (short)32766, 2);
-	AssertTrue(telMsg->MagZ() == (short)32765, 3);
+	AssertTrue2(telMsg->MagX() == (short)32767, 1);
+	AssertTrue2(telMsg->MagY() == (short)32766, 2);
+	AssertTrue2(telMsg->MagZ() == (short)32765, 3);
 	
 	delete telMsg;
 	delete [] msgBytes;
@@ -347,26 +347,26 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	memcpy(bytesCopy, bytes, numOfBytesInFullMsg);
 
 
-	AssertTrue(bytes[0] == GroundControlStationInterface::SyncByte1, 1);
-	AssertTrue(bytes[1] == GroundControlStationInterface::SyncByte2, 1);
-	AssertTrue(bytes[2] == GroundControlStationInterface::SyncByte3, 1);
-	AssertTrue(bytes[3] == SystemTelemetryMessage::MessageType, 1);
-	AssertTrue(bytes[4] == (32767 & 0xFF), 1);
-	AssertTrue(bytes[5] == ((32767 >> 8) & 0xFF), 1);
-	AssertTrue(bytes[6] == 125, 1);
-	AssertTrue(bytes[7] == 0, 1);
-	AssertTrue(bytes[8] == 32, 1);
-	AssertTrue(bytes[9] == 0, 1);
+	AssertTrue2(bytes[0] == GroundControlStationInterface::SyncByte1, 1);
+	AssertTrue2(bytes[1] == GroundControlStationInterface::SyncByte2, 1);
+	AssertTrue2(bytes[2] == GroundControlStationInterface::SyncByte3, 1);
+	AssertTrue2(bytes[3] == SystemTelemetryMessage::MessageType, 1);
+	AssertTrue2(bytes[4] == (32767 & 0xFF), 1);
+	AssertTrue2(bytes[5] == ((32767 >> 8) & 0xFF), 1);
+	AssertTrue2(bytes[6] == 125, 1);
+	AssertTrue2(bytes[7] == 0, 1);
+	AssertTrue2(bytes[8] == 32, 1);
+	AssertTrue2(bytes[9] == 0, 1);
 	
-	AssertTrue(bytes[10] == 33, 1);
-	AssertTrue(bytes[11] == 0, 1);
-	AssertTrue(bytes[12] == 34, 1);
-	AssertTrue(bytes[13] == 0, 1);
-	AssertTrue(bytes[14] == 35, 1);
-	AssertTrue(bytes[15] == 0, 1);
+	AssertTrue2(bytes[10] == 33, 1);
+	AssertTrue2(bytes[11] == 0, 1);
+	AssertTrue2(bytes[12] == 34, 1);
+	AssertTrue2(bytes[13] == 0, 1);
+	AssertTrue2(bytes[14] == 35, 1);
+	AssertTrue2(bytes[15] == 0, 1);
 	
-	AssertTrue(bytes[16] == 131, 1); 
-	AssertTrue(bytes[17] == 249, 1); 
+	AssertTrue2(bytes[16] == 131, 1); 
+	AssertTrue2(bytes[17] == 249, 1); 
 
 	
 	Message *msg = NULL;
@@ -375,13 +375,13 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	
 	SystemTelemetryMessage *message2 = (SystemTelemetryMessage*) msg;
 
-	AssertTrue(message2->MagX() == message->MagX(), 1);
-	AssertTrue(message2->MagY() == message->MagY(), 1);
-	AssertTrue(message2->MagZ() == message->MagZ(), 1);
+	AssertTrue2(message2->MagX() == message->MagX(), 1);
+	AssertTrue2(message2->MagY() == message->MagY(), 1);
+	AssertTrue2(message2->MagZ() == message->MagZ(), 1);
 
-	AssertTrue(message2->Timeouts() == message->Timeouts(), 1);
-	AssertTrue(message2->UnrecognizedMsgTypes() == message->UnrecognizedMsgTypes(), 1);
-	AssertTrue(message2->ChecksumErrors() == message->ChecksumErrors(), 1);
+	AssertTrue2(message2->Timeouts() == message->Timeouts(), 1);
+	AssertTrue2(message2->UnrecognizedMsgTypes() == message->UnrecognizedMsgTypes(), 1);
+	AssertTrue2(message2->ChecksumErrors() == message->ChecksumErrors(), 1);
 	
 	mockSPI->reset();
 
@@ -408,13 +408,13 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	fci->receive(msg);
 	message2 = (SystemTelemetryMessage *) msg;
 
-	AssertTrue(message2->MagX() == message->MagX(), 1);
-	AssertTrue(message2->MagY() == message->MagY(), 1);
-	AssertTrue(message2->MagZ() == message->MagZ(), 1);
+	AssertTrue2(message2->MagX() == message->MagX(), 1);
+	AssertTrue2(message2->MagY() == message->MagY(), 1);
+	AssertTrue2(message2->MagZ() == message->MagZ(), 1);
 	
-	AssertTrue(message2->Timeouts() == message->Timeouts(), 1);
-	AssertTrue(message2->UnrecognizedMsgTypes() == message->UnrecognizedMsgTypes(), 1);
-	AssertTrue(message2->ChecksumErrors() == message->ChecksumErrors(), 1);
+	AssertTrue2(message2->Timeouts() == message->Timeouts(), 1);
+	AssertTrue2(message2->UnrecognizedMsgTypes() == message->UnrecognizedMsgTypes(), 1);
+	AssertTrue2(message2->ChecksumErrors() == message->ChecksumErrors(), 1);
 
 	mockSPI->reset();
 
@@ -431,7 +431,7 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	fci->receive(msg);
 	message2 = (SystemTelemetryMessage *) msg;
 
-	AssertTrue(message2 == NULL, 1);
+	AssertTrue2(message2 == NULL, 1);
 
 	lbytes[numOfBytesInFullMsg + 6] = checksumB;
 	lbytes[numOfBytesInFullMsg + 5] = 0xFF;
@@ -442,7 +442,7 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	fci->receive(msg);
 	message2 = (SystemTelemetryMessage *) msg;
 
-	AssertTrue(message2 == NULL, 1);
+	AssertTrue2(message2 == NULL, 1);
 
 	lbytes[numOfBytesInFullMsg + 5] = checksumA;
 
@@ -452,7 +452,7 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	fci->receive(msg);
 	message2 = (SystemTelemetryMessage *) msg;
 
-	AssertTrue(message2 != NULL, 1);
+	AssertTrue2(message2 != NULL, 1);
 
 	/*
 	* Verify that a message with an incorrect ID is rejected
@@ -461,7 +461,7 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	mockSPI->buffer = bytesCopy;
 	fci->receive(msg);
 	message2 = (SystemTelemetryMessage *) msg;
-	AssertTrue(message2 != NULL, 1);
+	AssertTrue2(message2 != NULL, 1);
 
 	//corrupt the ID field.
 	mockSPI->reset();
@@ -469,14 +469,14 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	mockSPI->buffer[3] = 22;
 	fci->receive(msg);
 	message2 = (SystemTelemetryMessage *) msg;
-	AssertTrue(message2 == NULL, 1);
+	AssertTrue2(message2 == NULL, 1);
 
 	mockSPI->reset();
 	mockSPI->buffer = bytesCopy;
 	mockSPI->buffer[3] = SystemTelemetryMessage::MessageType;
 	fci->receive(msg);
 	message2 = (SystemTelemetryMessage *) msg;
-	AssertTrue(message2 != NULL, 1);
+	AssertTrue2(message2 != NULL, 1);
 
 	//Remove the last byte simulating a timeout exception since it tried to receive more bytes than were transmited.
 	mockSPI->reset();
@@ -484,7 +484,7 @@ int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test)
 	mockSPI->enableTimeout(11);
 	fci->receive(msg);
 	message2 = (SystemTelemetryMessage *) msg;
-	AssertTrue(message2 == NULL, 1);
+	AssertTrue2(message2 == NULL, 1);
 	
 	return 0;
 }

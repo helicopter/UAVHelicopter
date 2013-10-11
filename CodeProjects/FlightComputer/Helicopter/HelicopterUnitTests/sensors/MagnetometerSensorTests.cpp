@@ -26,22 +26,22 @@ int readandconvertmagnetometer_test(TestCase *test)
 	//////////////////////////////////////////////////////////////////////////
 	//test that the default raw sensor values before reading the sensor is 0.
 	//////////////////////////////////////////////////////////////////////////
-	AssertTrue(magSensor->getRawX() == 0, 1);
-	AssertTrue(magSensor->getRawY() == 0, 2);
-	AssertTrue(magSensor->getRawZ() == 0, 3);
+	AssertTrue2(magSensor->getRawX() == 0, 1);
+	AssertTrue2(magSensor->getRawY() == 0, 2);
+	AssertTrue2(magSensor->getRawZ() == 0, 3);
 	
 	//////////////////////////////////////////////////////////////////////////
 	//Test that after reading the sensor, the raw sensor values are not 0.
 	//////////////////////////////////////////////////////////////////////////
-	AssertTrue(magSensor->readSensor() == 0, 10);
+	AssertTrue2(magSensor->readSensor() == 0, 10);
 	
-	AssertTrue(magSensor->getRawX() == 10, 4);
-	AssertTrue(magSensor->getRawY() == 20, 5);
-	AssertTrue(magSensor->getRawZ() == 30, 6);
+	AssertTrue2(magSensor->getRawX() == 10, 4);
+	AssertTrue2(magSensor->getRawY() == 20, 5);
+	AssertTrue2(magSensor->getRawZ() == 30, 6);
 	
-	AssertTrue(round(magSensor->getFRDX()) == -20, 7);
-	AssertTrue(round(magSensor->getFRDY()) == -10, 8);
-	AssertTrue(round(magSensor->getFRDZ()) == -30, 9);
+	AssertTrue2(round(magSensor->getFRDX()) == -20, 7);
+	AssertTrue2(round(magSensor->getFRDY()) == -10, 8);
+	AssertTrue2(round(magSensor->getFRDZ()) == -30, 9);
 	
 	return 0;
 };

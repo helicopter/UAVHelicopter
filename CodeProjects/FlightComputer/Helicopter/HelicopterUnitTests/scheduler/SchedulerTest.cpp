@@ -56,7 +56,7 @@ int schedulertask_test(TestCase *test)
 	
 	scheduler->init(); //Sets up the timer registers, inits all tasks,
 	
-	AssertTrue(counterTask1->counter == 0, 1);
+	AssertTrue2(counterTask1->counter == 0, 1);
 	
 	int previousCounter = 0;
 	
@@ -81,7 +81,7 @@ int schedulertask_test(TestCase *test)
 		//TODO: 
 		//include a precise timing test to ensure that precise timing is being performed.
 	}
-	AssertTrue(counterTask1->counter  > previousCounter, 2);
+	AssertTrue2(counterTask1->counter  > previousCounter, 2);
 	
 	return 0;
 };
