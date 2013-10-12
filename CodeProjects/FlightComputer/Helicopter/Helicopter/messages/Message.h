@@ -39,6 +39,12 @@ namespace helicopter
 					buffPtr += sizeof(val);
 				}
 				
+				void encode (byte *&buffPtr, unsigned int &val)
+				{
+					memcpy(buffPtr, &val, sizeof(val));
+					buffPtr += sizeof(val);
+				}		
+				
 				void encode (byte *&buffPtr, byte &val)
 				{
 					*buffPtr = val;
@@ -60,6 +66,13 @@ namespace helicopter
 					memcpy(&val, buffPtr, sizeof(val));
 					buffPtr += sizeof(val);
 				}
+				
+				void decode (byte *&buffPtr, unsigned int &val)
+				{
+					memcpy(&val, buffPtr, sizeof(val));
+					buffPtr += sizeof(val);
+				}
+
 			public:
 			
 				/**

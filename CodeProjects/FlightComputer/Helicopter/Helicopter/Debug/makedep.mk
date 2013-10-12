@@ -14,7 +14,7 @@ drivers\SerialDriver.cpp
 
 drivers\ServoDriver.cpp
 
-Helicopter.cpp
+HelicopterMain.cpp
 
 interfaces\GroundControlStationInterface.cpp
 

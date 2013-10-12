@@ -17,37 +17,19 @@ byte *SystemTelemetryMessage::getBytes()
 	byte *msg = new byte[MessageSize];
 	byte *msgPtr = msg;
 	
+	unsigned int temp = 0;
+	
 	encode (msgPtr, msgType);
 	encode (msgPtr, magX);
 	encode (msgPtr, magY);
 	encode (msgPtr, magZ);
-	encode (msgPtr, magYaw);
+	
+	temp = magYaw * 100;
+	
+	encode (msgPtr, temp);
 	encode (msgPtr, timeouts);
 	encode (msgPtr, unrecognizedMsgTypes);
 	encode (msgPtr, checksumErrors);
-	
-	/*
-	msgPtr[0] = this->msgType;
-	
-	msgPtr++;
-	memcpy(msgPtr, &magX, sizeof(magX));
-	
-	msgPtr += sizeof(magX);
-	memcpy(msgPtr, &magY, sizeof(magY));
-	
-	msgPtr += sizeof(magY);
-	memcpy(msgPtr, &magZ, sizeof(magZ));
-		
-		
-	msgPtr += sizeof(magZ);
-	memcpy(msgPtr, &timeouts, sizeof(timeouts));
-	
-	msgPtr += sizeof(timeouts);
-	memcpy(msgPtr, &unrecognizedMsgTypes, sizeof(unrecognizedMsgTypes));
-	
-	msgPtr += sizeof(unrecognizedMsgTypes);
-	memcpy(msgPtr, &checksumErrors, sizeof(checksumErrors));
-	*/
 				
 	return msg;
 }
@@ -56,36 +38,19 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 {
 	if (message != NULL)
 	{
+		unsigned int temp = 0;
+		
 		decode (message,msgType);
 		decode (message,magX);
 		decode (message,magY);
 		decode (message,magZ);
-		decode (message,magYaw);
+		decode (message,temp);
+		
+		magYaw = temp / 100;
+		
 		decode (message,timeouts);
 		decode (message,unrecognizedMsgTypes);
 		decode (message,checksumErrors);
-		/*
-		msgType = message[0];
-		
-		message++;
-		memcpy(&magX, message, sizeof(magX));
-		
-		message += sizeof(magX);
-		memcpy(&magY, message, sizeof(magY));
-		
-		message += sizeof(magY);
-		memcpy(&magZ, message, sizeof(magZ));
-		
-		
-		message += sizeof(magZ);
-		memcpy(&timeouts, message, sizeof(timeouts));
-
-		message += sizeof(timeouts);
-		memcpy(&unrecognizedMsgTypes, message, sizeof(unrecognizedMsgTypes));
-		
-		message += sizeof(unrecognizedMsgTypes);
-		memcpy(&checksumErrors, message, sizeof(checksumErrors));
-		*/
 	}
 }
 

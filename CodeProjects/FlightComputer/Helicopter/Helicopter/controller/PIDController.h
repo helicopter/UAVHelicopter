@@ -43,6 +43,8 @@ namespace helicopter
 					
 				double minYawServoControlValue;
 				double maxYawServoControlValue;
+				
+				double yawServoTrim;
 					
 				double intervalPeriodSecs;
 					
@@ -53,6 +55,18 @@ namespace helicopter
 				PIDController (SystemModel *model, ServoDriver *servoDriver);
 					
 				~PIDController();
+				
+				/**
+				 * Sets a trim value that should be applied to the yaw control value.
+				 * This trim is applied before adjusting for servo limits.
+				 * @param yawServoTrim A double value representing how much to adjust the
+				 * trim by.
+				 * TODO: identify what negative and positive means.
+				 */
+				void setYawServoTrim(double yawServoTrim)
+				{
+					this->yawServoTrim = yawServoTrim;
+				}
 				
 				/**
 				 * Gain value applied to the yaw proportional error
@@ -194,7 +208,7 @@ namespace helicopter
 				 * @referenceYawVelocityDegreesPerSecond the desired velocity of rotation in the yaw direction in degrees per second
 				 * @return the difference between the two parameters in degrees per second.
 				 */
-				double calculateYawDerivativeError(double yawVelocityDegreesPerSecond, double referenceYawVelocityDegreesPerSecond);
+				double calculateYawVelocityError(double yawVelocityDegreesPerSecond, double referenceYawVelocityDegreesPerSecond);
 				
 				/**
 				 * Calculates the control value for the yaw (pedal) control. The value
@@ -206,10 +220,10 @@ namespace helicopter
 				 * @param yawIntegral The integral term.
 				 * @return a control value between controlMaxValue and controlMinValue (generally between -1 and 1 where 0 is neutral - no blade angle).
 				 */
-				double calculateYawControl(double yawProportionalDegrees, double yawVelocityErrorDegreesPerSecond, double yawIntegral);
+				double calculateYawControlValue(double yawProportionalDegrees, double yawVelocityErrorDegreesPerSecond, double yawIntegral);
 				
 				/**
-				 * Adjusts the given control value by the servo limits. If the value is above the limit it's adjusted
+				 * Adjusts the given control value by the servo limits and trim values. If the value is above the limit it's adjusted
 				 * to the max servo value. If the value is below the limit, it's set to the minimum servo limit.
 				 * @param controlValueToAdjust value to adjust
 				 * @return the adjusted value.

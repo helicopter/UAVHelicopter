@@ -52,7 +52,7 @@ C_SRCS +=  \
 ../drivers/MagnetometerDriver.cpp \
 ../drivers/SerialDriver.cpp \
 ../drivers/ServoDriver.cpp \
-../Helicopter.cpp \
+../HelicopterMain.cpp \
 ../interfaces/GroundControlStationInterface.cpp \
 ../messages/Message.cpp \
 ../messages/SyncMessage.cpp \
@@ -80,7 +80,7 @@ controller/PIDController.o \
 drivers/MagnetometerDriver.o \
 drivers/SerialDriver.o \
 drivers/ServoDriver.o \
-Helicopter.o \
+HelicopterMain.o \
 interfaces/GroundControlStationInterface.o \
 messages/Message.o \
 messages/SyncMessage.o \
@@ -101,7 +101,7 @@ controller/PIDController.o \
 drivers/MagnetometerDriver.o \
 drivers/SerialDriver.o \
 drivers/ServoDriver.o \
-Helicopter.o \
+HelicopterMain.o \
 interfaces/GroundControlStationInterface.o \
 messages/Message.o \
 messages/SyncMessage.o \
@@ -122,7 +122,7 @@ controller/PIDController.d \
 drivers/MagnetometerDriver.d \
 drivers/SerialDriver.d \
 drivers/ServoDriver.d \
-Helicopter.d \
+HelicopterMain.d \
 interfaces/GroundControlStationInterface.d \
 messages/Message.d \
 messages/SyncMessage.d \
@@ -143,7 +143,7 @@ controller/PIDController.d \
 drivers/MagnetometerDriver.d \
 drivers/SerialDriver.d \
 drivers/ServoDriver.d \
-Helicopter.d \
+HelicopterMain.d \
 interfaces/GroundControlStationInterface.d \
 messages/Message.d \
 messages/SyncMessage.d \

@@ -18,6 +18,7 @@ yawProportionalGain(0),
 yawAntiWindupGain(0),
 minYawServoControlValue(0),
 maxYawServoControlValue(0),
+yawServoTrim(0),
 intervalPeriodSecs(0),
 controlMaxValue(0),
 controlMinValue(0)
@@ -93,12 +94,12 @@ double PIDController::calculateYawIntegral(double yawProportionalDegrees, double
 }
 
 
-double PIDController::calculateYawDerivativeError(double yawVelocityDegreesPerSecond, double referenceYawVelocityDegreesPerSecond)
+double PIDController::calculateYawVelocityError(double yawVelocityDegreesPerSecond, double referenceYawVelocityDegreesPerSecond)
 {
 	return yawVelocityDegreesPerSecond - referenceYawVelocityDegreesPerSecond;
 }
 
-double PIDController::calculateYawControl(double yawProportionalDegrees, double yawVelocityErrorDegreesPerSecond, double yawIntegral)
+double PIDController::calculateYawControlValue(double yawProportionalDegrees, double yawVelocityErrorDegreesPerSecond, double yawIntegral)
 {
 	double controlValue = 0;
 	
@@ -120,6 +121,9 @@ double PIDController::adjustControlForServoLimits( double controlValueToAdjust )
 {
 	double controlValue = controlValueToAdjust;
 	
+	//TODO: when generalizing ensure to change this value. 
+	controlValue += yawServoTrim;
+	
 	if (controlValue > maxYawServoControlValue)
 	{
 		controlValue = maxYawServoControlValue;
@@ -136,8 +140,8 @@ void PIDController::tailRotorCollectiveOuterLoopUpdate()
 	double yawProportional = calculateYawProportional(model->MagYawDegrees(), model->ReferenceMagYawDegrees());
 	double yawAntiWindup = calculateYawIntegralAntiWindup(model->YawControlBeforeServoLimitsAdjustment());
 	double yawIntegral = calculateYawIntegral(yawProportional, model->YawIntegral(), yawAntiWindup);
-	double yawDerivativeError = calculateYawDerivativeError(model->YawVelocityDegreesPerSecond(), model->ReferenceYawVelocityDegreesPerSecond());
-	double yawControlBeforeServoLimitsAdjustment = calculateYawControl(yawProportional, yawDerivativeError, yawIntegral);
+	double yawDerivativeError = calculateYawVelocityError(model->YawVelocityDegreesPerSecond(), model->ReferenceYawVelocityDegreesPerSecond());
+	double yawControlBeforeServoLimitsAdjustment = calculateYawControlValue(yawProportional, yawDerivativeError, yawIntegral);
 	double yawControl = adjustControlForServoLimits(yawControlBeforeServoLimitsAdjustment);
 	
 	//TODO problem: when does the final yaw control value get set? Since it's not done here.

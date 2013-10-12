@@ -223,7 +223,7 @@
     <Compile Include="drivers\ServoDriver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Helicopter.cpp">
+    <Compile Include="HelicopterMain.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="interfaces\GroundControlStationInterface.cpp">

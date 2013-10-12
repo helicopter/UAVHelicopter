@@ -29,7 +29,7 @@ namespace helicopter
 
 				int magZ;
 				
-				int magYaw;
+				double magYaw;
 				
 				//Instrumentation fields
 				int timeouts;
@@ -78,8 +78,11 @@ namespace helicopter
 				int MagZ() const { return magZ; }
 				void MagZ(int val) { magZ = val; }
 					
-				int MagYaw() const { return magYaw; }
-				void MagYaw(int val) { magYaw = val; }
+				/**
+				 * When transmitted, the MagYaw variable gets truncated to two decimal places.
+				 */
+				double MagYaw() const { return magYaw; }
+				void MagYaw(double val) { magYaw = val; }
 					
 					
 				int Timeouts() const {return timeouts; }

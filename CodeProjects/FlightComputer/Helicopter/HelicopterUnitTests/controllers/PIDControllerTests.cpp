@@ -178,11 +178,11 @@ int calculateYaw_test(TestCase *test)
 	
 	double referenceYawVelocity = 0;
 	
-	double yawDerivativeError = pidController->calculateYawDerivativeError(yawVelocity, referenceYawVelocity);
+	double yawDerivativeError = pidController->calculateYawVelocityError(yawVelocity, referenceYawVelocity);
 	
 	AssertTrue2(yawDerivativeError == 0, 0);
 	
-	AssertTrue2(pidController->calculateYawDerivativeError(.5, .25) == .25, 0);
+	AssertTrue2(pidController->calculateYawVelocityError(.5, .25) == .25, 0);
 	
 	
 	/**
@@ -193,35 +193,35 @@ int calculateYaw_test(TestCase *test)
 	yawIntegral = .15;
 	
 	//(-1 * .13*.15 - .12*.25 - .11*1.50)*-1
-	double yawControl = pidController->calculateYawControl(yawProportional, yawDerivativeError, yawIntegral);
+	double yawControl = pidController->calculateYawControlValue(yawProportional, yawDerivativeError, yawIntegral);
 	AssertTrue2(yawControl == .2145, 0);
 	
 	yawProportional = -.25;
 	yawDerivativeError = -1.50;
 	yawIntegral = -.15;
 	
-	yawControl = pidController->calculateYawControl(yawProportional, yawDerivativeError, yawIntegral);
+	yawControl = pidController->calculateYawControlValue(yawProportional, yawDerivativeError, yawIntegral);
 	AssertTrue2(yawControl == -.2145, 0);
 	
 	yawProportional = -10.25;
 	yawDerivativeError = -1.50;
 	yawIntegral = -.15;
 	
-	yawControl = pidController->calculateYawControl(yawProportional, yawDerivativeError, yawIntegral);
+	yawControl = pidController->calculateYawControlValue(yawProportional, yawDerivativeError, yawIntegral);
 	AssertTrue2(yawControl == controlMinValue, 0);
 	
 	yawProportional = 10.25;
 	yawDerivativeError = -1.50;
 	yawIntegral = -.15;
 	
-	yawControl = pidController->calculateYawControl(yawProportional, yawDerivativeError, yawIntegral);
+	yawControl = pidController->calculateYawControlValue(yawProportional, yawDerivativeError, yawIntegral);
 	AssertTrue2(yawControl == controlMaxValue, 0);
 	
 	yawProportional = .25;
 	yawDerivativeError = .015;
 	yawIntegral = -.15;
 	
-	yawControl = pidController->calculateYawControl(yawProportional, yawDerivativeError, yawIntegral);
+	yawControl = pidController->calculateYawControlValue(yawProportional, yawDerivativeError, yawIntegral);
 	AssertTrue2(yawControl < .01215 && yawControl > .01214, 0);
 	
 	
@@ -249,12 +249,31 @@ int calculateYaw_test(TestCase *test)
 	
 	AssertTrue(model->YawIntegral() == -.33);
 	
-	AssertTrue(model->YawControlBeforeServoLimitsAdjustment() > -.2709 && model->YawControl() < -.2708);
+	AssertTrue(model->YawControlBeforeServoLimitsAdjustment() > -.2709 && model->YawControlBeforeServoLimitsAdjustment() < -.2708);
 	AssertTrue(model->YawControl() > -.2709 && model->YawControl() < -.2708);
 	
 	AssertTrue(((MockServoDriver*)servoDriver)->TailRotorCollectiveControl() == model->YawControl());
 	
 	
+	/**
+	 * Test setting the trim value.
+	 */
+	
+	model->MagYawDegrees(320.0);
+	model->ReferenceMagYawDegrees(323.0);
+	model->YawControlBeforeServoLimitsAdjustment(.3);
+	model->YawVelocityDegreesPerSecond(1.2);
+	model->ReferenceYawVelocityDegreesPerSecond(0.0);
+	model->YawIntegral(.12);
+	
+	pidController->setYawServoTrim(.1);
+		
+	pidController->tailRotorCollectiveOuterLoopUpdate();
+		
+	AssertTrue(model->YawIntegral() == -.33);
+		
+	AssertTrue(model->YawControlBeforeServoLimitsAdjustment() > -.2709 && model->YawControlBeforeServoLimitsAdjustment() < -.2708);
+	AssertTrue(model->YawControl() > -.1709 && model->YawControl() < -.1708);
 	
 	
 	

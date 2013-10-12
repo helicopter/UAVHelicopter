@@ -59,30 +59,6 @@ namespace helicopter
 				}
 				
 				
-				
-			//
-				///**
-				 //* Set the minimum possible value for the tail rotor collective.
-				 //* This represents limits on the possible angles that the tail rotor can be controlled
-				 //* @param minTailRotorCollectiveControl Minimum tail rotor control value. Generally
-				 //* between -1.0, and 0;
-				 //*/
-				//void setMinTailRotorCollectiveControl(double minTailRotorCollectiveControl)
-				//{
-					//this->minControlValue = minTailRotorCollectiveControl;
-				//}
-				//
-				///**
-				 //* Set the maximum possible value for the tail rotor collective.
-				 //* This represents limits on the possible angles that the tail rotor can be controlled
-				 //* @param maxTailRotorCollectiveControl Maximum tail rotor control value. Generally
-				 //* between 0, and 1.0;
-				 //*/
-				//void setMaxTailRotorCollectiveControl(double maxTailRotorCollectiveControl)
-				//{
-					//this->maxControlValue = maxTailRotorCollectiveControl;
-				//}
-				
 				/**
 				 * Sends a signal to the tail rotor servo to control the tail rotor to the appropriate
 				 * control value. This function converts the control value to a servo signal.

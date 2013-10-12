@@ -20,7 +20,7 @@ namespace GroundControlStation.Model
         public short MagZ { get; set; }
 
 
-        public short MagYaw { get; set; }
+        public float MagYaw { get; set; }
 
 
         public short Timeouts { get; set; }
@@ -50,7 +50,7 @@ namespace GroundControlStation.Model
             MagY = decodeShort(byteBuffer, ref positionCounter);
             MagZ = decodeShort(byteBuffer, ref positionCounter);
 
-            MagYaw = decodeShort(byteBuffer, ref positionCounter);
+            MagYaw = decodeShort(byteBuffer, ref positionCounter) / 100;
 
             Timeouts = decodeShort(byteBuffer, ref positionCounter);
             UnrecognizedMsgTypes = decodeShort(byteBuffer, ref positionCounter);
@@ -68,7 +68,7 @@ namespace GroundControlStation.Model
             encode(ref rawMsg, MagX, ref positionCounter);
             encode(ref rawMsg, MagY, ref positionCounter);
             encode(ref rawMsg, MagZ, ref positionCounter);
-            encode(ref rawMsg, MagYaw, ref positionCounter);
+            encode(ref rawMsg, (ushort) (MagYaw * 100), ref positionCounter);
             encode(ref rawMsg, Timeouts, ref positionCounter);
             encode(ref rawMsg, UnrecognizedMsgTypes, ref positionCounter);
             encode(ref rawMsg, ChecksumErrors, ref positionCounter);
@@ -115,6 +115,14 @@ namespace GroundControlStation.Model
         }
 
         private void encode(ref byte[] rawMsg, short data, ref int positionCounter)
+        {
+            byte[] temp = BitConverter.GetBytes(data);
+
+            rawMsg[positionCounter++] = temp[0];
+            rawMsg[positionCounter++] = temp[1];
+        }
+
+        private void encode(ref byte[] rawMsg, ushort data, ref int positionCounter)
         {
             byte[] temp = BitConverter.GetBytes(data);
 
