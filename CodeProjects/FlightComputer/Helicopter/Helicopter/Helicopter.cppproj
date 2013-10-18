@@ -271,6 +271,12 @@
     <Compile Include="tasks\FlashLEDTask.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="tasks\PIDOuterLoopTask.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tasks\PIDOuterLoopTask.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="tasks\SimTelemetryTask.cpp">
       <SubType>compile</SubType>
     </Compile>

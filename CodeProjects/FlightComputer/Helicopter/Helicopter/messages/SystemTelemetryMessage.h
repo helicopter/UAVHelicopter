@@ -29,9 +29,19 @@ namespace helicopter
 
 				int magZ;
 				
-				double magYaw;
+				int magYaw;
 				
-				//Instrumentation fields
+				int yawVelocityDegreesPerSecond;
+				
+				int yawIntegral;
+				
+				int yawProportional;
+				
+				int yawDerivativeError;
+				
+				/**
+				 * Instrumentation fields
+				 */
 				int timeouts;
 				
 				int unrecognizedMsgTypes;
@@ -47,6 +57,10 @@ namespace helicopter
 				sizeof(magY) +
 				sizeof(magZ) + 
 				sizeof(magYaw) +
+				sizeof(yawVelocityDegreesPerSecond) + 
+				sizeof(yawIntegral) +
+				sizeof(yawProportional) +
+				sizeof(yawDerivativeError) +
 				sizeof(timeouts) + 
 				sizeof(unrecognizedMsgTypes) + 
 				sizeof(checksumErrors);
@@ -56,6 +70,10 @@ namespace helicopter
 					magY(0),
 					magZ(0),
 					magYaw(0),
+					yawVelocityDegreesPerSecond(0),
+					yawIntegral(0),
+					yawProportional(0),
+					yawDerivativeError(0),					
 					timeouts(0),
 					unrecognizedMsgTypes(0),
 					checksumErrors(0)
@@ -78,12 +96,22 @@ namespace helicopter
 				int MagZ() const { return magZ; }
 				void MagZ(int val) { magZ = val; }
 					
-				/**
-				 * When transmitted, the MagYaw variable gets truncated to two decimal places.
-				 */
-				double MagYaw() const { return magYaw; }
-				void MagYaw(double val) { magYaw = val; }
+				int MagYaw() const { return magYaw; }
+				void MagYaw(int val) { magYaw = val; }
 					
+				int YawVelocityDegreesPerSecond() const { return yawVelocityDegreesPerSecond; }
+				void YawVelocityDegreesPerSecond(int val) { yawVelocityDegreesPerSecond = val; }
+					
+				int YawIntegral() const {return yawIntegral;}
+				void YawIntegral(int val) { yawIntegral = val;}
+					
+				int YawProportional() const {return yawProportional;}
+				void YawProportional(int val) { yawProportional = val;}
+
+				int YawDerivativeError() const {return yawDerivativeError;}
+				void YawDerivativeError(int val) { yawDerivativeError = val;}	
+					
+									
 					
 				int Timeouts() const {return timeouts; }
 				void Timeouts(int val) { timeouts = val; }

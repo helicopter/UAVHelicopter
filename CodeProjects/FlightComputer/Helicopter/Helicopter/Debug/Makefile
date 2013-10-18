@@ -60,6 +60,7 @@ C_SRCS +=  \
 ../model/SystemModel.cpp \
 ../scheduler/Scheduler.cpp \
 ../sensors/MagnetometerSensor.cpp \
+../tasks/PIDOuterLoopTask.cpp \
 ../tasks/SimTelemetryTask.cpp \
 ../tasks/Task.cpp \
 ../tasks/TransmitTelemetryTask.cpp \
@@ -88,6 +89,7 @@ messages/SystemTelemetryMessage.o \
 model/SystemModel.o \
 scheduler/Scheduler.o \
 sensors/MagnetometerSensor.o \
+tasks/PIDOuterLoopTask.o \
 tasks/SimTelemetryTask.o \
 tasks/Task.o \
 tasks/TransmitTelemetryTask.o \
@@ -109,6 +111,7 @@ messages/SystemTelemetryMessage.o \
 model/SystemModel.o \
 scheduler/Scheduler.o \
 sensors/MagnetometerSensor.o \
+tasks/PIDOuterLoopTask.o \
 tasks/SimTelemetryTask.o \
 tasks/Task.o \
 tasks/TransmitTelemetryTask.o \
@@ -130,6 +133,7 @@ messages/SystemTelemetryMessage.d \
 model/SystemModel.d \
 scheduler/Scheduler.d \
 sensors/MagnetometerSensor.d \
+tasks/PIDOuterLoopTask.d \
 tasks/SimTelemetryTask.d \
 tasks/Task.d \
 tasks/TransmitTelemetryTask.d \
@@ -151,6 +155,7 @@ messages/SystemTelemetryMessage.d \
 model/SystemModel.d \
 scheduler/Scheduler.d \
 sensors/MagnetometerSensor.d \
+tasks/PIDOuterLoopTask.d \
 tasks/SimTelemetryTask.d \
 tasks/Task.d \
 tasks/TransmitTelemetryTask.d \
@@ -168,6 +173,8 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

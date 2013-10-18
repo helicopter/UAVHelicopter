@@ -46,6 +46,9 @@ namespace helicopter
 			
 			double yawIntegral;
 			
+			double yawProportional;
+			
+			double yawDerivativeError;
 			
 			
 			
@@ -69,6 +72,8 @@ namespace helicopter
 			yawVelocityDegreesPerSecond(0),
 			referenceYawVelocityDegreesPerSecond(0),
 			yawIntegral(0),
+			yawProportional(0),
+			yawDerivativeError(0),
 			timeouts(0),
 			unrecognizedMsgTypes(0),
 			checksumErrors(0)
@@ -117,7 +122,12 @@ namespace helicopter
 				
 			double YawIntegral() const {return yawIntegral;}
 			void YawIntegral(double val) { yawIntegral = val;}
-				
+
+			double YawProportional() const {return yawProportional;}
+			void YawProportional(double val) { yawProportional = val;}
+
+			double YawDerivativeError() const {return yawDerivativeError;}
+			void YawDerivativeError(double val) { yawDerivativeError = val;}								
 																							
 						
 			int Timeouts() const {return timeouts; }

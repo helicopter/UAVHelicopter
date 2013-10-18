@@ -5,6 +5,9 @@
  *  Author: HP User
  */ 
 
+/**
+ * This file represents constants and common opperators used throughout the system.
+ */
 
 #ifndef COMMONHEADER_H_
 #define COMMONHEADER_H_
@@ -47,5 +50,7 @@ enum PRESCALER {NO_PRESCALER=1, PRESCALE_BY_EIGHT=8,
  * The frequency that the scheduler should run at in terms of ticks per second.
  */
 static const int SCHEDULER_TICK_FREQUENCY_HZ = 200;
+
+static const double PID_OUTER_LOOP_PERIOD = .05;
 
 #endif /* COMMONHEADER_H_ */

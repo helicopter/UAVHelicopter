@@ -93,6 +93,12 @@ void Scheduler::dispatch()
 		}
 	}
 	
+	//Detect if a frame overrun occurred. I.e. it took longer than the allowed time to process the tasks.
+	/*if ((TIFR1 & (1<<OCF1A)) != 0)
+	{
+		model->SystemModel->
+	}*/
+	
 	//tells the processor to goto sleep to conserve power since no more
 	//tasks are scheduled to be run until after the next scheduler interrupt(tick)
 	//which will then wake the processor back up.

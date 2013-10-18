@@ -11,7 +11,7 @@ namespace GroundControlStation.Model
         /// <summary>
         /// This represents the number of bytes in this message including the message type.
         /// </summary>
-        public const int NumOfBytesInMsg = 15;
+        public const int NumOfBytesInMsg = 22;
 
         public short MagX { get; set; }
 
@@ -21,6 +21,15 @@ namespace GroundControlStation.Model
 
 
         public float MagYaw { get; set; }
+
+        public float YawVelocityDegreesPerSecond { get; set; }
+
+
+        public float YawIntegral { get; set; }
+
+        public float YawProportional { get; set; }
+
+        public float YawDerivativeError { get; set; }
 
 
         public short Timeouts { get; set; }
@@ -52,6 +61,14 @@ namespace GroundControlStation.Model
 
             MagYaw = decodeShort(byteBuffer, ref positionCounter) / 100;
 
+            YawVelocityDegreesPerSecond = decodeShort(byteBuffer, ref positionCounter) / 100;
+
+            YawIntegral = decodeShort(byteBuffer, ref positionCounter) / 100;
+
+            YawProportional = decodeShort(byteBuffer, ref positionCounter) / 100;
+
+            YawDerivativeError = decodeShort(byteBuffer, ref positionCounter) / 100;
+
             Timeouts = decodeShort(byteBuffer, ref positionCounter);
             UnrecognizedMsgTypes = decodeShort(byteBuffer, ref positionCounter);
             ChecksumErrors = decodeShort(byteBuffer, ref positionCounter);
@@ -69,6 +86,10 @@ namespace GroundControlStation.Model
             encode(ref rawMsg, MagY, ref positionCounter);
             encode(ref rawMsg, MagZ, ref positionCounter);
             encode(ref rawMsg, (ushort) (MagYaw * 100), ref positionCounter);
+            encode(ref rawMsg, (short)(YawVelocityDegreesPerSecond * 100), ref positionCounter);
+            encode(ref rawMsg, (short)(YawIntegral * 100), ref positionCounter);
+            encode(ref rawMsg, (short)(YawProportional * 100), ref positionCounter);
+            encode(ref rawMsg, (short)(YawDerivativeError * 100), ref positionCounter);
             encode(ref rawMsg, Timeouts, ref positionCounter);
             encode(ref rawMsg, UnrecognizedMsgTypes, ref positionCounter);
             encode(ref rawMsg, ChecksumErrors, ref positionCounter);
@@ -86,8 +107,18 @@ namespace GroundControlStation.Model
 
             lstValues.Add(new Tuple<string, string>("FC Mag Yaw", MagYaw.ToString()));
 
+            lstValues.Add(new Tuple<string, string>("FC Yaw Velocity DPS", YawVelocityDegreesPerSecond.ToString()));
+
+            lstValues.Add(new Tuple<string, string>("FC Yaw Integral", YawIntegral.ToString()));
+
+            lstValues.Add(new Tuple<string, string>("FC Yaw Yaw Prop", YawProportional.ToString()));
+
+            lstValues.Add(new Tuple<string, string>("FC Yaw Yaw Deriv", YawDerivativeError.ToString()));
+
             lstValues.Add(new Tuple<string, string>("FC Timeouts", Timeouts.ToString()));
+
             lstValues.Add(new Tuple<string, string>("FC UnrecognizedMsgTypes", UnrecognizedMsgTypes.ToString()));
+
             lstValues.Add(new Tuple<string, string>("FC ChecksumErrors", ChecksumErrors.ToString()));
 
 

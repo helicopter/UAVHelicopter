@@ -30,6 +30,8 @@ scheduler\Scheduler.cpp
 
 sensors\MagnetometerSensor.cpp
 
+tasks\PIDOuterLoopTask.cpp
+
 tasks\SimTelemetryTask.cpp
 
 tasks\Task.cpp

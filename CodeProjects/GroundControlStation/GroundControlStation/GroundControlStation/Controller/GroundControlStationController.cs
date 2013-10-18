@@ -64,12 +64,13 @@ namespace GroundControlStation.Controller
          */
 
         /// <summary>
-        /// Updates the views based on the received data.
+        /// Updates the views (graphs) based on the received data.
         /// </summary>
         public void UpdateViews()
         {
             UpdateView(DashboardView.SimHeadingGraph, Model.SimTelm.MagHeadingDegrees);
             UpdateView(DashboardView.FcMagYaw, Model.FcTelm.MagYaw);
+            UpdateView(DashboardView.YawVelocityDegreesPerSecond, Model.FcTelm.YawVelocityDegreesPerSecond);
             UpdateView(DashboardView.FcMagY, Model.FcTelm.MagY);
             UpdateView(DashboardView.FcMagZ, Model.FcTelm.MagZ);
 

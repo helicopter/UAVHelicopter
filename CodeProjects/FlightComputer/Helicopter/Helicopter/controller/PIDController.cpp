@@ -144,10 +144,11 @@ void PIDController::tailRotorCollectiveOuterLoopUpdate()
 	double yawControlBeforeServoLimitsAdjustment = calculateYawControlValue(yawProportional, yawDerivativeError, yawIntegral);
 	double yawControl = adjustControlForServoLimits(yawControlBeforeServoLimitsAdjustment);
 	
-	//TODO problem: when does the final yaw control value get set? Since it's not done here.
 	model->YawControl(yawControl);
 	model->YawControlBeforeServoLimitsAdjustment(yawControlBeforeServoLimitsAdjustment);
 	model->YawIntegral(yawIntegral);
+	model->YawProportional(yawProportional);
+	model->YawDerivativeError(yawDerivativeError);
 	
 	servoDriver->controlTailRotorCollective(yawControl);
 }
