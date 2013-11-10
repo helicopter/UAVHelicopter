@@ -110,6 +110,11 @@ namespace HelicopterIntegrationTests
                     telemetry.MagX = i;
                     telemetry.MagY = i;
                     telemetry.MagZ = i;
+                    telemetry.MagYaw = (ushort)i;
+                    telemetry.YawDerivativeError = i;
+                    telemetry.YawIntegral = i;
+                    telemetry.YawProportional = i;
+                    telemetry.YawVelocityDegreesPerSecond = i;
                     telemetry.Timeouts = i;
                     telemetry.UnrecognizedMsgTypes = i;
                     telemetry.ChecksumErrors = i;
@@ -123,6 +128,12 @@ namespace HelicopterIntegrationTests
                 Assert.IsTrue(telemetry.MagX == 0);
                 Assert.IsTrue(telemetry.MagY == 0);
                 Assert.IsTrue(telemetry.MagZ == 0);
+                Assert.IsTrue(telemetry.MagYaw == 0);
+                Assert.IsTrue(telemetry.YawDerivativeError == 0);
+                Assert.IsTrue(telemetry.YawIntegral == 0);
+                Assert.IsTrue(telemetry.YawProportional == 0);
+                Assert.IsTrue(telemetry.YawVelocityDegreesPerSecond == 0);
+
                 Assert.IsTrue(telemetry.Timeouts == 0);
                 Assert.IsTrue(telemetry.UnrecognizedMsgTypes == 0);
                 Assert.IsTrue(telemetry.ChecksumErrors == 0);

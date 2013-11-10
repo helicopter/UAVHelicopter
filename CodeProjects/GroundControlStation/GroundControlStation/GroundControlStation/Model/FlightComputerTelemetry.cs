@@ -11,7 +11,7 @@ namespace GroundControlStation.Model
         /// <summary>
         /// This represents the number of bytes in this message including the message type.
         /// </summary>
-        public const int NumOfBytesInMsg = 22;
+        public const int NumOfBytesInMsg = 23;
 
         public short MagX { get; set; }
 
@@ -20,16 +20,16 @@ namespace GroundControlStation.Model
         public short MagZ { get; set; }
 
 
-        public float MagYaw { get; set; }
+        public ushort MagYaw { get; set; }
 
-        public float YawVelocityDegreesPerSecond { get; set; }
+        public short YawVelocityDegreesPerSecond { get; set; }
 
 
-        public float YawIntegral { get; set; }
+        public short YawIntegral { get; set; }
 
-        public float YawProportional { get; set; }
+        public short YawProportional { get; set; }
 
-        public float YawDerivativeError { get; set; }
+        public short YawDerivativeError { get; set; }
 
 
         public short Timeouts { get; set; }
@@ -59,15 +59,15 @@ namespace GroundControlStation.Model
             MagY = decodeShort(byteBuffer, ref positionCounter);
             MagZ = decodeShort(byteBuffer, ref positionCounter);
 
-            MagYaw = decodeShort(byteBuffer, ref positionCounter) / 100;
+            MagYaw = decodeUShort(byteBuffer, ref positionCounter);
 
-            YawVelocityDegreesPerSecond = decodeShort(byteBuffer, ref positionCounter) / 100;
+            YawVelocityDegreesPerSecond = decodeShort(byteBuffer, ref positionCounter);
 
-            YawIntegral = decodeShort(byteBuffer, ref positionCounter) / 100;
+            YawIntegral = decodeShort(byteBuffer, ref positionCounter);
 
-            YawProportional = decodeShort(byteBuffer, ref positionCounter) / 100;
+            YawProportional = decodeShort(byteBuffer, ref positionCounter);
 
-            YawDerivativeError = decodeShort(byteBuffer, ref positionCounter) / 100;
+            YawDerivativeError = decodeShort(byteBuffer, ref positionCounter);
 
             Timeouts = decodeShort(byteBuffer, ref positionCounter);
             UnrecognizedMsgTypes = decodeShort(byteBuffer, ref positionCounter);
@@ -85,11 +85,11 @@ namespace GroundControlStation.Model
             encode(ref rawMsg, MagX, ref positionCounter);
             encode(ref rawMsg, MagY, ref positionCounter);
             encode(ref rawMsg, MagZ, ref positionCounter);
-            encode(ref rawMsg, (ushort) (MagYaw * 100), ref positionCounter);
-            encode(ref rawMsg, (short)(YawVelocityDegreesPerSecond * 100), ref positionCounter);
-            encode(ref rawMsg, (short)(YawIntegral * 100), ref positionCounter);
-            encode(ref rawMsg, (short)(YawProportional * 100), ref positionCounter);
-            encode(ref rawMsg, (short)(YawDerivativeError * 100), ref positionCounter);
+            encode(ref rawMsg, MagYaw, ref positionCounter);
+            encode(ref rawMsg, YawVelocityDegreesPerSecond, ref positionCounter);
+            encode(ref rawMsg, YawIntegral, ref positionCounter);
+            encode(ref rawMsg, YawProportional, ref positionCounter);
+            encode(ref rawMsg, YawDerivativeError, ref positionCounter);
             encode(ref rawMsg, Timeouts, ref positionCounter);
             encode(ref rawMsg, UnrecognizedMsgTypes, ref positionCounter);
             encode(ref rawMsg, ChecksumErrors, ref positionCounter);
@@ -125,6 +125,12 @@ namespace GroundControlStation.Model
             return lstValues;
         }
 
+        private ushort decodeUShort(byte[] byteBuffer, ref int positionCounter)
+        {
+            ushort val = (ushort) BitConverter.ToInt16(byteBuffer, positionCounter);
+            positionCounter += sizeof(ushort);
+            return val;
+        }
 
         private short decodeShort(byte[] byteBuffer, ref int positionCounter)
         {

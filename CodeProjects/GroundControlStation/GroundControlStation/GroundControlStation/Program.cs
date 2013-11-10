@@ -40,6 +40,8 @@ namespace GroundControlStation
             IGraphingView fcMagX = new GraphForm();
             IGraphingView fcMagY = new GraphForm();
             IGraphingView fcMagZ = new GraphForm();
+            IGraphingView YawProportional = new GraphForm();
+            IGraphingView YawVelocityDegreesPerSecond = new GraphForm();
 
             IDashboardView dashboard = new GroundControlStationForm();
 
@@ -49,7 +51,8 @@ namespace GroundControlStation
             gcsDashboardView.FcMagYaw = fcMagX;
             gcsDashboardView.FcMagY = fcMagY;
             gcsDashboardView.FcMagZ = fcMagZ;
-            
+            gcsDashboardView.YawProportional = YawProportional;
+            gcsDashboardView.YawVelocityDegreesPerSecond = YawVelocityDegreesPerSecond;
 
 
             GroundControlStationModel model = new GroundControlStationModel();

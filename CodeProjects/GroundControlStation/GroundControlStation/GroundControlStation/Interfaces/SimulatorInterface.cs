@@ -12,6 +12,7 @@ namespace GroundControlStation.Interfaces
 {
     public class SimulatorInterface : IDisposable
     {
+
         private int listenerPort;
 
         private int transmissionPort;
@@ -70,6 +71,71 @@ namespace GroundControlStation.Interfaces
             byte[] xplaneBytes = broadcastUdpListener.Receive(ref broadcastUdpListenerEndpoint);
 
             return SimulatorTelemetry.Create(xplaneBytes);
+        }
+
+
+        public virtual void Transmit(FlightComputerTelemetry fcTelem)
+        {
+            int index = 0;
+
+            /**
+             * Structure for storing the data in byte format for sending to xplane.
+             * See http://www.nuclearprojects.com/xplane/xplaneref.html for structure format.
+             * Each message to send to xplane consists of a header
+             * and multiple data input structures. Each data input structure consists of
+             * a four byte integer index value, which matches the index of the data
+             * to be set in the data input & output screen in xplain, and an
+             * array of 8 four byte floating point values (i.e. float[8]).
+             */
+            byte[] xplaneBytes = new byte[41];
+
+            String inputMessageHeader = "DATA";
+
+            int PropellerPitchMsgIndex = 39;
+
+            //This value tells the simulator to ignore the value in this field.
+            float ignoreValue = -999;
+            
+
+            //header
+            populateMessage(xplaneBytes, inputMessageHeader, ref index, 4);
+            xplaneBytes[4] = 0; //This field is set to 0 for pure input messages
+            index++;
+
+            //Indicates this is a propeller pitch (tail and main rotors) message
+            populateMessage(xplaneBytes, PropellerPitchMsgIndex, ref index, 4);
+
+
+            //Set the Main rotor collective
+            populateMessage(xplaneBytes, ignoreValue, ref index, 4);
+            
+
+            //Set the tail rotor collective
+            //TODO fill in
+            populateMessage(xplaneBytes, 2.2f, ref index, 4);
+
+            broadcastUdpTransmitterSocket.SendTo(xplaneBytes, broadcastUdpTransmitterEndpoint);
+        }
+
+        private void populateMessage(byte[] xplaneBytes, float data, ref int index, int length)
+        {
+            Array.Copy(BitConverter.GetBytes(data), 0, xplaneBytes, index, length);
+
+            index += length;
+        }
+
+        private void populateMessage(byte[] xplaneBytes, int data, ref int index, int length)
+        {
+            Array.Copy(BitConverter.GetBytes(data), 0, xplaneBytes, index, length);
+
+            index += length;
+        }
+
+        private void populateMessage(byte[] xplaneBytes, string data, ref int index, int length)
+        {
+            Array.Copy(System.Text.Encoding.ASCII.GetBytes(data), 0, xplaneBytes, index, length);
+
+            index += length;
         }
 
         /// <summary>

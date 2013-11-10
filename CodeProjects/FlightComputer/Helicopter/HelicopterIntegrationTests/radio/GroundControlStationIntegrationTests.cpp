@@ -275,6 +275,11 @@ int reliablyreceive_test(TestCase *test)
 		AssertTrue2(((SystemTelemetryMessage*)receiveMessage)->MagX() == i, 1);
 		AssertTrue2(((SystemTelemetryMessage*)receiveMessage)->MagY() == i, 1);
 		AssertTrue2(((SystemTelemetryMessage*)receiveMessage)->MagZ() == i, 1);
+		AssertTrue(((SystemTelemetryMessage*)receiveMessage)->MagYaw() == i);
+		AssertTrue(((SystemTelemetryMessage*)receiveMessage)->YawDerivativeError() == i);
+		AssertTrue(((SystemTelemetryMessage*)receiveMessage)->YawIntegral() == i);
+		AssertTrue(((SystemTelemetryMessage*)receiveMessage)->YawProportional() == i);
+		AssertTrue(((SystemTelemetryMessage*)receiveMessage)->YawVelocityDegreesPerSecond() == i);
 		
 		AssertTrue2(((SystemTelemetryMessage*)receiveMessage)->ChecksumErrors() == i, 1);
 		AssertTrue2(((SystemTelemetryMessage*)receiveMessage)->Timeouts() == i, 1);
@@ -289,6 +294,12 @@ int reliablyreceive_test(TestCase *test)
 	transmitMessage->MagX(timeoutErrors);
 	transmitMessage->MagY(msgTypeErrors);
 	transmitMessage->MagZ(crcErrors);
+	transmitMessage->MagYaw(0);
+	transmitMessage->YawDerivativeError(0);
+	transmitMessage->YawIntegral(0);
+	transmitMessage->YawProportional(0);
+	transmitMessage->YawVelocityDegreesPerSecond(0);
+	
 	transmitMessage->ChecksumErrors(0);
 	transmitMessage->Timeouts(0);
 	transmitMessage->UnrecognizedMsgTypes(0);

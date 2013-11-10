@@ -73,6 +73,7 @@ namespace GroundControlStation.Controller
             UpdateView(DashboardView.YawVelocityDegreesPerSecond, Model.FcTelm.YawVelocityDegreesPerSecond);
             UpdateView(DashboardView.FcMagY, Model.FcTelm.MagY);
             UpdateView(DashboardView.FcMagZ, Model.FcTelm.MagZ);
+            UpdateView(DashboardView.YawProportional, Model.FcTelm.YawProportional);
 
             UpdateLatestValues();
         }
@@ -105,14 +106,7 @@ namespace GroundControlStation.Controller
 
         internal void ToggleSimHeadingGraph()
         {
-            if (DashboardView.SimHeadingGraph.IsActive)
-            {
-                DashboardView.SimHeadingGraph.DeactivateView();
-            }
-            else
-            {
-                DashboardView.SimHeadingGraph.ActivateView();
-            }
+            ToggleGraph(DashboardView.SimHeadingGraph);
         }
 
         public void Start()
@@ -168,12 +162,16 @@ namespace GroundControlStation.Controller
                         Model.FcTelm = telem;
 
                         UpdateViews();
+
+                        //Transmit data to simulator
+                        xplaneInterface.Transmit(telem);
                     }
                     else if (msg.MsgType == SyncMessage.MessageType)
                     {
                         //Send sim model data to FC. 
                         FlightComputerTelemetry data = new FlightComputerTelemetry();
-                        data.MagYaw = (short) Model.SimTelm.MagHeadingDegrees;
+                        data.MagYaw = (ushort) (Model.SimTelm.MagHeadingDegrees * 100);
+                        data.YawVelocityDegreesPerSecond = (short) (Model.SimTelm.YawVelocityMs * 100);
 
                         fcInterface.Transmit(data);
                     }
@@ -183,14 +181,24 @@ namespace GroundControlStation.Controller
 
         internal void ToggleFcMagYawGraph()
         {
-            if (DashboardView.FcMagYaw.IsActive)
+            ToggleGraph(DashboardView.FcMagYaw);
+        }
+
+        private void ToggleGraph(IGraphingView graph)
+        {
+            if (graph.IsActive)
             {
-                DashboardView.FcMagYaw.DeactivateView();
+                graph.DeactivateView();
             }
             else
             {
-                DashboardView.FcMagYaw.ActivateView();
+                graph.ActivateView();
             }
+        }
+
+        internal void ToggleFcYawProportionalErrorGraph()
+        {
+            ToggleGraph(DashboardView.YawProportional);
         }
     }
 }

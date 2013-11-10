@@ -22,6 +22,10 @@ SystemTelemetryMessage *SystemModel::CreateTelemetryMessage()
 	message->ChecksumErrors(ChecksumErrors());
 	message->Timeouts(Timeouts());
 	message->UnrecognizedMsgTypes(UnrecognizedMsgTypes());
+	message->YawDerivativeError(YawDerivativeError());
+	message->YawIntegral(YawIntegral());
+	message->YawProportional(YawProportional());
+	message->YawVelocityDegreesPerSecond(YawVelocityDegreesPerSecond());
 	
 	return message;
 }

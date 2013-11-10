@@ -47,5 +47,10 @@ namespace GroundControlStation.Views
         {
             Controller.ToggleFcMagYawGraph();
         }
+
+        private void yawProportional_Click(object sender, EventArgs e)
+        {
+            Controller.ToggleFcYawProportionalErrorGraph();
+        }
     }
 }

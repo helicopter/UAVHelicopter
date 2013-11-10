@@ -19,5 +19,7 @@ namespace GroundControlStation.Views
         public IGraphingView FcMagY { get; set; }
 
         public IGraphingView FcMagZ { get; set; }
+
+        public IGraphingView YawProportional { get; set; }
     }
 }

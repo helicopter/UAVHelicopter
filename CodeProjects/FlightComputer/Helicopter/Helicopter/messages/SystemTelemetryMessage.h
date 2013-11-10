@@ -29,7 +29,7 @@ namespace helicopter
 
 				int magZ;
 				
-				int magYaw;
+				unsigned int magYaw;
 				
 				int yawVelocityDegreesPerSecond;
 				
@@ -96,8 +96,8 @@ namespace helicopter
 				int MagZ() const { return magZ; }
 				void MagZ(int val) { magZ = val; }
 					
-				int MagYaw() const { return magYaw; }
-				void MagYaw(int val) { magYaw = val; }
+				unsigned int MagYaw() const { return magYaw; }
+				void MagYaw(unsigned int val) { magYaw = val; }
 					
 				int YawVelocityDegreesPerSecond() const { return yawVelocityDegreesPerSecond; }
 				void YawVelocityDegreesPerSecond(int val) { yawVelocityDegreesPerSecond = val; }
