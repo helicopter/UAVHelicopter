@@ -33,11 +33,17 @@ namespace helicopter
 				
 				int yawVelocityDegreesPerSecond;
 				
+				/**
+				 * Control output fields
+				 */
+				
 				int yawIntegral;
 				
 				int yawProportional;
 				
 				int yawDerivativeError;
+				
+				int yawControl;
 				
 				/**
 				 * Instrumentation fields
@@ -61,6 +67,7 @@ namespace helicopter
 				sizeof(yawIntegral) +
 				sizeof(yawProportional) +
 				sizeof(yawDerivativeError) +
+				sizeof(yawControl) +
 				sizeof(timeouts) + 
 				sizeof(unrecognizedMsgTypes) + 
 				sizeof(checksumErrors);
@@ -73,7 +80,8 @@ namespace helicopter
 					yawVelocityDegreesPerSecond(0),
 					yawIntegral(0),
 					yawProportional(0),
-					yawDerivativeError(0),					
+					yawDerivativeError(0),
+					yawControl(0),					
 					timeouts(0),
 					unrecognizedMsgTypes(0),
 					checksumErrors(0)
@@ -111,6 +119,10 @@ namespace helicopter
 				int YawDerivativeError() const {return yawDerivativeError;}
 				void YawDerivativeError(int val) { yawDerivativeError = val;}	
 					
+									
+				int YawControl() const {return yawControl;}
+				void YawControl(int val) { yawControl = val;}				
+									
 									
 					
 				int Timeouts() const {return timeouts; }

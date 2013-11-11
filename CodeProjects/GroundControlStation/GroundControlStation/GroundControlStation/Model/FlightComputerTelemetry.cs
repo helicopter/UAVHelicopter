@@ -11,7 +11,7 @@ namespace GroundControlStation.Model
         /// <summary>
         /// This represents the number of bytes in this message including the message type.
         /// </summary>
-        public const int NumOfBytesInMsg = 23;
+        public const int NumOfBytesInMsg = 25;
 
         public short MagX { get; set; }
 
@@ -30,6 +30,8 @@ namespace GroundControlStation.Model
         public short YawProportional { get; set; }
 
         public short YawDerivativeError { get; set; }
+
+        public float YawControl { get; set; }
 
 
         public short Timeouts { get; set; }
@@ -69,6 +71,8 @@ namespace GroundControlStation.Model
 
             YawDerivativeError = decodeShort(byteBuffer, ref positionCounter);
 
+            YawControl = decodeFloat(byteBuffer, ref positionCounter);
+
             Timeouts = decodeShort(byteBuffer, ref positionCounter);
             UnrecognizedMsgTypes = decodeShort(byteBuffer, ref positionCounter);
             ChecksumErrors = decodeShort(byteBuffer, ref positionCounter);
@@ -90,6 +94,7 @@ namespace GroundControlStation.Model
             encode(ref rawMsg, YawIntegral, ref positionCounter);
             encode(ref rawMsg, YawProportional, ref positionCounter);
             encode(ref rawMsg, YawDerivativeError, ref positionCounter);
+            encode(ref rawMsg, YawControl, ref positionCounter);
             encode(ref rawMsg, Timeouts, ref positionCounter);
             encode(ref rawMsg, UnrecognizedMsgTypes, ref positionCounter);
             encode(ref rawMsg, ChecksumErrors, ref positionCounter);
@@ -139,6 +144,13 @@ namespace GroundControlStation.Model
             return val;
         }
 
+        private float decodeFloat(byte[] byteBuffer, ref int positionCounter)
+        {
+            short val = BitConverter.ToInt16(byteBuffer, positionCounter);
+            positionCounter += sizeof(short);
+            return val / 100.0f;
+        }
+
         private byte decodeByte(byte[] byteBuffer, ref int positionCounter)
         {
             byte val = byteBuffer[positionCounter];
@@ -157,6 +169,14 @@ namespace GroundControlStation.Model
 
             rawMsg[positionCounter++] = temp[0];
             rawMsg[positionCounter++] = temp[1];
+        }
+
+        private void encode(ref byte[] rawMsg, float data, ref int positionCounter)
+        {
+            short intRepresentation = (short) (data * 100);
+
+            encode(ref rawMsg, intRepresentation, ref positionCounter);
+
         }
 
         private void encode(ref byte[] rawMsg, ushort data, ref int positionCounter)

@@ -26,6 +26,7 @@ SystemTelemetryMessage *SystemModel::CreateTelemetryMessage()
 	message->YawIntegral(YawIntegral());
 	message->YawProportional(YawProportional());
 	message->YawVelocityDegreesPerSecond(YawVelocityDegreesPerSecond());
+	message->YawControl(YawControl() * 100);
 	
 	return message;
 }

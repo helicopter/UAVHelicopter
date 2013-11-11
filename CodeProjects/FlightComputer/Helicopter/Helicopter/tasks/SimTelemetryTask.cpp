@@ -48,6 +48,8 @@ void SimTelemetryTask::runTaskImpl()
 			
 			model->MagYawDegrees(telemMsg->MagYaw() / 100.0d);
 			model->YawVelocityDegreesPerSecond(telemMsg->YawVelocityDegreesPerSecond() / 100.0d);
+			
+			model->YawControl(telemMsg->YawControl() / 100.0d);
 		
 			delete message;
 		}

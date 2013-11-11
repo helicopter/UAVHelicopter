@@ -26,6 +26,7 @@ byte *SystemTelemetryMessage::getBytes()
 	encode (msgPtr, yawIntegral);
 	encode (msgPtr, yawProportional);
 	encode (msgPtr, yawDerivativeError);
+	encode (msgPtr, yawControl);
 	encode (msgPtr, timeouts);
 	encode (msgPtr, unrecognizedMsgTypes);
 	encode (msgPtr, checksumErrors);
@@ -45,7 +46,8 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		decode (message,yawVelocityDegreesPerSecond);
 		decode (message,yawIntegral);
 		decode (message,yawProportional);
-		decode (message,yawDerivativeError);						
+		decode (message,yawDerivativeError);	
+		decode (message, yawControl);					
 		decode (message,timeouts);
 		decode (message,unrecognizedMsgTypes);
 		decode (message,checksumErrors);

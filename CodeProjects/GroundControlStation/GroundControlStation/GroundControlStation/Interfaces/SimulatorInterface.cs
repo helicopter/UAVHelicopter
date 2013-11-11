@@ -109,7 +109,6 @@ namespace GroundControlStation.Interfaces
             //Set the Main rotor collective
             populateMessage(xplaneBytes, ignoreValue, ref index, 4);
             
-
             //Set the tail rotor collective
             //TODO fill in
             populateMessage(xplaneBytes, 2.2f, ref index, 4);
