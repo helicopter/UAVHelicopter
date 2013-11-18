@@ -132,6 +132,7 @@
       <Value>../../Helicopter/interfaces</Value>
       <Value>../../HelicopterTestsCommon/mocks</Value>
       <Value>../../Helicopter/messages</Value>
+      <Value>../../Helicopter/model</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
   <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>

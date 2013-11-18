@@ -33,13 +33,13 @@ namespace helicopter
 				 * Mem copies the value into the buffer pointer then increments
 				 * the pointer location by the size of the value copied.
 				 */
-				void encode (byte *&buffPtr, int &val)
+				void encode (byte *&buffPtr, long &val)
 				{
 					memcpy(buffPtr, &val, sizeof(val));
 					buffPtr += sizeof(val);
 				}
 				
-				void encode (byte *&buffPtr, unsigned int &val)
+				void encode (byte *&buffPtr, unsigned long &val)
 				{
 					memcpy(buffPtr, &val, sizeof(val));
 					buffPtr += sizeof(val);
@@ -61,13 +61,13 @@ namespace helicopter
 					buffPtr += sizeof(val);
 				}
 				
-				void decode (byte *&buffPtr, int &val)
+				void decode (byte *&buffPtr, long &val)
 				{
 					memcpy(&val, buffPtr, sizeof(val));
 					buffPtr += sizeof(val);
 				}
 				
-				void decode (byte *&buffPtr, unsigned int &val)
+				void decode (byte *&buffPtr, unsigned long &val)
 				{
 					memcpy(&val, buffPtr, sizeof(val));
 					buffPtr += sizeof(val);

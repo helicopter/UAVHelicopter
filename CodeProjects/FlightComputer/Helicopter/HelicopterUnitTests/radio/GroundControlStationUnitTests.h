@@ -21,14 +21,14 @@ using namespace helicoptertestscommon::util::testframework;
  * software is running on the other end to echo the
  * sent data back.
  */
-int radiotransandrec_test(TestCase *test);
+//int radiotransandrec_test(TestCase *test);
 
-int telemetry_test(TestCase *test);
+//int telemetry_test(TestCase *test);
 
-int telemetrymessage_test(TestCase *test);
+//int telemetrymessage_test(TestCase *test);
 
-int telemetrybuildmessage_test(TestCase *test);
+//int telemetrybuildmessage_test(TestCase *test);
 
-int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test);
+//int gcsinterfacemessagereceivingandtransmitting_test(TestCase *test);
 
 #endif /* RADIOINTERFACEUNITTESTS_H_ */

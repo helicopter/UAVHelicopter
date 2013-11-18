@@ -160,8 +160,8 @@
             <Value>../drivers</Value>
             <Value>../sensors</Value>
             <Value>../interfaces</Value>
-            <Value>../messages</Value>
             <Value>../model</Value>
+            <Value>../messages</Value>
             <Value>../controller</Value>
           </ListValues>
         </avrgcccpp.compiler.directories.IncludePaths>

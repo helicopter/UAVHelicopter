@@ -31,7 +31,7 @@ namespace helicopter
 				static const int YELLOWLED = PA4;
 				static const int REDLED = PA5;
 				
-				bool isOn;
+				bool isOff;
 					
 				int ledToBlink;
 				
@@ -39,7 +39,7 @@ namespace helicopter
 
 			FlashLEDTask (int delay, int period, int ledToBlink = BLUELED) : 
 				Task(delay, period),
-				isOn(false),
+				isOff(false),
 				ledToBlink(ledToBlink)
 			{
 					
@@ -54,14 +54,16 @@ namespace helicopter
 				* Flashes the LED
 				*/
 			void runTaskImpl() {
-				if (isOn)
+				if (isOff)
 				{
+					//Turn On the LED
 					PORTA &= ~(1<<ledToBlink);
-					isOn = false;
+					isOff = false;
 				}else
 				{
+					//Turn Off the LED
 					PORTA |= (1<<ledToBlink);
-					isOn = true;
+					isOff = true;
 				}
 			}
 		};

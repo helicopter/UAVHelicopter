@@ -9,9 +9,6 @@
 #ifndef SYSTEMMODEL_H_
 #define SYSTEMMODEL_H_
 
-#include "SystemTelemetryMessage.h"
-
-using namespace helicopter::messages;
 
 namespace helicopter
 {
@@ -25,11 +22,6 @@ namespace helicopter
 		class SystemModel
 		{
 			private:
-			int rawMagX;
-			
-			int rawMagY;
-			
-			int rawMagZ;
 			
 			double magYawDegrees;
 			
@@ -62,9 +54,6 @@ namespace helicopter
 			public:
 			
 			SystemModel():
-			rawMagX(0),
-			rawMagY(0),
-			rawMagZ(0),
 			magYawDegrees(0),
 			referenceMagYawDegrees(0),
 			yawControl(0),
@@ -89,15 +78,6 @@ namespace helicopter
 			 * Z axis is pointing up out of the FC
 			 */
 			
-			int RawMagX() const { return rawMagX; }
-			void RawMagX(int val) { rawMagX = val; }
-			
-			int RawMagY() const { return rawMagY; }
-			void RawMagY(int val) { rawMagY = val; }
-			
-			int RawMagZ() const { return rawMagZ; }
-			void RawMagZ(int val) { rawMagZ = val; }
-				
 
 			double MagYawDegrees() const { return magYawDegrees; }
 			void MagYawDegrees(double val) { magYawDegrees = val; }	
@@ -139,8 +119,6 @@ namespace helicopter
 			int ChecksumErrors() const {return checksumErrors; }
 			void ChecksumErrors(int val) { checksumErrors = val; }
 				
-			SystemTelemetryMessage *CreateTelemetryMessage();
-
 		};
 	}
 	

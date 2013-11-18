@@ -57,7 +57,6 @@ namespace GroundControlStation
 
             GroundControlStationModel model = new GroundControlStationModel();
             model.SimTelm = new SimulatorTelemetry();
-            model.FcTelm = new FlightComputerTelemetry();
 
             GroundControlStationController gcsController =
                 new GroundControlStationController(xInterface, fcInterface);

@@ -11,6 +11,9 @@
 
 #include "Message.h"
 #include "CommonHeader.h"
+#include "SystemModel.h"
+
+using namespace helicopter::model;
 
 namespace helicopter
 {
@@ -22,126 +25,80 @@ namespace helicopter
 		 */
 		class SystemTelemetryMessage : public Message
 		{
-			private:
-				int magX;
+			public:
 
-				int magY;
-
-				int magZ;
+				unsigned long MagYaw;
 				
-				unsigned int magYaw;
-				
-				int yawVelocityDegreesPerSecond;
+				long YawVelocityDegreesPerSecond;
 				
 				/**
 				 * Control output fields
 				 */
 				
-				int yawIntegral;
+				long YawIntegral;
 				
-				int yawProportional;
+				long YawProportional;
 				
-				int yawDerivativeError;
+				long YawDerivativeError;
 				
-				int yawControl;
+				long YawControl;
 				
 				/**
 				 * Instrumentation fields
 				 */
-				int timeouts;
+				long Timeouts;
 				
-				int unrecognizedMsgTypes;
+				long UnrecognizedMsgTypes;
 				
-				int checksumErrors;
+				long ChecksumErrors;
 				
-			public:
 				static const byte MessageType = 2;
 			
 				static const byte MessageSize =
 				sizeof(msgType) +
-				sizeof(magX) +
-				sizeof(magY) +
-				sizeof(magZ) + 
-				sizeof(magYaw) +
-				sizeof(yawVelocityDegreesPerSecond) + 
-				sizeof(yawIntegral) +
-				sizeof(yawProportional) +
-				sizeof(yawDerivativeError) +
-				sizeof(yawControl) +
-				sizeof(timeouts) + 
-				sizeof(unrecognizedMsgTypes) + 
-				sizeof(checksumErrors);
+				sizeof(MagYaw) +
+				sizeof(YawVelocityDegreesPerSecond) + 
+				sizeof(YawIntegral) +
+				sizeof(YawProportional) +
+				sizeof(YawDerivativeError) +
+				sizeof(YawControl) +
+				sizeof(Timeouts) + 
+				sizeof(UnrecognizedMsgTypes) + 
+				sizeof(ChecksumErrors);
 			
 				SystemTelemetryMessage(): Message(MessageType,MessageSize),
-					magX(0),
-					magY(0),
-					magZ(0),
-					magYaw(0),
-					yawVelocityDegreesPerSecond(0),
-					yawIntegral(0),
-					yawProportional(0),
-					yawDerivativeError(0),
-					yawControl(0),					
-					timeouts(0),
-					unrecognizedMsgTypes(0),
-					checksumErrors(0)
+					MagYaw(0),
+					YawVelocityDegreesPerSecond(0),
+					YawIntegral(0),
+					YawProportional(0),
+					YawDerivativeError(0),
+					YawControl(0),					
+					Timeouts(0),
+					UnrecognizedMsgTypes(0),
+					ChecksumErrors(0)
 				{
 				
 				}
 			
 				~SystemTelemetryMessage() {}
 			
-				/**
-				 * Magnetic heading variables in the x y and z directions.
-				 */
-				
-				int MagX() const { return magX; }
-				void MagX(int val) { magX = val; }
-			
-				int MagY() const { return magY; }
-				void MagY(int val) { magY = val; }
-			
-				int MagZ() const { return magZ; }
-				void MagZ(int val) { magZ = val; }
-					
-				unsigned int MagYaw() const { return magYaw; }
-				void MagYaw(unsigned int val) { magYaw = val; }
-					
-				int YawVelocityDegreesPerSecond() const { return yawVelocityDegreesPerSecond; }
-				void YawVelocityDegreesPerSecond(int val) { yawVelocityDegreesPerSecond = val; }
-					
-				int YawIntegral() const {return yawIntegral;}
-				void YawIntegral(int val) { yawIntegral = val;}
-					
-				int YawProportional() const {return yawProportional;}
-				void YawProportional(int val) { yawProportional = val;}
-
-				int YawDerivativeError() const {return yawDerivativeError;}
-				void YawDerivativeError(int val) { yawDerivativeError = val;}	
-					
-									
-				int YawControl() const {return yawControl;}
-				void YawControl(int val) { yawControl = val;}				
-									
-									
-					
-				int Timeouts() const {return timeouts; }
-				void Timeouts(int val) { timeouts = val; }
-				
-				int UnrecognizedMsgTypes() const {return unrecognizedMsgTypes; }
-				void UnrecognizedMsgTypes(int val) { unrecognizedMsgTypes = val; }
-				
-				int ChecksumErrors() const {return checksumErrors; }
-				void ChecksumErrors(int val) { checksumErrors = val; }
-					
-					
 				byte *getBytes();
 				
 				void buildMessage(byte *message);
+				
+				/**
+				 * Updates the given model using the values in this telemetry message
+				 */
+				void updateModelFromMessage (SystemModel *model);
 					
 				//Static method which creates a telemetry message on the heap
 				//and then calls buildMessage on that created object.
 				static SystemTelemetryMessage* buildMessageSt(byte *message);
+				
+				/**
+				 * Updates this telemetry message from the model.
+				 */
+				static SystemTelemetryMessage* buildMessageFromModel( SystemModel *model );
 		};
 	}
 }

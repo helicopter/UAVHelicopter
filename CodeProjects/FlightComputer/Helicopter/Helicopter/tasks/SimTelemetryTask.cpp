@@ -42,14 +42,13 @@ void SimTelemetryTask::runTaskImpl()
 			SystemTelemetryMessage *telemMsg = (SystemTelemetryMessage*) message;
 			
 			//Update the model using the new data received from the simulator.
-			model->RawMagX(telemMsg->MagX());
-			model->RawMagY(telemMsg->MagY());
-			model->RawMagZ(telemMsg->MagZ());
 			
-			model->MagYawDegrees(telemMsg->MagYaw() / 100.0d);
-			model->YawVelocityDegreesPerSecond(telemMsg->YawVelocityDegreesPerSecond() / 100.0d);
+			telemMsg->updateModelFromMessage(model);
 			
-			model->YawControl(telemMsg->YawControl() / 100.0d);
+			model->MagYawDegrees(telemMsg->MagYaw / 100.0d);
+			model->YawVelocityDegreesPerSecond(telemMsg->YawVelocityDegreesPerSecond / 100.0d);
+			
+			model->YawControl(telemMsg->YawControl / 100.0d);
 		
 			delete message;
 		}

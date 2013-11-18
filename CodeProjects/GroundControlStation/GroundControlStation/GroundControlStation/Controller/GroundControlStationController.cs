@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using GroundControlStation.Interfaces;
 using GroundControlStation.Model;
 using GroundControlStation.Views;
+using GroundControlStation.Messages;
 
 namespace GroundControlStation.Controller
 {
@@ -51,17 +52,6 @@ namespace GroundControlStation.Controller
             flightComputerThread = new Thread(new ThreadStart(BeginFlightComputerPolling));
         }
 
-        /*
-        public void GetSimulatorTelemetry()
-        {
-            Model.SimTelm = xplaneInterface.Receive();
-        }
-
-        public void GetFlightComputerTelemetry()
-        {
-            Model.FcTelm = fcInterface.Receive();
-        }
-         */
 
         /// <summary>
         /// Updates the views (graphs) based on the received data.
@@ -69,11 +59,9 @@ namespace GroundControlStation.Controller
         public void UpdateViews()
         {
             UpdateView(DashboardView.SimHeadingGraph, Model.SimTelm.MagHeadingDegrees);
-            UpdateView(DashboardView.FcMagYaw, Model.FcTelm.MagYaw);
-            UpdateView(DashboardView.YawVelocityDegreesPerSecond, Model.FcTelm.YawVelocityDegreesPerSecond);
-            UpdateView(DashboardView.FcMagY, Model.FcTelm.MagY);
-            UpdateView(DashboardView.FcMagZ, Model.FcTelm.MagZ);
-            UpdateView(DashboardView.YawProportional, Model.FcTelm.YawProportional);
+            UpdateView(DashboardView.FcMagYaw, Model.MagYaw);
+            UpdateView(DashboardView.YawVelocityDegreesPerSecond, Model.YawVelocityDegreesPerSecond);
+            UpdateView(DashboardView.YawProportional, Model.YawProportional);
 
             UpdateLatestValues();
         }
@@ -81,7 +69,7 @@ namespace GroundControlStation.Controller
         private void UpdateLatestValues()
         {
             List<Tuple<String, String>> simValues = Model.SimTelm.ListValues();
-            simValues.AddRange(Model.FcTelm.ListValues());
+            simValues.AddRange(Model.ListValues());
 
             DashboardView.DashboardView.UpdateLatestValues(simValues);
         }
@@ -154,12 +142,13 @@ namespace GroundControlStation.Controller
 
                 if (msg != null)
                 {
-                    if (msg.MsgType == FlightComputerTelemetry.MessageType)
+                    if (msg.MsgType == FlightComputerTelemetryMessage.MessageType)
                     {
                         //Receive model data from FC
-                        FlightComputerTelemetry telem = (FlightComputerTelemetry) msg;
+                        FlightComputerTelemetryMessage telem = (FlightComputerTelemetryMessage) msg;
 
-                        Model.FcTelm = telem;
+                        telem.UpdateModel(Model);
+                        
 
                         UpdateViews();
 
@@ -169,9 +158,7 @@ namespace GroundControlStation.Controller
                     else if (msg.MsgType == SyncMessage.MessageType)
                     {
                         //Send sim model data to FC. 
-                        FlightComputerTelemetry data = new FlightComputerTelemetry();
-                        data.MagYaw = (ushort) (Model.SimTelm.MagHeadingDegrees * 100);
-                        data.YawVelocityDegreesPerSecond = (short) (Model.SimTelm.YawVelocityMs * 100);
+                        FlightComputerTelemetryMessage data = FlightComputerTelemetryMessage.CreateFromModel(Model);
 
                         fcInterface.Transmit(data);
                     }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GroundControlStation.Interfaces;
 using GroundControlStation.Model;
+using GroundControlStation.Messages;
 
 namespace UnitTests.mocks
 {
@@ -36,13 +37,13 @@ namespace UnitTests.mocks
         /// <exception cref="SystemException">Thrown when there is an issue parsing the received telemetry data</exception>
         public override Message Receive()
         {
-            FlightComputerTelemetry data = new FlightComputerTelemetry();
-            data.MagX = (short)testValue;
+            FlightComputerTelemetryMessage data = new FlightComputerTelemetryMessage();
+           // data.MagX = (short)testValue;
 
             return data;
         }
 
-        public override void Transmit(FlightComputerTelemetry telemetry)
+        public override void Transmit(FlightComputerTelemetryMessage telemetry)
         {
             
         }

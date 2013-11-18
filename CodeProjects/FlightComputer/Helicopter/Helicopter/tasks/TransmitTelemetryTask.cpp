@@ -20,7 +20,8 @@ TransmitTelemetryTask::TransmitTelemetryTask(GroundControlStationInterface *radi
 
 void TransmitTelemetryTask::runTaskImpl()
 {
-	SystemTelemetryMessage *message = model->CreateTelemetryMessage();
+	//SystemTelemetryMessage *message = model->CreateTelemetryMessage();
+	SystemTelemetryMessage *message = SystemTelemetryMessage::buildMessageFromModel(model);
 	
 	//TODO add some error handling in here
 	radioInterface->transmit(message);

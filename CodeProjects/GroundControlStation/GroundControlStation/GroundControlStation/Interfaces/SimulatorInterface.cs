@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.VisualStyles;
 using GroundControlStation.Model;
+using GroundControlStation.Messages;
 
 namespace GroundControlStation.Interfaces
 {
@@ -74,7 +75,7 @@ namespace GroundControlStation.Interfaces
         }
 
 
-        public virtual void Transmit(FlightComputerTelemetry fcTelem)
+        public virtual void Transmit(FlightComputerTelemetryMessage fcTelem)
         {
             int index = 0;
 
@@ -111,7 +112,8 @@ namespace GroundControlStation.Interfaces
             
             //Set the tail rotor collective
             //TODO fill in
-            populateMessage(xplaneBytes, 2.2f, ref index, 4);
+            //populateMessage(xplaneBytes, 2.2f, ref index, 4);
+            populateMessage(xplaneBytes, fcTelem.YawControl, ref index, 4);
 
             broadcastUdpTransmitterSocket.SendTo(xplaneBytes, broadcastUdpTransmitterEndpoint);
         }

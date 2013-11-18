@@ -18,18 +18,15 @@ byte *SystemTelemetryMessage::getBytes()
 	byte *msgPtr = msg;
 	
 	encode (msgPtr, msgType);
-	encode (msgPtr, magX);
-	encode (msgPtr, magY);
-	encode (msgPtr, magZ);
-	encode (msgPtr, magYaw);
-	encode (msgPtr, yawVelocityDegreesPerSecond);
-	encode (msgPtr, yawIntegral);
-	encode (msgPtr, yawProportional);
-	encode (msgPtr, yawDerivativeError);
-	encode (msgPtr, yawControl);
-	encode (msgPtr, timeouts);
-	encode (msgPtr, unrecognizedMsgTypes);
-	encode (msgPtr, checksumErrors);
+	encode (msgPtr, MagYaw);
+	encode (msgPtr, YawVelocityDegreesPerSecond);
+	encode (msgPtr, YawIntegral);
+	encode (msgPtr, YawProportional);
+	encode (msgPtr, YawDerivativeError);
+	encode (msgPtr, YawControl);
+	encode (msgPtr, Timeouts);
+	encode (msgPtr, UnrecognizedMsgTypes);
+	encode (msgPtr, ChecksumErrors);
 				
 	return msg;
 }
@@ -39,18 +36,15 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 	if (message != NULL)
 	{
 		decode (message,msgType);
-		decode (message,magX);
-		decode (message,magY);
-		decode (message,magZ);
-		decode (message,magYaw);
-		decode (message,yawVelocityDegreesPerSecond);
-		decode (message,yawIntegral);
-		decode (message,yawProportional);
-		decode (message,yawDerivativeError);	
-		decode (message, yawControl);					
-		decode (message,timeouts);
-		decode (message,unrecognizedMsgTypes);
-		decode (message,checksumErrors);
+		decode (message,MagYaw);
+		decode (message,YawVelocityDegreesPerSecond);
+		decode (message,YawIntegral);
+		decode (message,YawProportional);
+		decode (message,YawDerivativeError);	
+		decode (message, YawControl);					
+		decode (message,Timeouts);
+		decode (message,UnrecognizedMsgTypes);
+		decode (message,ChecksumErrors);
 	}
 }
 
@@ -60,4 +54,36 @@ SystemTelemetryMessage* SystemTelemetryMessage::buildMessageSt(byte *message)
 	msg->buildMessage(message);
 	
 	return msg;
+}
+
+SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemModel *model)
+{
+	//throw std::exception("The method or operation is not implemented.");
+	SystemTelemetryMessage *message = new SystemTelemetryMessage();
+	
+	message->MagYaw = model->MagYawDegrees() * 100;
+	message->YawDerivativeError = model->YawDerivativeError() * 100;
+	message->YawIntegral = model->YawIntegral() * 100;
+	message->YawProportional = model->YawProportional() * 100;
+	message->YawVelocityDegreesPerSecond = model->YawVelocityDegreesPerSecond() * 100;
+	message->YawControl = model->YawControl() * 100;
+	message->ChecksumErrors = model->ChecksumErrors();
+	message->Timeouts = model->Timeouts();
+	message->UnrecognizedMsgTypes = model->UnrecognizedMsgTypes();
+	
+	return message;
+}
+
+
+void SystemTelemetryMessage::updateModelFromMessage (SystemModel *model)
+{
+	model->MagYawDegrees((double) this->MagYaw / 100);
+	model->YawVelocityDegreesPerSecond((double) this->YawVelocityDegreesPerSecond / 100);
+	model->YawIntegral((double) this->YawIntegral / 100);
+	model->YawProportional((double) this->YawProportional / 100);
+	model->YawDerivativeError((double) this->YawDerivativeError / 100);
+	model->YawControl((double) this->YawControl / 100);
+	model->Timeouts(this->Timeouts);
+	model->UnrecognizedMsgTypes(this->UnrecognizedMsgTypes);
+	model->ChecksumErrors(this->ChecksumErrors);
 }

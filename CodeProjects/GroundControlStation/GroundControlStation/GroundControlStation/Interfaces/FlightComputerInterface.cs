@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GroundControlStation.Model;
+using GroundControlStation.Messages;
 
 namespace GroundControlStation.Interfaces
 {
@@ -103,9 +104,9 @@ namespace GroundControlStation.Interfaces
 
                         int messageSize = 0;
 
-                        if (messageType == FlightComputerTelemetry.MessageType)
+                        if (messageType == FlightComputerTelemetryMessage.MessageType)
                         {
-                            messageSize = FlightComputerTelemetry.NumOfBytesInMsg;
+                            messageSize = FlightComputerTelemetryMessage.NumOfBytesInMsg;
                         }else if (messageType == SyncMessage.MessageType)
                         {
                             messageSize = SyncMessage.NumOfBytesInMsg;
@@ -141,9 +142,9 @@ namespace GroundControlStation.Interfaces
                         if (calculatedChecksumA == messageChecksumA && calculatedChecksumB == messageChecksumB)
                         {
                             //build the message
-                            if (messageType == FlightComputerTelemetry.MessageType)
+                            if (messageType == FlightComputerTelemetryMessage.MessageType)
                             {
-                                data = FlightComputerTelemetry.BuildMessageSt(messagePayload);
+                                data = FlightComputerTelemetryMessage.BuildMessageSt(messagePayload);
                             }else if (messageType == SyncMessage.MessageType)
                             {
                                 data = SyncMessage.BuildMessageSt(messagePayload);
@@ -174,7 +175,7 @@ namespace GroundControlStation.Interfaces
         /// Transmit the telemetry message and append appropriate sync and checksum bytes.
         /// </summary>
         /// <param name="telemetry"></param>
-        public virtual void Transmit(FlightComputerTelemetry telemetry)
+        public virtual void Transmit(FlightComputerTelemetryMessage telemetry)
         {
             byte[] msgPayload = telemetry.GetRawBytes();
 
