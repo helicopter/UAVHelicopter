@@ -87,3 +87,9 @@ void SystemTelemetryMessage::updateModelFromMessage (SystemModel *model)
 	model->UnrecognizedMsgTypes(this->UnrecognizedMsgTypes);
 	model->ChecksumErrors(this->ChecksumErrors);
 }
+
+void SystemTelemetryMessage::updateModelFromMessageFromSimulator (SystemModel *model)
+{
+	model->MagYawDegrees((double) this->MagYaw / 100);
+	model->YawVelocityDegreesPerSecond((double) this->YawVelocityDegreesPerSecond / 100);
+}

@@ -28,16 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "Test1",
             "test2"}, -1);
             this.listLatestValues = new System.Windows.Forms.ListView();
             this.TelemName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TelemValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnYawDeriv = new System.Windows.Forms.Button();
+            this.btnYawIntegral = new System.Windows.Forms.Button();
+            this.yawProportional = new System.Windows.Forms.Button();
             this.btnFcMagX = new System.Windows.Forms.Button();
             this.btnHeadingGraph = new System.Windows.Forms.Button();
-            this.yawProportional = new System.Windows.Forms.Button();
+            this.btnYawControl = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,7 +52,7 @@
             this.TelemName,
             this.TelemValue});
             this.listLatestValues.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem2});
+            listViewItem1});
             this.listLatestValues.Location = new System.Drawing.Point(1, -1);
             this.listLatestValues.Name = "listLatestValues";
             this.listLatestValues.Size = new System.Drawing.Size(173, 632);
@@ -72,6 +75,9 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.btnYawControl);
+            this.panel1.Controls.Add(this.btnYawDeriv);
+            this.panel1.Controls.Add(this.btnYawIntegral);
             this.panel1.Controls.Add(this.yawProportional);
             this.panel1.Controls.Add(this.btnFcMagX);
             this.panel1.Controls.Add(this.btnHeadingGraph);
@@ -79,6 +85,36 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(137, 632);
             this.panel1.TabIndex = 3;
+            // 
+            // btnYawDeriv
+            // 
+            this.btnYawDeriv.Location = new System.Drawing.Point(0, 120);
+            this.btnYawDeriv.Name = "btnYawDeriv";
+            this.btnYawDeriv.Size = new System.Drawing.Size(129, 23);
+            this.btnYawDeriv.TabIndex = 4;
+            this.btnYawDeriv.Text = "Yaw Derivative";
+            this.btnYawDeriv.UseVisualStyleBackColor = true;
+            this.btnYawDeriv.Click += new System.EventHandler(this.btnYawDeriv_Click);
+            // 
+            // btnYawIntegral
+            // 
+            this.btnYawIntegral.Location = new System.Drawing.Point(0, 91);
+            this.btnYawIntegral.Name = "btnYawIntegral";
+            this.btnYawIntegral.Size = new System.Drawing.Size(129, 23);
+            this.btnYawIntegral.TabIndex = 3;
+            this.btnYawIntegral.Text = "Yaw Integral";
+            this.btnYawIntegral.UseVisualStyleBackColor = true;
+            this.btnYawIntegral.Click += new System.EventHandler(this.btnYawIntegral_Click);
+            // 
+            // yawProportional
+            // 
+            this.yawProportional.Location = new System.Drawing.Point(3, 62);
+            this.yawProportional.Name = "yawProportional";
+            this.yawProportional.Size = new System.Drawing.Size(129, 23);
+            this.yawProportional.TabIndex = 2;
+            this.yawProportional.Text = "Yaw Proportional";
+            this.yawProportional.UseVisualStyleBackColor = true;
+            this.yawProportional.Click += new System.EventHandler(this.yawProportional_Click);
             // 
             // btnFcMagX
             // 
@@ -100,15 +136,15 @@
             this.btnHeadingGraph.UseVisualStyleBackColor = true;
             this.btnHeadingGraph.Click += new System.EventHandler(this.btnHeadingGraph_Click);
             // 
-            // yawProportional
+            // btnYawControl
             // 
-            this.yawProportional.Location = new System.Drawing.Point(3, 62);
-            this.yawProportional.Name = "yawProportional";
-            this.yawProportional.Size = new System.Drawing.Size(129, 23);
-            this.yawProportional.TabIndex = 2;
-            this.yawProportional.Text = "Yaw Proportional";
-            this.yawProportional.UseVisualStyleBackColor = true;
-            this.yawProportional.Click += new System.EventHandler(this.yawProportional_Click);
+            this.btnYawControl.Location = new System.Drawing.Point(0, 149);
+            this.btnYawControl.Name = "btnYawControl";
+            this.btnYawControl.Size = new System.Drawing.Size(129, 23);
+            this.btnYawControl.TabIndex = 5;
+            this.btnYawControl.Text = "Yaw Control";
+            this.btnYawControl.UseVisualStyleBackColor = true;
+            this.btnYawControl.Click += new System.EventHandler(this.btnYawControl_Click);
             // 
             // GroundControlStationForm
             // 
@@ -133,6 +169,9 @@
         private System.Windows.Forms.Button btnHeadingGraph;
         private System.Windows.Forms.Button btnFcMagX;
         private System.Windows.Forms.Button yawProportional;
+        private System.Windows.Forms.Button btnYawIntegral;
+        private System.Windows.Forms.Button btnYawDeriv;
+        private System.Windows.Forms.Button btnYawControl;
     }
 }
 

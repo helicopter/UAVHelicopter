@@ -184,13 +184,14 @@ namespace helicopter
 				 * the steady state error is huge (the helicopter is really far away from the target)
 				 * then the integral term basically shouldn't be used until the helicopter
 				 * gets close to the target.
-				 * @param oldYawControlValue The control value calculated for the Yaw term
+				 * @param oldYawControlPreServoAdj The control value calculated for the Yaw term
 				 * in the previous iteration. Should be between controlMax and Min Values. This value should be
 				 * the value before the servo boundaries were applied.
 				 * @return returns the anti windup term with the gain applied which should be
 				 * applied to this iterations integral term.
+				 * 0 if oldYawControlPreServoAdj == oldYawControl
 				 */
-				double calculateYawIntegralAntiWindup(double oldYawControlValue);
+				double calculateYawIntegralAntiWindup(double oldYawControlPreServoAdj, double oldYawControl);
 				
 				/**
 				 * Calculates the integral of the yaw without weighting.

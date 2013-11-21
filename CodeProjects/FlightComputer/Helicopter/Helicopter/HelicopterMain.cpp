@@ -38,9 +38,13 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	//are read and how often the control algorithm runs. 
 	pidController->setIntervalPeriodSecs(PID_OUTER_LOOP_PERIOD);
 	pidController->setYawAntiWindupGain(.1);
-	
+/*	
 	pidController->setMinTailRotorCollectiveControlValue (-.8);
 	pidController->setMaxTailRotorCollectiveValue(.8);
+	*/
+
+pidController->setMinTailRotorCollectiveControlValue (-10);
+pidController->setMaxTailRotorCollectiveValue(10);
 	pidController->setControlMaxValue(1.0);
 	pidController->setControlMinValue(-1.0);
 }

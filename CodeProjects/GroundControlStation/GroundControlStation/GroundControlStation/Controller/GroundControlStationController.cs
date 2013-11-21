@@ -36,7 +36,7 @@ namespace GroundControlStation.Controller
 
             set
             {
-                value.DashboardView.Controller = this;
+                value.DashboardForm.Controller = this;
                 _dashboardView = value;
             }
         }
@@ -62,6 +62,9 @@ namespace GroundControlStation.Controller
             UpdateView(DashboardView.FcMagYaw, Model.MagYaw);
             UpdateView(DashboardView.YawVelocityDegreesPerSecond, Model.YawVelocityDegreesPerSecond);
             UpdateView(DashboardView.YawProportional, Model.YawProportional);
+            UpdateView(DashboardView.YawIntegral, Model.YawIntegral);
+            UpdateView(DashboardView.YawDerivative, Model.YawDerivativeError);
+            UpdateView(DashboardView.YawControl, Model.YawControl);
 
             UpdateLatestValues();
         }
@@ -71,7 +74,7 @@ namespace GroundControlStation.Controller
             List<Tuple<String, String>> simValues = Model.SimTelm.ListValues();
             simValues.AddRange(Model.ListValues());
 
-            DashboardView.DashboardView.UpdateLatestValues(simValues);
+            DashboardView.DashboardForm.UpdateLatestValues(simValues);
         }
 
         private void UpdateView(IGraphingView view, double valueToGraph)
@@ -149,11 +152,10 @@ namespace GroundControlStation.Controller
 
                         telem.UpdateModel(Model);
                         
-
                         UpdateViews();
 
                         //Transmit data to simulator
-                        xplaneInterface.Transmit(telem);
+                        xplaneInterface.Transmit(Model);
                     }
                     else if (msg.MsgType == SyncMessage.MessageType)
                     {
@@ -186,6 +188,21 @@ namespace GroundControlStation.Controller
         internal void ToggleFcYawProportionalErrorGraph()
         {
             ToggleGraph(DashboardView.YawProportional);
+        }
+
+        internal void ToggleYawIntegralGraph()
+        {
+            ToggleGraph(DashboardView.YawIntegral);
+        }
+
+        internal void ToggleYawDerivativeGraph()
+        {
+            ToggleGraph(DashboardView.YawDerivative);
+        }
+
+        internal void ToggleYawControlGraph()
+        {
+            ToggleGraph(DashboardView.YawControl);
         }
     }
 }

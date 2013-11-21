@@ -52,5 +52,20 @@ namespace GroundControlStation.Views
         {
             Controller.ToggleFcYawProportionalErrorGraph();
         }
+
+        private void btnYawIntegral_Click(object sender, EventArgs e)
+        {
+            Controller.ToggleYawIntegralGraph();
+        }
+
+        private void btnYawDeriv_Click(object sender, EventArgs e)
+        {
+            Controller.ToggleYawDerivativeGraph();
+        }
+
+        private void btnYawControl_Click(object sender, EventArgs e)
+        {
+            Controller.ToggleYawControlGraph();
+        }
     }
 }

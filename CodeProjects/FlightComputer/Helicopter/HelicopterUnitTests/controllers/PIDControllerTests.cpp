@@ -86,34 +86,39 @@ int calculateYaw_test(TestCase *test)
 	
 	
 	
+	
+	
+	
+	
+	
 	/**
 	 * Test the yaw anti windup function
 	 */
-	double yawAntiWindup = pidController->calculateYawIntegralAntiWindup(oldYawControlValue);
+	double yawAntiWindup = pidController->calculateYawIntegralAntiWindup(oldYawControlValue, 0);
 	
 	AssertTrue2(yawAntiWindup == 0, 0);
 	
 	//test at .79, .8, .81, -.79, -.8, -.81, 1, -1, .99, -.99
-	AssertTrue2(pidController->calculateYawIntegralAntiWindup(.79) == 0, 0);
-	AssertTrue2(pidController->calculateYawIntegralAntiWindup(.80) == 0, 0);
+	AssertTrue2(pidController->calculateYawIntegralAntiWindup(.79, .79) == 0, 0);
+	AssertTrue2(pidController->calculateYawIntegralAntiWindup(.80, .80) == 0, 0);
 	
 	//.01 * .1 = .001
-	yawAntiWindup = pidController->calculateYawIntegralAntiWindup(.81);
+	yawAntiWindup = pidController->calculateYawIntegralAntiWindup(.81, maxYawServoControlValue);
 	AssertTrue2(yawAntiWindup > .0009, 0);
 	AssertTrue2(yawAntiWindup < .0011, 0);
 	
-	AssertTrue2(pidController->calculateYawIntegralAntiWindup(-.79) == 0, 0);
-	AssertTrue2(pidController->calculateYawIntegralAntiWindup(-.8) == 0, 0);
+	AssertTrue2(pidController->calculateYawIntegralAntiWindup(-.79, -.79) == 0, 0);
+	AssertTrue2(pidController->calculateYawIntegralAntiWindup(-.8, -.8) == 0, 0);
 	
-	yawAntiWindup = pidController->calculateYawIntegralAntiWindup(-.81);
+	yawAntiWindup = pidController->calculateYawIntegralAntiWindup(-.81, minYawServoControlValue);
 	AssertTrue2(yawAntiWindup < -.0009, 0);
 	AssertTrue2(yawAntiWindup > -.0011, 0);
 	
-	yawAntiWindup = pidController->calculateYawIntegralAntiWindup(1.0);
+	yawAntiWindup = pidController->calculateYawIntegralAntiWindup(1.0, maxYawServoControlValue);
 	AssertTrue2(yawAntiWindup > .019, 0);
 	AssertTrue2(yawAntiWindup < .021, 0);
 	
-	yawAntiWindup = pidController->calculateYawIntegralAntiWindup(-1.0);
+	yawAntiWindup = pidController->calculateYawIntegralAntiWindup(-1.0, minYawServoControlValue);
 	AssertTrue2(yawAntiWindup < -.019, 0);
 	AssertTrue2(yawAntiWindup > -.021, 0);
 	
@@ -126,6 +131,7 @@ int calculateYaw_test(TestCase *test)
 	double oldYawIntegral = .8;
 	yawProportional = .4;
 	yawAntiWindup = .2;
+	
 	
 	//.8 +.4 * .15 - .2 = .66
 	double yawIntegral = pidController->calculateYawIntegral(yawProportional, oldYawIntegral, yawAntiWindup);
@@ -203,6 +209,7 @@ int calculateYaw_test(TestCase *test)
 	yawControl = pidController->calculateYawControlValue(yawProportional, yawDerivativeError, yawIntegral);
 	AssertTrue2(yawControl == -.2145, 0);
 	
+	/*
 	yawProportional = -10.25;
 	yawDerivativeError = -1.50;
 	yawIntegral = -.15;
@@ -216,7 +223,7 @@ int calculateYaw_test(TestCase *test)
 	
 	yawControl = pidController->calculateYawControlValue(yawProportional, yawDerivativeError, yawIntegral);
 	AssertTrue2(yawControl == controlMaxValue, 0);
-	
+	*/
 	yawProportional = .25;
 	yawDerivativeError = .015;
 	yawIntegral = -.15;
@@ -241,6 +248,7 @@ int calculateYaw_test(TestCase *test)
 	model->MagYawDegrees(320.0);
 	model->ReferenceMagYawDegrees(323.0);
 	model->YawControlBeforeServoLimitsAdjustment(.3);
+	model->YawControl(.3);
 	model->YawVelocityDegreesPerSecond(1.2);
 	model->ReferenceYawVelocityDegreesPerSecond(0.0);
 	model->YawIntegral(.12);
@@ -262,6 +270,7 @@ int calculateYaw_test(TestCase *test)
 	model->MagYawDegrees(320.0);
 	model->ReferenceMagYawDegrees(323.0);
 	model->YawControlBeforeServoLimitsAdjustment(.3);
+	model->YawControl(.3);
 	model->YawVelocityDegreesPerSecond(1.2);
 	model->ReferenceYawVelocityDegreesPerSecond(0.0);
 	model->YawIntegral(.12);
@@ -281,15 +290,72 @@ int calculateYaw_test(TestCase *test)
 	model->MagYawDegrees(320.0);
 	model->ReferenceMagYawDegrees(329.0);
 	model->YawControlBeforeServoLimitsAdjustment(.3);
+	model->YawControl(.3);
 	model->YawVelocityDegreesPerSecond(1.2);
 	model->ReferenceYawVelocityDegreesPerSecond(0.0);
 	model->YawIntegral(.12);
 	
 	pidController->tailRotorCollectiveOuterLoopUpdate();
 	
-	AssertTrue(model->YawControlBeforeServoLimitsAdjustment() == -1.0);
+	//AssertTrue(model->YawControlBeforeServoLimitsAdjustment() == -1.0);
+	AssertTrue(model->YawControlBeforeServoLimitsAdjustment() > -1.108f);
+	AssertTrue(model->YawControlBeforeServoLimitsAdjustment() < -1.1078f);
 	AssertTrue(model->YawControl() == -.8);
 	AssertTrue(((MockServoDriver*)servoDriver)->TailRotorCollectiveControl() == -.8);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Test that the yaw integral decreases if the calculated control value was larger than the servo limit.
+	 */
+	double oldYawInt = 100.0d;
+	
+	model->MagYawDegrees(320.0);
+	model->ReferenceMagYawDegrees(223.0);
+	model->YawControlBeforeServoLimitsAdjustment(1.3);
+	model->YawVelocityDegreesPerSecond(1.2);
+	model->ReferenceYawVelocityDegreesPerSecond(0.0);
+	model->YawIntegral(oldYawInt);
+	
+	pidController->tailRotorCollectiveOuterLoopUpdate();
+	pidController->tailRotorCollectiveOuterLoopUpdate();
+	pidController->tailRotorCollectiveOuterLoopUpdate();
+	pidController->tailRotorCollectiveOuterLoopUpdate();
+	pidController->tailRotorCollectiveOuterLoopUpdate();
+	pidController->tailRotorCollectiveOuterLoopUpdate();
+	pidController->tailRotorCollectiveOuterLoopUpdate();
+	pidController->tailRotorCollectiveOuterLoopUpdate();
+	
+	AssertTrue(model->YawIntegral() < oldYawInt);
+	
+	oldYawInt = model->YawIntegral();
+	
+	pidController->tailRotorCollectiveOuterLoopUpdate();
+	
+	AssertTrue(model->YawIntegral() < oldYawInt);
+	
+	
+	
+	
+	
+	
+	
 	
 	/*
 	//Have a test which is impacted by servo control boundaries so that the before servo boundaries and yaw control values are the same.

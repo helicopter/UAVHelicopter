@@ -8,7 +8,7 @@ namespace GroundControlStation.Views
 {
     public class GroundControlStationDashboardView
     {
-        public IDashboardView DashboardView { get; set; }
+        public IDashboardView DashboardForm { get; set; }
 
         public IGraphingView SimHeadingGraph { get; set; }
 
@@ -16,10 +16,28 @@ namespace GroundControlStation.Views
 
         public IGraphingView YawVelocityDegreesPerSecond { get; set; }
 
-        public IGraphingView FcMagY { get; set; }
-
-        public IGraphingView FcMagZ { get; set; }
-
         public IGraphingView YawProportional { get; set; }
+
+        public IGraphingView YawIntegral { get; set; }
+
+        public IGraphingView YawDerivative { get; set; }
+
+        public IGraphingView YawControl { get; set; }
+
+        public GroundControlStationDashboardView()
+        {
+            DashboardForm = new GroundControlStationForm();
+
+            IGraphingView simHeadingGraph = new GraphForm();
+
+            SimHeadingGraph = new GraphForm();
+            FcMagYaw = new GraphForm();
+            YawProportional = new GraphForm();
+            YawVelocityDegreesPerSecond = new GraphForm();
+            YawIntegral = new GraphForm();
+            YawDerivative = new GraphForm();
+            YawControl = new GraphForm();
+        }
+
     }
 }

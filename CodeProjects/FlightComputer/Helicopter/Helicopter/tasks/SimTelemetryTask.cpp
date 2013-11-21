@@ -42,13 +42,7 @@ void SimTelemetryTask::runTaskImpl()
 			SystemTelemetryMessage *telemMsg = (SystemTelemetryMessage*) message;
 			
 			//Update the model using the new data received from the simulator.
-			
-			telemMsg->updateModelFromMessage(model);
-			
-			model->MagYawDegrees(telemMsg->MagYaw / 100.0d);
-			model->YawVelocityDegreesPerSecond(telemMsg->YawVelocityDegreesPerSecond / 100.0d);
-			
-			model->YawControl(telemMsg->YawControl / 100.0d);
+			telemMsg->updateModelFromMessageFromSimulator(model);
 		
 			delete message;
 		}

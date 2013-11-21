@@ -75,7 +75,7 @@ namespace GroundControlStation.Interfaces
         }
 
 
-        public virtual void Transmit(FlightComputerTelemetryMessage fcTelem)
+        public virtual void Transmit(GroundControlStationModel model)
         {
             int index = 0;
 
@@ -113,7 +113,7 @@ namespace GroundControlStation.Interfaces
             //Set the tail rotor collective
             //TODO fill in
             //populateMessage(xplaneBytes, 2.2f, ref index, 4);
-            populateMessage(xplaneBytes, fcTelem.YawControl, ref index, 4);
+            populateMessage(xplaneBytes, model.YawControl, ref index, 4);
 
             broadcastUdpTransmitterSocket.SendTo(xplaneBytes, broadcastUdpTransmitterEndpoint);
         }

@@ -36,24 +36,7 @@ namespace GroundControlStation
             FlightComputerInterface fcInterface = new FlightComputerInterface(portInterface);
             fcInterface.Open();
 
-            IGraphingView simHeadingGraph = new GraphForm();
-            IGraphingView fcMagX = new GraphForm();
-            IGraphingView fcMagY = new GraphForm();
-            IGraphingView fcMagZ = new GraphForm();
-            IGraphingView YawProportional = new GraphForm();
-            IGraphingView YawVelocityDegreesPerSecond = new GraphForm();
-
-            IDashboardView dashboard = new GroundControlStationForm();
-
             GroundControlStationDashboardView gcsDashboardView = new GroundControlStationDashboardView();
-            gcsDashboardView.DashboardView = dashboard;
-            gcsDashboardView.SimHeadingGraph = simHeadingGraph;
-            gcsDashboardView.FcMagYaw = fcMagX;
-            gcsDashboardView.FcMagY = fcMagY;
-            gcsDashboardView.FcMagZ = fcMagZ;
-            gcsDashboardView.YawProportional = YawProportional;
-            gcsDashboardView.YawVelocityDegreesPerSecond = YawVelocityDegreesPerSecond;
-
 
             GroundControlStationModel model = new GroundControlStationModel();
             model.SimTelm = new SimulatorTelemetry();
@@ -66,7 +49,7 @@ namespace GroundControlStation
 
             gcsController.Start();
 
-            Application.Run((GroundControlStationForm)dashboard);
+            Application.Run((GroundControlStationForm)gcsDashboardView.DashboardForm);
 
             gcsController.Stop();
         }

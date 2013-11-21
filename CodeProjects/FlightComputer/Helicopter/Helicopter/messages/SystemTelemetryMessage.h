@@ -90,6 +90,14 @@ namespace helicopter
 				 * Updates the given model using the values in this telemetry message
 				 */
 				void updateModelFromMessage (SystemModel *model);
+				
+				/**
+				 * Updates the given model using the values in this telemetry message
+				 * which was received from the simulator. This method will only update
+				 * the relevant fields that were transmitted by the simulator, and not
+				 * all the fields. 
+				 */
+				void updateModelFromMessageFromSimulator (SystemModel *model);
 					
 				//Static method which creates a telemetry message on the heap
 				//and then calls buildMessage on that created object.

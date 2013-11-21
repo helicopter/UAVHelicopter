@@ -50,6 +50,8 @@ namespace GroundControlStation.Model
 
             lstValues.Add(new Tuple<string, string>("FC Yaw Deriv", YawDerivativeError.ToString()));
 
+            lstValues.Add(new Tuple<string, string>("FC Yaw Control", YawControl.ToString()));
+
             lstValues.Add(new Tuple<string, string>("FC Timeouts", Timeouts.ToString()));
 
             lstValues.Add(new Tuple<string, string>("FC UnrecognizedMsgTypes", UnrecognizedMsgTypes.ToString()));
