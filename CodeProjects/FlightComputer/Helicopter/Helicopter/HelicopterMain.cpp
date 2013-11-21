@@ -107,6 +107,14 @@ int main(void)
 		//Checks to see if any tasks are ready to run an executes them.
 		//goes to sleep (until the next timer tick) after processing all available tasks.
 		scheduler->dispatch();
+		
+		/**
+		 * Determine if the last processing frame was blown.
+		 */
+		if (scheduler->hasBlownFrame())
+		{
+			pidController->addBlownFrame();
+		}
 	}
 	
 	return 0;	

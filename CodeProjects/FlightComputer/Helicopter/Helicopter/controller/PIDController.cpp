@@ -199,3 +199,8 @@ void PIDController::tailRotorCollectiveOuterLoopUpdate()
 	
 	servoDriver->controlTailRotorCollective(yawControl);
 }
+
+void PIDController::addBlownFrame()
+{
+	model->BlownFrames(model->BlownFrames() + 1);
+}

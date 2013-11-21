@@ -35,6 +35,10 @@ Scheduler::Scheduler(unsigned long cpuSpeed, PRESCALER prescaler, int schedulerT
 	this->prescaler = prescaler;
 	
 	numOfTasks = 0;
+	
+	blowFrameDetected = false;
+	
+	completedDispatch = true;
 }
 
 Scheduler::~Scheduler()
@@ -80,6 +84,9 @@ void Scheduler::init()
 
 void Scheduler::dispatch()
 {
+	completedDispatch = false;
+	blowFrameDetected = false;
+	
 	Task *task = NULL;
 		
 	for (int i = 0; i < numOfTasks; i++)
@@ -98,6 +105,8 @@ void Scheduler::dispatch()
 	{
 		model->SystemModel->
 	}*/
+	
+	completedDispatch = true;
 	
 	//tells the processor to goto sleep to conserve power since no more
 	//tasks are scheduled to be run until after the next scheduler interrupt(tick)
@@ -139,9 +148,15 @@ ISR(TIMER1_COMPA_vect)
 	//TODO do we want to stop interrupts in this method?
 	Scheduler *scheduler = Scheduler::getScheduler();
 	
+	//Detect if the scheduler blew a frame
+	if (!scheduler->hasCompletedDispatch())
+	{
+		scheduler->hasBlownFrame(true);
+	}
+	
 	Task *task = NULL;
 	
-	//iterate through all the tasks and decriment how many
+	//iterate through all the tasks and decrement how many
 	//'ticks' are left before the task is ready to execute.
 	for (int i = 0; i < scheduler->getNumOfTasks(); i++)
 	{

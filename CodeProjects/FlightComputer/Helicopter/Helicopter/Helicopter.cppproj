@@ -196,9 +196,6 @@
     <Compile Include="buffer\Record.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="controller\ControlSurfaceController.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="controller\PIDController.cpp">
       <SubType>compile</SubType>
     </Compile>

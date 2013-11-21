@@ -45,11 +45,13 @@ namespace helicopter
 			
 			
 			// Instrumentation fields
-			int timeouts;
+			long timeouts;
 			
-			int unrecognizedMsgTypes;
+			long unrecognizedMsgTypes;
 			
-			int checksumErrors;
+			long checksumErrors;
+			
+			long numOfFramesBlown;
 			
 			public:
 			
@@ -65,7 +67,8 @@ namespace helicopter
 			yawDerivativeError(0),
 			timeouts(0),
 			unrecognizedMsgTypes(0),
-			checksumErrors(0)
+			checksumErrors(0),
+			numOfFramesBlown(0)
 			{
 				
 			}
@@ -110,14 +113,17 @@ namespace helicopter
 			void YawDerivativeError(double val) { yawDerivativeError = val;}								
 																							
 						
-			int Timeouts() const {return timeouts; }
-			void Timeouts(int val) { timeouts = val; }
+			long Timeouts() const {return timeouts; }
+			void Timeouts(long val) { timeouts = val; }
 			
-			int UnrecognizedMsgTypes() const {return unrecognizedMsgTypes; }
-			void UnrecognizedMsgTypes(int val) { unrecognizedMsgTypes = val; }
+			long UnrecognizedMsgTypes() const {return unrecognizedMsgTypes; }
+			void UnrecognizedMsgTypes(long val) { unrecognizedMsgTypes = val; }
 			
-			int ChecksumErrors() const {return checksumErrors; }
-			void ChecksumErrors(int val) { checksumErrors = val; }
+			long ChecksumErrors() const {return checksumErrors; }
+			void ChecksumErrors(long val) { checksumErrors = val; }
+			
+			long  BlownFrames() const {return numOfFramesBlown;}
+			void BlownFrames( long val ) { numOfFramesBlown = val;}
 				
 		};
 	}

@@ -236,7 +236,8 @@ namespace helicopter
 				 * Calculates the control value for the tail rotor given the various parameters defined in the model
 				 */
 				void tailRotorCollectiveOuterLoopUpdate();
-
+				
+				void addBlownFrame();
 		};
 	}
 }

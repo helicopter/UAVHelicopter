@@ -52,6 +52,8 @@ namespace helicopter
 				
 				long ChecksumErrors;
 				
+				long NumOfBlownFrames;
+				
 				static const byte MessageType = 2;
 			
 				static const byte MessageSize =
@@ -64,7 +66,8 @@ namespace helicopter
 				sizeof(YawControl) +
 				sizeof(Timeouts) + 
 				sizeof(UnrecognizedMsgTypes) + 
-				sizeof(ChecksumErrors);
+				sizeof(ChecksumErrors) + 
+				sizeof(NumOfBlownFrames);
 			
 				SystemTelemetryMessage(): Message(MessageType,MessageSize),
 					MagYaw(0),
@@ -75,7 +78,8 @@ namespace helicopter
 					YawControl(0),					
 					Timeouts(0),
 					UnrecognizedMsgTypes(0),
-					ChecksumErrors(0)
+					ChecksumErrors(0),
+					NumOfBlownFrames(0)
 				{
 				
 				}

@@ -27,6 +27,7 @@ byte *SystemTelemetryMessage::getBytes()
 	encode (msgPtr, Timeouts);
 	encode (msgPtr, UnrecognizedMsgTypes);
 	encode (msgPtr, ChecksumErrors);
+	encode (msgPtr, NumOfBlownFrames);
 				
 	return msg;
 }
@@ -45,6 +46,7 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		decode (message,Timeouts);
 		decode (message,UnrecognizedMsgTypes);
 		decode (message,ChecksumErrors);
+		decode (message,NumOfBlownFrames);
 	}
 }
 
@@ -70,6 +72,7 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 	message->ChecksumErrors = model->ChecksumErrors();
 	message->Timeouts = model->Timeouts();
 	message->UnrecognizedMsgTypes = model->UnrecognizedMsgTypes();
+	message->NumOfBlownFrames = model->BlownFrames();
 	
 	return message;
 }
@@ -86,6 +89,7 @@ void SystemTelemetryMessage::updateModelFromMessage (SystemModel *model)
 	model->Timeouts(this->Timeouts);
 	model->UnrecognizedMsgTypes(this->UnrecognizedMsgTypes);
 	model->ChecksumErrors(this->ChecksumErrors);
+	model->BlownFrames(this->NumOfBlownFrames);
 }
 
 void SystemTelemetryMessage::updateModelFromMessageFromSimulator (SystemModel *model)

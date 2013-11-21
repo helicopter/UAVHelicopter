@@ -60,7 +60,15 @@ namespace helicopter
 				//This is a value feed to the timer to prescale the clock by this number
 				PRESCALER prescaler;
 				
+				//Flag for indicating that the processing of the dispatched tasks took longer then the
+				//time allowed. I.e. the timer triggered again before the tasks being dispatched were done
+				//processing. (Thereby interrupting those dispatching tasks.)
+				bool blowFrameDetected;
 				
+				//flag which indicates that the processor completed dispatching the tasks.
+				//This is used to detect if a frame was blown because this flag will be
+				//false if the dispatching didn't complete by the time the timer triggered again.
+				bool completedDispatch;
 				
 				static Scheduler *scheduler;
 				
@@ -130,6 +138,37 @@ namespace helicopter
 				Task **getTasks()
 				{
 					return tasks;
+				}
+				
+				/**
+				 * Detects if the processing was completed before the next scheduler triggered.
+				 * @return True if the scheduler timer triggered again before the tasks were fully processes,
+				 * False if all the tasks were finished processing (i.e. the dispatch method finished) before
+				 * the timer triggered again.
+				 */
+				bool hasBlownFrame()
+				{
+					return blowFrameDetected;
+				}
+				
+				/**
+				 * Sets whether a blown frame was detected. (I.e. the dispatcher didn't finish before
+				 * the scheduler timmer was triggered again)
+				 * @param blownFrameDetected true if a frame was blown, false otherwise.
+				 */
+				void hasBlownFrame(bool blowFrameDetected)
+				{
+					this->blowFrameDetected = blowFrameDetected;
+				}
+				
+				/**
+				 * Returns a flag indicating that the dispatch method has completed. This is for
+				 * use by the scheduler to determine if the dispatcher blew a frame.
+				 * @return true if the dispatch method completed, false otherwise. 
+				 */
+				bool hasCompletedDispatch()
+				{
+					return completedDispatch;
 				}
 		};
 	}

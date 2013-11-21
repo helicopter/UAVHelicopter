@@ -28,6 +28,8 @@ namespace GroundControlStation.Model
 
         public int ChecksumErrors { get; set; }
 
+        public int NumOfBlownFrames { get; set; }
+
         public SimulatorTelemetry SimTelm { get; set; }
 
         public GroundControlStationModel()
@@ -58,8 +60,11 @@ namespace GroundControlStation.Model
 
             lstValues.Add(new Tuple<string, string>("FC ChecksumErrors", ChecksumErrors.ToString()));
 
+            lstValues.Add(new Tuple<string, string>("FC NumOfBlownFrames", NumOfBlownFrames.ToString()));
+
 
             return lstValues;
         }
+
     }
 }

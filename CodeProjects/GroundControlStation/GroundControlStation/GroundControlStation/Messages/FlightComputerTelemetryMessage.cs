@@ -29,12 +29,15 @@ namespace GroundControlStation.Messages
 
         public int ChecksumErrors;
 
+        public int NumOfBlownFrames;
+
         /// <summary>
         /// This represents the number of bytes in this message including the message type.
         /// </summary>
         public const int NumOfBytesInMsg =
             sizeof(byte) +
             sizeof(uint) +
+            sizeof(int) +
             sizeof(int) +
             sizeof(int) +
             sizeof(int) +
@@ -79,6 +82,7 @@ namespace GroundControlStation.Messages
             Timeouts = decodeInt(byteBuffer, ref positionCounter);
             UnrecognizedMsgTypes = decodeInt(byteBuffer, ref positionCounter);
             ChecksumErrors = decodeInt(byteBuffer, ref positionCounter);
+            NumOfBlownFrames = decodeInt(byteBuffer, ref positionCounter);
         }
 
 
@@ -98,6 +102,7 @@ namespace GroundControlStation.Messages
             encode(ref rawMsg, Timeouts, ref positionCounter);
             encode(ref rawMsg, UnrecognizedMsgTypes, ref positionCounter);
             encode(ref rawMsg, ChecksumErrors, ref positionCounter);
+            encode(ref rawMsg, NumOfBlownFrames, ref positionCounter);
 
             return rawMsg;
         }
@@ -156,6 +161,7 @@ namespace GroundControlStation.Messages
             Model.Timeouts = Timeouts;
             Model.UnrecognizedMsgTypes = UnrecognizedMsgTypes;
             Model.ChecksumErrors = ChecksumErrors;
+            Model.NumOfBlownFrames = NumOfBlownFrames;
         }
 
         public static FlightComputerTelemetryMessage CreateFromModel(GroundControlStationModel Model)
