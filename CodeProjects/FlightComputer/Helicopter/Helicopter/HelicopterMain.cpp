@@ -39,14 +39,20 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	pidController->setIntervalPeriodSecs(PID_OUTER_LOOP_PERIOD);
 	pidController->setYawAntiWindupGain(.1);
 /*	
-	pidController->setMinTailRotorCollectiveControlValue (-.8);
-	pidController->setMaxTailRotorCollectiveValue(.8);
+	pidController->setMinYawServoControl (-.8);
+	pidController->setMaxYawServoControl(.8);
 	*/
 
-pidController->setMinTailRotorCollectiveControlValue (-10);
-pidController->setMaxTailRotorCollectiveValue(10);
-	pidController->setControlMaxValue(1.0);
-	pidController->setControlMinValue(-1.0);
+//pidController->setMinYawServoControl (-10);
+//pidController->setMaxYawServoControl(10);
+
+
+	pidController->setMinYawServoControl (-1.0d);
+	pidController->setMaxYawServoControl (1.0d);
+
+
+	pidController->setControlMaxValue(1.0d);
+	pidController->setControlMinValue(-1.0d);
 }
 
 
@@ -54,19 +60,23 @@ int main(void)
 {	
 	SystemModel *model = new SystemModel();
 	
+	
 	//TODO: This somehow needs to be a simulator servo driver
 	//TODO: Setup the code so that it can be setup for a simulator or not setup for a simulator.
 	ServoDriver *servoDriver = new ServoDriver();
 	
 	PIDController *pidController = new PIDController(model, servoDriver);
 	
+	
+	
 	setupDefaultsandReferencePosition(model, pidController);
 	
 	//Timer *timer = new Timer(F_CPU,PRESCALE_BY_TENTWENTYFOUR,75); //Good timeout when using the radio
 	Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 10); //Good timeout when using the USB
 	
-	//Create a driver for communicating with the radio.
-	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, timer, true, true);  
+	//Create a driver for communicating with the Ground Control Station (GCS).
+	//SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, timer, true, true);  
+	SerialDriver *serialDriver = new SerialDriver(76800, SerialDriver::Zero, timer, true, true);  
 	serialDriver->initialize();
 	
 	GroundControlStationInterface *gcsInterface = new GroundControlStationInterface(serialDriver);
@@ -76,7 +86,7 @@ int main(void)
 //	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(radioInterface, model, 1, 10);//starting at tick 2, execute 20 times a second
 
 	//this frequency works well for USB.
-	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, 0, 4);//starting at tick 0, execute 50 times a second
+	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,0, 4);//starting at tick 0, execute 50 times a second
 	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, 1, 4);//starting at tick 1, execute 50 times a second
 	
 	FlashLEDTask *flashTask = new FlashLEDTask(2, SCHEDULER_TICK_FREQUENCY_HZ);//starting at tick 2, execute once a second

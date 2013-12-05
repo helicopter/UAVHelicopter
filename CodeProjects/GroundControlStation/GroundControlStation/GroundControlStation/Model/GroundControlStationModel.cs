@@ -22,6 +22,18 @@ namespace GroundControlStation.Model
 
         public float YawControl { get; set; }
 
+
+
+        public float YawIntegralGain { get; set; }
+
+        public float YawDerivativeGain { get; set; }
+
+        public float YawProportionalGain { get; set; }
+
+        public float YawAntiWindupGain { get; set; }
+
+
+
         public int Timeouts { get; set; }
 
         public int UnrecognizedMsgTypes { get; set; }

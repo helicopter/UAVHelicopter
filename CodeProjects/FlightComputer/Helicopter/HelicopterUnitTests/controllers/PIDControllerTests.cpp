@@ -13,6 +13,27 @@
 using namespace helicopter::controller;
 using namespace helicopter::drivers;
 
+int calculatePID_test(TestCase *test)
+{
+		/*
+		//but the results aren't just position. it'll be position error, or integral
+		double yawProportional = pidController->calculateYawProportional(currentYaw, referenceYaw);
+		
+		
+		//Position.
+		//position object with x y z?
+		//it'll have to be doubles because of the high level of accuracy thats needed. 
+		double currentValue = 1.2;
+		double referenceValue = 2.2;
+		
+		double xProportional = PIDController->calculateProportional(currentValue, referenceValue);
+		
+		double yawIntegral = PIDController->calculateIntegral(
+		
+		Tripplet integral = PIDController->calculateIntegral()
+		calculateYawIntegral(double yawProportionalDegrees, double oldYawIntegral, double yawAntiWindup)*/
+}
+
 int calculateYaw_test(TestCase *test)
 {
 	SystemModel *model = new SystemModel();
@@ -49,8 +70,8 @@ int calculateYaw_test(TestCase *test)
 	pidController->setYawAntiWindupGain(yawAntiWindupGain);
 	
 	
-	pidController->setMinTailRotorCollectiveControlValue (minYawServoControlValue);
-	pidController->setMaxTailRotorCollectiveValue(maxYawServoControlValue);
+	pidController->setMinYawServoControl (minYawServoControlValue);
+	pidController->setMaxYawServoControl(maxYawServoControlValue);
 	pidController->setControlMaxValue(controlMaxValue);
 	pidController->setControlMinValue(controlMinValue);
 	

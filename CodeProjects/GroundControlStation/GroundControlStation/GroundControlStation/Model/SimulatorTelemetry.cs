@@ -12,11 +12,11 @@ namespace GroundControlStation.Model
     {
         public byte[] RawData { get; set; }
 
-        public float PitchVelocityMs { get; set; }
+        public float PitchVelocityRadsPerS { get; set; }
 
-        public float RollVelocityMs { get; set; }
+        public float RollVelocityRadsPerS { get; set; }
 
-        public float YawVelocityMs { get; set; }
+        public float YawVelocityRadsPerS { get; set; }
 
         public float PitchDegrees { get; set; }
 
@@ -38,8 +38,6 @@ namespace GroundControlStation.Model
         public float ZVelocityNEDFrameMs { get; set; }
 
         public float XVelocityNEDFrameMs { get; set; }
-
-        
 
         /// <summary>
         /// Creates an XPlaneData object from the raw bytes received from xplane.
@@ -68,9 +66,9 @@ namespace GroundControlStation.Model
 
                 //Skip to the relevant data
                 byteReader.ReadBytes(45);
-                data.PitchVelocityMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
-                data.RollVelocityMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
-                data.YawVelocityMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
+                data.PitchVelocityRadsPerS = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
+                data.RollVelocityRadsPerS = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
+                data.YawVelocityRadsPerS = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
 
                 //Skip to the relevant data
                 byteReader.ReadBytes(24);
@@ -112,9 +110,9 @@ namespace GroundControlStation.Model
         {
             List<Tuple<string,string>> lstValues = new List<Tuple<string, string>>();
 
-            lstValues.Add(new Tuple<string, string>("Pitch V Ms", PitchVelocityMs.ToString()));
-            lstValues.Add(new Tuple<string, string>("Roll V Ms", RollVelocityMs.ToString()));
-            lstValues.Add(new Tuple<string, string>("Yaw V Ms", YawVelocityMs.ToString()));
+            lstValues.Add(new Tuple<string, string>("Pitch V Ms", PitchVelocityRadsPerS.ToString()));
+            lstValues.Add(new Tuple<string, string>("Roll V Ms", RollVelocityRadsPerS.ToString()));
+            lstValues.Add(new Tuple<string, string>("Yaw V Ms", YawVelocityRadsPerS.ToString()));
             lstValues.Add(new Tuple<string, string>("Pitch Deg", PitchDegrees.ToString()));
             lstValues.Add(new Tuple<string, string>("Roll Deg", RollDegrees.ToString()));
             lstValues.Add(new Tuple<string, string>("Mag Heading Deg", MagHeadingDegrees.ToString()));
@@ -127,6 +125,5 @@ namespace GroundControlStation.Model
 
             return lstValues;
         }
-
     }
 }

@@ -20,8 +20,18 @@ namespace GroundControlStation.Messages
 
         public int YawDerivativeError;
 
-        //public float YawControl;
         public int YawControl;
+
+
+        public int YawIntegralGain;
+
+        public int YawDerivativeGain;
+
+        public int YawProportionalGain;
+
+        public int YawAntiWindupGain;
+
+
 
         public int Timeouts;
 
@@ -37,6 +47,10 @@ namespace GroundControlStation.Messages
         public const int NumOfBytesInMsg =
             sizeof(byte) +
             sizeof(uint) +
+            sizeof(int) +
+            sizeof(int) +
+            sizeof(int) +
+            sizeof(int) +
             sizeof(int) +
             sizeof(int) +
             sizeof(int) +
@@ -76,8 +90,17 @@ namespace GroundControlStation.Messages
 
             YawDerivativeError = decodeInt(byteBuffer, ref positionCounter);
 
-            //YawControl = decodeFloat(byteBuffer, ref positionCounter);
             YawControl = decodeInt(byteBuffer, ref positionCounter);
+
+
+            YawIntegralGain = decodeInt(byteBuffer, ref positionCounter);
+
+            YawDerivativeGain = decodeInt(byteBuffer, ref positionCounter);
+
+            YawProportionalGain = decodeInt(byteBuffer, ref positionCounter);
+
+            YawAntiWindupGain = decodeInt(byteBuffer, ref positionCounter);
+
 
             Timeouts = decodeInt(byteBuffer, ref positionCounter);
             UnrecognizedMsgTypes = decodeInt(byteBuffer, ref positionCounter);
@@ -99,6 +122,12 @@ namespace GroundControlStation.Messages
             encode(ref rawMsg, YawProportional, ref positionCounter);
             encode(ref rawMsg, YawDerivativeError, ref positionCounter);
             encode(ref rawMsg, YawControl, ref positionCounter);
+
+            encode(ref rawMsg, YawIntegralGain, ref positionCounter);
+            encode(ref rawMsg, YawDerivativeGain, ref positionCounter);
+            encode(ref rawMsg, YawProportionalGain, ref positionCounter);
+            encode(ref rawMsg, YawAntiWindupGain, ref positionCounter);
+
             encode(ref rawMsg, Timeouts, ref positionCounter);
             encode(ref rawMsg, UnrecognizedMsgTypes, ref positionCounter);
             encode(ref rawMsg, ChecksumErrors, ref positionCounter);
@@ -150,27 +179,52 @@ namespace GroundControlStation.Messages
             encode(ref rawMsg, (int)data, ref positionCounter);
         }
 
-        public void UpdateModel(GroundControlStationModel Model)
+        public void UpdateModel(GroundControlStationModel model)
         {
-            Model.MagYaw = (float) MagYaw / 100;
-            Model.YawVelocityDegreesPerSecond = (float) YawVelocityDegreesPerSecond / 100;
-            Model.YawIntegral = (float)YawIntegral / 100;
-            Model.YawProportional = (float)YawProportional / 100;
-            Model.YawDerivativeError = (float)YawDerivativeError / 100;
-            Model.YawControl = (float)YawControl / 100;
-            Model.Timeouts = Timeouts;
-            Model.UnrecognizedMsgTypes = UnrecognizedMsgTypes;
-            Model.ChecksumErrors = ChecksumErrors;
-            Model.NumOfBlownFrames = NumOfBlownFrames;
+            model.MagYaw = (float) MagYaw / 100;
+            model.YawVelocityDegreesPerSecond = (float) YawVelocityDegreesPerSecond / 100;
+            model.YawIntegral = (float)YawIntegral / 100;
+            model.YawProportional = (float)YawProportional / 100;
+            model.YawDerivativeError = (float)YawDerivativeError / 100;
+
+
+            /**
+             * Rescale yaw control to appropriate values. 
+             * from -1/1 to -10/10
+             * new_v = (new_max - new_min) / (old_max - old_min) * (v - old_min) + new_min
+             */
+            float scaledYaw = (10 - -10) / (1 - -1) * (((float) YawControl / 100) - -1) + -10;
+
+            //model.YawControl = (float)YawControl / 100;
+            model.YawControl = scaledYaw;
+
+            
+        
+
+
+            model.Timeouts = Timeouts;
+            model.UnrecognizedMsgTypes = UnrecognizedMsgTypes;
+            model.ChecksumErrors = ChecksumErrors;
+            model.NumOfBlownFrames = NumOfBlownFrames;
         }
 
-        public static FlightComputerTelemetryMessage CreateFromModel(GroundControlStationModel Model)
+        public static FlightComputerTelemetryMessage CreateFromModel(GroundControlStationModel model)
         {
             FlightComputerTelemetryMessage msg = new FlightComputerTelemetryMessage();
-            msg.MagYaw = (uint)(Model.SimTelm.MagHeadingDegrees * 100);
-            msg.YawVelocityDegreesPerSecond = (int)(Model.SimTelm.YawVelocityMs * 100);
+            msg.MagYaw = (uint)(model.SimTelm.MagHeadingDegrees * 100);
+            msg.YawVelocityDegreesPerSecond = (int)(ConvertToDegPerSec(model.SimTelm.YawVelocityRadsPerS) * 100);
+
+            msg.YawIntegralGain = (int)(model.YawIntegralGain * 100);
+            msg.YawDerivativeGain = (int)(model.YawDerivativeGain * 100);
+            msg.YawProportionalGain = (int)(model.YawProportionalGain * 100);
+            msg.YawAntiWindupGain = (int)(model.YawAntiWindupGain * 100);
 
             return msg;
+        }
+
+        private static double ConvertToDegPerSec(float radsPerSecValue)
+        {
+            return radsPerSecValue * (180.0 / Math.PI);
         }
     }
 }

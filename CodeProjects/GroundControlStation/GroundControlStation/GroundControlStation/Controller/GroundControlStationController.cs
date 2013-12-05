@@ -204,5 +204,10 @@ namespace GroundControlStation.Controller
         {
             ToggleGraph(DashboardView.YawControl);
         }
+
+        internal void ToggleGainAdjustmentForm()
+        {
+            ToggleGraph(DashboardView.GainAdjustments);
+        }
     }
 }

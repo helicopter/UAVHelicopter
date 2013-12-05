@@ -124,7 +124,7 @@ namespace helicopter
 			
 			long  BlownFrames() const {return numOfFramesBlown;}
 			void BlownFrames( long val ) { numOfFramesBlown = val;}
-				
+			
 		};
 	}
 	

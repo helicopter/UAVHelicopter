@@ -44,6 +44,15 @@ namespace helicopter
 				long YawControl;
 				
 				/**
+				 * Gains used for PID controller
+				 */
+				long YawIntegralGain;
+				long YawDerivativeGain;
+				long YawProportionalGain;
+				long YawAntiWindupGain;
+				
+				
+				/**
 				 * Instrumentation fields
 				 */
 				long Timeouts;
@@ -53,6 +62,11 @@ namespace helicopter
 				long ChecksumErrors;
 				
 				long NumOfBlownFrames;
+				
+				
+
+				
+				
 				
 				static const byte MessageType = 2;
 			
@@ -64,10 +78,15 @@ namespace helicopter
 				sizeof(YawProportional) +
 				sizeof(YawDerivativeError) +
 				sizeof(YawControl) +
+				sizeof(YawIntegralGain) +
+				sizeof(YawDerivativeGain) +
+				sizeof(YawProportionalGain) +
+				sizeof(YawAntiWindupGain) +
 				sizeof(Timeouts) + 
 				sizeof(UnrecognizedMsgTypes) + 
 				sizeof(ChecksumErrors) + 
 				sizeof(NumOfBlownFrames);
+;
 			
 				SystemTelemetryMessage(): Message(MessageType,MessageSize),
 					MagYaw(0),
@@ -75,7 +94,11 @@ namespace helicopter
 					YawIntegral(0),
 					YawProportional(0),
 					YawDerivativeError(0),
-					YawControl(0),					
+					YawControl(0),	
+					YawIntegralGain(0),
+					YawDerivativeGain(0),
+					YawProportionalGain(0),
+					YawAntiWindupGain(0),									
 					Timeouts(0),
 					UnrecognizedMsgTypes(0),
 					ChecksumErrors(0),

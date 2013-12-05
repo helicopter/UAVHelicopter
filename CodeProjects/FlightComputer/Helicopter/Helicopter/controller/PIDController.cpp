@@ -31,10 +31,17 @@ PIDController::~PIDController()
 	delete model;
 }
 
+double PIDController::calculateProportional(double currentValue, double referenceValue)
+{
+	return currentValue - referenceValue;
+}
+
 //TODO refactor to make this common for all PID calculations
 double PIDController::calculateYawProportional(double currentYawDegrees, double referenceYawDegrees)
 {
 	double yawError = currentYawDegrees - referenceYawDegrees;
+	
+	//Convert 360 degree magnetic heading error to a +/- 180 mag heading error
 	
 	if (yawError >= 180)
 	{

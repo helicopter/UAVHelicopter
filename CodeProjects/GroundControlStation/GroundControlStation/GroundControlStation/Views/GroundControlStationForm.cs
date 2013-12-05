@@ -8,7 +8,7 @@ namespace GroundControlStation.Views
 {
     public partial class GroundControlStationForm : Form, IDashboardView
     {
-        private GraphForm headingGraph = new GraphForm();
+        //private GraphForm headingGraph = new GraphForm();
 
         public GroundControlStationController Controller { get; set; }
 
@@ -66,6 +66,11 @@ namespace GroundControlStation.Views
         private void btnYawControl_Click(object sender, EventArgs e)
         {
             Controller.ToggleYawControlGraph();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Controller.ToggleGainAdjustmentForm();
         }
     }
 }

@@ -11,10 +11,11 @@
 using namespace helicopter::tasks;
 using namespace helicopter::messages;
 
-SimTelemetryTask::SimTelemetryTask(GroundControlStationInterface *radioInterface, SystemModel *model, int delay, int period) :
+SimTelemetryTask::SimTelemetryTask(GroundControlStationInterface *radioInterface, SystemModel *model, PIDController *pidController, int delay, int period) :
 	Task(delay, period),
 	radioInterface(radioInterface),
-	model(model)
+	model(model),
+	pidController(pidController)
 {
 	
 }
@@ -43,6 +44,11 @@ void SimTelemetryTask::runTaskImpl()
 			
 			//Update the model using the new data received from the simulator.
 			telemMsg->updateModelFromMessageFromSimulator(model);
+			
+			pidController->setYawIntegralGain((double) telemMsg->YawIntegralGain / 100);
+			pidController->setYawDerivativeGain((double) telemMsg->YawDerivativeGain / 100);
+			pidController->setYawProportionalGain((double) telemMsg->YawProportionalGain / 100);
+			pidController->setYawAntiWindupGain((double) telemMsg->YawAntiWindupGain / 100);
 		
 			delete message;
 		}

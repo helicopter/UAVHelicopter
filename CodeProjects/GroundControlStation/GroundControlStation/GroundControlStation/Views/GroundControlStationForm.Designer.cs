@@ -28,19 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "Test1",
             "test2"}, -1);
             this.listLatestValues = new System.Windows.Forms.ListView();
             this.TelemName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TelemValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnYawControl = new System.Windows.Forms.Button();
             this.btnYawDeriv = new System.Windows.Forms.Button();
             this.btnYawIntegral = new System.Windows.Forms.Button();
             this.yawProportional = new System.Windows.Forms.Button();
             this.btnFcMagX = new System.Windows.Forms.Button();
             this.btnHeadingGraph = new System.Windows.Forms.Button();
-            this.btnYawControl = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,7 +53,7 @@
             this.TelemName,
             this.TelemValue});
             this.listLatestValues.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
+            listViewItem2});
             this.listLatestValues.Location = new System.Drawing.Point(1, -1);
             this.listLatestValues.Name = "listLatestValues";
             this.listLatestValues.Size = new System.Drawing.Size(173, 632);
@@ -75,6 +76,7 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.btnYawControl);
             this.panel1.Controls.Add(this.btnYawDeriv);
             this.panel1.Controls.Add(this.btnYawIntegral);
@@ -85,6 +87,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(137, 632);
             this.panel1.TabIndex = 3;
+            // 
+            // btnYawControl
+            // 
+            this.btnYawControl.Location = new System.Drawing.Point(0, 149);
+            this.btnYawControl.Name = "btnYawControl";
+            this.btnYawControl.Size = new System.Drawing.Size(129, 23);
+            this.btnYawControl.TabIndex = 5;
+            this.btnYawControl.Text = "Yaw Control";
+            this.btnYawControl.UseVisualStyleBackColor = true;
+            this.btnYawControl.Click += new System.EventHandler(this.btnYawControl_Click);
             // 
             // btnYawDeriv
             // 
@@ -136,15 +148,15 @@
             this.btnHeadingGraph.UseVisualStyleBackColor = true;
             this.btnHeadingGraph.Click += new System.EventHandler(this.btnHeadingGraph_Click);
             // 
-            // btnYawControl
+            // button1
             // 
-            this.btnYawControl.Location = new System.Drawing.Point(0, 149);
-            this.btnYawControl.Name = "btnYawControl";
-            this.btnYawControl.Size = new System.Drawing.Size(129, 23);
-            this.btnYawControl.TabIndex = 5;
-            this.btnYawControl.Text = "Yaw Control";
-            this.btnYawControl.UseVisualStyleBackColor = true;
-            this.btnYawControl.Click += new System.EventHandler(this.btnYawControl_Click);
+            this.button1.Location = new System.Drawing.Point(0, 490);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(129, 23);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Gain Adjustments";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // GroundControlStationForm
             // 
@@ -172,6 +184,7 @@
         private System.Windows.Forms.Button btnYawIntegral;
         private System.Windows.Forms.Button btnYawDeriv;
         private System.Windows.Forms.Button btnYawControl;
+        private System.Windows.Forms.Button button1;
     }
 }
 

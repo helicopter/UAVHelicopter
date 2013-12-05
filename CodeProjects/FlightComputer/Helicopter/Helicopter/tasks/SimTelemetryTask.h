@@ -12,10 +12,12 @@
 #include "Task.h"
 #include "SystemModel.h"
 #include "GroundControlStationInterface.h"
+#include "PIDController.h"
 
 using namespace helicopter::model;
 using namespace helicopter::tasks;
 using namespace helicopter::interfaces;
+using namespace helicopter::controller;
 
 namespace helicopter
 {
@@ -29,9 +31,11 @@ namespace helicopter
 			private:
 				GroundControlStationInterface *radioInterface;
 				SystemModel *model;
+				PIDController *pidController;
+				
 			public:
 
-				SimTelemetryTask (GroundControlStationInterface *radioInterface, SystemModel *model, int delay, int period);
+				SimTelemetryTask (GroundControlStationInterface *radioInterface, SystemModel *model, PIDController *pidController, int delay, int period);
 			
 				void runTaskImpl();
 		};

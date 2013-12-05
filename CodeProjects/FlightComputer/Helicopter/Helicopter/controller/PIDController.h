@@ -121,7 +121,7 @@ namespace helicopter
 				 * integral anti-windup to determine when the actuators would be saturated.
 				 * The value should be no smaller than the controlMinValue (e.g. no less than -1)
 				 */
-				void setMinTailRotorCollectiveControlValue (double minYawServoControlValue)
+				void setMinYawServoControl(double minYawServoControlValue)
 				{
 					this->minYawServoControlValue = minYawServoControlValue;
 				}
@@ -131,7 +131,7 @@ namespace helicopter
 				 * integral anti-windup to determine when the actuators would be saturated.
 				 * The value should be no larger than the controlMaxValue (e.g. no greater than 1)
 				 */
-				void setMaxTailRotorCollectiveValue(double maxYawServoControlValue)
+				void setMaxYawServoControl(double maxYawServoControlValue)
 				{
 					this->maxYawServoControlValue = maxYawServoControlValue;
 				}
@@ -153,6 +153,8 @@ namespace helicopter
 				{
 					this->controlMinValue = controlMinValue;
 				}			
+				
+				double calculateProportional(double currentValue, double referenceValue);
 				
 				/**
 				 * Calculates the proportional error between the current yaw value from the sensors

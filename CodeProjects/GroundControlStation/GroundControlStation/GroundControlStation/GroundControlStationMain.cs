@@ -12,7 +12,7 @@ using GroundControlStation.Views;
 
 namespace GroundControlStation
 {
-    static class Program
+    static class GroundControlStationMain
     {
         /// <summary>
         /// The main entry point for the application.
@@ -22,9 +22,10 @@ namespace GroundControlStation
         {
             //TODO focus on thread ui update.
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false); 
+            Application.SetCompatibleTextRenderingDefault(false);
 
-            SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
+            SerialPort port = new SerialPort("COM7", 76800, Parity.None, 8, StopBits.One);
+           // SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
             
  //           port.ReadTimeout = 500;
@@ -41,11 +42,19 @@ namespace GroundControlStation
             GroundControlStationModel model = new GroundControlStationModel();
             model.SimTelm = new SimulatorTelemetry();
 
+///            model.YawIntegralGain = .008f;
+            //model.YawDerivativeGain = .85f;
+            model.YawProportionalGain = 1.0f;
+///            model.YawAntiWindupGain = 0.1f;
+
+
             GroundControlStationController gcsController =
                 new GroundControlStationController(xInterface, fcInterface);
 
             gcsController.DashboardView = gcsDashboardView;
             gcsController.Model = model;
+
+            gcsDashboardView.Controller = gcsController;
 
             gcsController.Start();
 

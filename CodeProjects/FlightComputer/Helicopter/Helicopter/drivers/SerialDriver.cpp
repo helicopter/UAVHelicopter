@@ -118,7 +118,7 @@ int SerialDriver::receiveByte(byte &receivedByte)
 		//Swallow the overrun because nothing can be done.
 		hasDataOverrun = (UCSR0A & (1 << DOR0)) != 0;
 		
-		/* Put data into buffer, sends the data */
+		/* Read the data from the serial port buffer */
 		receivedByte = UDR0;
 	}
 	

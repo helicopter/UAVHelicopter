@@ -54,8 +54,14 @@
     <Compile Include="Messages\Message.cs" />
     <Compile Include="Model\SimulatorTelemetry.cs" />
     <Compile Include="Messages\SyncMessage.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="GroundControlStationMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\GainAdjustmentsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\GainAdjustmentsForm.Designer.cs">
+      <DependentUpon>GainAdjustmentsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\GraphForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +86,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Views\GainAdjustmentsForm.resx">
+      <DependentUpon>GainAdjustmentsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\GraphForm.resx">
       <DependentUpon>GraphForm.cs</DependentUpon>
     </EmbeddedResource>
