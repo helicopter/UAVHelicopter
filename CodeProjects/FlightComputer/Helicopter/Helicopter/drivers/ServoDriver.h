@@ -74,6 +74,10 @@ namespace helicopter
 				 * given min and max control values. This method is virtual for unit test purposes.
 				 */
 				virtual void controlTailRotorCollectiveImpl(double controlTailRotorCollective);
+				
+				void controlLongitudinal(double controlLogitudinal);
+				
+				void controlMainRotorCollective( double mainRotorControl );
 		};
 	}
 }

@@ -33,11 +33,18 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	pidController->setYawProportionalGain(3.0);
 	pidController->setYawIntegralGain(.008);
 	pidController->setYawDerivativeGain(.85);
-
+	pidController->setYawAntiWindupGain(.1);
+	
+	pidController->setXProportionalGain(.289);
+	pidController->setXIntegralGain(0);
+	pidController->setXDerivativeGain(1.859);
+	pidController->setXAntiWindupGain(0);
+	pidController->setLongitudeInnerLoopGain(.031);
+	
 	//TODO: Don't forget that there is a difference between how often the sensors
 	//are read and how often the control algorithm runs. 
 	pidController->setIntervalPeriodSecs(PID_OUTER_LOOP_PERIOD);
-	pidController->setYawAntiWindupGain(.1);
+
 /*	
 	pidController->setMinYawServoControl (-.8);
 	pidController->setMaxYawServoControl(.8);

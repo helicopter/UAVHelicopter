@@ -40,12 +40,34 @@ namespace helicopter
 				double yawDerivativeGain;
 				double yawProportionalGain;
 				double yawAntiWindupGain;
-					
+				
+				
+				double xIntegralGain;
+				double xDerivativeGain;
+				double xProportionalGain;
+				double xAntiWindupGain;
+				double longitudeInnerLoopGain;
+				
+				double yIntegralGain;
+				double yDerivativeGain;
+				double yProportionalGain;
+				double yAntiWindupGain;
+				double lateralInnerLoopGain;
+				
+				double zIntegralGain;
+				double zDerivativeGain;
+				double zProportionalGain;
+				double zAntiWindupGain;
+				
 				double minYawServoControlValue;
 				double maxYawServoControlValue;
+				double minLongitudeServoControlValue;
+				double maxLongitudeServoControlValue;
+				double minLateralServoControlValue;
+				double maxLateralServoControlValue;
+				double minMainRotorServoControlValue;
+				double maxMainRotorServoControlValue;
 				
-				double yawServoTrim;
-					
 				double intervalPeriodSecs;
 					
 				double controlMaxValue;
@@ -56,17 +78,119 @@ namespace helicopter
 					
 				~PIDController();
 				
-				/**
-				 * Sets a trim value that should be applied to the yaw control value.
-				 * This trim is applied before adjusting for servo limits.
-				 * @param yawServoTrim A double value representing how much to adjust the
-				 * trim by.
-				 * TODO: identify what negative and positive means.
-				 */
-				void setYawServoTrim(double yawServoTrim)
+				void setXIntegralGain(double val)
 				{
-					this->yawServoTrim = yawServoTrim;
+					xIntegralGain = val;
 				}
+				
+				void setXDerivativeGain(double val)
+				{
+					xDerivativeGain = val;
+				}
+				
+				void setXProportionalGain(double val)
+				{
+					xProportionalGain = val;
+				}
+				
+				void setXAntiWindupGain(double val)
+				{
+					xAntiWindupGain = val;
+				}
+				
+				void setLongitudeInnerLoopGain(double val)
+				{
+					longitudeInnerLoopGain = val;
+				}
+				
+				void setMinLongitudeServoControlValue(double val)
+				{
+					minLongitudeServoControlValue = val;
+				}
+				
+				void setMaxLongitudeServoControlValue(double val)
+				{
+					maxLongitudeServoControlValue = val;
+				}
+				
+				
+				
+				
+				
+				
+				void setYIntegralGain(double val)
+				{
+					yIntegralGain = val;
+				}
+				
+				void setYDerivativeGain(double val)
+				{
+					yDerivativeGain = val;
+				}
+				
+				void setYProportionalGain(double val)
+				{
+					yProportionalGain = val;
+				}
+				
+				void setYAntiWindupGain(double val)
+				{
+					yAntiWindupGain = val;
+				}
+				
+				void setLateralInnerLoopGain(double val)
+				{
+					lateralInnerLoopGain = val;
+				}
+				
+				void setMinLateralServoControlValue(double val)
+				{
+					minLateralServoControlValue = val;
+				}
+				
+				void setMaxLateralServoControlValue(double val)
+				{
+					maxLateralServoControlValue = val;
+				}
+				
+				
+				
+				
+				
+				
+				
+				
+				void setZIntegralGain(double val)
+				{
+					zIntegralGain = val;
+				}
+				
+				void setZDerivativeGain(double val)
+				{
+					zDerivativeGain = val;
+				}
+				
+				void setZProportionalGain(double val)
+				{
+					zProportionalGain = val;
+				}
+				
+				void setZAntiWindupGain(double val)
+				{
+					zAntiWindupGain = val;
+				}
+				
+				void setMinMainRotorServoControlValue(double val)
+				{
+					minMainRotorServoControlValue = val;
+				}
+				
+				void setMaxMainRotorServoControlValue(double val)
+				{
+					maxMainRotorServoControlValue = val;
+				}
+				
+				
 				
 				/**
 				 * Gain value applied to the yaw proportional error
@@ -169,7 +293,7 @@ namespace helicopter
 				 * Positive errors mean the helicopter needs to rotate counterclockwise to reduce the error, negative errors
 				 * mean the helicopter should rotate clockwise to reduce the error.
 				 */
-				double calculateYawProportional(double currentYawDegrees, double referenceYawDegrees);
+				//double calculateYawProportional(double currentYawDegrees, double referenceYawDegrees);
 				
 				/**
 				 * Calculates the anti windup term using the old yaw control value 
@@ -193,7 +317,7 @@ namespace helicopter
 				 * applied to this iterations integral term.
 				 * 0 if oldYawControlPreServoAdj == oldYawControl
 				 */
-				double calculateYawIntegralAntiWindup(double oldYawControlPreServoAdj, double oldYawControl);
+				double calculateIntegralAntiWindup(double oldControlPreServoAdj, double oldControl, double antiWindupGain);
 				
 				/**
 				 * Calculates the integral of the yaw without weighting.
@@ -203,7 +327,7 @@ namespace helicopter
 				 * the integral term to reset the integral term to 0 if the servos are saturated (at their max value)
 				 * @return the calculated integral value (without weighting).
 				 */
-				double calculateYawIntegral(double yawProportionalDegrees, double oldYawIntegral, double yawAntiWindup);
+				double calculateIntegral(double proportional, double oldIntegral, double antiWindup, double integralGain);
 				
 				/**
 				 * Subtracts the yawVelocityDegreesPerSecond and referenceYawVelocityDegreesPerSecond.
@@ -211,7 +335,7 @@ namespace helicopter
 				 * @referenceYawVelocityDegreesPerSecond the desired velocity of rotation in the yaw direction in degrees per second
 				 * @return the difference between the two parameters in degrees per second.
 				 */
-				double calculateYawVelocityError(double yawVelocityDegreesPerSecond, double referenceYawVelocityDegreesPerSecond);
+				double calculateVelocityError(double currentVelocity, double referenceVelocity);
 				
 				/**
 				 * Calculates the control value for the yaw (pedal) control. The value
@@ -223,7 +347,7 @@ namespace helicopter
 				 * @param yawIntegral The integral term.
 				 * @return a control value between controlMaxValue and controlMinValue (generally between -1 and 1 where 0 is neutral - no blade angle).
 				 */
-				double calculateYawControlValue(double yawProportionalDegrees, double yawVelocityErrorDegreesPerSecond, double yawIntegral);
+				double calculateOuterLoopControlValue(double proportionalError, double velocityError, double integral, double proportionalGain, double derivativeGain);
 				
 				/**
 				 * Adjusts the given control value by the servo limits and trim values. If the value is above the limit it's adjusted
@@ -231,8 +355,18 @@ namespace helicopter
 				 * @param controlValueToAdjust value to adjust
 				 * @return the adjusted value.
 				 */
-				double adjustControlForServoLimits( double controlValueToAdjust );
+				double adjustControlForServoLimits( double controlValueToAdjust, double maxServoControlValue, double minServoControlValue );
 				
+				
+				void cyclicLongitudeOuterLoopUpdate();
+				
+				void cyclicLongitudeInnerLoopUpdate();
+				
+				void cyclicLateralOuterLoopUpdate();
+				
+				void cyclicLateralInnerLoopUpdate();
+				
+				void mainRotorCollectiveOuterLoopUpdate();
 				
 				/**
 				 * Calculates the control value for the tail rotor given the various parameters defined in the model
@@ -240,6 +374,8 @@ namespace helicopter
 				void tailRotorCollectiveOuterLoopUpdate();
 				
 				void addBlownFrame();
+				
+				double convertYawErrorFrom360to180( double yawError );
 		};
 	}
 }

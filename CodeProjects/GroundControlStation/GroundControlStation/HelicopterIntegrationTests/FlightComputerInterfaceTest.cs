@@ -73,11 +73,17 @@ namespace HelicopterIntegrationTests
                 Assert.IsTrue(model.MagYaw == 2.22f);
                 Assert.IsTrue(model.Timeouts == 2);
                 Assert.IsTrue(model.UnrecognizedMsgTypes == 2);
-                Assert.IsTrue(model.YawControl == 2.22f);
+             //   Assert.IsTrue(model.YawControl == 2.22f);
                 Assert.IsTrue(model.YawDerivativeError == 2.22f);
                 Assert.IsTrue(model.YawIntegral == 2.22f);
                 Assert.IsTrue(model.YawProportional == 2.22f);
                 Assert.IsTrue(model.YawVelocityDegreesPerSecond == 2.22f);
+
+
+                Assert.IsTrue(model.AltitudeFeet == 2.22f);
+                Assert.IsTrue(model.LateralControl == 2.22f);
+                Assert.IsTrue(model.MainRotorCollectiveControl == 2.22f);
+
 
 
                 fcInt.Transmit(telemetry);

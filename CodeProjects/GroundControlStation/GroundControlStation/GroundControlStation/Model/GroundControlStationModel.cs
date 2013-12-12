@@ -42,6 +42,76 @@ namespace GroundControlStation.Model
 
         public int NumOfBlownFrames { get; set; }
 
+
+        public float XNEDBodyFrame { get; set; }
+
+        public float XVelocityMetersPerSecond { get; set; }
+
+        public float ThetaPitchDegrees { get; set; }
+
+        public float XIntegral { get; set; }
+
+        public float XProportional { get; set; }
+
+        public float XDerivativeError { get; set; }
+
+        public float LongitudeControl { get; set; }
+
+        public float XIntegralGain { get; set; }
+
+        public float XDerivativeGain { get; set; }
+
+        public float XProportionalGain { get; set; }
+
+        public float XAntiWindupGain { get; set; }
+
+        public float LongitudeInnerLoopGain { get; set; }
+
+        public float YNEDBodyFrame { get; set; }
+
+        public float YVelocityMetersPerSecond { get; set; }
+
+        public float PhiRollDegrees { get; set; }
+
+        public float YIntegral { get; set; }
+
+        public float YProportional { get; set; }
+
+        public float YDerivativeError { get; set; }
+
+        public float LateralControl { get; set; }
+
+        public float YIntegralGain { get; set; }
+
+        public float YDerivativeGain { get; set; }
+
+        public float YProportionalGain { get; set; }
+
+        public float YAntiWindupGain { get; set; }
+
+        public float LateralInnerLoopGain { get; set; }
+
+        public float AltitudeFeet { get; set; }
+
+        public float ZVelocityFeetPerSecond { get; set; }
+
+        public float ZIntegral { get; set; }
+
+        public float ZProportional { get; set; }
+
+        public float ZDerivativeError { get; set; }
+
+        public float MainRotorCollectiveControl { get; set; }
+
+        public float ZIntegralGain { get; set; }
+
+        public float ZDerivativeGain { get; set; }
+
+        public float ZProportionalGain { get; set; }
+
+        public float ZAntiWindupGain { get; set; }
+
+
         public SimulatorTelemetry SimTelm { get; set; }
 
         public GroundControlStationModel()
@@ -77,6 +147,7 @@ namespace GroundControlStation.Model
 
             return lstValues;
         }
+
 
     }
 }

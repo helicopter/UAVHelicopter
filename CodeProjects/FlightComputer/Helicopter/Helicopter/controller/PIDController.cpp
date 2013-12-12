@@ -16,9 +16,34 @@ yawIntegralGain(0),
 yawDerivativeGain(0),
 yawProportionalGain(0),
 yawAntiWindupGain(0),
+
+xIntegralGain(0),
+xDerivativeGain(0),
+xProportionalGain(0),
+xAntiWindupGain(0),
+longitudeInnerLoopGain(0),
+
+yIntegralGain(0),
+yDerivativeGain(0),
+yProportionalGain(0),
+yAntiWindupGain(0),
+lateralInnerLoopGain(0),
+
+zIntegralGain(0),
+zDerivativeGain(0),
+zProportionalGain(0),
+zAntiWindupGain(0),
+
+
 minYawServoControlValue(0),
 maxYawServoControlValue(0),
-yawServoTrim(0),
+minLongitudeServoControlValue(0),
+maxLongitudeServoControlValue(0),
+minLateralServoControlValue(0),
+maxLateralServoControlValue(0),
+minMainRotorServoControlValue(0),
+maxMainRotorServoControlValue(0),
+
 intervalPeriodSecs(0),
 controlMaxValue(0),
 controlMinValue(0)
@@ -37,32 +62,26 @@ double PIDController::calculateProportional(double currentValue, double referenc
 }
 
 //TODO refactor to make this common for all PID calculations
-double PIDController::calculateYawProportional(double currentYawDegrees, double referenceYawDegrees)
+/*double PIDController::calculateProportional(double currentYawDegrees, double referenceYawDegrees)
 {
 	double yawError = currentYawDegrees - referenceYawDegrees;
 	
 	//Convert 360 degree magnetic heading error to a +/- 180 mag heading error
 	
-	if (yawError >= 180)
-	{
-		yawError = yawError - 360;
-	}
-	else if (yawError < -180)
-	{
-		yawError = yawError + 360;
-	}
+	yawError = convertYawErrorFrom360to180(yawError);
+
 	
 	return yawError;
-}
+}*/
 
 
 //TODO refactor to make this common for all PID calculations. I'll want to include the specific
 //variables max values as parameters so I can 'generalize' it.
-double PIDController::calculateYawIntegralAntiWindup(double oldYawControlPreServoAdj, double oldYawControl)
+double PIDController::calculateIntegralAntiWindup(double oldControlPreServoAdj, double oldControl, double antiWindupGain)
 {
 	double antiWindup = 0;
 	
-	antiWindup = yawAntiWindupGain * (oldYawControlPreServoAdj - oldYawControl);
+	antiWindup = antiWindupGain * (oldControlPreServoAdj - oldControl);
 	
 	/*
 	if (oldYawControlValue > maxYawServoControlValue)
@@ -81,28 +100,28 @@ double PIDController::calculateYawIntegralAntiWindup(double oldYawControlPreServ
 /**
  * Anti-windup algorithm provided by Control Systems Design by Karl Johan Astrom 2002. chapter 6
  */
-double PIDController::calculateYawIntegral(double yawProportionalDegrees, double oldYawIntegral, double yawAntiWindup)
+double PIDController::calculateIntegral(double proportional, double oldIntegral, double antiWindup, double integralGain)
 {
 	
 	double workingIntegral = 0;
 	
-	workingIntegral = yawProportionalDegrees * intervalPeriodSecs * yawIntegralGain;
+	workingIntegral = proportional * intervalPeriodSecs * integralGain;
 	
 	//Integrate (i.e. sum this working value with the current integral value).
 	//Note: i'm going out of order from what is defined in the book referenced above.
 	//I am summing before subtracting the antiwindup value to make it easier.
 	//I also find it odd that the integral 'gain' is being applied before 
 	//accounting for the anti-windup. But this could be to compensate for large errors.
-	workingIntegral = workingIntegral + oldYawIntegral;
+	workingIntegral = workingIntegral + oldIntegral;
 	
-	if (yawAntiWindup != 0)
+	if (antiWindup != 0)
 	{
 		//We want to know if the integral is greater than 0 or less than 0 so that when we subtract
 		//the antiwindup value, we get closer to 0, and don't exceed 0.
-		if (workingIntegral > 0 && yawAntiWindup > workingIntegral)
+		if (workingIntegral > 0 && antiWindup > workingIntegral)
 		{
 			workingIntegral = 0;
-		}else if (workingIntegral < 0 && yawAntiWindup < workingIntegral)
+		}else if (workingIntegral < 0 && antiWindup < workingIntegral)
 		{
 			workingIntegral = 0;
 		}
@@ -110,7 +129,7 @@ double PIDController::calculateYawIntegral(double yawProportionalDegrees, double
 		if (workingIntegral != 0)
 		{
 				//Subtract the anti-windup value from the working integral. 
-			workingIntegral = workingIntegral - yawAntiWindup;
+			workingIntegral = workingIntegral - antiWindup;
 		}
 	}
 	
@@ -118,7 +137,7 @@ double PIDController::calculateYawIntegral(double yawProportionalDegrees, double
 }
 
 //TODO refactor to make this common for all PID calculations
-//double PIDController::calculateYawIntegral(double yawProportionalDegrees, double oldYawIntegral, double yawAntiWindup)
+//double PIDController::calculateIntegral(double yawProportionalDegrees, double oldYawIntegral, double yawAntiWindup)
 //{
 	//double integral = 0;
 	//
@@ -146,16 +165,16 @@ double PIDController::calculateYawIntegral(double yawProportionalDegrees, double
 //}
 
 
-double PIDController::calculateYawVelocityError(double yawVelocityDegreesPerSecond, double referenceYawVelocityDegreesPerSecond)
+double PIDController::calculateVelocityError(double currentVelocity, double referenceVelocity)
 {
-	return yawVelocityDegreesPerSecond - referenceYawVelocityDegreesPerSecond;
+	return currentVelocity - referenceVelocity;
 }
 
-double PIDController::calculateYawControlValue(double yawProportionalDegrees, double yawVelocityErrorDegreesPerSecond, double yawIntegral)
+double PIDController::calculateOuterLoopControlValue(double proportionalError, double velocityError, double integral, double proportionalGain, double derivativeGain)
 {
 	double controlValue = 0;
 	
-	controlValue = yawIntegral  + yawProportionalDegrees * yawProportionalGain + yawVelocityErrorDegreesPerSecond * yawDerivativeGain;
+	controlValue = integral  + proportionalError * proportionalGain + velocityError * derivativeGain;
 	
 	/*
 	if (controlValue > controlMaxValue)
@@ -171,32 +190,109 @@ double PIDController::calculateYawControlValue(double yawProportionalDegrees, do
 }
 
 
-double PIDController::adjustControlForServoLimits( double controlValueToAdjust )
+double PIDController::adjustControlForServoLimits( double controlValueToAdjust, double minServoControlValue, double maxServoControlValue )
 {
-	double controlValue = controlValueToAdjust;
-	
+
 	//TODO: when generalizing ensure to change this value. 
-	controlValue += yawServoTrim;
+	//Todo revisit including trim.
+	//controlValue += yawServoTrim;
 	
-	if (controlValue > maxYawServoControlValue)
+	if (controlValueToAdjust > maxServoControlValue)
 	{
-		controlValue = maxYawServoControlValue;
-	}else if (controlValue < minYawServoControlValue)
+		controlValueToAdjust = maxServoControlValue;
+	}else if (controlValueToAdjust < minServoControlValue)
 	{
-		controlValue = minYawServoControlValue;
+		controlValueToAdjust = minServoControlValue;
 	}
 	
-	return controlValue;
+	return controlValueToAdjust;
+}
+
+
+double calculateInnerLoopControlValue( double outerLoopSetpoint, double measuredValue, double gain )
+{
+	//NOTE: IN MY OTHER IMPLEMENTATION I SUBTRACT THE VELOCITY (YES VELOCITY) OF THE ANGULAR MOTION.
+	return gain * (measuredValue - outerLoopSetpoint);
+}
+
+//side motion / roll / lateral
+
+//forward motion / pitch / longitud
+void PIDController::cyclicLongitudeOuterLoopUpdate()
+{
+	//double yawProportional = calculateYawProportional(model->MagYawDegrees(), model->ReferenceMagYawDegrees());
+	double xProportional = calculateProportional(model->XNEDBodyFrame(), model->ReferenceXNEDBodyFrame());
+	double xIntegralAntiWindup = calculateIntegralAntiWindup(model->LongitudeControlBeforeServoLimitsAdjustment(), model->LongitudeControl(), xAntiWindupGain);
+	double weightedXIntegral = calculateIntegral(xProportional, model->XIntegral(), xIntegralAntiWindup, xIntegralGain);
+	double xDerivativeError = calculateVelocityError(model->XVelocityMetersPerSecond(), model->ReferenceXVelocityMetersPerSecond());
+	double xLongitudinalOuterLoopControl = calculateOuterLoopControlValue(xProportional, xDerivativeError, weightedXIntegral, xProportionalGain, xDerivativeGain);
+	//double xOuterLoopControl = adjustControlForServoLimits(xControlBeforeServoLimitsAdjustment);
+	
+	model->XLongitudinalOuterLoopControl(xLongitudinalOuterLoopControl);
+	//model->YawControlBeforeServoLimitsAdjustment(yawControlBeforeServoLimitsAdjustment);
+	model->XIntegral(weightedXIntegral);
+	model->XProportional(xProportional);
+	model->XDerivativeError(xDerivativeError);
+	
+//	servoDriver->controlTailRotorCollective(xControl);
+}
+
+void PIDController::cyclicLateralOuterLoopUpdate()
+{
+	//double yawProportional = calculateYawProportional(model->MagYawDegrees(), model->ReferenceMagYawDegrees());
+	double yProportional = calculateProportional(model->YNEDBodyFrame(), model->ReferenceYNEDBodyFrame());
+	double yIntegralAntiWindup = calculateIntegralAntiWindup(model->LateralControlBeforeServoLimitsAdjustment(), model->LateralControl(), yAntiWindupGain);
+	double weightedYIntegral = calculateIntegral(yProportional, model->YIntegral(), yIntegralAntiWindup, yIntegralGain);
+	double yDerivativeError = calculateVelocityError(model->YVelocityMetersPerSecond(), model->ReferenceYVelocityMetersPerSecond());
+	double yLateralOuterLoopControl = calculateOuterLoopControlValue(yProportional, yDerivativeError, weightedYIntegral, yProportionalGain, yDerivativeGain);
+	//double xOuterLoopControl = adjustControlForServoLimits(xControlBeforeServoLimitsAdjustment);
+	
+	model->YLateralOuterLoopControl(yLateralOuterLoopControl);
+	//model->YawControlBeforeServoLimitsAdjustment(yawControlBeforeServoLimitsAdjustment);
+	model->YIntegral(weightedYIntegral);
+	model->YProportional(yProportional);
+	model->YDerivativeError(yDerivativeError);
+	
+	//	servoDriver->controlTailRotorCollective(xControl);
+}
+
+void PIDController::cyclicLongitudeInnerLoopUpdate()
+{
+	double xLongitudinalInnerLoopControlBeforeServoLimits = calculateInnerLoopControlValue(model->XLongitudinalOuterLoopControl(), model->ThetaPitchDegrees(), longitudeInnerLoopGain);
+	
+	double xLongitudinalInnerLoopControl = adjustControlForServoLimits(xLongitudinalInnerLoopControlBeforeServoLimits, minLongitudeServoControlValue, maxLongitudeServoControlValue);
+	
+	model->LongitudeControlBeforeServoLimitsAdjustment(xLongitudinalInnerLoopControlBeforeServoLimits);
+	
+	model->LongitudeControl(xLongitudinalInnerLoopControl);
+	
+	servoDriver->controlLongitudinal(xLongitudinalInnerLoopControl);
+}
+
+void PIDController::cyclicLateralInnerLoopUpdate()
+{
+	double yLateralInnerLoopControlBeforeServoLimits = calculateInnerLoopControlValue(model->YLateralOuterLoopControl(), model->PhiRollDegrees(), lateralInnerLoopGain);
+	
+	double yLateralInnerLoopControl = adjustControlForServoLimits(yLateralInnerLoopControlBeforeServoLimits, minLateralServoControlValue, maxLateralServoControlValue);
+	
+	model->LateralControlBeforeServoLimitsAdjustment(yLateralInnerLoopControlBeforeServoLimits);
+	
+	model->LateralControl(yLateralInnerLoopControl);
+	
+	servoDriver->controlLongitudinal(yLateralInnerLoopControl);
 }
 
 void PIDController::tailRotorCollectiveOuterLoopUpdate()
 {
-	double yawProportional = calculateYawProportional(model->MagYawDegrees(), model->ReferenceMagYawDegrees());
-	double yawAntiWindup = calculateYawIntegralAntiWindup(model->YawControlBeforeServoLimitsAdjustment(), model->YawControl());
-	double weightedYawIntegral = calculateYawIntegral(yawProportional, model->YawIntegral(), yawAntiWindup);
-	double yawDerivativeError = calculateYawVelocityError(model->YawVelocityDegreesPerSecond(), model->ReferenceYawVelocityDegreesPerSecond());
-	double yawControlBeforeServoLimitsAdjustment = calculateYawControlValue(yawProportional, yawDerivativeError, weightedYawIntegral);
-	double yawControl = adjustControlForServoLimits(yawControlBeforeServoLimitsAdjustment);
+	double yawProportional = calculateProportional(model->MagYawDegrees(), model->ReferenceMagYawDegrees());
+	
+	yawProportional = convertYawErrorFrom360to180(yawProportional);
+	
+	double yawIntegralAntiWindup = calculateIntegralAntiWindup(model->YawControlBeforeServoLimitsAdjustment(), model->YawControl(), yawAntiWindupGain);
+	double weightedYawIntegral = calculateIntegral(yawProportional, model->YawIntegral(), yawIntegralAntiWindup, yawIntegralGain);
+	double yawDerivativeError = calculateVelocityError(model->YawVelocityDegreesPerSecond(), model->ReferenceYawVelocityDegreesPerSecond());
+	double yawControlBeforeServoLimitsAdjustment = calculateOuterLoopControlValue(yawProportional, yawDerivativeError, weightedYawIntegral, yawProportionalGain, yawDerivativeGain);
+	double yawControl = adjustControlForServoLimits(yawControlBeforeServoLimitsAdjustment, minYawServoControlValue, maxYawServoControlValue);
 	
 	model->YawControl(yawControl);
 	model->YawControlBeforeServoLimitsAdjustment(yawControlBeforeServoLimitsAdjustment);
@@ -207,7 +303,43 @@ void PIDController::tailRotorCollectiveOuterLoopUpdate()
 	servoDriver->controlTailRotorCollective(yawControl);
 }
 
+void PIDController::mainRotorCollectiveOuterLoopUpdate()
+{
+	double zProportional = calculateProportional(model->AltitudeFeet(), model->ReferenceAltitudeFeet());
+	
+	double zIntegralAntiWindup = calculateIntegralAntiWindup(model->MainRotorControlBeforeServoLimitsAdjustment(), model->MainRotorCollectiveControl(), zAntiWindupGain);
+	double weightedZIntegral = calculateIntegral(zProportional, model->ZIntegral(), zIntegralAntiWindup, zIntegralGain);
+	double zDerivativeError = calculateVelocityError(model->ZVelocityFeetPerSecond(), model->ReferenceZVelocityFeetPerSecond());
+	double mainRotorControlBeforeServoLimitsAdjustment = calculateOuterLoopControlValue(zProportional, zDerivativeError, weightedZIntegral, zProportionalGain, zDerivativeGain);
+	double mainRotorControl = adjustControlForServoLimits(mainRotorControlBeforeServoLimitsAdjustment, minMainRotorServoControlValue, maxMainRotorServoControlValue);
+	
+	model->MainRotorCollectiveControl(mainRotorControl);
+	model->MainRotorControlBeforeServoLimitsAdjustment(mainRotorControlBeforeServoLimitsAdjustment);
+	model->ZIntegral(weightedZIntegral);
+	model->ZProportional(zProportional);
+	model->ZDerivativeError(zDerivativeError);
+	
+	servoDriver->controlMainRotorCollective(mainRotorControl);
+}
+
+
+
+//TODO WTF IS THIS DOING HERE?? THIS IS THE WRONG CONTROLLER!!
 void PIDController::addBlownFrame()
 {
 	model->BlownFrames(model->BlownFrames() + 1);
+}
+
+double PIDController::convertYawErrorFrom360to180( double yawError ) 
+{
+	if (yawError >= 180)
+	{
+		yawError = yawError - 360;
+	}
+	else if (yawError < -180)
+	{
+		yawError = yawError + 360;
+	}	
+	
+	return yawError;
 }

@@ -23,28 +23,65 @@ namespace helicopter
 		{
 			private:
 			
+			/**
+			 * These variables are used for controlling Yaw action (tail rotor)
+			 */
 			double magYawDegrees;
-			
 			double referenceMagYawDegrees;
-			
 			double yawControl;
-			
-			//This variable is used for calculating integral anti-windup.
 			double yawControlBeforeServoLimitsAdjustment;
-			
 			double yawVelocityDegreesPerSecond;
-			
 			double referenceYawVelocityDegreesPerSecond;
-			
 			double yawIntegral;
-			
 			double yawProportional;
-			
 			double yawDerivativeError;
 			
+			/**
+			 * These variables are used for controlling the longitudinal action (cyclic pitch motion)
+			 */
+			double xNEDBodyFrame;
+			double referenceXNEDBodyFrame;
+			double longitudeControlBeforeServoLimitsAdjustment;
+			double longitudeControl;
+			double xVelocityMetersPerSecond;
+			double referenceXVelocityMetersPerSecond;
+			double xLongitudinalOuterLoopControl;
+			double xProportional;
+			double xIntegral;
+			double xDerivativeError;
+			double thetaPitchDegrees;
 			
+			/**
+			 * These variables are used for controlling the lateral action (cyclic roll motion)
+			 */
+			double yNEDBodyFrame;
+			double referenceYNEDBodyFrame;
+			double lateralControlBeforeServoLimitsAdjustment;
+			double lateralControl;
+			double yVelocityMetersPerSecond;
+			double referenceYVelocityMetersPerSecond;
+			double yLateralOuterLoopControl;
+			double yProportional;
+			double yIntegral;
+			double yDerivativeError;
+			double phiRollDegrees;
 			
-			// Instrumentation fields
+			/**
+			 * These variables are used for controlling heave action (collective altitude motion)
+			 */
+			double altitudeFeet;
+			double referenceAltitudeFeet;
+			double mainRotorControl;
+			double mainRotorControlBeforeServoLimitsAdjustment;
+			double zVelocityFeetPerSecond;
+			double referenceZVelocityFeetPerSecond;
+			double zIntegral;
+			double zProportional;
+			double zDerivativeError;
+			
+			/**
+			 * Instrumentation fields
+			 */
 			long timeouts;
 			
 			long unrecognizedMsgTypes;
@@ -56,6 +93,7 @@ namespace helicopter
 			public:
 			
 			SystemModel():
+			
 			magYawDegrees(0),
 			referenceMagYawDegrees(0),
 			yawControl(0),
@@ -65,6 +103,43 @@ namespace helicopter
 			yawIntegral(0),
 			yawProportional(0),
 			yawDerivativeError(0),
+			
+			xNEDBodyFrame(0),
+			referenceXNEDBodyFrame(0),
+			longitudeControlBeforeServoLimitsAdjustment(0),
+			longitudeControl(0),
+			xVelocityMetersPerSecond(0),
+			referenceXVelocityMetersPerSecond(0),
+			xLongitudinalOuterLoopControl(0),
+			xProportional(0),
+			xIntegral(0),
+			xDerivativeError(0),
+			thetaPitchDegrees(0),
+			
+			yNEDBodyFrame(0),
+			referenceYNEDBodyFrame(0),
+			lateralControlBeforeServoLimitsAdjustment(0),
+			lateralControl(0),
+			yVelocityMetersPerSecond(0),
+			referenceYVelocityMetersPerSecond(0),
+			yLateralOuterLoopControl(0),
+			yProportional(0),
+			yIntegral(0),
+			yDerivativeError(0),
+			phiRollDegrees(0),
+			
+			
+			altitudeFeet(0),
+			referenceAltitudeFeet(0),
+			mainRotorControl(0),
+			mainRotorControlBeforeServoLimitsAdjustment(0),
+			zVelocityFeetPerSecond(0),
+			referenceZVelocityFeetPerSecond(0),
+			zIntegral(0),
+			zProportional(0),
+			zDerivativeError(0),
+			
+			
 			timeouts(0),
 			unrecognizedMsgTypes(0),
 			checksumErrors(0),
@@ -112,6 +187,126 @@ namespace helicopter
 			double YawDerivativeError() const {return yawDerivativeError;}
 			void YawDerivativeError(double val) { yawDerivativeError = val;}								
 																							
+		
+		
+		
+			double XNEDBodyFrame() const {return xNEDBodyFrame;}
+			void XNEDBodyFrame(double val) { xNEDBodyFrame = val;}
+						
+			double ReferenceXNEDBodyFrame() const {return referenceXNEDBodyFrame;}
+			void ReferenceXNEDBodyFrame(double val) { referenceXNEDBodyFrame = val;}
+
+			double LongitudeControlBeforeServoLimitsAdjustment() const {return longitudeControlBeforeServoLimitsAdjustment;}
+			void LongitudeControlBeforeServoLimitsAdjustment(double val) { longitudeControlBeforeServoLimitsAdjustment = val;}
+
+			double LongitudeControl() const {return longitudeControl;}
+			void LongitudeControl(double val) { longitudeControl = val;}
+				
+			double XVelocityMetersPerSecond() const {return xVelocityMetersPerSecond;}
+			void XVelocityMetersPerSecond(double val) { xVelocityMetersPerSecond = val;}
+				
+			double ReferenceXVelocityMetersPerSecond() const {return referenceXVelocityMetersPerSecond;}
+			void ReferenceXVelocityMetersPerSecond(double val) { referenceXVelocityMetersPerSecond = val;}
+				
+			double XLongitudinalOuterLoopControl() const {return xLongitudinalOuterLoopControl;}
+			void XLongitudinalOuterLoopControl(double val) { xLongitudinalOuterLoopControl = val;}
+				
+			double XProportional() const {return xProportional;}
+			void XProportional(double val) { xProportional = val;}
+				
+			double XIntegral() const {return xIntegral;}
+			void XIntegral(double val) { xIntegral = val;}
+				
+			double XDerivativeError() const {return xDerivativeError;}
+			void XDerivativeError(double val) { xDerivativeError = val;}
+				
+		
+			double ThetaPitchDegrees() const {return thetaPitchDegrees;}
+			void ThetaPitchDegrees(double val) {thetaPitchDegrees = val;}
+		
+		
+		
+						
+						
+						
+						
+						
+
+
+			double YNEDBodyFrame() const {return yNEDBodyFrame;}
+			void YNEDBodyFrame(double val) { yNEDBodyFrame = val;}
+
+			double ReferenceYNEDBodyFrame() const {return referenceYNEDBodyFrame;}
+			void ReferenceYNEDBodyFrame(double val) { referenceYNEDBodyFrame = val;}
+
+			double LateralControlBeforeServoLimitsAdjustment() const {return lateralControlBeforeServoLimitsAdjustment;}
+			void LateralControlBeforeServoLimitsAdjustment(double val) { lateralControlBeforeServoLimitsAdjustment = val;}
+
+			double LateralControl() const {return lateralControl;}
+			void LateralControl(double val) { lateralControl = val;}
+
+			double YVelocityMetersPerSecond() const {return yVelocityMetersPerSecond;}
+			void YVelocityMetersPerSecond(double val) { yVelocityMetersPerSecond = val;}
+
+			double ReferenceYVelocityMetersPerSecond() const {return referenceYVelocityMetersPerSecond;}
+			void ReferenceYVelocityMetersPerSecond(double val) { referenceYVelocityMetersPerSecond = val;}
+
+			double YLateralOuterLoopControl() const {return yLateralOuterLoopControl;}
+			void YLateralOuterLoopControl(double val) { yLateralOuterLoopControl = val;}
+
+			double YProportional() const {return yProportional;}
+			void YProportional(double val) { yProportional = val;}
+
+			double YIntegral() const {return yIntegral;}
+			void YIntegral(double val) { yIntegral = val;}
+
+			double YDerivativeError() const {return yDerivativeError;}
+			void YDerivativeError(double val) { yDerivativeError = val;}
+
+
+			double PhiRollDegrees() const {return phiRollDegrees;}
+			void PhiRollDegrees(double val) {phiRollDegrees = val;}
+
+
+						
+						
+						
+						
+
+			double AltitudeFeet() const { return altitudeFeet; }
+			void AltitudeFeet(double val) { altitudeFeet = val; }
+
+
+
+			double ReferenceAltitudeFeet() const {return referenceAltitudeFeet;}
+			void ReferenceAltitudeFeet(double val) { referenceAltitudeFeet = val;}
+
+
+			double MainRotorCollectiveControl() const {return mainRotorControl;}
+			void MainRotorCollectiveControl(double val) { mainRotorControl = val;}
+
+			double MainRotorControlBeforeServoLimitsAdjustment() const {return mainRotorControlBeforeServoLimitsAdjustment;}
+			void MainRotorControlBeforeServoLimitsAdjustment(double val) { mainRotorControlBeforeServoLimitsAdjustment = val;}
+
+			double ZVelocityFeetPerSecond() const {return zVelocityFeetPerSecond;}
+			void ZVelocityFeetPerSecond(double val) { zVelocityFeetPerSecond = val;}
+
+			double ReferenceZVelocityFeetPerSecond() const {return referenceZVelocityFeetPerSecond;}
+			void ReferenceZVelocityFeetPerSecond(double val) { referenceZVelocityFeetPerSecond = val;}
+
+			double ZIntegral() const {return zIntegral;}
+			void ZIntegral(double val) { zIntegral = val;}
+
+			double ZProportional() const {return zProportional;}
+			void ZProportional(double val) { zProportional = val;}
+
+			double ZDerivativeError() const {return zDerivativeError;}
+			void ZDerivativeError(double val) { zDerivativeError = val;}						
+						
+						
+						
+						
+						
 						
 			long Timeouts() const {return timeouts; }
 			void Timeouts(long val) { timeouts = val; }

@@ -30,3 +30,14 @@ void ServoDriver::controlTailRotorCollectiveImpl(double controlTailRotorCollecti
 {
 	
 }
+
+
+void ServoDriver::controlLongitudinal(double controlTailRotorCollective)
+{
+	
+}
+
+void ServoDriver::controlMainRotorCollective( double mainRotorControl )
+{
+
+}

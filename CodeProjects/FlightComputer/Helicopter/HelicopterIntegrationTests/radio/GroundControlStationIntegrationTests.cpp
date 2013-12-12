@@ -184,6 +184,14 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	model->YawProportional(2.22);
 	model->YawVelocityDegreesPerSecond(2.22);
 	
+	
+	model->AltitudeFeet(2.22);
+	model->LateralControl(2.22);
+	model->LateralControlBeforeServoLimitsAdjustment(2.22);
+	model->LongitudeControl(2.22);
+	model->MainRotorCollectiveControl(2.22);
+	
+	
 	SystemTelemetryMessage *transmitMessage = SystemTelemetryMessage::buildMessageFromModel(model);
 	
 	AssertTrue2(radioInterface.transmit(transmitMessage) == 0, 1);

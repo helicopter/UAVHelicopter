@@ -28,6 +28,50 @@ byte *SystemTelemetryMessage::getBytes()
 	encode (msgPtr, YawDerivativeGain);
 	encode (msgPtr, YawProportionalGain);
 	encode (msgPtr, YawAntiWindupGain);
+	
+
+
+	encode (msgPtr, XNEDBodyFrame);
+	encode (msgPtr, XVelocityMetersPerSecond);
+	encode (msgPtr, ThetaPitchDegrees);	
+	encode (msgPtr, XIntegral);
+	encode (msgPtr, XProportional);
+	encode (msgPtr, XDerivativeError);
+	encode (msgPtr, LongitudeControl);
+	encode (msgPtr, XIntegralGain);
+	encode (msgPtr, XDerivativeGain);
+	encode (msgPtr, XProportionalGain);
+	encode (msgPtr, XAntiWindupGain);	
+	encode (msgPtr, LongitudeInnerLoopGain);	
+	
+	encode (msgPtr, YNEDBodyFrame);
+	encode (msgPtr, YVelocityMetersPerSecond);
+	encode (msgPtr, PhiRollDegrees);
+	encode (msgPtr, YIntegral);
+	encode (msgPtr, YProportional);
+	encode (msgPtr, YDerivativeError);
+	encode (msgPtr, LateralControl);
+	encode (msgPtr, YIntegralGain);
+	encode (msgPtr, YDerivativeGain);
+	encode (msgPtr, YProportionalGain);
+	encode (msgPtr, YAntiWindupGain);
+	encode (msgPtr, LateralInnerLoopGain);	
+	
+	
+
+	encode (msgPtr, AltitudeFeet);
+	encode (msgPtr, ZVelocityFeetPerSecond);
+	encode (msgPtr, ZIntegral);
+	encode (msgPtr, ZProportional);
+	encode (msgPtr, ZDerivativeError);
+	encode (msgPtr, MainRotorCollectiveControl);
+	encode (msgPtr, ZIntegralGain);
+	encode (msgPtr, ZDerivativeGain);
+	encode (msgPtr, ZProportionalGain);
+	encode (msgPtr, ZAntiWindupGain);
+		
+	
+	
 	encode (msgPtr, Timeouts);
 	encode (msgPtr, UnrecognizedMsgTypes);
 	encode (msgPtr, ChecksumErrors);
@@ -42,16 +86,57 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 	{
 		decode (message,msgType);
 		decode (message,MagYaw);
-		decode (message,YawVelocityDegreesPerSecond);
-		decode (message,YawIntegral);
-		decode (message,YawProportional);
-		decode (message,YawDerivativeError);	
+		decode (message, YawVelocityDegreesPerSecond);
+		decode (message, YawIntegral);
+		decode (message, YawProportional);
+		decode (message, YawDerivativeError);	
 		decode (message, YawControl);	
-		
 		decode (message, YawIntegralGain);
 		decode (message, YawDerivativeGain);
 		decode (message, YawProportionalGain);
 		decode (message, YawAntiWindupGain);
+		
+		
+		
+
+		decode (message, XNEDBodyFrame);
+		decode (message, XVelocityMetersPerSecond);
+		decode (message, ThetaPitchDegrees);
+		decode (message, XIntegral);
+		decode (message, XProportional);
+		decode (message, XDerivativeError);
+		decode (message, LongitudeControl);
+		decode (message, XIntegralGain);
+		decode (message, XDerivativeGain);
+		decode (message, XProportionalGain);
+		decode (message, XAntiWindupGain);
+		decode (message, LongitudeInnerLoopGain);
+
+		decode (message, YNEDBodyFrame);
+		decode (message, YVelocityMetersPerSecond);
+		decode (message, PhiRollDegrees);
+		decode (message, YIntegral);
+		decode (message, YProportional);
+		decode (message, YDerivativeError);
+		decode (message, LateralControl);
+		decode (message, YIntegralGain);
+		decode (message, YDerivativeGain);
+		decode (message, YProportionalGain);
+		decode (message, YAntiWindupGain);
+		decode (message, LateralInnerLoopGain);
+
+		decode (message, AltitudeFeet);
+		decode (message, ZVelocityFeetPerSecond);
+		decode (message, ZIntegral);
+		decode (message, ZProportional);
+		decode (message, ZDerivativeError);
+		decode (message, MainRotorCollectiveControl);
+		decode (message, ZIntegralGain);
+		decode (message, ZDerivativeGain);
+		decode (message, ZProportionalGain);
+		decode (message, ZAntiWindupGain);
+		
+	
 						
 		decode (message,Timeouts);
 		decode (message,UnrecognizedMsgTypes);
@@ -79,6 +164,33 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 	message->YawProportional = model->YawProportional() * 100;
 	message->YawVelocityDegreesPerSecond = model->YawVelocityDegreesPerSecond() * 100;
 	message->YawControl = model->YawControl() * 100;
+	
+
+	message->XNEDBodyFrame = model->XNEDBodyFrame() * 100;
+	message->XDerivativeError = model->XDerivativeError() * 100;
+	message->XIntegral = model->XIntegral() * 100;
+	message->XProportional = model->XProportional() * 100;
+	message->XVelocityMetersPerSecond = model->XVelocityMetersPerSecond() * 100;
+	message->LongitudeControl = model->LongitudeControl() * 100;
+	
+	
+	message->YNEDBodyFrame = model->YNEDBodyFrame() * 100;
+	message->YDerivativeError = model->YDerivativeError() * 100;
+	message->YIntegral = model->YIntegral() * 100;
+	message->YProportional = model->YProportional() * 100;
+	message->YVelocityMetersPerSecond = model->YVelocityMetersPerSecond() * 100;
+	message->LateralControl = model->LateralControl() * 100;
+	
+	
+	
+	message->AltitudeFeet = model->AltitudeFeet() * 100;
+	message->ZDerivativeError = model->ZDerivativeError() * 100;
+	message->ZIntegral = model->ZIntegral() * 100;
+	message->ZProportional = model->ZProportional() * 100;
+	message->ZVelocityFeetPerSecond = model->ZVelocityFeetPerSecond() * 100;
+	message->MainRotorCollectiveControl = model->MainRotorCollectiveControl() * 100;
+	
+	
 	message->ChecksumErrors = model->ChecksumErrors();
 	message->Timeouts = model->Timeouts();
 	message->UnrecognizedMsgTypes = model->UnrecognizedMsgTypes();
@@ -88,6 +200,7 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 }
 
 
+//TODO delete this method, its not used.
 void SystemTelemetryMessage::updateModelFromMessage (SystemModel *model)
 {
 	model->MagYawDegrees((double) this->MagYaw / 100);
@@ -106,4 +219,15 @@ void SystemTelemetryMessage::updateModelFromMessageFromSimulator (SystemModel *m
 {
 	model->MagYawDegrees((double) this->MagYaw / 100);
 	model->YawVelocityDegreesPerSecond((double) this->YawVelocityDegreesPerSecond / 100);
+	
+	model->XNEDBodyFrame((double) this->XNEDBodyFrame / 100);
+	model->XVelocityMetersPerSecond((double) this->XVelocityMetersPerSecond / 100);
+	model->ThetaPitchDegrees((double) this->ThetaPitchDegrees / 100);
+	
+	model->YNEDBodyFrame((double) this->YNEDBodyFrame / 100);
+	model->YVelocityMetersPerSecond((double) this->YVelocityMetersPerSecond / 100);
+	model->PhiRollDegrees((double) this->PhiRollDegrees / 100);
+	
+	model->AltitudeFeet((double) this->AltitudeFeet / 100);
+	model->ZVelocityFeetPerSecond((double) this->ZVelocityFeetPerSecond / 100);
 }

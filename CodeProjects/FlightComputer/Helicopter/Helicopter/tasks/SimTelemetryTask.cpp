@@ -50,6 +50,23 @@ void SimTelemetryTask::runTaskImpl()
 			pidController->setYawProportionalGain((double) telemMsg->YawProportionalGain / 100);
 			pidController->setYawAntiWindupGain((double) telemMsg->YawAntiWindupGain / 100);
 		
+			pidController->setXIntegralGain((double) telemMsg->XIntegralGain / 100);
+			pidController->setXDerivativeGain((double) telemMsg->XDerivativeGain / 100);
+			pidController->setXProportionalGain((double) telemMsg->XProportionalGain / 100);
+			pidController->setXAntiWindupGain((double) telemMsg->XAntiWindupGain / 100);
+			pidController->setLongitudeInnerLoopGain((double) telemMsg->LongitudeInnerLoopGain / 100);
+				
+			pidController->setYIntegralGain((double) telemMsg->YIntegralGain / 100);
+			pidController->setYDerivativeGain((double) telemMsg->YDerivativeGain / 100);
+			pidController->setYProportionalGain((double) telemMsg->YProportionalGain / 100);
+			pidController->setYAntiWindupGain((double) telemMsg->YAntiWindupGain / 100);
+			pidController->setLateralInnerLoopGain((double) telemMsg->LateralInnerLoopGain / 100);
+			
+			pidController->setZIntegralGain((double) telemMsg->ZIntegralGain / 100);
+			pidController->setZDerivativeGain((double) telemMsg->ZDerivativeGain / 100);
+			pidController->setZProportionalGain((double) telemMsg->ZProportionalGain / 100);
+			pidController->setZAntiWindupGain((double) telemMsg->ZAntiWindupGain / 100);															
+		
 			delete message;
 		}
 	}
