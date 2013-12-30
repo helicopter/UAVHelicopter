@@ -51,6 +51,7 @@ C_SRCS +=  \
 ../radio/GroundControlStationUnitTests.cpp \
 ../scheduler/SchedulerTest.cpp \
 ../sensors/MagnetometerSensorTests.cpp \
+../util/CoordinateUtilTests.cpp \
 ../util/TimerTests.cpp
 
 
@@ -69,6 +70,7 @@ mocks/MockMagnetometerDriver.o \
 radio/GroundControlStationUnitTests.o \
 scheduler/SchedulerTest.o \
 sensors/MagnetometerSensorTests.o \
+util/CoordinateUtilTests.o \
 util/TimerTests.o
 
 OBJS_AS_ARGS +=  \
@@ -80,6 +82,7 @@ mocks/MockMagnetometerDriver.o \
 radio/GroundControlStationUnitTests.o \
 scheduler/SchedulerTest.o \
 sensors/MagnetometerSensorTests.o \
+util/CoordinateUtilTests.o \
 util/TimerTests.o
 
 C_DEPS +=  \
@@ -91,6 +94,7 @@ mocks/MockMagnetometerDriver.d \
 radio/GroundControlStationUnitTests.d \
 scheduler/SchedulerTest.d \
 sensors/MagnetometerSensorTests.d \
+util/CoordinateUtilTests.d \
 util/TimerTests.d
 
 C_DEPS_AS_ARGS +=  \
@@ -102,6 +106,7 @@ mocks/MockMagnetometerDriver.d \
 radio/GroundControlStationUnitTests.d \
 scheduler/SchedulerTest.d \
 sensors/MagnetometerSensorTests.d \
+util/CoordinateUtilTests.d \
 util/TimerTests.d
 
 OUTPUT_FILE_PATH +=HelicopterUnitTests.elf
@@ -117,6 +122,8 @@ C:/Heli/GitRepository/UAVHelicopter/CodeProjects/FlightComputer/Helicopter/Helic
 C:/Heli/GitRepository/UAVHelicopter/CodeProjects/FlightComputer/Helicopter/Helicopter/Debug/libHelicopter.a
 
 # AVR32/GNU C Compiler
+
+
 
 
 

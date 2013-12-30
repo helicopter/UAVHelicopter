@@ -8,12 +8,128 @@ namespace GroundControlStation.Views
 {
     public partial class GroundControlStationForm : Form, IDashboardView
     {
-        //private GraphForm headingGraph = new GraphForm();
-
         public GroundControlStationController Controller { get; set; }
 
+        public List<IGraphingView> Forms { get; set; }
 
-        public void UpdateLatestValues(List<Tuple<String,String>> items)
+        public IGraphingView SimHeadingGraph { get; set; }
+
+        public IGraphingView FcMagYaw { get; set; }
+
+        public IGraphingView YawVelocityDegreesPerSecond { get; set; }
+
+        public IGraphingView YawProportional { get; set; }
+
+        public IGraphingView YawIntegral { get; set; }
+
+        public IGraphingView YawDerivative { get; set; }
+
+        public IGraphingView YawControl { get; set; }
+
+        public IGraphingView XProportional { get; set; }
+
+        public IGraphingView XIntegral { get; set; }
+
+        public IGraphingView XDerivative { get; set; }
+
+        public IGraphingView XControl { get; set; }
+
+
+        public IGraphingView GainAdjustments { get; set; }
+
+        public GroundControlStationForm()
+        {
+            InitializeComponent();
+
+            SimHeadingGraph = new GraphForm();
+
+            FcMagYaw = new GraphForm();
+
+            YawVelocityDegreesPerSecond = new GraphForm();
+
+            YawProportional = new GraphForm();
+
+            YawIntegral = new GraphForm();
+
+            YawDerivative = new GraphForm();
+
+            YawControl = new GraphForm();
+
+            XProportional = new GraphForm();
+
+            XIntegral = new GraphForm();
+
+            XDerivative = new GraphForm();
+
+            XControl = new GraphForm();
+
+            GainAdjustments = new GainAdjustmentsForm();
+
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            Controller.Stop();
+            base.OnFormClosing(e);
+        }
+
+        private void btnHeadingGraph_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(SimHeadingGraph);
+        }
+
+        private void btnFcMagYaw_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(FcMagYaw);
+        }
+
+        private void yawProportional_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(YawProportional);
+        }
+
+        private void btnYawIntegral_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(YawIntegral);
+        }
+
+        private void btnYawDeriv_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(YawDerivative);
+        }
+
+        private void btnYawControl_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(YawControl);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(GainAdjustments);
+        }
+
+
+        private void btnXProp_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(XProportional);
+        }
+
+        private void btnXInt_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(XIntegral);
+        }
+
+        private void btnXDer_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(XDerivative);
+        }
+
+        private void btnXCon_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(XControl);
+        }
+
+        public void UpdateLatestValues(List<Tuple<String, String>> items)
         {
             if (this.InvokeRequired)
             {
@@ -33,44 +149,16 @@ namespace GroundControlStation.Views
             }
         }
 
-        public GroundControlStationForm()
+        private void ToggleGraph(IGraphingView graph)
         {
-            InitializeComponent();
-        }
-
-        private void btnHeadingGraph_Click(object sender, EventArgs e)
-        {
-            Controller.ToggleSimHeadingGraph();
-        }
-
-        private void btnFcMagX_Click(object sender, EventArgs e)
-        {
-            Controller.ToggleFcMagYawGraph();
-        }
-
-        private void yawProportional_Click(object sender, EventArgs e)
-        {
-            Controller.ToggleFcYawProportionalErrorGraph();
-        }
-
-        private void btnYawIntegral_Click(object sender, EventArgs e)
-        {
-            Controller.ToggleYawIntegralGraph();
-        }
-
-        private void btnYawDeriv_Click(object sender, EventArgs e)
-        {
-            Controller.ToggleYawDerivativeGraph();
-        }
-
-        private void btnYawControl_Click(object sender, EventArgs e)
-        {
-            Controller.ToggleYawControlGraph();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Controller.ToggleGainAdjustmentForm();
+            if (graph.IsActive)
+            {
+                graph.DeactivateView();
+            }
+            else
+            {
+                graph.ActivateView();
+            }
         }
     }
 }

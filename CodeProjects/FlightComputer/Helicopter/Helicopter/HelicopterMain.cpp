@@ -15,8 +15,12 @@
 #include "PIDController.h"
 #include "ServoDriver.h"
 #include "PIDOuterLoopTask.h"
+#include "PIDInnerLoopTask.h"
+#include "SensorProcessingTask.h"
+#include "CoordinateUtil.h"
 
 #include <avr/io.h>
+#include <util/delay.h>
 
 using namespace helicopter::tasks;
 using namespace helicopter::scheduler;
@@ -24,9 +28,11 @@ using namespace helicopter::drivers;
 using namespace helicopter::interfaces;
 using namespace helicopter::model;
 using namespace helicopter::controller;
+using namespace helicopter::util;
 
 void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidController)
 {	
+	
 	model->ReferenceMagYawDegrees(0.0);
 	model->ReferenceYawVelocityDegreesPerSecond(0.0);
 	
@@ -60,6 +66,9 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 
 	pidController->setControlMaxValue(1.0d);
 	pidController->setControlMinValue(-1.0d);
+	
+	pidController->setMaxLongitudeServoControlValue(1.0d);
+	pidController->setMinLongitudeServoControlValue(-1.0d);
 }
 
 
@@ -99,10 +108,13 @@ int main(void)
 	FlashLEDTask *flashTask = new FlashLEDTask(2, SCHEDULER_TICK_FREQUENCY_HZ);//starting at tick 2, execute once a second
 		
 		
+	SensorProcessingTask *sensorProcessingTask = new SensorProcessingTask(model, 5, 4);
+		
 	//execute the pid outer loop at the PID_OUTER_LOOP_PERIOD rate. The division is to convert the period into ticks for the scheduler.
 	PIDOuterLoopTask *pidOuterLoop = new PIDOuterLoopTask(pidController, 3, (SCHEDULER_TICK_FREQUENCY_HZ / (1/PID_OUTER_LOOP_PERIOD)));
+	PIDInnerLoopTask *pidInnerLoop = new PIDInnerLoopTask(pidController, 4, (SCHEDULER_TICK_FREQUENCY_HZ / (1/PID_OUTER_LOOP_PERIOD)));
 	
-	
+
 
 	Scheduler *scheduler = Scheduler::getScheduler();
 	
@@ -113,6 +125,39 @@ int main(void)
 	scheduler->addTask(transTelemTask);
 	
 	scheduler->addTask(pidOuterLoop);
+	
+	scheduler->addTask(pidInnerLoop);
+	
+	scheduler->addTask(sensorProcessingTask);
+	
+	
+	//Wait until we receive location data before starting the scheduler
+	//TODO rework this
+	bool isInitialized = false;
+	while (!isInitialized)
+	{
+		simTelemTask->runTaskImpl();
+		
+		if (model->LatitudeDegrees() != 0 && model->LongitudeDegrees() != 0)
+		{
+			isInitialized = true;
+			
+			//ecefReferenceX, ecefReferenceY, ecefReferenceZ,ecefToLocalNEDRotationMatrix,
+			CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(model->LatitudeDegrees(), model->LongitudeDegrees(), model->EcefToLocalNEDRotationMatrix);
+	
+			double initialXPositionEcef = 0;
+			double initialYPositionEcef = 0;
+			double initialZPositionEcef = 0;
+			CoordinateUtil::ConvertFromGeodeticToECEF(model->LatitudeDegrees(), model->LongitudeDegrees(), model->AltitudeFeet(), initialXPositionEcef, initialYPositionEcef, initialZPositionEcef);
+			
+			model->InitialXPositionEcef(initialXPositionEcef);
+			model->InitialYPositionEcef(initialYPositionEcef);
+			model->InitialZPositionEcef(initialZPositionEcef);
+		}
+		_delay_ms(100);
+	}
+	
+	
 	
 	scheduler->init(); //Sets up the timer registers, inits all tasks,
 	

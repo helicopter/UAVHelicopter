@@ -30,7 +30,11 @@ scheduler\Scheduler.cpp
 
 sensors\MagnetometerSensor.cpp
 
+tasks\PIDInnerLoopTask.cpp
+
 tasks\PIDOuterLoopTask.cpp
+
+tasks\SensorProcessingTask.cpp
 
 tasks\SimTelemetryTask.cpp
 
@@ -39,6 +43,8 @@ tasks\Task.cpp
 tasks\TransmitTelemetryTask.cpp
 
 util\CommonHeader.cpp
+
+util\CoordinateUtil.cpp
 
 util\Timer.cpp
 

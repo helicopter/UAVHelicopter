@@ -75,8 +75,8 @@ namespace helicopter
 				
 
 
-				long AltitudeFeet;
-				long ZVelocityFeetPerSecond;
+				long AltitudeFeetAgl;
+				long ZVelocityMetersPerSecond;
 				long ZIntegral;
 				long ZProportional;
 				long ZDerivativeError;
@@ -85,7 +85,9 @@ namespace helicopter
 				long ZDerivativeGain;
 				long ZProportionalGain;
 				long ZAntiWindupGain;
-																		
+										
+				long LatitudeDegrees;
+				long LongitudeDegrees;								
 				
 				/**
 				 * Instrumentation fields
@@ -146,8 +148,8 @@ namespace helicopter
 				sizeof(YAntiWindupGain) +
 				sizeof(LateralInnerLoopGain) +
 								
-				sizeof(AltitudeFeet) +
-				sizeof(ZVelocityFeetPerSecond) +
+				sizeof(AltitudeFeetAgl) +
+				sizeof(ZVelocityMetersPerSecond) +
 				sizeof(ZIntegral) +
 				sizeof(ZProportional) +
 				sizeof(ZDerivativeError) +
@@ -157,6 +159,8 @@ namespace helicopter
 				sizeof(ZProportionalGain) +
 				sizeof(ZAntiWindupGain) +
 				
+				sizeof(LatitudeDegrees) +
+				sizeof(LongitudeDegrees) +
 				
 				sizeof(Timeouts) + 
 				sizeof(UnrecognizedMsgTypes) + 
@@ -205,8 +209,8 @@ namespace helicopter
 					YAntiWindupGain(0),
 					LateralInnerLoopGain(0),
 					
-					AltitudeFeet(0),
-					ZVelocityFeetPerSecond(0),
+					AltitudeFeetAgl(0),
+					ZVelocityMetersPerSecond(0),
 					ZIntegral(0),
 					ZProportional(0),
 					ZDerivativeError(0),
@@ -215,6 +219,9 @@ namespace helicopter
 					ZDerivativeGain(0),
 					ZProportionalGain(0),
 					ZAntiWindupGain(0),
+					
+					LatitudeDegrees(0),
+					LongitudeDegrees(0),
 										
 														
 					Timeouts(0),

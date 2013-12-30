@@ -74,7 +74,6 @@
     <Compile Include="Views\GroundControlStationForm.Designer.cs">
       <DependentUpon>GroundControlStationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\GroundControlStationDashboardView.cs" />
     <Compile Include="Views\IDashboardView.cs" />
     <Compile Include="Views\IGraphingView.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

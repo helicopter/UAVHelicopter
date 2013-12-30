@@ -27,9 +27,9 @@ namespace GroundControlStation.Model
         /// </summary>
         public float MagHeadingDegrees { get; set; }
 
-        public float XLattitudeDegrees { get; set; }
+        public float LatitudeDegrees { get; set; }
 
-        public float YLongitudeDegrees { get; set; }
+        public float LongitudeDegrees { get; set; }
 
         public float ZAltitudeFtAgl { get; set; }
 
@@ -80,9 +80,9 @@ namespace GroundControlStation.Model
                 data.MagHeadingDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
 
                 //Skip to the relevant data
-                byteReader.ReadBytes(24);
-                data.XLattitudeDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
-                data.YLongitudeDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
+                byteReader.ReadBytes(20);
+                data.LatitudeDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
+                data.LongitudeDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
 
                 //Skip to the relevant data
                 byteReader.ReadBytes(4);
@@ -90,9 +90,15 @@ namespace GroundControlStation.Model
 
                 //Skip to the relevant data
                 byteReader.ReadBytes(32);
-                data.YVelocityNEDFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
-                data.ZVelocityNEDFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
-                data.XVelocityNEDFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
+
+                //The data from the simulator is in the following order: X,Y,Z.
+                //X is positive pointing east
+                //Y is positive pointing up
+                //Z is positive pointing south
+                //So it needs to be converted to North East Down.
+                data.YVelocityNEDFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0); //x value from simulator is NED y value.
+                data.ZVelocityNEDFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0) * -1; //Multiply by -1 to convert to down positive. Y value from simulator *-1 is NED Z
+                data.XVelocityNEDFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0) * -1; //Multiply by -1 to convert to north positive. Z value from simualtor * -1 is NED X
 
                 /*byteReader.ReadBytes(89);
 
@@ -116,8 +122,8 @@ namespace GroundControlStation.Model
             lstValues.Add(new Tuple<string, string>("Pitch Deg", PitchDegrees.ToString()));
             lstValues.Add(new Tuple<string, string>("Roll Deg", RollDegrees.ToString()));
             lstValues.Add(new Tuple<string, string>("Mag Heading Deg", MagHeadingDegrees.ToString()));
-            lstValues.Add(new Tuple<string, string>("X Lat Deg", XLattitudeDegrees.ToString()));
-            lstValues.Add(new Tuple<string, string>("Y Long Deg", YLongitudeDegrees.ToString()));
+            lstValues.Add(new Tuple<string, string>("X Lat Deg", LatitudeDegrees.ToString()));
+            lstValues.Add(new Tuple<string, string>("Y Long Deg", LongitudeDegrees.ToString()));
             lstValues.Add(new Tuple<string, string>("Z Alt Ft Agl", ZAltitudeFtAgl.ToString()));
             lstValues.Add(new Tuple<string, string>("Y V Ms", YVelocityNEDFrameMs.ToString()));
             lstValues.Add(new Tuple<string, string>("Z V Ms", ZVelocityNEDFrameMs.ToString()));

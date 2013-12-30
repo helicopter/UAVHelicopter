@@ -70,6 +70,7 @@ namespace helicopter
 			 * These variables are used for controlling heave action (collective altitude motion)
 			 */
 			double altitudeFeet;
+			double zNEDBodyFrame;
 			double referenceAltitudeFeet;
 			double mainRotorControl;
 			double mainRotorControlBeforeServoLimitsAdjustment;
@@ -78,6 +79,12 @@ namespace helicopter
 			double zIntegral;
 			double zProportional;
 			double zDerivativeError;
+			
+			/**
+			 * These variables represent the position of the aircraft in curvilinear coordinates
+			 */
+			double latitudeDegrees;
+			double longitudeDegrees;
 			
 			/**
 			 * Instrumentation fields
@@ -90,62 +97,87 @@ namespace helicopter
 			
 			long numOfFramesBlown;
 			
+			
+			/**
+			 * Initial position
+			 */
+			double initialXPositionEcef;
+			double initialYPositionEcef;
+			double initialZPositionEcef;
+			
 			public:
+			
+			double EcefToLocalNEDRotationMatrix[3][3];
 			
 			SystemModel():
 			
-			magYawDegrees(0),
-			referenceMagYawDegrees(0),
-			yawControl(0),
-			yawControlBeforeServoLimitsAdjustment(0),
-			yawVelocityDegreesPerSecond(0),
-			referenceYawVelocityDegreesPerSecond(0),
-			yawIntegral(0),
-			yawProportional(0),
-			yawDerivativeError(0),
+				magYawDegrees(0),
+				referenceMagYawDegrees(0),
+				yawControl(0),
+				yawControlBeforeServoLimitsAdjustment(0),
+				yawVelocityDegreesPerSecond(0),
+				referenceYawVelocityDegreesPerSecond(0),
+				yawIntegral(0),
+				yawProportional(0),
+				yawDerivativeError(0),
 			
-			xNEDBodyFrame(0),
-			referenceXNEDBodyFrame(0),
-			longitudeControlBeforeServoLimitsAdjustment(0),
-			longitudeControl(0),
-			xVelocityMetersPerSecond(0),
-			referenceXVelocityMetersPerSecond(0),
-			xLongitudinalOuterLoopControl(0),
-			xProportional(0),
-			xIntegral(0),
-			xDerivativeError(0),
-			thetaPitchDegrees(0),
+				xNEDBodyFrame(0),
+				referenceXNEDBodyFrame(0),
+				longitudeControlBeforeServoLimitsAdjustment(0),
+				longitudeControl(0),
+				xVelocityMetersPerSecond(0),
+				referenceXVelocityMetersPerSecond(0),
+				xLongitudinalOuterLoopControl(0),
+				xProportional(0),
+				xIntegral(0),
+				xDerivativeError(0),
+				thetaPitchDegrees(0),
 			
-			yNEDBodyFrame(0),
-			referenceYNEDBodyFrame(0),
-			lateralControlBeforeServoLimitsAdjustment(0),
-			lateralControl(0),
-			yVelocityMetersPerSecond(0),
-			referenceYVelocityMetersPerSecond(0),
-			yLateralOuterLoopControl(0),
-			yProportional(0),
-			yIntegral(0),
-			yDerivativeError(0),
-			phiRollDegrees(0),
-			
-			
-			altitudeFeet(0),
-			referenceAltitudeFeet(0),
-			mainRotorControl(0),
-			mainRotorControlBeforeServoLimitsAdjustment(0),
-			zVelocityFeetPerSecond(0),
-			referenceZVelocityFeetPerSecond(0),
-			zIntegral(0),
-			zProportional(0),
-			zDerivativeError(0),
+				yNEDBodyFrame(0),
+				referenceYNEDBodyFrame(0),
+				lateralControlBeforeServoLimitsAdjustment(0),
+				lateralControl(0),
+				yVelocityMetersPerSecond(0),
+				referenceYVelocityMetersPerSecond(0),
+				yLateralOuterLoopControl(0),
+				yProportional(0),
+				yIntegral(0),
+				yDerivativeError(0),
+				phiRollDegrees(0),
 			
 			
-			timeouts(0),
-			unrecognizedMsgTypes(0),
-			checksumErrors(0),
-			numOfFramesBlown(0)
-			{
+				altitudeFeet(0),
+				zNEDBodyFrame(0),
+				referenceAltitudeFeet(0),
+				mainRotorControl(0),
+				mainRotorControlBeforeServoLimitsAdjustment(0),
+				zVelocityFeetPerSecond(0),
+				referenceZVelocityFeetPerSecond(0),
+				zIntegral(0),
+				zProportional(0),
+				zDerivativeError(0),
+			
+				latitudeDegrees(0),
+				longitudeDegrees(0),
+			
+				timeouts(0),
+				unrecognizedMsgTypes(0),
+				checksumErrors(0),
+				numOfFramesBlown(0),
 				
+				initialXPositionEcef(0),
+				initialYPositionEcef(0),
+				initialZPositionEcef(0)
+			{
+				EcefToLocalNEDRotationMatrix[0][0] = 0;
+				EcefToLocalNEDRotationMatrix[0][1] = 0;
+				EcefToLocalNEDRotationMatrix[0][2] = 0;
+				EcefToLocalNEDRotationMatrix[1][0] = 0;
+				EcefToLocalNEDRotationMatrix[1][1] = 0;
+				EcefToLocalNEDRotationMatrix[1][2] = 0;
+				EcefToLocalNEDRotationMatrix[2][0] = 0;
+				EcefToLocalNEDRotationMatrix[2][1] = 0;
+				EcefToLocalNEDRotationMatrix[2][2] = 0;								
 			}
 			
 			/**
@@ -276,6 +308,8 @@ namespace helicopter
 			double AltitudeFeet() const { return altitudeFeet; }
 			void AltitudeFeet(double val) { altitudeFeet = val; }
 
+			double ZNEDBodyFrame() const { return zNEDBodyFrame; }
+			void ZNEDBodyFrame(double val) { zNEDBodyFrame = val; }
 
 
 			double ReferenceAltitudeFeet() const {return referenceAltitudeFeet;}
@@ -304,8 +338,11 @@ namespace helicopter
 			void ZDerivativeError(double val) { zDerivativeError = val;}						
 						
 						
-						
-						
+			double LatitudeDegrees() const {return latitudeDegrees;}
+			void LatitudeDegrees(double val) { latitudeDegrees = val;}						
+
+			double LongitudeDegrees() const {return longitudeDegrees;}
+			void LongitudeDegrees(double val) { longitudeDegrees = val;}						
 						
 						
 			long Timeouts() const {return timeouts; }
@@ -319,7 +356,18 @@ namespace helicopter
 			
 			long  BlownFrames() const {return numOfFramesBlown;}
 			void BlownFrames( long val ) { numOfFramesBlown = val;}
-			
+
+			long  InitialXPositionEcef() const {return initialXPositionEcef;}
+			void InitialXPositionEcef( long val ) { initialXPositionEcef = val;}			
+
+			long  InitialYPositionEcef() const {return initialYPositionEcef;}
+			void InitialYPositionEcef( long val ) { initialYPositionEcef = val;}
+
+			long  InitialZPositionEcef() const {return initialZPositionEcef;}
+			void InitialZPositionEcef( long val ) { initialZPositionEcef = val;}							
+			/*
+			double **  EcefToLocalNEDRotationMatrix() const {return ecefToLocalNEDRotationMatrix;}
+			void EcefToLocalNEDRotationMatrix( long val ) { ecefToLocalNEDRotationMatrix = val;}*/
 		};
 	}
 	

@@ -59,8 +59,8 @@ byte *SystemTelemetryMessage::getBytes()
 	
 	
 
-	encode (msgPtr, AltitudeFeet);
-	encode (msgPtr, ZVelocityFeetPerSecond);
+	encode (msgPtr, AltitudeFeetAgl);
+	encode (msgPtr, ZVelocityMetersPerSecond);
 	encode (msgPtr, ZIntegral);
 	encode (msgPtr, ZProportional);
 	encode (msgPtr, ZDerivativeError);
@@ -71,6 +71,8 @@ byte *SystemTelemetryMessage::getBytes()
 	encode (msgPtr, ZAntiWindupGain);
 		
 	
+	encode(msgPtr, LatitudeDegrees);
+	encode(msgPtr, LongitudeDegrees);
 	
 	encode (msgPtr, Timeouts);
 	encode (msgPtr, UnrecognizedMsgTypes);
@@ -125,8 +127,8 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		decode (message, YAntiWindupGain);
 		decode (message, LateralInnerLoopGain);
 
-		decode (message, AltitudeFeet);
-		decode (message, ZVelocityFeetPerSecond);
+		decode (message, AltitudeFeetAgl);
+		decode (message, ZVelocityMetersPerSecond);
 		decode (message, ZIntegral);
 		decode (message, ZProportional);
 		decode (message, ZDerivativeError);
@@ -137,6 +139,8 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		decode (message, ZAntiWindupGain);
 		
 	
+		decode (message, LatitudeDegrees);
+		decode (message, LongitudeDegrees);
 						
 		decode (message,Timeouts);
 		decode (message,UnrecognizedMsgTypes);
@@ -183,11 +187,11 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 	
 	
 	
-	message->AltitudeFeet = model->AltitudeFeet() * 100;
+	message->AltitudeFeetAgl = model->AltitudeFeet() * 100;
 	message->ZDerivativeError = model->ZDerivativeError() * 100;
 	message->ZIntegral = model->ZIntegral() * 100;
 	message->ZProportional = model->ZProportional() * 100;
-	message->ZVelocityFeetPerSecond = model->ZVelocityFeetPerSecond() * 100;
+	message->ZVelocityMetersPerSecond = (model->ZVelocityFeetPerSecond() / 3.2804d) * 100;
 	message->MainRotorCollectiveControl = model->MainRotorCollectiveControl() * 100;
 	
 	
@@ -217,17 +221,28 @@ void SystemTelemetryMessage::updateModelFromMessage (SystemModel *model)
 
 void SystemTelemetryMessage::updateModelFromMessageFromSimulator (SystemModel *model)
 {
+	//These values are sensor readings from the simulator that are used for flight
+	//control calculations. The real helicopter algorithms will read these values
+	//from actual sensors, but when running off of the simulator, these sensor
+	//readings come from the simulator itself.
+	
 	model->MagYawDegrees((double) this->MagYaw / 100);
 	model->YawVelocityDegreesPerSecond((double) this->YawVelocityDegreesPerSecond / 100);
 	
-	model->XNEDBodyFrame((double) this->XNEDBodyFrame / 100);
+	//model->XNEDBodyFrame((double) this->XNEDBodyFrame / 100);//not supposed to be here since this is a calculated value, not a sensor reading.
 	model->XVelocityMetersPerSecond((double) this->XVelocityMetersPerSecond / 100);
 	model->ThetaPitchDegrees((double) this->ThetaPitchDegrees / 100);
 	
-	model->YNEDBodyFrame((double) this->YNEDBodyFrame / 100);
+	//model->YNEDBodyFrame((double) this->YNEDBodyFrame / 100);
 	model->YVelocityMetersPerSecond((double) this->YVelocityMetersPerSecond / 100);
 	model->PhiRollDegrees((double) this->PhiRollDegrees / 100);
 	
-	model->AltitudeFeet((double) this->AltitudeFeet / 100);
-	model->ZVelocityFeetPerSecond((double) this->ZVelocityFeetPerSecond / 100);
+	model->AltitudeFeet((double) this->AltitudeFeetAgl / 100);
+	
+	//Convert from meters per sec, to foot per sec.
+	
+	model->ZVelocityFeetPerSecond(((double) this->ZVelocityMetersPerSecond / 100) * 3.28084d); 
+	
+	model->LatitudeDegrees((double) this->LatitudeDegrees / 100);
+	model->LongitudeDegrees((double) this->LongitudeDegrees / 100);
 }

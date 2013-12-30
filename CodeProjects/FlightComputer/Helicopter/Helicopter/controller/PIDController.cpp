@@ -234,6 +234,14 @@ void PIDController::cyclicLongitudeOuterLoopUpdate()
 	model->XProportional(xProportional);
 	model->XDerivativeError(xDerivativeError);
 	
+	
+	model->XLongitudinalOuterLoopControl(model->ReferenceXNEDBodyFrame());
+	//model->YawControlBeforeServoLimitsAdjustment(yawControlBeforeServoLimitsAdjustment);
+	model->XIntegral(.23d);
+	model->XProportional(model->XNEDBodyFrame());
+	model->XDerivativeError(model->XVelocityMetersPerSecond());	
+	
+	
 //	servoDriver->controlTailRotorCollective(xControl);
 }
 

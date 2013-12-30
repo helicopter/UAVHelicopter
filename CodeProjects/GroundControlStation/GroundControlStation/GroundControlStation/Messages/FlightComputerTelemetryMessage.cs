@@ -66,8 +66,8 @@ namespace GroundControlStation.Messages
 
 
 
-        public int AltitudeFeet;
-        public int ZVelocityFeetPerSecond;
+        public int AltitudeFeetAgl;
+        public int ZVelocityMetersPerSecond;
         public int ZIntegral;
         public int ZProportional;
         public int ZDerivativeError;
@@ -76,8 +76,9 @@ namespace GroundControlStation.Messages
         public int ZDerivativeGain;
         public int ZProportionalGain;
         public int ZAntiWindupGain;
-																		
-				
+
+        public int LatitudeDegrees;
+        public int LongitudeDegrees;
 
 
 
@@ -164,14 +165,13 @@ namespace GroundControlStation.Messages
             
             sizeof(int) +
             sizeof(int) +
+
             sizeof(int) +
             sizeof(int) +
 
 
-
-
-
-
+            sizeof(int) +
+            sizeof(int) +
             sizeof(int) +
             sizeof(int);
 
@@ -238,8 +238,8 @@ namespace GroundControlStation.Messages
 
 
 
-            AltitudeFeet = decodeInt(byteBuffer, ref positionCounter);
-            ZVelocityFeetPerSecond = decodeInt(byteBuffer, ref positionCounter);
+            AltitudeFeetAgl = decodeInt(byteBuffer, ref positionCounter);
+            ZVelocityMetersPerSecond = decodeInt(byteBuffer, ref positionCounter);
             ZIntegral = decodeInt(byteBuffer, ref positionCounter);
             ZProportional = decodeInt(byteBuffer, ref positionCounter);
             ZDerivativeError = decodeInt(byteBuffer, ref positionCounter);
@@ -249,7 +249,8 @@ namespace GroundControlStation.Messages
             ZProportionalGain = decodeInt(byteBuffer, ref positionCounter);
             ZAntiWindupGain = decodeInt(byteBuffer, ref positionCounter);
 
-
+            LatitudeDegrees = decodeInt(byteBuffer, ref positionCounter);
+            LongitudeDegrees = decodeInt(byteBuffer, ref positionCounter);
 
 
 
@@ -310,8 +311,8 @@ namespace GroundControlStation.Messages
 
 
 
-            encode(ref rawMsg, AltitudeFeet, ref positionCounter);
-            encode(ref rawMsg, ZVelocityFeetPerSecond, ref positionCounter);
+            encode(ref rawMsg, AltitudeFeetAgl, ref positionCounter);
+            encode(ref rawMsg, ZVelocityMetersPerSecond, ref positionCounter);
             encode(ref rawMsg, ZIntegral, ref positionCounter);
             encode(ref rawMsg, ZProportional, ref positionCounter);
             encode(ref rawMsg, ZDerivativeError, ref positionCounter);
@@ -321,7 +322,8 @@ namespace GroundControlStation.Messages
             encode(ref rawMsg, ZProportionalGain, ref positionCounter);
             encode(ref rawMsg, ZAntiWindupGain, ref positionCounter);
 
-
+            encode(ref rawMsg, LatitudeDegrees, ref positionCounter);
+            encode(ref rawMsg, LongitudeDegrees, ref positionCounter);
 
 
             encode(ref rawMsg, Timeouts, ref positionCounter);
@@ -413,8 +415,8 @@ namespace GroundControlStation.Messages
 
 
 
-            model.AltitudeFeet = (float)AltitudeFeet / 100;
-            model.ZVelocityFeetPerSecond = (float)ZVelocityFeetPerSecond / 100;
+            model.AltitudeFeet = (float)AltitudeFeetAgl / 100;
+            model.ZVelocityFeetPerSecond = (float)ZVelocityMetersPerSecond / 100;
             model.ZIntegral = (float)ZIntegral / 100;
             model.ZProportional = (float)ZProportional / 100;
             model.ZDerivativeError = (float)ZDerivativeError / 100;
@@ -424,30 +426,7 @@ namespace GroundControlStation.Messages
             model.ZProportionalGain = (float)ZProportionalGain / 100;
             model.ZAntiWindupGain = (float)ZAntiWindupGain / 100;
 
-
-
-
-            /**
-             * Rescale yaw control to appropriate values. 
-             * from -1/1 to -10/10
-             * new_v = (new_max - new_min) / (old_max - old_min) * (v - old_min) + new_min
-             */
-            float scaledYaw = (10 - -10) / (1 - -1) * (((float) YawControl / 100) - -1) + -10;
-
-            //model.YawControl = (float)YawControl / 100;
-            model.YawControl = scaledYaw;
-
-
-
-
-
-
-
-
-
-
-
-
+            model.YawControl = (float)YawControl / 100;
 
 
             model.Timeouts = Timeouts;
@@ -455,6 +434,14 @@ namespace GroundControlStation.Messages
             model.ChecksumErrors = ChecksumErrors;
             model.NumOfBlownFrames = NumOfBlownFrames;
         }
+
+
+
+
+        //
+
+
+
 
         public static FlightComputerTelemetryMessage CreateFromModel(GroundControlStationModel model)
         {
@@ -466,6 +453,14 @@ namespace GroundControlStation.Messages
             msg.YawDerivativeGain = (int)(model.YawDerivativeGain * 100);
             msg.YawProportionalGain = (int)(model.YawProportionalGain * 100);
             msg.YawAntiWindupGain = (int)(model.YawAntiWindupGain * 100);
+
+            msg.LatitudeDegrees = (int) (model.SimTelm.LatitudeDegrees * 100);
+            msg.LongitudeDegrees = (int)(model.SimTelm.LongitudeDegrees * 100);
+            msg.AltitudeFeetAgl = (int)(model.SimTelm.ZAltitudeFtAgl * 100);
+
+            msg.XVelocityMetersPerSecond = (int)(model.SimTelm.XVelocityNEDFrameMs * 100);
+            msg.YVelocityMetersPerSecond = (int)(model.SimTelm.YVelocityNEDFrameMs * 100);
+            msg.ZVelocityMetersPerSecond = (int)(model.SimTelm.ZVelocityNEDFrameMs * 100);
 
             return msg;
         }

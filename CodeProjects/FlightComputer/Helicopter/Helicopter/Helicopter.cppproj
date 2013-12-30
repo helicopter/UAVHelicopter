@@ -28,15 +28,18 @@
       <ToolName>AVR Simulator</ToolName>
       <ToolNumber>
       </ToolNumber>
-      <KeepTimersRunning>true</KeepTimersRunning>
-      <OverrideVtor>false</OverrideVtor>
-      <OverrideVtorValue>
-      </OverrideVtorValue>
       <Channel>
         <host>127.0.0.1</host>
         <port>57839</port>
         <ssl>False</ssl>
       </Channel>
+      <ToolOptions>
+        <InterfaceProperties>
+          <JtagEnableExtResetOnStartSession>false</JtagEnableExtResetOnStartSession>
+        </InterfaceProperties>
+        <InterfaceName>
+        </InterfaceName>
+      </ToolOptions>
     </com_atmel_avrdbg_tool_simulator>
     <CacheFlash>true</CacheFlash>
     <ProgFlashFromRam>true</ProgFlashFromRam>
@@ -268,10 +271,22 @@
     <Compile Include="tasks\FlashLEDTask.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="tasks\PIDInnerLoopTask.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tasks\PIDInnerLoopTask.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="tasks\PIDOuterLoopTask.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="tasks\PIDOuterLoopTask.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tasks\SensorProcessingTask.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tasks\SensorProcessingTask.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="tasks\SimTelemetryTask.cpp">
@@ -296,6 +311,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="util\CommonHeader.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="util\CoordinateUtil.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="util\CoordinateUtil.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="util\Timer.cpp">

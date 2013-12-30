@@ -26,22 +26,10 @@ namespace GroundControlStation.Controller
 
         private Thread flightComputerThread;
 
-        private GroundControlStationDashboardView _dashboardView;
-
-        public GroundControlStationDashboardView DashboardView {
-            get
-            {
-                return _dashboardView;
-            }
-
-            set
-            {
-                value.DashboardForm.Controller = this;
-                _dashboardView = value;
-            }
-        }
-
         public GroundControlStationModel Model { get; set; }
+
+        public GroundControlStationForm View { get; set; }
+
 
         public GroundControlStationController(SimulatorInterface xplaneInterface, FlightComputerInterface fcInterface)
         {
@@ -58,13 +46,18 @@ namespace GroundControlStation.Controller
         /// </summary>
         public void UpdateViews()
         {
-            UpdateView(DashboardView.SimHeadingGraph, Model.SimTelm.MagHeadingDegrees);
-            UpdateView(DashboardView.FcMagYaw, Model.MagYaw);
-            UpdateView(DashboardView.YawVelocityDegreesPerSecond, Model.YawVelocityDegreesPerSecond);
-            UpdateView(DashboardView.YawProportional, Model.YawProportional);
-            UpdateView(DashboardView.YawIntegral, Model.YawIntegral);
-            UpdateView(DashboardView.YawDerivative, Model.YawDerivativeError);
-            UpdateView(DashboardView.YawControl, Model.YawControl);
+            UpdateView(View.SimHeadingGraph, Model.SimTelm.MagHeadingDegrees);
+            UpdateView(View.FcMagYaw, Model.MagYaw);
+            UpdateView(View.YawVelocityDegreesPerSecond, Model.YawVelocityDegreesPerSecond);
+            UpdateView(View.YawProportional, Model.YawProportional);
+            UpdateView(View.YawIntegral, Model.YawIntegral);
+            UpdateView(View.YawDerivative, Model.YawDerivativeError);
+            UpdateView(View.YawControl, Model.YawControl);
+
+            UpdateView(View.XProportional, Model.XProportional);
+            UpdateView(View.XIntegral, Model.XIntegral);
+            UpdateView(View.XDerivative, Model.XDerivativeError);
+            UpdateView(View.XControl, Model.LongitudeControl);
 
             UpdateLatestValues();
         }
@@ -74,7 +67,7 @@ namespace GroundControlStation.Controller
             List<Tuple<String, String>> simValues = Model.SimTelm.ListValues();
             simValues.AddRange(Model.ListValues());
 
-            DashboardView.DashboardForm.UpdateLatestValues(simValues);
+            View.UpdateLatestValues(simValues);
         }
 
         private void UpdateView(IGraphingView view, double valueToGraph)
@@ -83,21 +76,6 @@ namespace GroundControlStation.Controller
             {
                 view.AddValueToGraph(valueToGraph);
             }
-        }
-
-        public void ActivateSimHeadingGraph()
-        {
-            DashboardView.SimHeadingGraph.ActivateView();
-        }
-
-        public void DeactivateSimHeadingGraph()
-        {
-            DashboardView.SimHeadingGraph.DeactivateView();
-        }
-
-        internal void ToggleSimHeadingGraph()
-        {
-            ToggleGraph(DashboardView.SimHeadingGraph);
         }
 
         public void Start()
@@ -154,6 +132,16 @@ namespace GroundControlStation.Controller
                         
                         UpdateViews();
 
+                        //Scale the Yaw Control value to a value usable by xplane.
+                        /**
+                         * Rescale yaw control to appropriate values. 
+                         * from -1/1 to -10/10
+                         * new_v = (new_max - new_min) / (old_max - old_min) * (v - old_min) + new_min
+                         */
+                        float scaledYaw = (10 - -10) / (1 - -1) * (Model.YawControl - -1) + -10;
+
+                        Model.YawControl = scaledYaw;
+
                         //Transmit data to simulator
                         xplaneInterface.Transmit(Model);
                     }
@@ -168,46 +156,5 @@ namespace GroundControlStation.Controller
             }
         }
 
-        internal void ToggleFcMagYawGraph()
-        {
-            ToggleGraph(DashboardView.FcMagYaw);
-        }
-
-        private void ToggleGraph(IGraphingView graph)
-        {
-            if (graph.IsActive)
-            {
-                graph.DeactivateView();
-            }
-            else
-            {
-                graph.ActivateView();
-            }
-        }
-
-        internal void ToggleFcYawProportionalErrorGraph()
-        {
-            ToggleGraph(DashboardView.YawProportional);
-        }
-
-        internal void ToggleYawIntegralGraph()
-        {
-            ToggleGraph(DashboardView.YawIntegral);
-        }
-
-        internal void ToggleYawDerivativeGraph()
-        {
-            ToggleGraph(DashboardView.YawDerivative);
-        }
-
-        internal void ToggleYawControlGraph()
-        {
-            ToggleGraph(DashboardView.YawControl);
-        }
-
-        internal void ToggleGainAdjustmentForm()
-        {
-            ToggleGraph(DashboardView.GainAdjustments);
-        }
     }
 }

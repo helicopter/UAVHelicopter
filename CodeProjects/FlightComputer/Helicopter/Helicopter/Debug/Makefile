@@ -60,11 +60,14 @@ C_SRCS +=  \
 ../model/SystemModel.cpp \
 ../scheduler/Scheduler.cpp \
 ../sensors/MagnetometerSensor.cpp \
+../tasks/PIDInnerLoopTask.cpp \
 ../tasks/PIDOuterLoopTask.cpp \
+../tasks/SensorProcessingTask.cpp \
 ../tasks/SimTelemetryTask.cpp \
 ../tasks/Task.cpp \
 ../tasks/TransmitTelemetryTask.cpp \
 ../util/CommonHeader.cpp \
+../util/CoordinateUtil.cpp \
 ../util/Timer.cpp
 
 
@@ -89,11 +92,14 @@ messages/SystemTelemetryMessage.o \
 model/SystemModel.o \
 scheduler/Scheduler.o \
 sensors/MagnetometerSensor.o \
+tasks/PIDInnerLoopTask.o \
 tasks/PIDOuterLoopTask.o \
+tasks/SensorProcessingTask.o \
 tasks/SimTelemetryTask.o \
 tasks/Task.o \
 tasks/TransmitTelemetryTask.o \
 util/CommonHeader.o \
+util/CoordinateUtil.o \
 util/Timer.o
 
 OBJS_AS_ARGS +=  \
@@ -111,11 +117,14 @@ messages/SystemTelemetryMessage.o \
 model/SystemModel.o \
 scheduler/Scheduler.o \
 sensors/MagnetometerSensor.o \
+tasks/PIDInnerLoopTask.o \
 tasks/PIDOuterLoopTask.o \
+tasks/SensorProcessingTask.o \
 tasks/SimTelemetryTask.o \
 tasks/Task.o \
 tasks/TransmitTelemetryTask.o \
 util/CommonHeader.o \
+util/CoordinateUtil.o \
 util/Timer.o
 
 C_DEPS +=  \
@@ -133,11 +142,14 @@ messages/SystemTelemetryMessage.d \
 model/SystemModel.d \
 scheduler/Scheduler.d \
 sensors/MagnetometerSensor.d \
+tasks/PIDInnerLoopTask.d \
 tasks/PIDOuterLoopTask.d \
+tasks/SensorProcessingTask.d \
 tasks/SimTelemetryTask.d \
 tasks/Task.d \
 tasks/TransmitTelemetryTask.d \
 util/CommonHeader.d \
+util/CoordinateUtil.d \
 util/Timer.d
 
 C_DEPS_AS_ARGS +=  \
@@ -155,11 +167,14 @@ messages/SystemTelemetryMessage.d \
 model/SystemModel.d \
 scheduler/Scheduler.d \
 sensors/MagnetometerSensor.d \
+tasks/PIDInnerLoopTask.d \
 tasks/PIDOuterLoopTask.d \
+tasks/SensorProcessingTask.d \
 tasks/SimTelemetryTask.d \
 tasks/Task.d \
 tasks/TransmitTelemetryTask.d \
 util/CommonHeader.d \
+util/CoordinateUtil.d \
 util/Timer.d
 
 OUTPUT_FILE_PATH +=libHelicopter.a
@@ -173,6 +188,12 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
+
+
+
+
+
+
 
 
 

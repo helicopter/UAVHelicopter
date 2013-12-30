@@ -249,6 +249,12 @@
     <Compile Include="sensors\MagnetometerSensorTests.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="util\CoordinateUtilTests.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="util\CoordinateUtilTests.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="util\TimerTests.h">
       <SubType>compile</SubType>
     </Compile>

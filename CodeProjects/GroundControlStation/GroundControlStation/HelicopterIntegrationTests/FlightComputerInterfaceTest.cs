@@ -11,6 +11,34 @@ namespace HelicopterIntegrationTests
     public class FlightComputerInterfaceTest
     {
 
+        [TestMethod]
+        public void TestSendReceiveFloat()
+        {
+            SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
+            //SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
+
+            SerialPortInterface portInterface = new SerialPortInterface(port);
+            portInterface.Open();
+
+            float f = -180.21683502197266f; //13.0101013183596
+            byte[] bytes = BitConverter.GetBytes(f);
+
+            portInterface.Write(bytes, 0, 4);
+
+            byte[] bytes2 = new byte[4];
+
+            bytes2[0] = portInterface.ReadByte();
+            bytes2[1] = portInterface.ReadByte();
+            bytes2[2] = portInterface.ReadByte();
+            bytes2[3] = portInterface.ReadByte();
+            
+            portInterface.Close();
+            float b = BitConverter.ToSingle(bytes,0);
+            double c = -122.21683502197266d;
+            float d = -122.21683502197266f;
+            Assert.IsTrue(b == 6.4f);
+        }
+
         /// <summary>
         /// Test the integration between the flight computer, and the GCS.
         /// Tests the flight computer interface. 

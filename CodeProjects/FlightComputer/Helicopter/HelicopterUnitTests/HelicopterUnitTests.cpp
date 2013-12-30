@@ -14,6 +14,7 @@
 #include "TimerTests.h"
 #include "PIDControllerTests.h"
 #include "ServoDriverTests.h"
+#include "CoordinateUtilTests.h"
 
 #include <stdio.h>
 #include <avr/io.h>
@@ -35,9 +36,10 @@ int main(void)
 //	helicopterTests.addTest(telemetrybuildmessage_test, 6);
 //	helicopterTests.addTest(gcsinterfacemessagereceivingandtransmitting_test, 7);
 	//helicopterTests.addTest(timeout_test, 8);
-	helicopterTests.addTest(calculateYaw_test, 9);
+//	helicopterTests.addTest(calculateYaw_test, 9);
+	
 	//helicopterTests.addTest(controltailrotorcollective_test, 10);
-
+	helicopterTests.addTest(coordinateutil_test, 11);
 	
 	helicopterTests.runTests();
 	

@@ -18,5 +18,7 @@ scheduler\SchedulerTest.cpp
 
 sensors\MagnetometerSensorTests.cpp
 
+util\CoordinateUtilTests.cpp
+
 util\TimerTests.cpp
 

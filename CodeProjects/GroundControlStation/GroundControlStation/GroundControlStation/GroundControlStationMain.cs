@@ -37,7 +37,7 @@ namespace GroundControlStation
             FlightComputerInterface fcInterface = new FlightComputerInterface(portInterface);
             fcInterface.Open();
 
-            GroundControlStationDashboardView gcsDashboardView = new GroundControlStationDashboardView();
+            GroundControlStationForm gcsView = new GroundControlStationForm();
 
             GroundControlStationModel model = new GroundControlStationModel();
             model.SimTelm = new SimulatorTelemetry();
@@ -51,14 +51,14 @@ namespace GroundControlStation
             GroundControlStationController gcsController =
                 new GroundControlStationController(xInterface, fcInterface);
 
-            gcsController.DashboardView = gcsDashboardView;
+            gcsController.View = gcsView;
             gcsController.Model = model;
 
-            gcsDashboardView.Controller = gcsController;
+            gcsView.Controller = gcsController;
 
             gcsController.Start();
 
-            Application.Run((GroundControlStationForm)gcsDashboardView.DashboardForm);
+            Application.Run(gcsView);
 
             gcsController.Stop();
         }

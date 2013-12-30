@@ -28,20 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
             "Test1",
             "test2"}, -1);
             this.listLatestValues = new System.Windows.Forms.ListView();
             this.TelemName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TelemValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnXCon = new System.Windows.Forms.Button();
+            this.btnXDer = new System.Windows.Forms.Button();
+            this.btnXInt = new System.Windows.Forms.Button();
+            this.btnXProp = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnYawControl = new System.Windows.Forms.Button();
             this.btnYawDeriv = new System.Windows.Forms.Button();
             this.btnYawIntegral = new System.Windows.Forms.Button();
             this.yawProportional = new System.Windows.Forms.Button();
             this.btnFcMagX = new System.Windows.Forms.Button();
             this.btnHeadingGraph = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,7 +57,7 @@
             this.TelemName,
             this.TelemValue});
             this.listLatestValues.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem2});
+            listViewItem5});
             this.listLatestValues.Location = new System.Drawing.Point(1, -1);
             this.listLatestValues.Name = "listLatestValues";
             this.listLatestValues.Size = new System.Drawing.Size(173, 632);
@@ -76,6 +80,10 @@
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.panel1.AutoScroll = true;
+            this.panel1.Controls.Add(this.btnXCon);
+            this.panel1.Controls.Add(this.btnXDer);
+            this.panel1.Controls.Add(this.btnXInt);
+            this.panel1.Controls.Add(this.btnXProp);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.btnYawControl);
             this.panel1.Controls.Add(this.btnYawDeriv);
@@ -87,6 +95,56 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(137, 632);
             this.panel1.TabIndex = 3;
+            // 
+            // btnXCon
+            // 
+            this.btnXCon.Location = new System.Drawing.Point(0, 265);
+            this.btnXCon.Name = "btnXCon";
+            this.btnXCon.Size = new System.Drawing.Size(129, 23);
+            this.btnXCon.TabIndex = 10;
+            this.btnXCon.Text = "X Control";
+            this.btnXCon.UseVisualStyleBackColor = true;
+            this.btnXCon.Click += new System.EventHandler(this.btnXCon_Click);
+            // 
+            // btnXDer
+            // 
+            this.btnXDer.Location = new System.Drawing.Point(0, 236);
+            this.btnXDer.Name = "btnXDer";
+            this.btnXDer.Size = new System.Drawing.Size(129, 23);
+            this.btnXDer.TabIndex = 9;
+            this.btnXDer.Text = "X Derivative";
+            this.btnXDer.UseVisualStyleBackColor = true;
+            this.btnXDer.Click += new System.EventHandler(this.btnXDer_Click);
+            // 
+            // btnXInt
+            // 
+            this.btnXInt.Location = new System.Drawing.Point(0, 207);
+            this.btnXInt.Name = "btnXInt";
+            this.btnXInt.Size = new System.Drawing.Size(129, 23);
+            this.btnXInt.TabIndex = 8;
+            this.btnXInt.Text = "X Integral";
+            this.btnXInt.UseVisualStyleBackColor = true;
+            this.btnXInt.Click += new System.EventHandler(this.btnXInt_Click);
+            // 
+            // btnXProp
+            // 
+            this.btnXProp.Location = new System.Drawing.Point(0, 178);
+            this.btnXProp.Name = "btnXProp";
+            this.btnXProp.Size = new System.Drawing.Size(129, 23);
+            this.btnXProp.TabIndex = 7;
+            this.btnXProp.Text = "X Proportional";
+            this.btnXProp.UseVisualStyleBackColor = true;
+            this.btnXProp.Click += new System.EventHandler(this.btnXProp_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(0, 490);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(129, 23);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Gain Adjustments";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnYawControl
             // 
@@ -136,7 +194,7 @@
             this.btnFcMagX.TabIndex = 1;
             this.btnFcMagX.Text = "MagYaw";
             this.btnFcMagX.UseVisualStyleBackColor = true;
-            this.btnFcMagX.Click += new System.EventHandler(this.btnFcMagX_Click);
+            this.btnFcMagX.Click += new System.EventHandler(this.btnFcMagYaw_Click);
             // 
             // btnHeadingGraph
             // 
@@ -147,16 +205,6 @@
             this.btnHeadingGraph.Text = "MagHeadingDegrees Graph";
             this.btnHeadingGraph.UseVisualStyleBackColor = true;
             this.btnHeadingGraph.Click += new System.EventHandler(this.btnHeadingGraph_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(0, 490);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(129, 23);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Gain Adjustments";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // GroundControlStationForm
             // 
@@ -185,6 +233,10 @@
         private System.Windows.Forms.Button btnYawDeriv;
         private System.Windows.Forms.Button btnYawControl;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnXProp;
+        private System.Windows.Forms.Button btnXCon;
+        private System.Windows.Forms.Button btnXDer;
+        private System.Windows.Forms.Button btnXInt;
     }
 }
 
