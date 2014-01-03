@@ -45,27 +45,27 @@ void SimTelemetryTask::runTaskImpl()
 			//Update the model using the new data received from the simulator.
 			telemMsg->updateModelFromMessageFromSimulator(model);
 			
-			pidController->setYawIntegralGain((double) telemMsg->YawIntegralGain / 100);
-			pidController->setYawDerivativeGain((double) telemMsg->YawDerivativeGain / 100);
-			pidController->setYawProportionalGain((double) telemMsg->YawProportionalGain / 100);
-			pidController->setYawAntiWindupGain((double) telemMsg->YawAntiWindupGain / 100);
+			pidController->setYawIntegralGain(telemMsg->YawIntegralGain);
+			pidController->setYawDerivativeGain(telemMsg->YawDerivativeGain);
+			pidController->setYawProportionalGain(telemMsg->YawProportionalGain);
+			pidController->setYawAntiWindupGain(telemMsg->YawAntiWindupGain);
 		
-			pidController->setXIntegralGain((double) telemMsg->XIntegralGain / 100);
-			pidController->setXDerivativeGain((double) telemMsg->XDerivativeGain / 100);
-			pidController->setXProportionalGain((double) telemMsg->XProportionalGain / 100);
-			pidController->setXAntiWindupGain((double) telemMsg->XAntiWindupGain / 100);
-			pidController->setLongitudeInnerLoopGain((double) telemMsg->LongitudeInnerLoopGain / 100);
+			pidController->setXIntegralGain(telemMsg->XIntegralGain);
+			pidController->setXDerivativeGain(telemMsg->XDerivativeGain);
+			pidController->setXProportionalGain(telemMsg->XProportionalGain);
+			pidController->setXAntiWindupGain(telemMsg->XAntiWindupGain);
+			pidController->setLongitudeInnerLoopGain(telemMsg->LongitudeInnerLoopGain);
 				
-			pidController->setYIntegralGain((double) telemMsg->YIntegralGain / 100);
-			pidController->setYDerivativeGain((double) telemMsg->YDerivativeGain / 100);
-			pidController->setYProportionalGain((double) telemMsg->YProportionalGain / 100);
-			pidController->setYAntiWindupGain((double) telemMsg->YAntiWindupGain / 100);
-			pidController->setLateralInnerLoopGain((double) telemMsg->LateralInnerLoopGain / 100);
+			pidController->setYIntegralGain(telemMsg->YIntegralGain);
+			pidController->setYDerivativeGain(telemMsg->YDerivativeGain);
+			pidController->setYProportionalGain(telemMsg->YProportionalGain);
+			pidController->setYAntiWindupGain(telemMsg->YAntiWindupGain);
+			pidController->setLateralInnerLoopGain(telemMsg->LateralInnerLoopGain);
 			
-			pidController->setZIntegralGain((double) telemMsg->ZIntegralGain / 100);
-			pidController->setZDerivativeGain((double) telemMsg->ZDerivativeGain / 100);
-			pidController->setZProportionalGain((double) telemMsg->ZProportionalGain / 100);
-			pidController->setZAntiWindupGain((double) telemMsg->ZAntiWindupGain / 100);															
+			pidController->setZIntegralGain(telemMsg->ZIntegralGain);
+			pidController->setZDerivativeGain(telemMsg->ZDerivativeGain);
+			pidController->setZProportionalGain(telemMsg->ZProportionalGain);
+			pidController->setZAntiWindupGain(telemMsg->ZAntiWindupGain);															
 		
 			delete message;
 		}

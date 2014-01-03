@@ -27,67 +27,62 @@ namespace helicopter
 		{
 			public:
 
-
-				
-
-								
-
-				unsigned long MagYaw;
-				long YawVelocityDegreesPerSecond;
+				float MagYaw;
+				float YawVelocityDegreesPerSecond;
 				
 				
-				long YawIntegral;
-				long YawProportional;
-				long YawDerivativeError;
-				long YawControl;
-				long YawIntegralGain;
-				long YawDerivativeGain;
-				long YawProportionalGain;
-				long YawAntiWindupGain;
+				float YawIntegral;
+				float YawProportional;
+				float YawDerivativeError;
+				float YawControl;
+				float YawIntegralGain;
+				float YawDerivativeGain;
+				float YawProportionalGain;
+				float YawAntiWindupGain;
 				
 				
-				long XNEDBodyFrame;
-				long XVelocityMetersPerSecond;
-				long ThetaPitchDegrees;
-				long XIntegral;
-				long XProportional;
-				long XDerivativeError;
-				long LongitudeControl;
-				long XIntegralGain;
-				long XDerivativeGain;
-				long XProportionalGain;
-				long XAntiWindupGain;
-				long LongitudeInnerLoopGain;
+				float XNEDBodyFrame;
+				float XVelocityMetersPerSecond;
+				float ThetaPitchDegrees;
+				float XIntegral;
+				float XProportional;
+				float XDerivativeError;
+				float LongitudeControl;
+				float XIntegralGain;
+				float XDerivativeGain;
+				float XProportionalGain;
+				float XAntiWindupGain;
+				float LongitudeInnerLoopGain;
 				
 				
-				long YNEDBodyFrame;
-				long YVelocityMetersPerSecond;
-				long PhiRollDegrees;
-				long YIntegral;
-				long YProportional;
-				long YDerivativeError;
-				long LateralControl;
-				long YIntegralGain;
-				long YDerivativeGain;
-				long YProportionalGain;
-				long YAntiWindupGain;
-				long LateralInnerLoopGain;
+				float YNEDBodyFrame;
+				float YVelocityMetersPerSecond;
+				float PhiRollDegrees;
+				float YIntegral;
+				float YProportional;
+				float YDerivativeError;
+				float LateralControl;
+				float YIntegralGain;
+				float YDerivativeGain;
+				float YProportionalGain;
+				float YAntiWindupGain;
+				float LateralInnerLoopGain;
 				
 
 
-				long AltitudeFeetAgl;
-				long ZVelocityMetersPerSecond;
-				long ZIntegral;
-				long ZProportional;
-				long ZDerivativeError;
-				long MainRotorCollectiveControl;
-				long ZIntegralGain;
-				long ZDerivativeGain;
-				long ZProportionalGain;
-				long ZAntiWindupGain;
+				float AltitudeFeetAgl;
+				float ZVelocityMetersPerSecond;
+				float ZIntegral;
+				float ZProportional;
+				float ZDerivativeError;
+				float MainRotorCollectiveControl;
+				float ZIntegralGain;
+				float ZDerivativeGain;
+				float ZProportionalGain;
+				float ZAntiWindupGain;
 										
-				long LatitudeDegrees;
-				long LongitudeDegrees;								
+				float LatitudeDegrees;
+				float LongitudeDegrees;								
 				
 				/**
 				 * Instrumentation fields

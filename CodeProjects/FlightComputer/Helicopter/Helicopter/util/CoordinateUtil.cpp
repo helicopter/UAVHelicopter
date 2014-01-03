@@ -10,15 +10,15 @@
 
 using namespace helicopter::util;
 
-double CoordinateUtil::DegreesToRad(double valueDegrees)
+float CoordinateUtil::DegreesToRad(float valueDegrees)
 {
 	return valueDegrees * (M_PI / 180.0);
 }
 
-void CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(double latitudeDegrees, double longitudeDegrees, double  ecefToLocalNEDRotationMatrix[][3])
+void CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(float latitudeDegrees, float longitudeDegrees, float  ecefToLocalNEDRotationMatrix[][3])
 {
-	double radLat = DegreesToRad(latitudeDegrees);
-	double radLong = DegreesToRad(longitudeDegrees);
+	float radLat = DegreesToRad(latitudeDegrees);
+	float radLong = DegreesToRad(longitudeDegrees);
 
 	
 	ecefToLocalNEDRotationMatrix[0][0] = -1 * sin(radLat) * cos(radLong);
@@ -32,7 +32,7 @@ void CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(double latitudeDegree
 	ecefToLocalNEDRotationMatrix[2][2] = -1 * sin(radLat);
 }
 
-double CoordinateUtil::calculateNe(double E, double latitudeRads)
+float CoordinateUtil::calculateNe(float E, float latitudeRads)
 {
 	return Rea / sqrt(1 - pow(E, 2) * pow(sin(latitudeRads), 2));
 }
@@ -41,30 +41,30 @@ double CoordinateUtil::calculateNe(double E, double latitudeRads)
  * A description of the variables used to convert lat/long to ecef can be found on page 25 of 
  * Unmanned Rotor Craft Systems
  */
-void CoordinateUtil::ConvertFromGeodeticToECEF(double latitudeDegrees, double longitudeDegrees, double altitudeFeetAgl, double &ecefX, double &ecefY, double &ecefZ)
+void CoordinateUtil::ConvertFromGeodeticToECEF(float latitudeDegrees, float longitudeDegrees, float altitudeFeetAgl, float &ecefX, float &ecefY, float &ecefZ)
 {
-	double radLat = DegreesToRad(latitudeDegrees);
-	double radLong = DegreesToRad(longitudeDegrees);
+	float radLat = DegreesToRad(latitudeDegrees);
+	float radLong = DegreesToRad(longitudeDegrees);
 	
 
-	double Ne = calculateNe(E, radLat);
+	float Ne = calculateNe(E, radLat);
 	
 	ecefX = (Ne + altitudeFeetAgl) * cos(radLat) * cos(radLong);
 	ecefY = (Ne + altitudeFeetAgl) * cos(radLat) * sin(radLong);
 	ecefZ = ((Ne * (1 - pow(E, 2))) + altitudeFeetAgl) * sin(radLat);
 }
 
-void CoordinateUtil::ConvertFromECEFToLocalNED(double ecefReferenceX, double ecefReferenceY, double ecefReferenceZ,
-	double ecefX, double ecefY, double ecefZ, double ecefToLocalNEDRotationMatrix[][3],
-	double &localNEDX, double &localNEDY, double &localNEDZ)
+void CoordinateUtil::ConvertFromECEFToLocalNED(float ecefReferenceX, float ecefReferenceY, float ecefReferenceZ,
+	float ecefX, float ecefY, float ecefZ, float ecefToLocalNEDRotationMatrix[][3],
+	float &localNEDX, float &localNEDY, float &localNEDZ)
 {
 	//Get the current helicopters position relative to it's starting point in ecef.
-	double differenceXECEF = ecefX - ecefReferenceX;
-	double differenceYECEF = ecefY - ecefReferenceY;
-	double differenceZECEF = ecefZ - ecefReferenceZ;
+	float differenceXECEF = ecefX - ecefReferenceX;
+	float differenceYECEF = ecefY - ecefReferenceY;
+	float differenceZECEF = ecefZ - ecefReferenceZ;
 	
-	double rotatedMatrix[3] = {};
-	double positionMatrix[3] = {differenceXECEF, differenceYECEF, differenceZECEF};
+	float rotatedMatrix[3] = {};
+	float positionMatrix[3] = {differenceXECEF, differenceYECEF, differenceZECEF};
 	
 	//Rotate the current ecef position from earth centered earth fixed (ECEF) into North-East-Down(NED).
 	//Iterate through the rows of the rotation matrix
@@ -83,13 +83,13 @@ void CoordinateUtil::ConvertFromECEFToLocalNED(double ecefReferenceX, double ece
 }
 
 void CoordinateUtil::ConvertFromGeodedicToLocalNED(
-	double geodedicLatitude, double geodedicLongitude, double altitudeFeetAgl,
-	double ecefReferenceX, double ecefReferenceY, double ecefReferenceZ, double ecefToLocalNEDRotationMatrix[][3],
-	double &localNEDX,double &localNEDY,double &localNEDZ)
+	float geodedicLatitude, float geodedicLongitude, float altitudeFeetAgl,
+	float ecefReferenceX, float ecefReferenceY, float ecefReferenceZ, float ecefToLocalNEDRotationMatrix[][3],
+	float &localNEDX,float &localNEDY,float &localNEDZ)
 {
-	double ecefX = 0;
-	double ecefY = 0;
-	double ecefZ = 0;
+	float ecefX = 0;
+	float ecefY = 0;
+	float ecefZ = 0;
 	
 	ConvertFromGeodeticToECEF(geodedicLatitude, geodedicLongitude, altitudeFeetAgl, ecefX, ecefY, ecefZ);
 	

@@ -37,24 +37,43 @@ namespace GroundControlStation
             FlightComputerInterface fcInterface = new FlightComputerInterface(portInterface);
             fcInterface.Open();
 
-            GroundControlStationForm gcsView = new GroundControlStationForm();
+            
 
             GroundControlStationModel model = new GroundControlStationModel();
             model.SimTelm = new SimulatorTelemetry();
 
-///            model.YawIntegralGain = .008f;
-            //model.YawDerivativeGain = .85f;
+            /*
+            model.YawIntegralGain = .008f;
+            model.YawDerivativeGain = .85f;
             model.YawProportionalGain = 1.0f;
-///            model.YawAntiWindupGain = 0.1f;
+            model.YawAntiWindupGain = 0.1f;
+             * */
 
+            model.YawIntegralGain = .5f;
+            model.YawProportionalGain = 1.8471f;
+            model.YawDerivativeGain = model.YawProportionalGain * (0.09f);
+            model.YawAntiWindupGain = 0.1f;
+
+            model.XIntegralGain = 0.0f;
+            model.XProportionalGain = .289f;
+            model.XDerivativeGain = 1.859f;
+            model.XAntiWindupGain = 1.0f; //1 since there is no integral gain to anti-windup
+            model.LongitudeInnerLoopGain = .031f;
+
+
+            model.ZIntegralGain = .02f;
+            model.ZProportionalGain = 1.901f;
+            model.ZDerivativeGain = 1.141f;
+            model.ZAntiWindupGain = .1f;
 
             GroundControlStationController gcsController =
                 new GroundControlStationController(xInterface, fcInterface);
 
-            gcsController.View = gcsView;
             gcsController.Model = model;
 
-            gcsView.Controller = gcsController;
+            GroundControlStationForm gcsView = new GroundControlStationForm(gcsController);
+
+            gcsController.View = gcsView;
 
             gcsController.Start();
 

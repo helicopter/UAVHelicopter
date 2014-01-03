@@ -162,37 +162,37 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 	//throw std::exception("The method or operation is not implemented.");
 	SystemTelemetryMessage *message = new SystemTelemetryMessage();
 	
-	message->MagYaw = model->MagYawDegrees() * 100;
-	message->YawDerivativeError = model->YawDerivativeError() * 100;
-	message->YawIntegral = model->YawIntegral() * 100;
-	message->YawProportional = model->YawProportional() * 100;
-	message->YawVelocityDegreesPerSecond = model->YawVelocityDegreesPerSecond() * 100;
-	message->YawControl = model->YawControl() * 100;
+	message->MagYaw = model->MagYawDegrees();
+	message->YawDerivativeError = model->YawDerivativeError();
+	message->YawIntegral = model->YawIntegral();
+	message->YawProportional = model->YawProportional();
+	message->YawVelocityDegreesPerSecond = model->YawVelocityDegreesPerSecond();
+	message->YawControl = model->YawControl();
 	
 
-	message->XNEDBodyFrame = model->XNEDBodyFrame() * 100;
-	message->XDerivativeError = model->XDerivativeError() * 100;
-	message->XIntegral = model->XIntegral() * 100;
-	message->XProportional = model->XProportional() * 100;
-	message->XVelocityMetersPerSecond = model->XVelocityMetersPerSecond() * 100;
-	message->LongitudeControl = model->LongitudeControl() * 100;
+	message->XNEDBodyFrame = model->XNEDBodyFrame();
+	message->XDerivativeError = model->XDerivativeError();
+	message->XIntegral = model->XIntegral();
+	message->XProportional = model->XProportional();
+	message->XVelocityMetersPerSecond = model->XVelocityMetersPerSecond();
+	message->LongitudeControl = model->LongitudeControl();
 	
 	
-	message->YNEDBodyFrame = model->YNEDBodyFrame() * 100;
-	message->YDerivativeError = model->YDerivativeError() * 100;
-	message->YIntegral = model->YIntegral() * 100;
-	message->YProportional = model->YProportional() * 100;
-	message->YVelocityMetersPerSecond = model->YVelocityMetersPerSecond() * 100;
-	message->LateralControl = model->LateralControl() * 100;
+	message->YNEDBodyFrame = model->YNEDBodyFrame();
+	message->YDerivativeError = model->YDerivativeError();
+	message->YIntegral = model->YIntegral();
+	message->YProportional = model->YProportional();
+	message->YVelocityMetersPerSecond = model->YVelocityMetersPerSecond();
+	message->LateralControl = model->LateralControl();
 	
 	
 	
-	message->AltitudeFeetAgl = model->AltitudeFeet() * 100;
-	message->ZDerivativeError = model->ZDerivativeError() * 100;
-	message->ZIntegral = model->ZIntegral() * 100;
-	message->ZProportional = model->ZProportional() * 100;
-	message->ZVelocityMetersPerSecond = (model->ZVelocityFeetPerSecond() / 3.2804d) * 100;
-	message->MainRotorCollectiveControl = model->MainRotorCollectiveControl() * 100;
+	message->AltitudeFeetAgl = model->AltitudeFeetAgl();
+	message->ZDerivativeError = model->ZDerivativeError();
+	message->ZIntegral = model->ZIntegral();
+	message->ZProportional = model->ZProportional();
+	message->ZVelocityMetersPerSecond = (model->ZVelocityFeetPerSecond() / 3.2804f);
+	message->MainRotorCollectiveControl = model->MainRotorCollectiveControl();
 	
 	
 	message->ChecksumErrors = model->ChecksumErrors();
@@ -207,12 +207,12 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 //TODO delete this method, its not used.
 void SystemTelemetryMessage::updateModelFromMessage (SystemModel *model)
 {
-	model->MagYawDegrees((double) this->MagYaw / 100);
-	model->YawVelocityDegreesPerSecond((double) this->YawVelocityDegreesPerSecond / 100);
-	model->YawIntegral((double) this->YawIntegral / 100);
-	model->YawProportional((double) this->YawProportional / 100);
-	model->YawDerivativeError((double) this->YawDerivativeError / 100);
-	model->YawControl((double) this->YawControl / 100);
+	model->MagYawDegrees(this->MagYaw);
+	model->YawVelocityDegreesPerSecond(this->YawVelocityDegreesPerSecond);
+	model->YawIntegral(this->YawIntegral);
+	model->YawProportional(this->YawProportional);
+	model->YawDerivativeError(this->YawDerivativeError);
+	model->YawControl(this->YawControl);
 	model->Timeouts(this->Timeouts);
 	model->UnrecognizedMsgTypes(this->UnrecognizedMsgTypes);
 	model->ChecksumErrors(this->ChecksumErrors);
@@ -226,23 +226,23 @@ void SystemTelemetryMessage::updateModelFromMessageFromSimulator (SystemModel *m
 	//from actual sensors, but when running off of the simulator, these sensor
 	//readings come from the simulator itself.
 	
-	model->MagYawDegrees((double) this->MagYaw / 100);
-	model->YawVelocityDegreesPerSecond((double) this->YawVelocityDegreesPerSecond / 100);
+	model->MagYawDegrees(this->MagYaw);
+	model->YawVelocityDegreesPerSecond(this->YawVelocityDegreesPerSecond);
 	
 	//model->XNEDBodyFrame((double) this->XNEDBodyFrame / 100);//not supposed to be here since this is a calculated value, not a sensor reading.
-	model->XVelocityMetersPerSecond((double) this->XVelocityMetersPerSecond / 100);
-	model->ThetaPitchDegrees((double) this->ThetaPitchDegrees / 100);
+	model->XVelocityMetersPerSecond(this->XVelocityMetersPerSecond);
+	model->ThetaPitchDegrees(this->ThetaPitchDegrees);
 	
 	//model->YNEDBodyFrame((double) this->YNEDBodyFrame / 100);
-	model->YVelocityMetersPerSecond((double) this->YVelocityMetersPerSecond / 100);
-	model->PhiRollDegrees((double) this->PhiRollDegrees / 100);
+	model->YVelocityMetersPerSecond(this->YVelocityMetersPerSecond);
+	model->PhiRollDegrees(this->PhiRollDegrees);
 	
-	model->AltitudeFeet((double) this->AltitudeFeetAgl / 100);
+	model->AltitudeFeetAgl(this->AltitudeFeetAgl);
 	
 	//Convert from meters per sec, to foot per sec.
 	
-	model->ZVelocityFeetPerSecond(((double) this->ZVelocityMetersPerSecond / 100) * 3.28084d); 
+	model->ZVelocityFeetPerSecond(this->ZVelocityMetersPerSecond * 3.28084d); 
 	
-	model->LatitudeDegrees((double) this->LatitudeDegrees / 100);
-	model->LongitudeDegrees((double) this->LongitudeDegrees / 100);
+	model->LatitudeDegrees(this->LatitudeDegrees);
+	model->LongitudeDegrees(this->LongitudeDegrees);
 }

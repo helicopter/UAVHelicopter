@@ -185,7 +185,7 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	model->YawVelocityDegreesPerSecond(2.22);
 	
 	
-	model->AltitudeFeet(2.22);
+	model->AltitudeFeetAgl(2.22);
 	model->LateralControl(2.22);
 	model->LateralControlBeforeServoLimitsAdjustment(2.22);
 	model->LongitudeControl(2.22);

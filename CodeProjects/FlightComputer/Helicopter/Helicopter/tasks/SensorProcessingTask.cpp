@@ -19,11 +19,11 @@ SensorProcessingTask::SensorProcessingTask (SystemModel *model, int delay, int p
 
 void SensorProcessingTask::runTaskImpl()
 {
-	double localNEDX = 0;
-	double localNEDY = 0;
-	double localNEDZ = 0;
+	float localNEDX = 0;
+	float localNEDY = 0;
+	float localNEDZ = 0;
 	
-	CoordinateUtil::ConvertFromGeodedicToLocalNED(model->LatitudeDegrees(), model->LongitudeDegrees(), model->AltitudeFeet(), 
+	CoordinateUtil::ConvertFromGeodedicToLocalNED(model->LatitudeDegrees(), model->LongitudeDegrees(), model->AltitudeFeetAgl(), 
 		model->InitialXPositionEcef(), model->InitialYPositionEcef(), model->InitialZPositionEcef(),model->EcefToLocalNEDRotationMatrix,
 		localNEDX,localNEDY,localNEDZ);
 		

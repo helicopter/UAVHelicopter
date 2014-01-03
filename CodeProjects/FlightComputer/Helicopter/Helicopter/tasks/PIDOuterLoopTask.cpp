@@ -17,6 +17,7 @@ pidController(pidController)
 
 void PIDOuterLoopTask::runTaskImpl()
 {
+	pidController->mainRotorCollectiveOuterLoopUpdate();
 	pidController->tailRotorCollectiveOuterLoopUpdate();
 	pidController->cyclicLongitudeOuterLoopUpdate();
 }

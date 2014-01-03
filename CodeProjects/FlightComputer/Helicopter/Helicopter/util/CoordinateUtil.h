@@ -25,10 +25,10 @@ namespace helicopter
 		{	
 			private:
 				//The first eccentricity, used to convert lat/long to ecef
-				static const double E = 0.08181919;
+				static const float E = 0.08181919;
 				
 				//The semi-major axis
-				static const double Rea = 6378137.0;
+				static const float Rea = 6378137.0;
 				
 				/**
 				 * Calculates the Ne Variable used to convert crom lat/long to ecef.
@@ -36,14 +36,14 @@ namespace helicopter
 				 * @param E The first eccentricity
 				 * @param the lattitude of the helicopter in Radians
 				 */
-				static double calculateNe(double E, double latitudeRads);
+				static float calculateNe(float E, float latitudeRads);
 			
 			public: 
 			
 				/**
 				 * Converts degrees to radians
 				 */
-				static double DegreesToRad(double valueDegrees);
+				static float DegreesToRad(float valueDegrees);
 			
 				/**
 				 * This method creates a rotation matrix that is used to convert from Earth-Center-Earth-Fixed to Local North-East-Down
@@ -53,7 +53,7 @@ namespace helicopter
 				 * @param ecefToLocalNEDRotationMatrix OutputParam: a 3x3 matrix which will be populated with the rotation matrix used to convert
 				 * earth centered earth fixed coordinates to Local North East Down coordinates.
 				 */
-				static void CalculateECEFToLocalNEDRotationMatrix(double latitudeDegrees, double longitudeDegrees, double  ecefToLocalNEDRotationMatrix[][3]);
+				static void CalculateECEFToLocalNEDRotationMatrix(float latitudeDegrees, float longitudeDegrees, float  ecefToLocalNEDRotationMatrix[][3]);
 			
 				/**
 				 * This method converts a set of curvilinear geodetic coordinates (lat long) to Cartesian coordinates (xyz) in the
@@ -65,7 +65,7 @@ namespace helicopter
 				 * @param ecefY OutputParam: The Y coordinate in earth-centered-earth-fixed
 				 * @param ecefZ OutputParam: The Z coordinate in earth-centered-earth-fixed
 				 */
-				static void ConvertFromGeodeticToECEF(double latitudeDegrees, double longitudeDegrees, double altitudeFeetAgl, double &ecefX, double &ecefY, double &ecefZ);
+				static void ConvertFromGeodeticToECEF(float latitudeDegrees, float longitudeDegrees, float altitudeFeetAgl, float &ecefX, float &ecefY, float &ecefZ);
 			
 			
 				/**
@@ -80,14 +80,14 @@ namespace helicopter
 				 * @param localNEDY OutputParam: The Y coordinate of the helicopter in the local north east down frame.
 				 * @param localNEDZ OutputParam: The Z coordinate of the helicopter in the local north east down frame.
 				 */
-				static void ConvertFromECEFToLocalNED(double ecefReferenceX, double ecefReferenceY, double ecefReferenceZ, 
-					double ecefX, double ecefY, double ecefZ, double ecefToLocalNEDRotationMatrix[][3],
-					double &localNEDX, double &localNEDY, double &localNEDZ);
+				static void ConvertFromECEFToLocalNED(float ecefReferenceX, float ecefReferenceY, float ecefReferenceZ, 
+					float ecefX, float ecefY, float ecefZ, float ecefToLocalNEDRotationMatrix[][3],
+					float &localNEDX, float &localNEDY, float &localNEDZ);
 					
 				static void ConvertFromGeodedicToLocalNED(
-					double geodedicLatitude, double geodedicLongitude, double altitudeFeetAgl, 
-					double ecefReferenceX, double ecefReferenceY, double ecefReferenceZ, double ecefToLocalNEDRotationMatrix[][3],
-					double &localNEDX,double &localNEDY,double &localNEDZ);
+					float geodedicLatitude, float geodedicLongitude, float altitudeFeetAgl, 
+					float ecefReferenceX, float ecefReferenceY, float ecefReferenceZ, float ecefToLocalNEDRotationMatrix[][3],
+					float &localNEDX,float &localNEDY,float &localNEDZ);
 		};
 	}
 	

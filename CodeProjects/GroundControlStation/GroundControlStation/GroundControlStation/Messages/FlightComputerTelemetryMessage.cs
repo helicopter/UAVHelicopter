@@ -9,76 +9,76 @@ namespace GroundControlStation.Messages
     {
         public const byte MessageType = 2;
 
-        public uint MagYaw;
+        public float MagYaw;
 
-        public int YawVelocityDegreesPerSecond;
-
-
-        public int YawIntegral;
-
-        public int YawProportional;
-
-        public int YawDerivativeError;
-
-        public int YawControl;
+        public float YawVelocityDegreesPerSecond;
 
 
-        public int YawIntegralGain;
+        public float YawIntegral;
 
-        public int YawDerivativeGain;
+        public float YawProportional;
 
-        public int YawProportionalGain;
+        public float YawDerivativeError;
 
-        public int YawAntiWindupGain;
+        public float YawControl;
 
 
+        public float YawIntegralGain;
+
+        public float YawDerivativeGain;
+
+        public float YawProportionalGain;
+
+        public float YawAntiWindupGain;
 
 
 
 
 
-        public int XNEDBodyFrame;
-        public int XVelocityMetersPerSecond;
-        public int ThetaPitchDegrees;
-
-        public int XIntegral;
-        public int XProportional;
-        public int XDerivativeError;
-        public int LongitudeControl;
-        public int XIntegralGain;
-        public int XDerivativeGain;
-        public int XProportionalGain;
-        public int XAntiWindupGain;
-        public int LongitudeInnerLoopGain;
-
-        public int YNEDBodyFrame;
-        public int YVelocityMetersPerSecond;
-        public int PhiRollDegrees;
-        public int YIntegral;
-        public int YProportional;
-        public int YDerivativeError;
-        public int LateralControl;
-        public int YIntegralGain;
-        public int YDerivativeGain;
-        public int YProportionalGain;
-        public int YAntiWindupGain;
-        public int LateralInnerLoopGain;
 
 
+        public float XNEDBodyFrame;
+        public float XVelocityMetersPerSecond;
+        public float ThetaPitchDegrees;
 
-        public int AltitudeFeetAgl;
-        public int ZVelocityMetersPerSecond;
-        public int ZIntegral;
-        public int ZProportional;
-        public int ZDerivativeError;
-        public int MainRotorCollectiveControl;
-        public int ZIntegralGain;
-        public int ZDerivativeGain;
-        public int ZProportionalGain;
-        public int ZAntiWindupGain;
+        public float XIntegral;
+        public float XProportional;
+        public float XDerivativeError;
+        public float LongitudeControl;
+        public float XIntegralGain;
+        public float XDerivativeGain;
+        public float XProportionalGain;
+        public float XAntiWindupGain;
+        public float LongitudeInnerLoopGain;
 
-        public int LatitudeDegrees;
-        public int LongitudeDegrees;
+        public float YNEDBodyFrame;
+        public float YVelocityMetersPerSecond;
+        public float PhiRollDegrees;
+        public float YIntegral;
+        public float YProportional;
+        public float YDerivativeError;
+        public float LateralControl;
+        public float YIntegralGain;
+        public float YDerivativeGain;
+        public float YProportionalGain;
+        public float YAntiWindupGain;
+        public float LateralInnerLoopGain;
+
+
+
+        public float AltitudeFeetAgl;
+        public float ZVelocityMetersPerSecond;
+        public float ZIntegral;
+        public float ZProportional;
+        public float ZDerivativeError;
+        public float MainRotorCollectiveControl;
+        public float ZIntegralGain;
+        public float ZDerivativeGain;
+        public float ZProportionalGain;
+        public float ZAntiWindupGain;
+
+        public float LatitudeDegrees;
+        public float LongitudeDegrees;
 
 
 
@@ -112,62 +112,62 @@ namespace GroundControlStation.Messages
         /// </summary>
         public const int NumOfBytesInMsg =
             sizeof(byte) +
-            sizeof(uint) +
-            sizeof(int) +
+            sizeof(float) +
+            sizeof(float) +
 
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-
-
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
 
 
 
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
 
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
 
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            sizeof(int) +
-            
-            sizeof(int) +
-            sizeof(int) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
 
-            sizeof(int) +
-            sizeof(int) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+
+            sizeof(float) +
+            sizeof(float) +
+
+            sizeof(float) +
+            sizeof(float) +
 
 
             sizeof(int) +
@@ -194,63 +194,63 @@ namespace GroundControlStation.Messages
             int positionCounter = 0;
             MsgType = decodeByte(byteBuffer, ref positionCounter);
 
-            MagYaw = decodeUInt(byteBuffer, ref positionCounter);
-            YawVelocityDegreesPerSecond = decodeInt(byteBuffer, ref positionCounter);
-            YawIntegral = decodeInt(byteBuffer, ref positionCounter);
-            YawProportional = decodeInt(byteBuffer, ref positionCounter);
-            YawDerivativeError = decodeInt(byteBuffer, ref positionCounter);
-            YawControl = decodeInt(byteBuffer, ref positionCounter);
-            YawIntegralGain = decodeInt(byteBuffer, ref positionCounter);
-            YawDerivativeGain = decodeInt(byteBuffer, ref positionCounter);
-            YawProportionalGain = decodeInt(byteBuffer, ref positionCounter);
-            YawAntiWindupGain = decodeInt(byteBuffer, ref positionCounter);
+            MagYaw = decodeFloat(byteBuffer, ref positionCounter);
+            YawVelocityDegreesPerSecond = decodeFloat(byteBuffer, ref positionCounter);
+            YawIntegral = decodeFloat(byteBuffer, ref positionCounter);
+            YawProportional = decodeFloat(byteBuffer, ref positionCounter);
+            YawDerivativeError = decodeFloat(byteBuffer, ref positionCounter);
+            YawControl = decodeFloat(byteBuffer, ref positionCounter);
+            YawIntegralGain = decodeFloat(byteBuffer, ref positionCounter);
+            YawDerivativeGain = decodeFloat(byteBuffer, ref positionCounter);
+            YawProportionalGain = decodeFloat(byteBuffer, ref positionCounter);
+            YawAntiWindupGain = decodeFloat(byteBuffer, ref positionCounter);
 
 
 
 
-            XNEDBodyFrame = decodeInt(byteBuffer, ref positionCounter);
-            XVelocityMetersPerSecond = decodeInt(byteBuffer, ref positionCounter);
-            ThetaPitchDegrees = decodeInt(byteBuffer, ref positionCounter);
-            XIntegral = decodeInt(byteBuffer, ref positionCounter);
-            XProportional = decodeInt(byteBuffer, ref positionCounter);
-            XDerivativeError = decodeInt(byteBuffer, ref positionCounter);
-            LongitudeControl = decodeInt(byteBuffer, ref positionCounter);
-            XIntegralGain = decodeInt(byteBuffer, ref positionCounter);
-            XDerivativeGain = decodeInt(byteBuffer, ref positionCounter);
-            XProportionalGain = decodeInt(byteBuffer, ref positionCounter);
-            XAntiWindupGain = decodeInt(byteBuffer, ref positionCounter);
-            LongitudeInnerLoopGain = decodeInt(byteBuffer, ref positionCounter);
+            XNEDBodyFrame = decodeFloat(byteBuffer, ref positionCounter);
+            XVelocityMetersPerSecond = decodeFloat(byteBuffer, ref positionCounter);
+            ThetaPitchDegrees = decodeFloat(byteBuffer, ref positionCounter);
+            XIntegral = decodeFloat(byteBuffer, ref positionCounter);
+            XProportional = decodeFloat(byteBuffer, ref positionCounter);
+            XDerivativeError = decodeFloat(byteBuffer, ref positionCounter);
+            LongitudeControl = decodeFloat(byteBuffer, ref positionCounter);
+            XIntegralGain = decodeFloat(byteBuffer, ref positionCounter);
+            XDerivativeGain = decodeFloat(byteBuffer, ref positionCounter);
+            XProportionalGain = decodeFloat(byteBuffer, ref positionCounter);
+            XAntiWindupGain = decodeFloat(byteBuffer, ref positionCounter);
+            LongitudeInnerLoopGain = decodeFloat(byteBuffer, ref positionCounter);
 
 
 
-            YNEDBodyFrame = decodeInt(byteBuffer, ref positionCounter);
-            YVelocityMetersPerSecond = decodeInt(byteBuffer, ref positionCounter);
-            PhiRollDegrees = decodeInt(byteBuffer, ref positionCounter);
-            YIntegral = decodeInt(byteBuffer, ref positionCounter);
-            YProportional = decodeInt(byteBuffer, ref positionCounter);
-            YDerivativeError = decodeInt(byteBuffer, ref positionCounter);
-            LateralControl = decodeInt(byteBuffer, ref positionCounter);
-            YIntegralGain = decodeInt(byteBuffer, ref positionCounter);
-            YDerivativeGain = decodeInt(byteBuffer, ref positionCounter);
-            YProportionalGain = decodeInt(byteBuffer, ref positionCounter);
-            YAntiWindupGain = decodeInt(byteBuffer, ref positionCounter);
-            LateralInnerLoopGain = decodeInt(byteBuffer, ref positionCounter);
+            YNEDBodyFrame = decodeFloat(byteBuffer, ref positionCounter);
+            YVelocityMetersPerSecond = decodeFloat(byteBuffer, ref positionCounter);
+            PhiRollDegrees = decodeFloat(byteBuffer, ref positionCounter);
+            YIntegral = decodeFloat(byteBuffer, ref positionCounter);
+            YProportional = decodeFloat(byteBuffer, ref positionCounter);
+            YDerivativeError = decodeFloat(byteBuffer, ref positionCounter);
+            LateralControl = decodeFloat(byteBuffer, ref positionCounter);
+            YIntegralGain = decodeFloat(byteBuffer, ref positionCounter);
+            YDerivativeGain = decodeFloat(byteBuffer, ref positionCounter);
+            YProportionalGain = decodeFloat(byteBuffer, ref positionCounter);
+            YAntiWindupGain = decodeFloat(byteBuffer, ref positionCounter);
+            LateralInnerLoopGain = decodeFloat(byteBuffer, ref positionCounter);
 
 
 
-            AltitudeFeetAgl = decodeInt(byteBuffer, ref positionCounter);
-            ZVelocityMetersPerSecond = decodeInt(byteBuffer, ref positionCounter);
-            ZIntegral = decodeInt(byteBuffer, ref positionCounter);
-            ZProportional = decodeInt(byteBuffer, ref positionCounter);
-            ZDerivativeError = decodeInt(byteBuffer, ref positionCounter);
-            MainRotorCollectiveControl = decodeInt(byteBuffer, ref positionCounter);
-            ZIntegralGain = decodeInt(byteBuffer, ref positionCounter);
-            ZDerivativeGain = decodeInt(byteBuffer, ref positionCounter);
-            ZProportionalGain = decodeInt(byteBuffer, ref positionCounter);
-            ZAntiWindupGain = decodeInt(byteBuffer, ref positionCounter);
+            AltitudeFeetAgl = decodeFloat(byteBuffer, ref positionCounter);
+            ZVelocityMetersPerSecond = decodeFloat(byteBuffer, ref positionCounter);
+            ZIntegral = decodeFloat(byteBuffer, ref positionCounter);
+            ZProportional = decodeFloat(byteBuffer, ref positionCounter);
+            ZDerivativeError = decodeFloat(byteBuffer, ref positionCounter);
+            MainRotorCollectiveControl = decodeFloat(byteBuffer, ref positionCounter);
+            ZIntegralGain = decodeFloat(byteBuffer, ref positionCounter);
+            ZDerivativeGain = decodeFloat(byteBuffer, ref positionCounter);
+            ZProportionalGain = decodeFloat(byteBuffer, ref positionCounter);
+            ZAntiWindupGain = decodeFloat(byteBuffer, ref positionCounter);
 
-            LatitudeDegrees = decodeInt(byteBuffer, ref positionCounter);
-            LongitudeDegrees = decodeInt(byteBuffer, ref positionCounter);
+            LatitudeDegrees = decodeFloat(byteBuffer, ref positionCounter);
+            LongitudeDegrees = decodeFloat(byteBuffer, ref positionCounter);
 
 
 
@@ -334,6 +334,13 @@ namespace GroundControlStation.Messages
             return rawMsg;
         }
 
+        private float decodeFloat(byte[] byteBuffer, ref int positionCounter)
+        {
+            float val = BitConverter.ToSingle(byteBuffer, positionCounter);
+            positionCounter += sizeof(float);
+            return val;
+        }
+
 
         private uint decodeUInt(byte[] byteBuffer, ref int positionCounter)
         {
@@ -361,6 +368,16 @@ namespace GroundControlStation.Messages
             rawMsg[positionCounter++] = data;
         }
 
+        private void encode(ref byte[] rawMsg, float data, ref int positionCounter)
+        {
+            byte[] temp = BitConverter.GetBytes(data);
+
+            rawMsg[positionCounter++] = temp[0];
+            rawMsg[positionCounter++] = temp[1];
+            rawMsg[positionCounter++] = temp[2];
+            rawMsg[positionCounter++] = temp[3];
+        }
+
         private void encode(ref byte[] rawMsg, int data, ref int positionCounter)
         {
             byte[] temp = BitConverter.GetBytes(data);
@@ -379,54 +396,54 @@ namespace GroundControlStation.Messages
 
         public void UpdateModel(GroundControlStationModel model)
         {
-            model.MagYaw = (float) MagYaw / 100;
-            model.YawVelocityDegreesPerSecond = (float) YawVelocityDegreesPerSecond / 100;
-            model.YawIntegral = (float)YawIntegral / 100;
-            model.YawProportional = (float)YawProportional / 100;
-            model.YawDerivativeError = (float)YawDerivativeError / 100;
+            model.MagYaw =  MagYaw;
+            model.YawVelocityDegreesPerSecond =  YawVelocityDegreesPerSecond;
+            model.YawIntegral = YawIntegral;
+            model.YawProportional = YawProportional;
+            model.YawDerivativeError = YawDerivativeError;
 
 
 
-            model.XNEDBodyFrame = (float)XNEDBodyFrame / 100;
-            model.XVelocityMetersPerSecond = (float)XVelocityMetersPerSecond / 100;
-            model.ThetaPitchDegrees = (float)ThetaPitchDegrees / 100;
-            model.XIntegral = (float)XIntegral / 100;
-            model.XProportional = (float)XProportional / 100;
-            model.XDerivativeError = (float)XDerivativeError / 100;
-            model.LongitudeControl = (float)LongitudeControl / 100;
-            model.XIntegralGain = (float)XIntegralGain / 100;
-            model.XDerivativeGain = (float)XDerivativeGain / 100;
-            model.XProportionalGain = (float)XProportionalGain / 100;
-            model.XAntiWindupGain = (float)XAntiWindupGain / 100;
-            model.LongitudeInnerLoopGain = (float)LongitudeInnerLoopGain / 100;
+            model.XNEDBodyFrame = XNEDBodyFrame;
+            model.XVelocityMetersPerSecond = XVelocityMetersPerSecond;
+            model.ThetaPitchDegrees = ThetaPitchDegrees;
+            model.XIntegral = XIntegral;
+            model.XProportional = XProportional;
+            model.XDerivativeError = XDerivativeError;
+            model.LongitudeControl = LongitudeControl;
+            //model.XIntegralGain = XIntegralGain;
+            //model.XDerivativeGain = XDerivativeGain;
+            //model.XProportionalGain = XProportionalGain;
+            //model.XAntiWindupGain = XAntiWindupGain;
+            //model.LongitudeInnerLoopGain = LongitudeInnerLoopGain;
 
-            model.YNEDBodyFrame = (float)YNEDBodyFrame / 100;
-            model.YVelocityMetersPerSecond = (float)YVelocityMetersPerSecond / 100;
-            model.PhiRollDegrees = (float)PhiRollDegrees / 100;
-            model.YIntegral = (float)YIntegral / 100;
-            model.YProportional = (float)YProportional / 100;
-            model.YDerivativeError = (float)YDerivativeError / 100;
-            model.LateralControl = (float)LateralControl / 100;
-            model.YIntegralGain = (float)YIntegralGain / 100;
-            model.YDerivativeGain = (float)YDerivativeGain / 100;
-            model.YProportionalGain = (float)YProportionalGain / 100;
-            model.YAntiWindupGain = (float)YAntiWindupGain / 100;
-            model.LateralInnerLoopGain = (float)LateralInnerLoopGain / 100;
+            model.YNEDBodyFrame = YNEDBodyFrame;
+            model.YVelocityMetersPerSecond = YVelocityMetersPerSecond;
+            model.PhiRollDegrees = PhiRollDegrees;
+            model.YIntegral = YIntegral;
+            model.YProportional = YProportional;
+            model.YDerivativeError = YDerivativeError;
+            model.LateralControl = LateralControl;
+            //model.YIntegralGain = YIntegralGain;
+            //model.YDerivativeGain = YDerivativeGain;
+            //model.YProportionalGain = YProportionalGain;
+            //model.YAntiWindupGain = YAntiWindupGain;
+            //model.LateralInnerLoopGain = LateralInnerLoopGain;
 
 
 
-            model.AltitudeFeet = (float)AltitudeFeetAgl / 100;
-            model.ZVelocityFeetPerSecond = (float)ZVelocityMetersPerSecond / 100;
-            model.ZIntegral = (float)ZIntegral / 100;
-            model.ZProportional = (float)ZProportional / 100;
-            model.ZDerivativeError = (float)ZDerivativeError / 100;
-            model.MainRotorCollectiveControl = (float)MainRotorCollectiveControl / 100;
-            model.ZIntegralGain = (float)ZIntegralGain / 100;
-            model.ZDerivativeGain = (float)ZDerivativeGain / 100;
-            model.ZProportionalGain = (float)ZProportionalGain / 100;
-            model.ZAntiWindupGain = (float)ZAntiWindupGain / 100;
+            model.AltitudeFeet = AltitudeFeetAgl;
+            model.ZVelocityFeetPerSecond = ZVelocityMetersPerSecond;
+            model.ZIntegral = ZIntegral;
+            model.ZProportional = ZProportional;
+            model.ZDerivativeError = ZDerivativeError;
+            model.MainRotorCollectiveControl = MainRotorCollectiveControl;
+            //model.ZIntegralGain = ZIntegralGain;
+            //model.ZDerivativeGain = ZDerivativeGain;
+            //model.ZProportionalGain = ZProportionalGain;
+            //model.ZAntiWindupGain = ZAntiWindupGain;
 
-            model.YawControl = (float)YawControl / 100;
+            model.YawControl = YawControl;
 
 
             model.Timeouts = Timeouts;
@@ -436,31 +453,38 @@ namespace GroundControlStation.Messages
         }
 
 
-
-
-        //
-
-
-
-
         public static FlightComputerTelemetryMessage CreateFromModel(GroundControlStationModel model)
         {
             FlightComputerTelemetryMessage msg = new FlightComputerTelemetryMessage();
-            msg.MagYaw = (uint)(model.SimTelm.MagHeadingDegrees * 100);
-            msg.YawVelocityDegreesPerSecond = (int)(ConvertToDegPerSec(model.SimTelm.YawVelocityRadsPerS) * 100);
+            msg.MagYaw = model.SimTelm.MagHeadingDegrees;
+            msg.YawVelocityDegreesPerSecond = (float) ConvertToDegPerSec(model.SimTelm.YawVelocityRadsPerS);
 
-            msg.YawIntegralGain = (int)(model.YawIntegralGain * 100);
-            msg.YawDerivativeGain = (int)(model.YawDerivativeGain * 100);
-            msg.YawProportionalGain = (int)(model.YawProportionalGain * 100);
-            msg.YawAntiWindupGain = (int)(model.YawAntiWindupGain * 100);
+            msg.YawIntegralGain = model.YawIntegralGain;
+            msg.YawDerivativeGain = model.YawDerivativeGain;
+            msg.YawProportionalGain = model.YawProportionalGain;
+            msg.YawAntiWindupGain = model.YawAntiWindupGain;
 
-            msg.LatitudeDegrees = (int) (model.SimTelm.LatitudeDegrees * 100);
-            msg.LongitudeDegrees = (int)(model.SimTelm.LongitudeDegrees * 100);
-            msg.AltitudeFeetAgl = (int)(model.SimTelm.ZAltitudeFtAgl * 100);
 
-            msg.XVelocityMetersPerSecond = (int)(model.SimTelm.XVelocityNEDFrameMs * 100);
-            msg.YVelocityMetersPerSecond = (int)(model.SimTelm.YVelocityNEDFrameMs * 100);
-            msg.ZVelocityMetersPerSecond = (int)(model.SimTelm.ZVelocityNEDFrameMs * 100);
+
+            msg.XIntegralGain = model.XIntegralGain;
+            msg.XDerivativeGain = model.XDerivativeGain;
+            msg.XProportionalGain = model.XProportionalGain;
+            msg.XAntiWindupGain = model.XAntiWindupGain;
+            msg.LongitudeInnerLoopGain = model.LongitudeInnerLoopGain;
+
+            msg.ZIntegralGain = model.ZIntegralGain;
+            msg.ZDerivativeGain = model.ZDerivativeGain;
+            msg.ZProportionalGain = model.ZProportionalGain;
+            msg.ZAntiWindupGain = model.ZAntiWindupGain;
+
+
+            msg.LatitudeDegrees = model.SimTelm.LatitudeDegrees;
+            msg.LongitudeDegrees = model.SimTelm.LongitudeDegrees;
+            msg.AltitudeFeetAgl = model.SimTelm.ZAltitudeFtAgl;
+
+            msg.XVelocityMetersPerSecond = model.SimTelm.XVelocityNEDFrameMs;
+            msg.YVelocityMetersPerSecond = model.SimTelm.YVelocityNEDFrameMs;
+            msg.ZVelocityMetersPerSecond = model.SimTelm.ZVelocityNEDFrameMs;
 
             return msg;
         }

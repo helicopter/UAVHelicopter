@@ -37,7 +37,7 @@ namespace GroundControlStation.Views
 
         public IGraphingView GainAdjustments { get; set; }
 
-        public GroundControlStationForm()
+        public GroundControlStationForm(GroundControlStationController controller)
         {
             InitializeComponent();
 
@@ -63,7 +63,11 @@ namespace GroundControlStation.Views
 
             XControl = new GraphForm();
 
-            GainAdjustments = new GainAdjustmentsForm();
+            GainAdjustmentsForm gainAdjustments = new GainAdjustmentsForm();
+            gainAdjustments.Controller = controller;
+            GainAdjustments = gainAdjustments;
+
+            Controller = controller;
 
         }
 

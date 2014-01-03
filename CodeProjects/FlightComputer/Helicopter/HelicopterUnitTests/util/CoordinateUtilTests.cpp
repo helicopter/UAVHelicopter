@@ -14,46 +14,46 @@ int coordinateutil_test(TestCase *test)
 {
 	//3 4  x  2 3 = 38 37
 	//5 6  x  8 7 = 58 57
-/*	double testArr1[2][2] = {{3,4}, {5, 6}};
+/*	float testArr1[2][2] = {{3,4}, {5, 6}};
 		
-	double testArr2[2][2] = {{2,3}, {8, 7}};
+	float testArr2[2][2] = {{2,3}, {8, 7}};
 	
-	double result = MathUtil::DotProduct(testArr1, testArr2);
+	float result = MathUtil::DotProduct(testArr1, testArr2);
 	
 	AssertTrue(result[0][0] == 38);
 	AssertTrue(result[0][1] == 37);
 	AssertTrue(result[1][0] == 58);
 	AssertTrue(result[1][1] == 57);
 	*/
-	double initialPositionGeodeticLatitude = 47.500312805175781;
-	double initialPositionGeodeticLongitude = -122.21683502197266;
-	double initialAltitudeFeetAgl = 0;
+	float initialPositionGeodeticLatitude = 47.500312805175781;
+	float initialPositionGeodeticLongitude = -122.21683502197266;
+	float initialAltitudeFeetAgl = 0;
 	
 	
-	double ecefToLocalNEDRotationMatrix[3][3]= {};
+	float ecefToLocalNEDRotationMatrix[3][3]= {};
 	CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(initialPositionGeodeticLatitude, initialPositionGeodeticLongitude, ecefToLocalNEDRotationMatrix);
 	
 	
-	double ecefReferenceX = 0;
-	double ecefReferenceY = 0;
-	double ecefReferenceZ = 0;
+	float ecefReferenceX = 0;
+	float ecefReferenceY = 0;
+	float ecefReferenceZ = 0;
 	CoordinateUtil::ConvertFromGeodeticToECEF(initialPositionGeodeticLatitude, initialPositionGeodeticLongitude, initialAltitudeFeetAgl, ecefReferenceX, ecefReferenceY, ecefReferenceZ);
 	
 	
-	double geodedicLatitude = 47.5;
-	double geodedicLongitude = -122.2;
-	double altitudeFeetAgl = 100.1;
-	double ecefX = 0;
-	double ecefY = 0;
-	double ecefZ = 0;
+	float geodedicLatitude = 47.5;
+	float geodedicLongitude = -122.2;
+	float altitudeFeetAgl = 100.1;
+	float ecefX = 0;
+	float ecefY = 0;
+	float ecefZ = 0;
 	CoordinateUtil::ConvertFromGeodeticToECEF(geodedicLatitude, geodedicLongitude, altitudeFeetAgl, ecefX, ecefY, ecefZ);
 	
 
 	
 	
-	double localNEDX = 0;
-	double localNEDY = 0;
-	double localNEDZ = 0;
+	float localNEDX = 0;
+	float localNEDY = 0;
+	float localNEDZ = 0;
 	CoordinateUtil::ConvertFromECEFToLocalNED(ecefReferenceX, ecefReferenceY, ecefReferenceZ,ecefX,ecefY,ecefZ,ecefToLocalNEDRotationMatrix,localNEDX,localNEDY,localNEDZ);
 	
 	

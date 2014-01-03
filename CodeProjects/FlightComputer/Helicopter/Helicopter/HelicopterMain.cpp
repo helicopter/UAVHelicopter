@@ -145,10 +145,10 @@ int main(void)
 			//ecefReferenceX, ecefReferenceY, ecefReferenceZ,ecefToLocalNEDRotationMatrix,
 			CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(model->LatitudeDegrees(), model->LongitudeDegrees(), model->EcefToLocalNEDRotationMatrix);
 	
-			double initialXPositionEcef = 0;
-			double initialYPositionEcef = 0;
-			double initialZPositionEcef = 0;
-			CoordinateUtil::ConvertFromGeodeticToECEF(model->LatitudeDegrees(), model->LongitudeDegrees(), model->AltitudeFeet(), initialXPositionEcef, initialYPositionEcef, initialZPositionEcef);
+			float initialXPositionEcef = 0;
+			float initialYPositionEcef = 0;
+			float initialZPositionEcef = 0;
+			CoordinateUtil::ConvertFromGeodeticToECEF(model->LatitudeDegrees(), model->LongitudeDegrees(), model->AltitudeFeetAgl(), initialXPositionEcef, initialYPositionEcef, initialZPositionEcef);
 			
 			model->InitialXPositionEcef(initialXPositionEcef);
 			model->InitialYPositionEcef(initialYPositionEcef);
