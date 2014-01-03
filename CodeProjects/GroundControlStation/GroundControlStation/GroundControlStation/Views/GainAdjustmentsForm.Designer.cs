@@ -76,6 +76,22 @@
             this.tbZDerivativeGain = new System.Windows.Forms.TrackBar();
             this.label24 = new System.Windows.Forms.Label();
             this.tbZIntegralGain = new System.Windows.Forms.TrackBar();
+            this.txtYProportionalValue = new System.Windows.Forms.TextBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.txtYAntiWindupValue = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.txtYDerivativeValue = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.txtYIntegralValue = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.tbYProportionalGain = new System.Windows.Forms.TrackBar();
+            this.label30 = new System.Windows.Forms.Label();
+            this.tbYAntiWindupGain = new System.Windows.Forms.TrackBar();
+            this.label31 = new System.Windows.Forms.Label();
+            this.tbYDerivativeGain = new System.Windows.Forms.TrackBar();
+            this.label32 = new System.Windows.Forms.Label();
+            this.tbYIntegralGain = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.tbYawProportionalGain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbYawIntegralGain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbYawAntiWindupGain)).BeginInit();
@@ -88,6 +104,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.tbZAntiWindupGain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbZDerivativeGain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbZIntegralGain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbYProportionalGain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbYAntiWindupGain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbYDerivativeGain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbYIntegralGain)).BeginInit();
             this.SuspendLayout();
             // 
             // tbYawProportionalGain
@@ -502,12 +522,164 @@
             this.tbZIntegralGain.Size = new System.Drawing.Size(648, 45);
             this.tbZIntegralGain.TabIndex = 32;
             // 
+            // txtYProportionalValue
+            // 
+            this.txtYProportionalValue.Location = new System.Drawing.Point(956, 802);
+            this.txtYProportionalValue.Name = "txtYProportionalValue";
+            this.txtYProportionalValue.Size = new System.Drawing.Size(100, 20);
+            this.txtYProportionalValue.TabIndex = 63;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(916, 802);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(34, 13);
+            this.label25.TabIndex = 62;
+            this.label25.Text = "Value";
+            // 
+            // txtYAntiWindupValue
+            // 
+            this.txtYAntiWindupValue.Location = new System.Drawing.Point(956, 696);
+            this.txtYAntiWindupValue.Name = "txtYAntiWindupValue";
+            this.txtYAntiWindupValue.Size = new System.Drawing.Size(100, 20);
+            this.txtYAntiWindupValue.TabIndex = 61;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(916, 696);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(34, 13);
+            this.label26.TabIndex = 60;
+            this.label26.Text = "Value";
+            // 
+            // txtYDerivativeValue
+            // 
+            this.txtYDerivativeValue.Location = new System.Drawing.Point(956, 593);
+            this.txtYDerivativeValue.Name = "txtYDerivativeValue";
+            this.txtYDerivativeValue.Size = new System.Drawing.Size(100, 20);
+            this.txtYDerivativeValue.TabIndex = 59;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(916, 593);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(34, 13);
+            this.label27.TabIndex = 58;
+            this.label27.Text = "Value";
+            // 
+            // txtYIntegralValue
+            // 
+            this.txtYIntegralValue.Location = new System.Drawing.Point(956, 493);
+            this.txtYIntegralValue.Name = "txtYIntegralValue";
+            this.txtYIntegralValue.Size = new System.Drawing.Size(100, 20);
+            this.txtYIntegralValue.TabIndex = 57;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(916, 493);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(34, 13);
+            this.label28.TabIndex = 56;
+            this.label28.Text = "Value";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(971, 736);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(92, 13);
+            this.label29.TabIndex = 55;
+            this.label29.Text = "YProportionalGain";
+            // 
+            // tbYProportionalGain
+            // 
+            this.tbYProportionalGain.Location = new System.Drawing.Point(687, 765);
+            this.tbYProportionalGain.Maximum = 9000;
+            this.tbYProportionalGain.Minimum = -9000;
+            this.tbYProportionalGain.Name = "tbYProportionalGain";
+            this.tbYProportionalGain.Size = new System.Drawing.Size(648, 45);
+            this.tbYProportionalGain.TabIndex = 54;
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(971, 629);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(91, 13);
+            this.label30.TabIndex = 53;
+            this.label30.Text = "YAntiWindupGain";
+            // 
+            // tbYAntiWindupGain
+            // 
+            this.tbYAntiWindupGain.Location = new System.Drawing.Point(687, 658);
+            this.tbYAntiWindupGain.Maximum = 9000;
+            this.tbYAntiWindupGain.Minimum = -9000;
+            this.tbYAntiWindupGain.Name = "tbYAntiWindupGain";
+            this.tbYAntiWindupGain.Size = new System.Drawing.Size(648, 45);
+            this.tbYAntiWindupGain.TabIndex = 52;
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(971, 524);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(84, 13);
+            this.label31.TabIndex = 51;
+            this.label31.Text = "YDerivativeGain";
+            // 
+            // tbYDerivativeGain
+            // 
+            this.tbYDerivativeGain.Location = new System.Drawing.Point(687, 553);
+            this.tbYDerivativeGain.Maximum = 9000;
+            this.tbYDerivativeGain.Minimum = -9000;
+            this.tbYDerivativeGain.Name = "tbYDerivativeGain";
+            this.tbYDerivativeGain.Size = new System.Drawing.Size(648, 45);
+            this.tbYDerivativeGain.TabIndex = 50;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(971, 430);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(71, 13);
+            this.label32.TabIndex = 49;
+            this.label32.Text = "YIntegralGain";
+            // 
+            // tbYIntegralGain
+            // 
+            this.tbYIntegralGain.Location = new System.Drawing.Point(687, 459);
+            this.tbYIntegralGain.Maximum = 9000;
+            this.tbYIntegralGain.Minimum = -9000;
+            this.tbYIntegralGain.Name = "tbYIntegralGain";
+            this.tbYIntegralGain.Size = new System.Drawing.Size(648, 45);
+            this.tbYIntegralGain.TabIndex = 48;
+            // 
             // GainAdjustmentsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1504, 944);
             this.ControlBox = false;
+            this.Controls.Add(this.txtYProportionalValue);
+            this.Controls.Add(this.label25);
+            this.Controls.Add(this.txtYAntiWindupValue);
+            this.Controls.Add(this.label26);
+            this.Controls.Add(this.txtYDerivativeValue);
+            this.Controls.Add(this.label27);
+            this.Controls.Add(this.txtYIntegralValue);
+            this.Controls.Add(this.label28);
+            this.Controls.Add(this.label29);
+            this.Controls.Add(this.tbYProportionalGain);
+            this.Controls.Add(this.label30);
+            this.Controls.Add(this.tbYAntiWindupGain);
+            this.Controls.Add(this.label31);
+            this.Controls.Add(this.tbYDerivativeGain);
+            this.Controls.Add(this.label32);
+            this.Controls.Add(this.tbYIntegralGain);
             this.Controls.Add(this.txtZProportionalValue);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.txtZAntiWindupValue);
@@ -570,6 +742,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.tbZAntiWindupGain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbZDerivativeGain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbZIntegralGain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbYProportionalGain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbYAntiWindupGain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbYDerivativeGain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbYIntegralGain)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -625,6 +801,22 @@
         private System.Windows.Forms.TrackBar tbZDerivativeGain;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TrackBar tbZIntegralGain;
+        private System.Windows.Forms.TextBox txtYProportionalValue;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.TextBox txtYAntiWindupValue;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.TextBox txtYDerivativeValue;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.TextBox txtYIntegralValue;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.TrackBar tbYProportionalGain;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.TrackBar tbYAntiWindupGain;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.TrackBar tbYDerivativeGain;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.TrackBar tbYIntegralGain;
 
     }
 }

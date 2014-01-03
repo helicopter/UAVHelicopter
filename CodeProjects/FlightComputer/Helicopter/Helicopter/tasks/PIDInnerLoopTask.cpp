@@ -17,6 +17,6 @@ pidController(pidController)
 
 void PIDInnerLoopTask::runTaskImpl()
 {
-	//pidController->cyclicLateralInnerLoopUpdate();
+	pidController->cyclicLateralInnerLoopUpdate();
 	pidController->cyclicLongitudeInnerLoopUpdate();
 }

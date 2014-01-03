@@ -49,6 +49,7 @@ namespace GroundControlStation
             model.YawAntiWindupGain = 0.1f;
              * */
 
+            
             model.YawIntegralGain = .5f;
             model.YawProportionalGain = 1.8471f;
             model.YawDerivativeGain = model.YawProportionalGain * (0.09f);
@@ -57,14 +58,21 @@ namespace GroundControlStation
             model.XIntegralGain = 0.0f;
             model.XProportionalGain = .289f;
             model.XDerivativeGain = 1.859f;
-            model.XAntiWindupGain = 1.0f; //1 since there is no integral gain to anti-windup
+            model.XAntiWindupGain = 0.0f; 
             model.LongitudeInnerLoopGain = .031f;
+
+            model.YIntegralGain = 0.0f;
+            model.YProportionalGain = 1.437f;
+            model.YDerivativeGain = 2.8363f;
+            model.YAntiWindupGain = 0.0f; 
+            model.LateralInnerLoopGain = .092f;
 
 
             model.ZIntegralGain = .02f;
             model.ZProportionalGain = 1.901f;
             model.ZDerivativeGain = 1.141f;
             model.ZAntiWindupGain = .1f;
+             
 
             GroundControlStationController gcsController =
                 new GroundControlStationController(xInterface, fcInterface);

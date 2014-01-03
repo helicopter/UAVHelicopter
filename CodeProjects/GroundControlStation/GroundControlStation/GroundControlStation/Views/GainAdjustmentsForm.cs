@@ -46,6 +46,11 @@ namespace GroundControlStation.Views
             this.tbXIntegralGain.Value = (int)(controller.Model.XIntegralGain * 1000);
             this.tbXProportionalGain.Value = (int)(controller.Model.XProportionalGain * 1000);
 
+            this.tbYAntiWindupGain.Value = (int)(controller.Model.YAntiWindupGain * 1000);
+            this.tbYDerivativeGain.Value = (int)(controller.Model.YDerivativeGain * 1000);
+            this.tbYIntegralGain.Value = (int)(controller.Model.YIntegralGain * 1000);
+            this.tbYProportionalGain.Value = (int)(controller.Model.YProportionalGain * 1000);
+
             this.tbZAntiWindupGain.Value = (int)(controller.Model.ZAntiWindupGain * 1000);
             this.tbZDerivativeGain.Value = (int)(controller.Model.ZDerivativeGain * 1000);
             this.tbZIntegralGain.Value = (int)(controller.Model.ZIntegralGain * 1000);
@@ -61,6 +66,11 @@ namespace GroundControlStation.Views
             txtXDerivativeValue.Text = (tbXDerivativeGain.Value / 1000).ToString();
             txtXIntegralValue.Text = (tbXIntegralGain.Value / 1000).ToString();
             txtXProportionalValue.Text = (tbXProportionalGain.Value / 1000).ToString();
+
+            txtYAntiWindupValue.Text = (tbYAntiWindupGain.Value / 1000).ToString();
+            txtYDerivativeValue.Text = (tbYDerivativeGain.Value / 1000).ToString();
+            txtYIntegralValue.Text = (tbYIntegralGain.Value / 1000).ToString();
+            txtYProportionalValue.Text = (tbYProportionalGain.Value / 1000).ToString();
 
             txtZAntiWindupValue.Text = (tbZAntiWindupGain.Value / 1000).ToString();
             txtZDerivativeValue.Text = (tbZDerivativeGain.Value / 1000).ToString();
@@ -80,6 +90,11 @@ namespace GroundControlStation.Views
             this.tbXIntegralGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
             this.tbXProportionalGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
 
+            this.tbYAntiWindupGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+            this.tbYDerivativeGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+            this.tbYIntegralGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+            this.tbYProportionalGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+
             this.tbZAntiWindupGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
             this.tbZDerivativeGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
             this.tbZIntegralGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
@@ -97,6 +112,12 @@ namespace GroundControlStation.Views
             this.tbXDerivativeGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
             this.tbXIntegralGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
             this.tbXProportionalGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
+
+            this.tbYAntiWindupGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
+            this.tbYDerivativeGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
+            this.tbYIntegralGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
+            this.tbYProportionalGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
+
 
             this.tbZAntiWindupGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
             this.tbZDerivativeGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
@@ -166,6 +187,16 @@ namespace GroundControlStation.Views
             txtXIntegralValue.Text = (tbXIntegralGain.Value / 1000.0).ToString();
             txtXProportionalValue.Text = (tbXProportionalGain.Value / 1000.0).ToString();
 
+
+            Controller.Model.YDerivativeGain = (float)tbYDerivativeGain.Value / 1000;
+            Controller.Model.YIntegralGain = (float)tbYIntegralGain.Value / 1000;
+            Controller.Model.YProportionalGain = (float)tbYProportionalGain.Value / 1000;
+            Controller.Model.YAntiWindupGain = (float)tbYAntiWindupGain.Value / 1000;
+
+            txtYAntiWindupValue.Text = (tbYAntiWindupGain.Value / 1000.0).ToString();
+            txtYDerivativeValue.Text = (tbYDerivativeGain.Value / 1000.0).ToString();
+            txtYIntegralValue.Text = (tbYIntegralGain.Value / 1000.0).ToString();
+            txtYProportionalValue.Text = (tbYProportionalGain.Value / 1000.0).ToString();
 
             Controller.Model.ZDerivativeGain = (float)tbZDerivativeGain.Value / 1000;
             Controller.Model.ZIntegralGain = (float)tbZIntegralGain.Value / 1000;

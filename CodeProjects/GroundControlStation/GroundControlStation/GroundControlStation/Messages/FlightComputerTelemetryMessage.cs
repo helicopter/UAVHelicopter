@@ -472,6 +472,12 @@ namespace GroundControlStation.Messages
             msg.XAntiWindupGain = model.XAntiWindupGain;
             msg.LongitudeInnerLoopGain = model.LongitudeInnerLoopGain;
 
+            msg.YIntegralGain = model.YIntegralGain;
+            msg.YDerivativeGain = model.YDerivativeGain;
+            msg.YProportionalGain = model.YProportionalGain;
+            msg.YAntiWindupGain = model.YAntiWindupGain;
+            msg.LateralInnerLoopGain = model.LateralInnerLoopGain;
+
             msg.ZIntegralGain = model.ZIntegralGain;
             msg.ZDerivativeGain = model.ZDerivativeGain;
             msg.ZProportionalGain = model.ZProportionalGain;

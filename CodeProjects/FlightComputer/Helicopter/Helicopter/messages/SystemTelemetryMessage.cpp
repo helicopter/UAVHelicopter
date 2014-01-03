@@ -159,7 +159,6 @@ SystemTelemetryMessage* SystemTelemetryMessage::buildMessageSt(byte *message)
 
 SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemModel *model)
 {
-	//throw std::exception("The method or operation is not implemented.");
 	SystemTelemetryMessage *message = new SystemTelemetryMessage();
 	
 	message->MagYaw = model->MagYawDegrees();
@@ -193,6 +192,7 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 	message->ZProportional = model->ZProportional();
 	message->ZVelocityMetersPerSecond = (model->ZVelocityFeetPerSecond() / 3.2804f);
 	message->MainRotorCollectiveControl = model->MainRotorCollectiveControl();
+	
 	
 	
 	message->ChecksumErrors = model->ChecksumErrors();

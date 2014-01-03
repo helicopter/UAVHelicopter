@@ -138,9 +138,8 @@ namespace GroundControlStation.Controller
                          * from -1/1 to -10/10
                          * new_v = (new_max - new_min) / (old_max - old_min) * (v - old_min) + new_min
                          */
-                        float scaledYaw = (10 - -10) / (1 - -1) * (Model.YawControl - -1) + -10;
-
-                        Model.YawControl = scaledYaw;
+                        Model.YawControl = (10 - -10) / (1 - -1) * (Model.YawControl - -1) + -10;
+                        Model.MainRotorCollectiveControl = (10 - -10) / (1 - -1) * (Model.MainRotorCollectiveControl - -1) + -10;
 
                         //Transmit data to simulator
                         xplaneInterface.Transmit(Model);

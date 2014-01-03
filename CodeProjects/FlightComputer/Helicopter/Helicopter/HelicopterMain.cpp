@@ -32,9 +32,22 @@ using namespace helicopter::util;
 
 void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidController)
 {	
-	
-	model->ReferenceMagYawDegrees(0.0);
+	/**
+	 * Set reference position of the helicopter.
+	 * These are the setpoints that the helicopter to navigate/orient to.
+	 * This includes the final location that the helicopter should travel to.
+	 */
+	model->ReferenceMagYawDegrees(0.0); //point north
 	model->ReferenceYawVelocityDegreesPerSecond(0.0);
+	
+	//Negative values because positive values are 'down' in NED. So we want a negative altitude setpoint.
+	model->ReferenceAltitudeFeet(-100);
+	model->ReferenceZVelocityFeetPerSecond(0);
+	model->ReferenceXNEDBodyFrame(0);
+	model->ReferenceXVelocityMetersPerSecond(0);
+	model->ReferenceYNEDBodyFrame(0);
+	model->ReferenceYVelocityMetersPerSecond(0);
+	
 	
 	pidController->setYawProportionalGain(3.0);
 	pidController->setYawIntegralGain(.008);
@@ -46,6 +59,12 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	pidController->setXDerivativeGain(1.859);
 	pidController->setXAntiWindupGain(0);
 	pidController->setLongitudeInnerLoopGain(.031);
+	
+	pidController->setYProportionalGain(1.437);
+	pidController->setYIntegralGain(0);
+	pidController->setYDerivativeGain(2.8363);
+	pidController->setYAntiWindupGain(0);
+	pidController->setLateralInnerLoopGain(.092);	
 	
 	//TODO: Don't forget that there is a difference between how often the sensors
 	//are read and how often the control algorithm runs. 
@@ -60,15 +79,21 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 //pidController->setMaxYawServoControl(10);
 
 
-	pidController->setMinYawServoControl (-1.0d);
-	pidController->setMaxYawServoControl (1.0d);
-
 
 	pidController->setControlMaxValue(1.0d);
 	pidController->setControlMinValue(-1.0d);
 	
+	pidController->setMinYawServoControl (-1.0d);
+	pidController->setMaxYawServoControl (1.0d);
+	
 	pidController->setMaxLongitudeServoControlValue(1.0d);
 	pidController->setMinLongitudeServoControlValue(-1.0d);
+	
+	pidController->setMaxLateralServoControlValue(1.0d);
+	pidController->setMinLateralServoControlValue(-1.0d);
+	
+	pidController->setMaxMainRotorServoControlValue(1.0d);
+	pidController->setMinMainRotorServoControlValue(-1.0d);
 }
 
 

@@ -27,7 +27,7 @@ namespace helicopter
 				//The first eccentricity, used to convert lat/long to ecef
 				static const float E = 0.08181919;
 				
-				//The semi-major axis
+				//The semi-major axis: Radius of the earth in Meters.
 				static const float Rea = 6378137.0;
 				
 				/**
