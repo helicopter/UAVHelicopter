@@ -34,6 +34,13 @@ namespace GroundControlStation.Views
 
         public IGraphingView XControl { get; set; }
 
+        public IGraphingView YProportional { get; set; }
+
+        public IGraphingView YIntegral { get; set; }
+
+        public IGraphingView YDerivative { get; set; }
+
+        public IGraphingView YControl { get; set; }
 
         public IGraphingView GainAdjustments { get; set; }
 
@@ -62,6 +69,15 @@ namespace GroundControlStation.Views
             XDerivative = new GraphForm();
 
             XControl = new GraphForm();
+
+
+            YProportional = new GraphForm();
+
+            YIntegral = new GraphForm();
+
+            YDerivative = new GraphForm();
+
+            YControl = new GraphForm();
 
             GainAdjustmentsForm gainAdjustments = new GainAdjustmentsForm();
             gainAdjustments.Controller = controller;
@@ -133,6 +149,29 @@ namespace GroundControlStation.Views
             ToggleGraph(XControl);
         }
 
+
+        private void btnYProp_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(YProportional);
+        }
+
+        private void btnYInt_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(YIntegral);
+        }
+
+        private void btnYDer_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(YDerivative);
+        }
+
+        private void btnYCon_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(YControl);
+        }
+
+
+
         public void UpdateLatestValues(List<Tuple<String, String>> items)
         {
             if (this.InvokeRequired)
@@ -164,5 +203,6 @@ namespace GroundControlStation.Views
                 graph.ActivateView();
             }
         }
+
     }
 }

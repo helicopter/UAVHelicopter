@@ -137,9 +137,6 @@
     <Compile Include="mocks\MockSerialDriver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="mocks\MockServoDriver.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="util\testframework\TestCase.h">
       <SubType>compile</SubType>
     </Compile>

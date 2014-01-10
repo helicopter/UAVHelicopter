@@ -27,6 +27,8 @@ namespace GroundControlStation.Views
                 setInitialValues();
 
                 addListeners();
+
+                Refresh();
             }
             get
             {
@@ -56,6 +58,8 @@ namespace GroundControlStation.Views
             this.tbZIntegralGain.Value = (int)(controller.Model.ZIntegralGain * 1000);
             this.tbZProportionalGain.Value = (int)(controller.Model.ZProportionalGain * 1000);
 
+            this.tbLongitudeControlGain.Value = (int)(controller.Model.LongitudeInnerLoopGain * 1000);
+            this.tbLateralControlGain.Value = (int)(controller.Model.LateralInnerLoopGain * 1000);
 
             txtYawAntiWindupValue.Text = (tbYawAntiWindupGain.Value / 1000).ToString();
             txtYawDerivativeValue.Text = (tbYawDerivativeGain.Value / 1000).ToString();
@@ -76,6 +80,9 @@ namespace GroundControlStation.Views
             txtZDerivativeValue.Text = (tbZDerivativeGain.Value / 1000).ToString();
             txtZIntegralValue.Text = (tbZIntegralGain.Value / 1000).ToString();
             txtZProportionalValue.Text = (tbZProportionalGain.Value / 1000).ToString();
+
+            txtLongitudeControlGainValue.Text = (tbLongitudeControlGain.Value / 1000).ToString();
+            txtLateralControlGainValue.Text = (tbLateralControlGain.Value / 1000).ToString(); 
         }
 
         private void addListeners()
@@ -99,6 +106,9 @@ namespace GroundControlStation.Views
             this.tbZDerivativeGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
             this.tbZIntegralGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
             this.tbZProportionalGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+
+            this.tbLongitudeControlGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+            this.tbLateralControlGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
         }
 
         private void removeListeners()
@@ -123,6 +133,9 @@ namespace GroundControlStation.Views
             this.tbZDerivativeGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
             this.tbZIntegralGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
             this.tbZProportionalGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
+
+            this.tbLongitudeControlGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
+            this.tbLateralControlGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
         }
 
         public GainAdjustmentsForm()
@@ -207,6 +220,9 @@ namespace GroundControlStation.Views
             txtZDerivativeValue.Text = (tbZDerivativeGain.Value / 1000.0).ToString();
             txtZIntegralValue.Text = (tbZIntegralGain.Value / 1000.0).ToString();
             txtZProportionalValue.Text = (tbZProportionalGain.Value / 1000.0).ToString();
+
+            txtLongitudeControlGainValue.Text = (tbLongitudeControlGain.Value / 1000.0).ToString();
+            txtLateralControlGainValue.Text = (tbLateralControlGain.Value / 1000.0).ToString();
         }
     }
 }

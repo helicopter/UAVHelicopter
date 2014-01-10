@@ -217,12 +217,6 @@
     <Compile Include="drivers\SerialDriver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="drivers\ServoDriver.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="drivers\ServoDriver.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="HelicopterMain.cpp">
       <SubType>compile</SubType>
     </Compile>

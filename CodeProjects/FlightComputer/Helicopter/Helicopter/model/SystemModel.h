@@ -45,7 +45,7 @@ namespace helicopter
 			float longitudeControl;
 			float xVelocityMetersPerSecond;
 			float referenceXVelocityMetersPerSecond;
-			float xLongitudinalOuterLoopControl;
+			float xLongitudeOuterLoopSetpoint;
 			float xProportional;
 			float xIntegral;
 			float xDerivativeError;
@@ -60,7 +60,7 @@ namespace helicopter
 			float lateralControl;
 			float yVelocityMetersPerSecond;
 			float referenceYVelocityMetersPerSecond;
-			float yLateralOuterLoopControl;
+			float yLateralOuterLoopSetpoint;
 			float yProportional;
 			float yIntegral;
 			float yDerivativeError;
@@ -127,7 +127,7 @@ namespace helicopter
 				longitudeControl(0),
 				xVelocityMetersPerSecond(0),
 				referenceXVelocityMetersPerSecond(0),
-				xLongitudinalOuterLoopControl(0),
+				xLongitudeOuterLoopSetpoint(0),
 				xProportional(0),
 				xIntegral(0),
 				xDerivativeError(0),
@@ -139,7 +139,7 @@ namespace helicopter
 				lateralControl(0),
 				yVelocityMetersPerSecond(0),
 				referenceYVelocityMetersPerSecond(0),
-				yLateralOuterLoopControl(0),
+				yLateralOuterLoopSetpoint(0),
 				yProportional(0),
 				yIntegral(0),
 				yDerivativeError(0),
@@ -240,8 +240,8 @@ namespace helicopter
 			float ReferenceXVelocityMetersPerSecond() const {return referenceXVelocityMetersPerSecond;}
 			void ReferenceXVelocityMetersPerSecond(float val) { referenceXVelocityMetersPerSecond = val;}
 				
-			float XLongitudinalOuterLoopControl() const {return xLongitudinalOuterLoopControl;}
-			void XLongitudinalOuterLoopControl(float val) { xLongitudinalOuterLoopControl = val;}
+			float XLongitudeOuterLoopSetpoint() const {return xLongitudeOuterLoopSetpoint;}
+			void XLongitudeOuterLoopSetpoint(float val) { xLongitudeOuterLoopSetpoint = val;}
 				
 			float XProportional() const {return xProportional;}
 			void XProportional(float val) { xProportional = val;}
@@ -283,8 +283,8 @@ namespace helicopter
 			float ReferenceYVelocityMetersPerSecond() const {return referenceYVelocityMetersPerSecond;}
 			void ReferenceYVelocityMetersPerSecond(float val) { referenceYVelocityMetersPerSecond = val;}
 
-			float YLateralOuterLoopControl() const {return yLateralOuterLoopControl;}
-			void YLateralOuterLoopControl(float val) { yLateralOuterLoopControl = val;}
+			float YLateralOuterLoopSetpoint() const {return yLateralOuterLoopSetpoint;}
+			void YLateralOuterLoopSetpoint(float val) { yLateralOuterLoopSetpoint = val;}
 
 			float YProportional() const {return yProportional;}
 			void YProportional(float val) { yProportional = val;}
@@ -312,8 +312,8 @@ namespace helicopter
 			void ZNEDBodyFrame(float val) { zNEDBodyFrame = val; }
 
 
-			float ReferenceAltitudeFeet() const {return referenceAltitudeFeet;}
-			void ReferenceAltitudeFeet(float val) { referenceAltitudeFeet = val;}
+			float ReferenceZNEDBodyFrameFeet() const {return referenceAltitudeFeet;}
+			void ReferenceZNEDBodyFrameFeet(float val) { referenceAltitudeFeet = val;}
 
 
 			float MainRotorCollectiveControl() const {return mainRotorControl;}

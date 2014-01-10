@@ -7,11 +7,8 @@
 #include "PIDControllerTests.h"
 #include "PIDController.h"
 #include "UnitTestUtils.h"
-#include "ServoDriver.h"
-#include "MockServoDriver.h"
 
 using namespace helicopter::controller;
-using namespace helicopter::drivers;
 
 int calculatePID_test(TestCase *test)
 {
@@ -32,6 +29,8 @@ int calculatePID_test(TestCase *test)
 		
 		Tripplet integral = PIDController->calculateIntegral()
 		calculateYawIntegral(double yawProportionalDegrees, double oldYawIntegral, double yawAntiWindup)*/
+		
+		return 0;
 }
 
 int calculateYaw_test(TestCase *test)

@@ -44,7 +44,6 @@ SUBDIRS :=  \
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../buffer/BufferTests.cpp \
-../controllers/ServoDriverTests.cpp \
 ../controllers/PIDControllerTests.cpp \
 ../HelicopterUnitTests.cpp \
 ../mocks/MockMagnetometerDriver.cpp \
@@ -63,7 +62,6 @@ ASM_SRCS +=
 
 OBJS +=  \
 buffer/BufferTests.o \
-controllers/ServoDriverTests.o \
 controllers/PIDControllerTests.o \
 HelicopterUnitTests.o \
 mocks/MockMagnetometerDriver.o \
@@ -75,7 +73,6 @@ util/TimerTests.o
 
 OBJS_AS_ARGS +=  \
 buffer/BufferTests.o \
-controllers/ServoDriverTests.o \
 controllers/PIDControllerTests.o \
 HelicopterUnitTests.o \
 mocks/MockMagnetometerDriver.o \
@@ -87,7 +84,6 @@ util/TimerTests.o
 
 C_DEPS +=  \
 buffer/BufferTests.d \
-controllers/ServoDriverTests.d \
 controllers/PIDControllerTests.d \
 HelicopterUnitTests.d \
 mocks/MockMagnetometerDriver.d \
@@ -99,7 +95,6 @@ util/TimerTests.d
 
 C_DEPS_AS_ARGS +=  \
 buffer/BufferTests.d \
-controllers/ServoDriverTests.d \
 controllers/PIDControllerTests.d \
 HelicopterUnitTests.d \
 mocks/MockMagnetometerDriver.d \
@@ -121,8 +116,6 @@ LIB_DEP+=  \
 C:/Heli/GitRepository/UAVHelicopter/CodeProjects/FlightComputer/Helicopter/Helicopter/Debug/libHelicopter.a
 
 # AVR32/GNU C Compiler
-
-
 
 
 

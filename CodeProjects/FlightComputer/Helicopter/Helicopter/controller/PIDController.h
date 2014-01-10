@@ -10,10 +10,8 @@
 #define PIDCONTROLLER_H_
 
 #include "SystemModel.h"
-#include "ServoDriver.h"
 
 using namespace helicopter::model;
-using namespace helicopter::drivers;
 
 namespace helicopter
 {
@@ -32,9 +30,13 @@ namespace helicopter
 		class PIDController
 		{
 			private:
+			
+				static const float MIN_ROLL_SETPOINT_DEGREES = -10.0f;
+				static const float MAX_ROLL_SETPOINT_DEGREES = 10.0f;
+				static const float MIN_PITCH_SETPOINT_DEGREES = -10.0f;
+				static const float MAX_PITCH_SETPOINT_DEGREES = 10.0f;
+			
 				SystemModel *model;
-				
-				ServoDriver *servoDriver;
 				
 				float yawIntegralGain;
 				float yawDerivativeGain;
@@ -73,8 +75,10 @@ namespace helicopter
 				float controlMaxValue;
 				float controlMinValue;
 				
+				float adjustForSetpointLimits(float outerLoopControlSetpoint, float minSetpointLimitDegrees, float maxSetpointLimitDegrees);
+				
 			public:
-				PIDController (SystemModel *model, ServoDriver *servoDriver);
+				PIDController (SystemModel *model);
 					
 				~PIDController();
 				

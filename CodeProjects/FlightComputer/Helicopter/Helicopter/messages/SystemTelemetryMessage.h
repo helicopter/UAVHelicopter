@@ -53,7 +53,7 @@ namespace helicopter
 				float XProportionalGain;
 				float XAntiWindupGain;
 				float LongitudeInnerLoopGain;
-				
+				float XLongitudeOuterLoopSetpoint;
 				
 				float YNEDBodyFrame;
 				float YVelocityMetersPerSecond;
@@ -67,7 +67,7 @@ namespace helicopter
 				float YProportionalGain;
 				float YAntiWindupGain;
 				float LateralInnerLoopGain;
-				
+				float YLateralOuterLoopSetpoint;
 
 
 				float AltitudeFeetAgl;
@@ -80,6 +80,7 @@ namespace helicopter
 				float ZDerivativeGain;
 				float ZProportionalGain;
 				float ZAntiWindupGain;
+				float ZNEDBodyFrame;
 										
 				float LatitudeDegrees;
 				float LongitudeDegrees;								
@@ -128,6 +129,7 @@ namespace helicopter
 				sizeof(XProportionalGain) +
 				sizeof(XAntiWindupGain) +
 				sizeof(LongitudeInnerLoopGain) +
+				sizeof(XLongitudeOuterLoopSetpoint) +
 				
 				
 				sizeof(YNEDBodyFrame) +
@@ -142,6 +144,7 @@ namespace helicopter
 				sizeof(YProportionalGain) +
 				sizeof(YAntiWindupGain) +
 				sizeof(LateralInnerLoopGain) +
+				sizeof(YLateralOuterLoopSetpoint)+
 								
 				sizeof(AltitudeFeetAgl) +
 				sizeof(ZVelocityMetersPerSecond) +
@@ -153,6 +156,7 @@ namespace helicopter
 				sizeof(ZDerivativeGain) +
 				sizeof(ZProportionalGain) +
 				sizeof(ZAntiWindupGain) +
+				sizeof(ZNEDBodyFrame) + 
 				
 				sizeof(LatitudeDegrees) +
 				sizeof(LongitudeDegrees) +
@@ -190,6 +194,7 @@ namespace helicopter
 					XProportionalGain(0),
 					XAntiWindupGain(0),
 					LongitudeInnerLoopGain(0),
+					XLongitudeOuterLoopSetpoint(0),
 					
 					YNEDBodyFrame(0),
 					YVelocityMetersPerSecond(0),
@@ -203,6 +208,7 @@ namespace helicopter
 					YProportionalGain(0),
 					YAntiWindupGain(0),
 					LateralInnerLoopGain(0),
+					YLateralOuterLoopSetpoint(0),
 					
 					AltitudeFeetAgl(0),
 					ZVelocityMetersPerSecond(0),
@@ -214,6 +220,7 @@ namespace helicopter
 					ZDerivativeGain(0),
 					ZProportionalGain(0),
 					ZAntiWindupGain(0),
+					ZNEDBodyFrame(0),
 					
 					LatitudeDegrees(0),
 					LongitudeDegrees(0),

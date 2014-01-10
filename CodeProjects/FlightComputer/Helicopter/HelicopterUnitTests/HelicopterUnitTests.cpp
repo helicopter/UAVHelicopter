@@ -13,7 +13,6 @@
 #include "GroundControlStationUnitTests.h"
 #include "TimerTests.h"
 #include "PIDControllerTests.h"
-#include "ServoDriverTests.h"
 #include "CoordinateUtilTests.h"
 
 #include <stdio.h>

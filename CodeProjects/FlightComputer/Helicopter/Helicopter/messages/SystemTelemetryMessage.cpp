@@ -43,6 +43,7 @@ byte *SystemTelemetryMessage::getBytes()
 	encode (msgPtr, XProportionalGain);
 	encode (msgPtr, XAntiWindupGain);	
 	encode (msgPtr, LongitudeInnerLoopGain);	
+	encode (msgPtr, XLongitudeOuterLoopSetpoint);
 	
 	encode (msgPtr, YNEDBodyFrame);
 	encode (msgPtr, YVelocityMetersPerSecond);
@@ -56,6 +57,7 @@ byte *SystemTelemetryMessage::getBytes()
 	encode (msgPtr, YProportionalGain);
 	encode (msgPtr, YAntiWindupGain);
 	encode (msgPtr, LateralInnerLoopGain);	
+	encode (msgPtr, YLateralOuterLoopSetpoint);
 	
 	
 
@@ -69,6 +71,7 @@ byte *SystemTelemetryMessage::getBytes()
 	encode (msgPtr, ZDerivativeGain);
 	encode (msgPtr, ZProportionalGain);
 	encode (msgPtr, ZAntiWindupGain);
+	encode (msgPtr, ZNEDBodyFrame);
 		
 	
 	encode(msgPtr, LatitudeDegrees);
@@ -113,6 +116,7 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		decode (message, XProportionalGain);
 		decode (message, XAntiWindupGain);
 		decode (message, LongitudeInnerLoopGain);
+		decode (message, XLongitudeOuterLoopSetpoint);
 
 		decode (message, YNEDBodyFrame);
 		decode (message, YVelocityMetersPerSecond);
@@ -126,6 +130,7 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		decode (message, YProportionalGain);
 		decode (message, YAntiWindupGain);
 		decode (message, LateralInnerLoopGain);
+		decode (message, YLateralOuterLoopSetpoint);
 
 		decode (message, AltitudeFeetAgl);
 		decode (message, ZVelocityMetersPerSecond);
@@ -137,6 +142,7 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		decode (message, ZDerivativeGain);
 		decode (message, ZProportionalGain);
 		decode (message, ZAntiWindupGain);
+		decode (message, ZNEDBodyFrame);
 		
 	
 		decode (message, LatitudeDegrees);
@@ -169,20 +175,24 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 	message->YawControl = model->YawControl();
 	
 
+	message->ThetaPitchDegrees = model->ThetaPitchDegrees();
 	message->XNEDBodyFrame = model->XNEDBodyFrame();
 	message->XDerivativeError = model->XDerivativeError();
 	message->XIntegral = model->XIntegral();
 	message->XProportional = model->XProportional();
 	message->XVelocityMetersPerSecond = model->XVelocityMetersPerSecond();
 	message->LongitudeControl = model->LongitudeControl();
+	message->XLongitudeOuterLoopSetpoint = model->XLongitudeOuterLoopSetpoint();
+
 	
-	
+	message->PhiRollDegrees = model->PhiRollDegrees();
 	message->YNEDBodyFrame = model->YNEDBodyFrame();
 	message->YDerivativeError = model->YDerivativeError();
 	message->YIntegral = model->YIntegral();
 	message->YProportional = model->YProportional();
 	message->YVelocityMetersPerSecond = model->YVelocityMetersPerSecond();
 	message->LateralControl = model->LateralControl();
+	message->YLateralOuterLoopSetpoint = model->YLateralOuterLoopSetpoint();
 	
 	
 	
@@ -192,6 +202,7 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 	message->ZProportional = model->ZProportional();
 	message->ZVelocityMetersPerSecond = (model->ZVelocityFeetPerSecond() / 3.2804f);
 	message->MainRotorCollectiveControl = model->MainRotorCollectiveControl();
+	message->ZNEDBodyFrame = model->ZNEDBodyFrame();
 	
 	
 	

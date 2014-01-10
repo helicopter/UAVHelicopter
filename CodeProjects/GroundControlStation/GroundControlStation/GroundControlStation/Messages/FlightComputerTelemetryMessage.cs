@@ -50,6 +50,7 @@ namespace GroundControlStation.Messages
         public float XProportionalGain;
         public float XAntiWindupGain;
         public float LongitudeInnerLoopGain;
+        public float XLongitudeOuterLoopSetpoint;
 
         public float YNEDBodyFrame;
         public float YVelocityMetersPerSecond;
@@ -63,8 +64,7 @@ namespace GroundControlStation.Messages
         public float YProportionalGain;
         public float YAntiWindupGain;
         public float LateralInnerLoopGain;
-
-
+        public float YLateralOuterLoopSetpoint;
 
         public float AltitudeFeetAgl;
         public float ZVelocityMetersPerSecond;
@@ -76,27 +76,10 @@ namespace GroundControlStation.Messages
         public float ZDerivativeGain;
         public float ZProportionalGain;
         public float ZAntiWindupGain;
+        public float ZNEDBodyFrame;
 
         public float LatitudeDegrees;
         public float LongitudeDegrees;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         public int Timeouts;
@@ -151,7 +134,10 @@ namespace GroundControlStation.Messages
             sizeof(float) +
             sizeof(float) +
             sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
 
+            sizeof(float) +
             sizeof(float) +
             sizeof(float) +
             sizeof(float) +
@@ -220,7 +206,7 @@ namespace GroundControlStation.Messages
             XProportionalGain = decodeFloat(byteBuffer, ref positionCounter);
             XAntiWindupGain = decodeFloat(byteBuffer, ref positionCounter);
             LongitudeInnerLoopGain = decodeFloat(byteBuffer, ref positionCounter);
-
+            XLongitudeOuterLoopSetpoint = decodeFloat(byteBuffer, ref positionCounter);
 
 
             YNEDBodyFrame = decodeFloat(byteBuffer, ref positionCounter);
@@ -235,7 +221,7 @@ namespace GroundControlStation.Messages
             YProportionalGain = decodeFloat(byteBuffer, ref positionCounter);
             YAntiWindupGain = decodeFloat(byteBuffer, ref positionCounter);
             LateralInnerLoopGain = decodeFloat(byteBuffer, ref positionCounter);
-
+            YLateralOuterLoopSetpoint = decodeFloat(byteBuffer, ref positionCounter);
 
 
             AltitudeFeetAgl = decodeFloat(byteBuffer, ref positionCounter);
@@ -248,6 +234,7 @@ namespace GroundControlStation.Messages
             ZDerivativeGain = decodeFloat(byteBuffer, ref positionCounter);
             ZProportionalGain = decodeFloat(byteBuffer, ref positionCounter);
             ZAntiWindupGain = decodeFloat(byteBuffer, ref positionCounter);
+            ZNEDBodyFrame = decodeFloat(byteBuffer, ref positionCounter);
 
             LatitudeDegrees = decodeFloat(byteBuffer, ref positionCounter);
             LongitudeDegrees = decodeFloat(byteBuffer, ref positionCounter);
@@ -294,6 +281,7 @@ namespace GroundControlStation.Messages
             encode(ref rawMsg, XProportionalGain, ref positionCounter);
             encode(ref rawMsg, XAntiWindupGain, ref positionCounter);
             encode(ref rawMsg, LongitudeInnerLoopGain, ref positionCounter);
+            encode(ref rawMsg, XLongitudeOuterLoopSetpoint, ref positionCounter);
 
             encode(ref rawMsg, YNEDBodyFrame, ref positionCounter);
             encode(ref rawMsg, YVelocityMetersPerSecond, ref positionCounter);
@@ -307,7 +295,7 @@ namespace GroundControlStation.Messages
             encode(ref rawMsg, YProportionalGain, ref positionCounter);
             encode(ref rawMsg, YAntiWindupGain, ref positionCounter);
             encode(ref rawMsg, LateralInnerLoopGain, ref positionCounter);
-
+            encode(ref rawMsg, YLateralOuterLoopSetpoint, ref positionCounter);
 
 
 
@@ -321,6 +309,7 @@ namespace GroundControlStation.Messages
             encode(ref rawMsg, ZDerivativeGain, ref positionCounter);
             encode(ref rawMsg, ZProportionalGain, ref positionCounter);
             encode(ref rawMsg, ZAntiWindupGain, ref positionCounter);
+            encode(ref rawMsg, ZNEDBodyFrame, ref positionCounter);
 
             encode(ref rawMsg, LatitudeDegrees, ref positionCounter);
             encode(ref rawMsg, LongitudeDegrees, ref positionCounter);
@@ -411,6 +400,7 @@ namespace GroundControlStation.Messages
             model.XProportional = XProportional;
             model.XDerivativeError = XDerivativeError;
             model.LongitudeControl = LongitudeControl;
+            model.XLongitudeOuterLoopSetpoint = XLongitudeOuterLoopSetpoint;
             //model.XIntegralGain = XIntegralGain;
             //model.XDerivativeGain = XDerivativeGain;
             //model.XProportionalGain = XProportionalGain;
@@ -424,6 +414,7 @@ namespace GroundControlStation.Messages
             model.YProportional = YProportional;
             model.YDerivativeError = YDerivativeError;
             model.LateralControl = LateralControl;
+            model.YLateralOuterLoopSetpoint = YLateralOuterLoopSetpoint;
             //model.YIntegralGain = YIntegralGain;
             //model.YDerivativeGain = YDerivativeGain;
             //model.YProportionalGain = YProportionalGain;
@@ -432,12 +423,13 @@ namespace GroundControlStation.Messages
 
 
 
-            model.AltitudeFeet = AltitudeFeetAgl;
+            model.AltitudeFeetAgl = AltitudeFeetAgl;
             model.ZVelocityFeetPerSecond = ZVelocityMetersPerSecond;
             model.ZIntegral = ZIntegral;
             model.ZProportional = ZProportional;
             model.ZDerivativeError = ZDerivativeError;
             model.MainRotorCollectiveControl = MainRotorCollectiveControl;
+            model.ZNEDBodyFrame = ZNEDBodyFrame;
             //model.ZIntegralGain = ZIntegralGain;
             //model.ZDerivativeGain = ZDerivativeGain;
             //model.ZProportionalGain = ZProportionalGain;
@@ -464,8 +456,6 @@ namespace GroundControlStation.Messages
             msg.YawProportionalGain = model.YawProportionalGain;
             msg.YawAntiWindupGain = model.YawAntiWindupGain;
 
-
-
             msg.XIntegralGain = model.XIntegralGain;
             msg.XDerivativeGain = model.XDerivativeGain;
             msg.XProportionalGain = model.XProportionalGain;
@@ -483,7 +473,6 @@ namespace GroundControlStation.Messages
             msg.ZProportionalGain = model.ZProportionalGain;
             msg.ZAntiWindupGain = model.ZAntiWindupGain;
 
-
             msg.LatitudeDegrees = model.SimTelm.LatitudeDegrees;
             msg.LongitudeDegrees = model.SimTelm.LongitudeDegrees;
             msg.AltitudeFeetAgl = model.SimTelm.ZAltitudeFtAgl;
@@ -491,6 +480,9 @@ namespace GroundControlStation.Messages
             msg.XVelocityMetersPerSecond = model.SimTelm.XVelocityNEDFrameMs;
             msg.YVelocityMetersPerSecond = model.SimTelm.YVelocityNEDFrameMs;
             msg.ZVelocityMetersPerSecond = model.SimTelm.ZVelocityNEDFrameMs;
+
+            msg.ThetaPitchDegrees = model.SimTelm.PitchDegrees;
+            msg.PhiRollDegrees = model.SimTelm.RollDegrees;
 
             return msg;
         }

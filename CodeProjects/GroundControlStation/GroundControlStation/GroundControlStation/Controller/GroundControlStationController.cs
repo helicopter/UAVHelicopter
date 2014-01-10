@@ -9,11 +9,15 @@ using GroundControlStation.Interfaces;
 using GroundControlStation.Model;
 using GroundControlStation.Views;
 using GroundControlStation.Messages;
+using System.IO;
+using GroundControlStation.Util;
 
 namespace GroundControlStation.Controller
 {
     public class GroundControlStationController
     {
+        private const String LogFilePath = @"C:\Heli\GitRepository\UAVHelicopter\CodeProjects\GroundControlStation\logs";
+
         private bool isSimThreadRunning = false;
 
         private bool isFlightComputerThreadRunning = false;
@@ -25,6 +29,10 @@ namespace GroundControlStation.Controller
         private Thread simThread;
 
         private Thread flightComputerThread;
+
+        private StreamWriter flightComputerFileLogger;
+
+        private StreamWriter simulatorFileLogger;
 
         public GroundControlStationModel Model { get; set; }
 
@@ -38,6 +46,12 @@ namespace GroundControlStation.Controller
 
             simThread = new Thread(new ThreadStart(BeginSimPolling));
             flightComputerThread = new Thread(new ThreadStart(BeginFlightComputerPolling));
+
+            flightComputerFileLogger = new StreamWriter(Path.Combine(LogFilePath, "FlightComputerLog" + DateTime.Now.ToString("_MM_dd_yyyy_hhmmss") + ".csv"));
+            flightComputerFileLogger.WriteLine(LoggingUtil.ToCsvHeader(",", new FlightComputerTelemetryMessage()));
+
+            simulatorFileLogger = new StreamWriter(Path.Combine(LogFilePath, "SimulatorLog" + DateTime.Now.ToString("_MM_dd_yyyy_hhmmss") + ".csv"));
+            simulatorFileLogger.WriteLine(LoggingUtil.ToCsvHeader(",", new FlightComputerTelemetryMessage()));
         }
 
 
@@ -58,6 +72,11 @@ namespace GroundControlStation.Controller
             UpdateView(View.XIntegral, Model.XIntegral);
             UpdateView(View.XDerivative, Model.XDerivativeError);
             UpdateView(View.XControl, Model.LongitudeControl);
+
+            UpdateView(View.YProportional, Model.YProportional);
+            UpdateView(View.YIntegral, Model.YIntegral);
+            UpdateView(View.YDerivative, Model.YDerivativeError);
+            UpdateView(View.YControl, Model.LateralControl);
 
             UpdateLatestValues();
         }
@@ -110,6 +129,7 @@ namespace GroundControlStation.Controller
             while (isSimThreadRunning)
             {
                 Model.SimTelm = xplaneInterface.Receive();
+                simulatorFileLogger.WriteLine(LoggingUtil.ToCsv(",", Model.SimTelm));
             }
         }
 
@@ -140,9 +160,15 @@ namespace GroundControlStation.Controller
                          */
                         Model.YawControl = (10 - -10) / (1 - -1) * (Model.YawControl - -1) + -10;
                         Model.MainRotorCollectiveControl = (10 - -10) / (1 - -1) * (Model.MainRotorCollectiveControl - -1) + -10;
+                        if (Model.LateralControl > .8) Model.LateralControl = .8f;
+                        if (Model.LateralControl < -.8) Model.LateralControl = -.8f;
+                        if (Model.LongitudeControl > .8) Model.LongitudeControl = .8f;
+                        if (Model.LongitudeControl < -.8) Model.LongitudeControl = -.8f;
 
                         //Transmit data to simulator
                         xplaneInterface.Transmit(Model);
+
+                        flightComputerFileLogger.WriteLine(LoggingUtil.ToCsv(",", telem));
                     }
                     else if (msg.MsgType == SyncMessage.MessageType)
                     {

@@ -108,7 +108,7 @@ namespace HelicopterIntegrationTests
                 Assert.IsTrue(model.YawVelocityDegreesPerSecond == 2.22f);
 
 
-                Assert.IsTrue(model.AltitudeFeet == 2.22f);
+                Assert.IsTrue(model.AltitudeFeetAgl == 2.22f);
                 Assert.IsTrue(model.LateralControl == 2.22f);
                 Assert.IsTrue(model.MainRotorCollectiveControl == 2.22f);
 

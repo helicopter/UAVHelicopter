@@ -13,7 +13,6 @@
 #include "SimTelemetryTask.h"
 #include "TransmitTelemetryTask.h"
 #include "PIDController.h"
-#include "ServoDriver.h"
 #include "PIDOuterLoopTask.h"
 #include "PIDInnerLoopTask.h"
 #include "SensorProcessingTask.h"
@@ -41,7 +40,7 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	model->ReferenceYawVelocityDegreesPerSecond(0.0);
 	
 	//Negative values because positive values are 'down' in NED. So we want a negative altitude setpoint.
-	model->ReferenceAltitudeFeet(-100);
+	model->ReferenceZNEDBodyFrameFeet(-100);
 	model->ReferenceZVelocityFeetPerSecond(0);
 	model->ReferenceXNEDBodyFrame(0);
 	model->ReferenceXVelocityMetersPerSecond(0);
@@ -101,12 +100,7 @@ int main(void)
 {	
 	SystemModel *model = new SystemModel();
 	
-	
-	//TODO: This somehow needs to be a simulator servo driver
-	//TODO: Setup the code so that it can be setup for a simulator or not setup for a simulator.
-	ServoDriver *servoDriver = new ServoDriver();
-	
-	PIDController *pidController = new PIDController(model, servoDriver);
+	PIDController *pidController = new PIDController(model);
 	
 	
 	

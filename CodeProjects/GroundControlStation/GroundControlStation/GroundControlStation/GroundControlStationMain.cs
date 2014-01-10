@@ -67,10 +67,16 @@ namespace GroundControlStation
             model.YAntiWindupGain = 0.0f; 
             model.LateralInnerLoopGain = .092f;
 
-
+            /*
             model.ZIntegralGain = .02f;
             model.ZProportionalGain = 1.901f;
             model.ZDerivativeGain = 1.141f;
+            model.ZAntiWindupGain = .1f;
+             */
+
+            model.ZIntegralGain = .02f;
+            model.ZProportionalGain = 0.05901f;
+            model.ZDerivativeGain = .01141f;
             model.ZAntiWindupGain = .1f;
              
 

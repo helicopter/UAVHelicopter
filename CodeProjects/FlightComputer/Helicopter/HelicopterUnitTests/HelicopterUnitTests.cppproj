@@ -210,12 +210,6 @@
     <Compile Include="buffer\BufferTests.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="controllers\ServoDriverTests.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="controllers\ServoDriverTests.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="controllers\PIDControllerTests.cpp">
       <SubType>compile</SubType>
     </Compile>

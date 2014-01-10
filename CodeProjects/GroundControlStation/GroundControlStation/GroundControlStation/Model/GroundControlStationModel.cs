@@ -91,7 +91,7 @@ namespace GroundControlStation.Model
 
         public float LateralInnerLoopGain { get; set; }
 
-        public float AltitudeFeet { get; set; }
+        public float AltitudeFeetAgl { get; set; }
 
         public float ZVelocityFeetPerSecond { get; set; }
 
@@ -110,6 +110,13 @@ namespace GroundControlStation.Model
         public float ZProportionalGain { get; set; }
 
         public float ZAntiWindupGain { get; set; }
+
+        public float ZNEDBodyFrame { get; set; }
+
+
+        public float XLongitudeOuterLoopSetpoint { get; set; }
+
+        public float YLateralOuterLoopSetpoint { get; set; }
 
 
         public SimulatorTelemetry SimTelm { get; set; }
@@ -136,6 +143,22 @@ namespace GroundControlStation.Model
 
             lstValues.Add(new Tuple<string, string>("FC Yaw Control", YawControl.ToString()));
 
+            
+
+
+            lstValues.Add(new Tuple<string, string>("FC Y Deriv", YDerivativeError.ToString()));
+            lstValues.Add(new Tuple<string, string>("FC Y Prop", YProportional.ToString()));
+            lstValues.Add(new Tuple<string, string>("FC Y Control", LateralControl.ToString()));
+
+            lstValues.Add(new Tuple<string, string>("FC XOuterLoopSetpoint", XLongitudeOuterLoopSetpoint.ToString()));
+            lstValues.Add(new Tuple<string, string>("FC YOuterLoopSetpoint", YLateralOuterLoopSetpoint.ToString()));
+
+            lstValues.Add(new Tuple<string, string>("FC XNED", XNEDBodyFrame.ToString()));
+
+            lstValues.Add(new Tuple<string, string>("FC YNED", YNEDBodyFrame.ToString()));
+
+            lstValues.Add(new Tuple<string, string>("FC ZNED", AltitudeFeetAgl.ToString()));
+
             lstValues.Add(new Tuple<string, string>("FC Timeouts", Timeouts.ToString()));
 
             lstValues.Add(new Tuple<string, string>("FC UnrecognizedMsgTypes", UnrecognizedMsgTypes.ToString()));
@@ -144,10 +167,11 @@ namespace GroundControlStation.Model
 
             lstValues.Add(new Tuple<string, string>("FC NumOfBlownFrames", NumOfBlownFrames.ToString()));
 
+            
+
 
             return lstValues;
         }
-
 
     }
 }

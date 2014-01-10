@@ -92,6 +92,12 @@
             this.tbYDerivativeGain = new System.Windows.Forms.TrackBar();
             this.label32 = new System.Windows.Forms.Label();
             this.tbYIntegralGain = new System.Windows.Forms.TrackBar();
+            this.txtLateralControlGainValue = new System.Windows.Forms.TextBox();
+            this.txtLongitudeControlGainValue = new System.Windows.Forms.TextBox();
+            this.label33 = new System.Windows.Forms.Label();
+            this.tbLateralControlGain = new System.Windows.Forms.TrackBar();
+            this.label34 = new System.Windows.Forms.Label();
+            this.tbLongitudeControlGain = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.tbYawProportionalGain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbYawIntegralGain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbYawAntiWindupGain)).BeginInit();
@@ -108,6 +114,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.tbYAntiWindupGain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbYDerivativeGain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbYIntegralGain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbLateralControlGain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbLongitudeControlGain)).BeginInit();
             this.SuspendLayout();
             // 
             // tbYawProportionalGain
@@ -658,12 +666,68 @@
             this.tbYIntegralGain.Size = new System.Drawing.Size(648, 45);
             this.tbYIntegralGain.TabIndex = 48;
             // 
+            // txtLateralControlGainValue
+            // 
+            this.txtLateralControlGainValue.Location = new System.Drawing.Point(956, 999);
+            this.txtLateralControlGainValue.Name = "txtLateralControlGainValue";
+            this.txtLateralControlGainValue.Size = new System.Drawing.Size(100, 20);
+            this.txtLateralControlGainValue.TabIndex = 69;
+            // 
+            // txtLongitudeControlGainValue
+            // 
+            this.txtLongitudeControlGainValue.Location = new System.Drawing.Point(956, 897);
+            this.txtLongitudeControlGainValue.Name = "txtLongitudeControlGainValue";
+            this.txtLongitudeControlGainValue.Size = new System.Drawing.Size(100, 20);
+            this.txtLongitudeControlGainValue.TabIndex = 68;
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(971, 937);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(94, 13);
+            this.label33.TabIndex = 67;
+            this.label33.Text = "LateralControlGain";
+            // 
+            // tbLateralControlGain
+            // 
+            this.tbLateralControlGain.Location = new System.Drawing.Point(687, 966);
+            this.tbLateralControlGain.Maximum = 9000;
+            this.tbLateralControlGain.Minimum = -9000;
+            this.tbLateralControlGain.Name = "tbLateralControlGain";
+            this.tbLateralControlGain.Size = new System.Drawing.Size(648, 45);
+            this.tbLateralControlGain.TabIndex = 66;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(971, 830);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(109, 13);
+            this.label34.TabIndex = 65;
+            this.label34.Text = "LongitudeControlGain";
+            // 
+            // tbLongitudeControlGain
+            // 
+            this.tbLongitudeControlGain.Location = new System.Drawing.Point(687, 859);
+            this.tbLongitudeControlGain.Maximum = 9000;
+            this.tbLongitudeControlGain.Minimum = -9000;
+            this.tbLongitudeControlGain.Name = "tbLongitudeControlGain";
+            this.tbLongitudeControlGain.Size = new System.Drawing.Size(648, 45);
+            this.tbLongitudeControlGain.TabIndex = 64;
+            // 
             // GainAdjustmentsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1504, 944);
+            this.ClientSize = new System.Drawing.Size(1504, 1037);
             this.ControlBox = false;
+            this.Controls.Add(this.txtLateralControlGainValue);
+            this.Controls.Add(this.txtLongitudeControlGainValue);
+            this.Controls.Add(this.label33);
+            this.Controls.Add(this.tbLateralControlGain);
+            this.Controls.Add(this.label34);
+            this.Controls.Add(this.tbLongitudeControlGain);
             this.Controls.Add(this.txtYProportionalValue);
             this.Controls.Add(this.label25);
             this.Controls.Add(this.txtYAntiWindupValue);
@@ -746,6 +810,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.tbYAntiWindupGain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbYDerivativeGain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbYIntegralGain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbLateralControlGain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbLongitudeControlGain)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -817,6 +883,12 @@
         private System.Windows.Forms.TrackBar tbYDerivativeGain;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.TrackBar tbYIntegralGain;
+        private System.Windows.Forms.TextBox txtLateralControlGainValue;
+        private System.Windows.Forms.TextBox txtLongitudeControlGainValue;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.TrackBar tbLateralControlGain;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.TrackBar tbLongitudeControlGain;
 
     }
 }
