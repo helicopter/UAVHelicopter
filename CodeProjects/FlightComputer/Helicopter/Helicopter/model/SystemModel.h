@@ -50,6 +50,7 @@ namespace helicopter
 			float xIntegral;
 			float xDerivativeError;
 			float thetaPitchDegrees;
+			float pitchAngularVelocityRadsPerSecond;
 			
 			/**
 			 * These variables are used for controlling the lateral action (cyclic roll motion)
@@ -65,6 +66,7 @@ namespace helicopter
 			float yIntegral;
 			float yDerivativeError;
 			float phiRollDegrees;
+			float rollAngularVelocityRadsPerSecond;
 			
 			/**
 			 * These variables are used for controlling heave action (collective altitude motion)
@@ -132,6 +134,7 @@ namespace helicopter
 				xIntegral(0),
 				xDerivativeError(0),
 				thetaPitchDegrees(0),
+				pitchAngularVelocityRadsPerSecond(0),
 			
 				yNEDBodyFrame(0),
 				referenceYNEDBodyFrame(0),
@@ -144,6 +147,7 @@ namespace helicopter
 				yIntegral(0),
 				yDerivativeError(0),
 				phiRollDegrees(0),
+				rollAngularVelocityRadsPerSecond(0),
 			
 			
 				altitudeFeetAgl(0),
@@ -256,7 +260,8 @@ namespace helicopter
 			float ThetaPitchDegrees() const {return thetaPitchDegrees;}
 			void ThetaPitchDegrees(float val) {thetaPitchDegrees = val;}
 		
-		
+			float PitchAngularVelocityRadsPerSecond() const {return pitchAngularVelocityRadsPerSecond;}
+			void PitchAngularVelocityRadsPerSecond(float val) {pitchAngularVelocityRadsPerSecond = val;}
 		
 						
 						
@@ -299,6 +304,8 @@ namespace helicopter
 			float PhiRollDegrees() const {return phiRollDegrees;}
 			void PhiRollDegrees(float val) {phiRollDegrees = val;}
 
+			float RollAngularVelocityRadsPerSecond() const {return rollAngularVelocityRadsPerSecond;}
+			void RollAngularVelocityRadsPerSecond(float val) {rollAngularVelocityRadsPerSecond = val;}
 
 						
 						

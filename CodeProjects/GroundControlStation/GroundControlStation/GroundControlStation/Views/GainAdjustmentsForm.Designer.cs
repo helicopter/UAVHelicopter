@@ -98,6 +98,12 @@
             this.tbLateralControlGain = new System.Windows.Forms.TrackBar();
             this.label34 = new System.Windows.Forms.Label();
             this.tbLongitudeControlGain = new System.Windows.Forms.TrackBar();
+            this.txtRollAngularVelocityValue = new System.Windows.Forms.TextBox();
+            this.txtPitchAngularVelocityValue = new System.Windows.Forms.TextBox();
+            this.label35 = new System.Windows.Forms.Label();
+            this.tbRollAngularVelocityGain = new System.Windows.Forms.TrackBar();
+            this.label36 = new System.Windows.Forms.Label();
+            this.tbPitchAngularVelocityGain = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.tbYawProportionalGain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbYawIntegralGain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbYawAntiWindupGain)).BeginInit();
@@ -116,6 +122,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.tbYIntegralGain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbLateralControlGain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbLongitudeControlGain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbRollAngularVelocityGain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbPitchAngularVelocityGain)).BeginInit();
             this.SuspendLayout();
             // 
             // tbYawProportionalGain
@@ -716,12 +724,68 @@
             this.tbLongitudeControlGain.Size = new System.Drawing.Size(648, 45);
             this.tbLongitudeControlGain.TabIndex = 64;
             // 
+            // txtRollAngularVelocityValue
+            // 
+            this.txtRollAngularVelocityValue.Location = new System.Drawing.Point(281, 999);
+            this.txtRollAngularVelocityValue.Name = "txtRollAngularVelocityValue";
+            this.txtRollAngularVelocityValue.Size = new System.Drawing.Size(100, 20);
+            this.txtRollAngularVelocityValue.TabIndex = 75;
+            // 
+            // txtPitchAngularVelocityValue
+            // 
+            this.txtPitchAngularVelocityValue.Location = new System.Drawing.Point(281, 897);
+            this.txtPitchAngularVelocityValue.Name = "txtPitchAngularVelocityValue";
+            this.txtPitchAngularVelocityValue.Size = new System.Drawing.Size(100, 20);
+            this.txtPitchAngularVelocityValue.TabIndex = 74;
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(296, 937);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(120, 13);
+            this.label35.TabIndex = 73;
+            this.label35.Text = "RollAngularVelocityGain";
+            // 
+            // tbRollAngularVelocityGain
+            // 
+            this.tbRollAngularVelocityGain.Location = new System.Drawing.Point(12, 966);
+            this.tbRollAngularVelocityGain.Maximum = 9000;
+            this.tbRollAngularVelocityGain.Minimum = -9000;
+            this.tbRollAngularVelocityGain.Name = "tbRollAngularVelocityGain";
+            this.tbRollAngularVelocityGain.Size = new System.Drawing.Size(648, 45);
+            this.tbRollAngularVelocityGain.TabIndex = 72;
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(296, 830);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(126, 13);
+            this.label36.TabIndex = 71;
+            this.label36.Text = "PitchAngularVelocityGain";
+            // 
+            // tbPitchAngularVelocityGain
+            // 
+            this.tbPitchAngularVelocityGain.Location = new System.Drawing.Point(12, 859);
+            this.tbPitchAngularVelocityGain.Maximum = 9000;
+            this.tbPitchAngularVelocityGain.Minimum = -9000;
+            this.tbPitchAngularVelocityGain.Name = "tbPitchAngularVelocityGain";
+            this.tbPitchAngularVelocityGain.Size = new System.Drawing.Size(648, 45);
+            this.tbPitchAngularVelocityGain.TabIndex = 70;
+            // 
             // GainAdjustmentsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1504, 1037);
             this.ControlBox = false;
+            this.Controls.Add(this.txtRollAngularVelocityValue);
+            this.Controls.Add(this.txtPitchAngularVelocityValue);
+            this.Controls.Add(this.label35);
+            this.Controls.Add(this.tbRollAngularVelocityGain);
+            this.Controls.Add(this.label36);
+            this.Controls.Add(this.tbPitchAngularVelocityGain);
             this.Controls.Add(this.txtLateralControlGainValue);
             this.Controls.Add(this.txtLongitudeControlGainValue);
             this.Controls.Add(this.label33);
@@ -812,6 +876,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.tbYIntegralGain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbLateralControlGain)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbLongitudeControlGain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbRollAngularVelocityGain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbPitchAngularVelocityGain)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -889,6 +955,12 @@
         private System.Windows.Forms.TrackBar tbLateralControlGain;
         private System.Windows.Forms.Label label34;
         private System.Windows.Forms.TrackBar tbLongitudeControlGain;
+        private System.Windows.Forms.TextBox txtRollAngularVelocityValue;
+        private System.Windows.Forms.TextBox txtPitchAngularVelocityValue;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.TrackBar tbRollAngularVelocityGain;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.TrackBar tbPitchAngularVelocityGain;
 
     }
 }

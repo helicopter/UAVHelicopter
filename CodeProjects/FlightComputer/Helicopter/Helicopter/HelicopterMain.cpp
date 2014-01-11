@@ -58,12 +58,14 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	pidController->setXDerivativeGain(1.859);
 	pidController->setXAntiWindupGain(0);
 	pidController->setLongitudeInnerLoopGain(.031);
+	pidController->setPitchAngularVelocityGain(.03);
 	
 	pidController->setYProportionalGain(1.437);
 	pidController->setYIntegralGain(0);
 	pidController->setYDerivativeGain(2.8363);
 	pidController->setYAntiWindupGain(0);
 	pidController->setLateralInnerLoopGain(.092);	
+	pidController->setRollAngularVelocityGain(.048);
 	
 	//TODO: Don't forget that there is a difference between how often the sensors
 	//are read and how often the control algorithm runs. 
@@ -92,7 +94,13 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	pidController->setMinLateralServoControlValue(-1.0d);
 	
 	pidController->setMaxMainRotorServoControlValue(1.0d);
-	pidController->setMinMainRotorServoControlValue(-1.0d);
+	pidController->setMinMainRotorServoControlValue(0.0d);
+	
+	pidController->setMaxRollSetpointDegrees(10);
+	pidController->setMinRollSetpointDegrees(-10);
+	
+	pidController->setMaxPitchSetpointDegrees(13);
+	pidController->setMinPitchSetpointDegrees(-13);
 }
 
 

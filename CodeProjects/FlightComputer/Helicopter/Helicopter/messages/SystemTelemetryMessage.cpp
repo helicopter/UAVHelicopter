@@ -44,6 +44,8 @@ byte *SystemTelemetryMessage::getBytes()
 	encode (msgPtr, XAntiWindupGain);	
 	encode (msgPtr, LongitudeInnerLoopGain);	
 	encode (msgPtr, XLongitudeOuterLoopSetpoint);
+	encode (msgPtr, PitchAngularVelocityRadsPerSecond);
+	encode (msgPtr, PitchAngularVelocityGain);
 	
 	encode (msgPtr, YNEDBodyFrame);
 	encode (msgPtr, YVelocityMetersPerSecond);
@@ -58,7 +60,8 @@ byte *SystemTelemetryMessage::getBytes()
 	encode (msgPtr, YAntiWindupGain);
 	encode (msgPtr, LateralInnerLoopGain);	
 	encode (msgPtr, YLateralOuterLoopSetpoint);
-	
+	encode (msgPtr, RollAngularVelocityRadsPerSecond);
+	encode (msgPtr, RollAngularVelocityGain);
 	
 
 	encode (msgPtr, AltitudeFeetAgl);
@@ -117,6 +120,8 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		decode (message, XAntiWindupGain);
 		decode (message, LongitudeInnerLoopGain);
 		decode (message, XLongitudeOuterLoopSetpoint);
+		decode (message, PitchAngularVelocityRadsPerSecond);
+		decode (message, PitchAngularVelocityGain);
 
 		decode (message, YNEDBodyFrame);
 		decode (message, YVelocityMetersPerSecond);
@@ -131,6 +136,9 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		decode (message, YAntiWindupGain);
 		decode (message, LateralInnerLoopGain);
 		decode (message, YLateralOuterLoopSetpoint);
+		decode (message, RollAngularVelocityRadsPerSecond);
+		decode (message, RollAngularVelocityGain);
+		
 
 		decode (message, AltitudeFeetAgl);
 		decode (message, ZVelocityMetersPerSecond);
@@ -183,6 +191,7 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 	message->XVelocityMetersPerSecond = model->XVelocityMetersPerSecond();
 	message->LongitudeControl = model->LongitudeControl();
 	message->XLongitudeOuterLoopSetpoint = model->XLongitudeOuterLoopSetpoint();
+	message->PitchAngularVelocityRadsPerSecond = model->PitchAngularVelocityRadsPerSecond();
 
 	
 	message->PhiRollDegrees = model->PhiRollDegrees();
@@ -193,7 +202,7 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 	message->YVelocityMetersPerSecond = model->YVelocityMetersPerSecond();
 	message->LateralControl = model->LateralControl();
 	message->YLateralOuterLoopSetpoint = model->YLateralOuterLoopSetpoint();
-	
+	message->RollAngularVelocityRadsPerSecond = model->RollAngularVelocityRadsPerSecond();	
 	
 	
 	message->AltitudeFeetAgl = model->AltitudeFeetAgl();
@@ -243,10 +252,12 @@ void SystemTelemetryMessage::updateModelFromMessageFromSimulator (SystemModel *m
 	//model->XNEDBodyFrame((double) this->XNEDBodyFrame / 100);//not supposed to be here since this is a calculated value, not a sensor reading.
 	model->XVelocityMetersPerSecond(this->XVelocityMetersPerSecond);
 	model->ThetaPitchDegrees(this->ThetaPitchDegrees);
+	model->PitchAngularVelocityRadsPerSecond(this->PitchAngularVelocityRadsPerSecond);
 	
 	//model->YNEDBodyFrame((double) this->YNEDBodyFrame / 100);
 	model->YVelocityMetersPerSecond(this->YVelocityMetersPerSecond);
 	model->PhiRollDegrees(this->PhiRollDegrees);
+	model->RollAngularVelocityRadsPerSecond(this->RollAngularVelocityRadsPerSecond);
 	
 	model->AltitudeFeetAgl(this->AltitudeFeetAgl);
 	

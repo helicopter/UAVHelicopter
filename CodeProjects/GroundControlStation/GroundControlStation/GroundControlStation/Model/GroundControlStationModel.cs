@@ -118,6 +118,10 @@ namespace GroundControlStation.Model
 
         public float YLateralOuterLoopSetpoint { get; set; }
 
+        public float PitchAngularVelocityRadsPerSecond { get; set; }
+
+        public float RollAngularVelocityRadsPerSecond { get; set; }
+
 
         public SimulatorTelemetry SimTelm { get; set; }
 
@@ -173,5 +177,8 @@ namespace GroundControlStation.Model
             return lstValues;
         }
 
+        public float PitchAngularVelocityGain { get; set; }
+
+        public float RollAngularVelocityGain { get; set; }
     }
 }

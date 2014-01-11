@@ -61,6 +61,9 @@ namespace GroundControlStation.Views
             this.tbLongitudeControlGain.Value = (int)(controller.Model.LongitudeInnerLoopGain * 1000);
             this.tbLateralControlGain.Value = (int)(controller.Model.LateralInnerLoopGain * 1000);
 
+            this.tbPitchAngularVelocityGain.Value = (int)(controller.Model.PitchAngularVelocityGain * 1000);
+            this.tbRollAngularVelocityGain.Value = (int)(controller.Model.RollAngularVelocityGain * 1000);
+
             txtYawAntiWindupValue.Text = (tbYawAntiWindupGain.Value / 1000).ToString();
             txtYawDerivativeValue.Text = (tbYawDerivativeGain.Value / 1000).ToString();
             txtYawIntegralValue.Text = (tbYawIntegralGain.Value / 1000).ToString();
@@ -82,7 +85,10 @@ namespace GroundControlStation.Views
             txtZProportionalValue.Text = (tbZProportionalGain.Value / 1000).ToString();
 
             txtLongitudeControlGainValue.Text = (tbLongitudeControlGain.Value / 1000).ToString();
-            txtLateralControlGainValue.Text = (tbLateralControlGain.Value / 1000).ToString(); 
+            txtLateralControlGainValue.Text = (tbLateralControlGain.Value / 1000).ToString();
+
+            txtPitchAngularVelocityValue.Text = (tbPitchAngularVelocityGain.Value / 1000).ToString();
+            txtRollAngularVelocityValue.Text = (tbRollAngularVelocityGain.Value / 1000).ToString(); 
         }
 
         private void addListeners()
@@ -109,6 +115,9 @@ namespace GroundControlStation.Views
 
             this.tbLongitudeControlGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
             this.tbLateralControlGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+
+            this.tbPitchAngularVelocityGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+            this.tbRollAngularVelocityGain.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
         }
 
         private void removeListeners()
@@ -136,6 +145,9 @@ namespace GroundControlStation.Views
 
             this.tbLongitudeControlGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
             this.tbLateralControlGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
+
+            this.tbPitchAngularVelocityGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
+            this.tbRollAngularVelocityGain.ValueChanged -= new System.EventHandler(this.trackBar1_ValueChanged);
         }
 
         public GainAdjustmentsForm()
@@ -223,6 +235,9 @@ namespace GroundControlStation.Views
 
             txtLongitudeControlGainValue.Text = (tbLongitudeControlGain.Value / 1000.0).ToString();
             txtLateralControlGainValue.Text = (tbLateralControlGain.Value / 1000.0).ToString();
+
+            txtPitchAngularVelocityValue.Text = (tbPitchAngularVelocityGain.Value / 1000.0).ToString();
+            txtRollAngularVelocityValue.Text = (tbRollAngularVelocityGain.Value / 1000.0).ToString();
         }
     }
 }

@@ -31,11 +31,6 @@ namespace helicopter
 		{
 			private:
 			
-				static const float MIN_ROLL_SETPOINT_DEGREES = -10.0f;
-				static const float MAX_ROLL_SETPOINT_DEGREES = 10.0f;
-				static const float MIN_PITCH_SETPOINT_DEGREES = -10.0f;
-				static const float MAX_PITCH_SETPOINT_DEGREES = 10.0f;
-			
 				SystemModel *model;
 				
 				float yawIntegralGain;
@@ -49,12 +44,14 @@ namespace helicopter
 				float xProportionalGain;
 				float xAntiWindupGain;
 				float longitudeInnerLoopGain;
+				float pitchAngularVelocityGain;
 				
 				float yIntegralGain;
 				float yDerivativeGain;
 				float yProportionalGain;
 				float yAntiWindupGain;
 				float lateralInnerLoopGain;
+				float rollAngularVelocityGain;
 				
 				float zIntegralGain;
 				float zDerivativeGain;
@@ -69,6 +66,12 @@ namespace helicopter
 				float maxLateralServoControlValue;
 				float minMainRotorServoControlValue;
 				float maxMainRotorServoControlValue;
+				
+				float minPitchSetpointDegrees;
+				float maxPitchSetpointDegrees;
+				
+				float minRollSetpointDegrees;
+				float maxRollSetpointDegrees;
 				
 				float intervalPeriodSecs;
 					
@@ -107,6 +110,11 @@ namespace helicopter
 					longitudeInnerLoopGain = val;
 				}
 				
+				void setPitchAngularVelocityGain(float val)
+				{
+					pitchAngularVelocityGain = val;
+				}
+				
 				void setMinLongitudeServoControlValue(float val)
 				{
 					minLongitudeServoControlValue = val;
@@ -117,7 +125,8 @@ namespace helicopter
 					maxLongitudeServoControlValue = val;
 				}
 				
-				
+			
+						
 				
 				
 				
@@ -145,6 +154,11 @@ namespace helicopter
 				void setLateralInnerLoopGain(float val)
 				{
 					lateralInnerLoopGain = val;
+				}
+				
+				void setRollAngularVelocityGain(float val)
+				{
+					rollAngularVelocityGain = val;
 				}
 				
 				void setMinLateralServoControlValue(float val)
@@ -193,7 +207,27 @@ namespace helicopter
 				{
 					maxMainRotorServoControlValue = val;
 				}
+
+
+				void setMaxRollSetpointDegrees(float val)
+				{
+					maxRollSetpointDegrees = val;
+				}
 				
+				void setMinRollSetpointDegrees(float val)
+				{
+					minRollSetpointDegrees = val;
+				}
+				
+				void setMaxPitchSetpointDegrees(float val)
+				{
+					maxPitchSetpointDegrees = val;
+				}
+				
+				void setMinPitchSetpointDegrees(float val)
+				{	
+					minPitchSetpointDegrees = val;
+				}				
 				
 				
 				/**

@@ -54,6 +54,8 @@ namespace helicopter
 				float XAntiWindupGain;
 				float LongitudeInnerLoopGain;
 				float XLongitudeOuterLoopSetpoint;
+				float PitchAngularVelocityRadsPerSecond;
+				float PitchAngularVelocityGain;
 				
 				float YNEDBodyFrame;
 				float YVelocityMetersPerSecond;
@@ -68,7 +70,8 @@ namespace helicopter
 				float YAntiWindupGain;
 				float LateralInnerLoopGain;
 				float YLateralOuterLoopSetpoint;
-
+				float RollAngularVelocityRadsPerSecond;
+				float RollAngularVelocityGain;
 
 				float AltitudeFeetAgl;
 				float ZVelocityMetersPerSecond;
@@ -130,6 +133,8 @@ namespace helicopter
 				sizeof(XAntiWindupGain) +
 				sizeof(LongitudeInnerLoopGain) +
 				sizeof(XLongitudeOuterLoopSetpoint) +
+				sizeof(PitchAngularVelocityRadsPerSecond) +
+				sizeof(PitchAngularVelocityGain) +
 				
 				
 				sizeof(YNEDBodyFrame) +
@@ -145,6 +150,8 @@ namespace helicopter
 				sizeof(YAntiWindupGain) +
 				sizeof(LateralInnerLoopGain) +
 				sizeof(YLateralOuterLoopSetpoint)+
+				sizeof(RollAngularVelocityRadsPerSecond) +
+				sizeof(RollAngularVelocityGain) +
 								
 				sizeof(AltitudeFeetAgl) +
 				sizeof(ZVelocityMetersPerSecond) +
@@ -195,6 +202,8 @@ namespace helicopter
 					XAntiWindupGain(0),
 					LongitudeInnerLoopGain(0),
 					XLongitudeOuterLoopSetpoint(0),
+					PitchAngularVelocityRadsPerSecond(0),
+					PitchAngularVelocityGain(0),
 					
 					YNEDBodyFrame(0),
 					YVelocityMetersPerSecond(0),
@@ -209,6 +218,8 @@ namespace helicopter
 					YAntiWindupGain(0),
 					LateralInnerLoopGain(0),
 					YLateralOuterLoopSetpoint(0),
+					RollAngularVelocityRadsPerSecond(0),
+					RollAngularVelocityGain(0),
 					
 					AltitudeFeetAgl(0),
 					ZVelocityMetersPerSecond(0),

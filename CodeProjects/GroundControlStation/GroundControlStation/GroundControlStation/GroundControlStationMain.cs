@@ -42,30 +42,38 @@ namespace GroundControlStation
             GroundControlStationModel model = new GroundControlStationModel();
             model.SimTelm = new SimulatorTelemetry();
 
-            /*
-            model.YawIntegralGain = .008f;
+            
+            /*model.YawIntegralGain = .008f;
             model.YawDerivativeGain = .85f;
             model.YawProportionalGain = 1.0f;
             model.YawAntiWindupGain = 0.1f;
-             * */
+            */
 
-            
-            model.YawIntegralGain = .5f;
+            //original from other program
+            /*
+             * model.YawIntegralGain = .5f;
             model.YawProportionalGain = 1.8471f;
             model.YawDerivativeGain = model.YawProportionalGain * (0.09f);
             model.YawAntiWindupGain = 0.1f;
+             */
+            model.YawIntegralGain = .05f;
+            model.YawProportionalGain = .018471f;
+            model.YawDerivativeGain = model.YawProportionalGain * (0.09f);
+            model.YawAntiWindupGain = 0.01f;
 
             model.XIntegralGain = 0.0f;
             model.XProportionalGain = .289f;
             model.XDerivativeGain = 1.859f;
             model.XAntiWindupGain = 0.0f; 
             model.LongitudeInnerLoopGain = .031f;
+            model.PitchAngularVelocityGain = .03f;
 
             model.YIntegralGain = 0.0f;
             model.YProportionalGain = 1.437f;
             model.YDerivativeGain = 2.8363f;
             model.YAntiWindupGain = 0.0f; 
             model.LateralInnerLoopGain = .092f;
+            model.RollAngularVelocityGain = .048f;
 
             /*
             model.ZIntegralGain = .02f;

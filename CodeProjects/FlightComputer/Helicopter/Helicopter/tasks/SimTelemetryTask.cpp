@@ -55,12 +55,14 @@ void SimTelemetryTask::runTaskImpl()
 			pidController->setXProportionalGain(telemMsg->XProportionalGain);
 			pidController->setXAntiWindupGain(telemMsg->XAntiWindupGain);
 			pidController->setLongitudeInnerLoopGain(telemMsg->LongitudeInnerLoopGain);
+			pidController->setPitchAngularVelocityGain(telemMsg->PitchAngularVelocityGain);
 				
 			pidController->setYIntegralGain(telemMsg->YIntegralGain);
 			pidController->setYDerivativeGain(telemMsg->YDerivativeGain);
 			pidController->setYProportionalGain(telemMsg->YProportionalGain);
 			pidController->setYAntiWindupGain(telemMsg->YAntiWindupGain);
 			pidController->setLateralInnerLoopGain(telemMsg->LateralInnerLoopGain);
+			pidController->setRollAngularVelocityGain(telemMsg->RollAngularVelocityGain);
 			
 			pidController->setZIntegralGain(telemMsg->ZIntegralGain);
 			pidController->setZDerivativeGain(telemMsg->ZDerivativeGain);

@@ -60,20 +60,6 @@ float PIDController::calculateProportional(float currentValue, float referenceVa
 	return currentValue - referenceValue;
 }
 
-//TODO refactor to make this common for all PID calculations
-/*float PIDController::calculateProportional(float currentYawDegrees, float referenceYawDegrees)
-{
-	float yawError = currentYawDegrees - referenceYawDegrees;
-	
-	//Convert 360 degree magnetic heading error to a +/- 180 mag heading error
-	
-	yawError = convertYawErrorFrom360to180(yawError);
-
-	
-	return yawError;
-}*/
-
-
 //TODO refactor to make this common for all PID calculations. I'll want to include the specific
 //variables max values as parameters so I can 'generalize' it.
 float PIDController::calculateIntegralAntiWindup(float oldControlPreServoAdj, float oldControl, float antiWindupGain)
@@ -81,16 +67,6 @@ float PIDController::calculateIntegralAntiWindup(float oldControlPreServoAdj, fl
 	float antiWindup = 0;
 	
 	antiWindup = antiWindupGain * (oldControlPreServoAdj - oldControl);
-	
-	/*
-	if (oldYawControlValue > maxYawServoControlValue)
-	{
-		antiWindup = yawAntiWindupGain * (oldYawControlValue - maxYawServoControlValue);
-	}else if (oldYawControlValue < minYawServoControlValue)
-	{
-		antiWindup = yawAntiWindupGain * (oldYawControlValue - minYawServoControlValue);
-	}
-	*/
 	
 	return antiWindup;
 }
@@ -208,13 +184,49 @@ float PIDController::adjustControlForServoLimits( float controlValueToAdjust, fl
 }
 
 
-float calculateInnerLoopControlValue( float outerLoopSetpoint, float measuredValue, float gain )
+float calculateInnerLoopControlValue( float outerLoopSetpoint, float measuredValue, float gain, float angularVelocity, float angularVelocityGain )
 {
 	//NOTE: IN MY OTHER IMPLEMENTATION I SUBTRACT THE VELOCITY (YES VELOCITY) OF THE ANGULAR MOTION.
 	//return gain * (measuredValue - outerLoopSetpoint);
 	
 	///************* I JUST CHANGED THIS
-	return gain * (outerLoopSetpoint - measuredValue);
+	return (gain * (outerLoopSetpoint - measuredValue)) - (angularVelocity * angularVelocityGain);
+}
+
+
+float PIDController::adjustForSetpointLimits( float outerLoopControlSetpoint, float minSetpointLimitDegrees, float maxSetpointLimitDegrees )
+{
+	if (outerLoopControlSetpoint < minSetpointLimitDegrees)
+	{
+		outerLoopControlSetpoint = minSetpointLimitDegrees;
+	}else if (outerLoopControlSetpoint > maxSetpointLimitDegrees)
+	{
+		outerLoopControlSetpoint = maxSetpointLimitDegrees;
+	}
+	
+	return outerLoopControlSetpoint;
+}
+
+
+
+//TODO WTF IS THIS DOING HERE?? THIS IS THE WRONG CONTROLLER!!
+void PIDController::addBlownFrame()
+{
+	model->BlownFrames(model->BlownFrames() + 1);
+}
+
+float PIDController::convertYawErrorFrom360to180( float yawError )
+{
+	if (yawError >= 180)
+	{
+		yawError = yawError - 360;
+	}
+	else if (yawError < -180)
+	{
+		yawError = yawError + 360;
+	}
+	
+	return yawError;
 }
 
 
@@ -264,7 +276,7 @@ void PIDController::cyclicLongitudeOuterLoopUpdate()
 	float xDerivativeError = calculateVelocityError(model->XVelocityMetersPerSecond(), model->ReferenceXVelocityMetersPerSecond());
 	float xLongitudinalOuterLoopSetpoint = calculateOuterLoopControlValue(xProportional, xDerivativeError, weightedXIntegral, xProportionalGain, xDerivativeGain);
 	
-	xLongitudinalOuterLoopSetpoint = adjustForSetpointLimits(xLongitudinalOuterLoopSetpoint, MIN_PITCH_SETPOINT_DEGREES, MAX_PITCH_SETPOINT_DEGREES);
+	xLongitudinalOuterLoopSetpoint = adjustForSetpointLimits(xLongitudinalOuterLoopSetpoint, minPitchSetpointDegrees, maxPitchSetpointDegrees);
 
 	model->XLongitudeOuterLoopSetpoint(xLongitudinalOuterLoopSetpoint);
 	model->XIntegral(weightedXIntegral);
@@ -280,7 +292,7 @@ void PIDController::cyclicLateralOuterLoopUpdate()
 	float yDerivativeError = calculateVelocityError(model->YVelocityMetersPerSecond(), model->ReferenceYVelocityMetersPerSecond());
 	float yLateralOuterLoopSetpoint = calculateOuterLoopControlValue(yProportional, yDerivativeError, weightedYIntegral, yProportionalGain, yDerivativeGain);
 
-	yLateralOuterLoopSetpoint = adjustForSetpointLimits(yLateralOuterLoopSetpoint, MIN_ROLL_SETPOINT_DEGREES, MAX_ROLL_SETPOINT_DEGREES);
+	yLateralOuterLoopSetpoint = adjustForSetpointLimits(yLateralOuterLoopSetpoint, minRollSetpointDegrees, maxRollSetpointDegrees);
 	
 	model->YLateralOuterLoopSetpoint(yLateralOuterLoopSetpoint);
 	model->YIntegral(weightedYIntegral);
@@ -290,7 +302,7 @@ void PIDController::cyclicLateralOuterLoopUpdate()
 
 void PIDController::cyclicLongitudeInnerLoopUpdate()
 {
-	float xLongitudinalInnerLoopControlBeforeServoLimits = calculateInnerLoopControlValue(model->XLongitudeOuterLoopSetpoint(), model->ThetaPitchDegrees(), longitudeInnerLoopGain);
+	float xLongitudinalInnerLoopControlBeforeServoLimits = calculateInnerLoopControlValue(model->XLongitudeOuterLoopSetpoint(), model->ThetaPitchDegrees(), longitudeInnerLoopGain, model->PitchAngularVelocityRadsPerSecond(), pitchAngularVelocityGain);
 	
 	float xLongitudinalInnerLoopControl = adjustControlForServoLimits(xLongitudinalInnerLoopControlBeforeServoLimits, minLongitudeServoControlValue, maxLongitudeServoControlValue);
 	
@@ -301,7 +313,7 @@ void PIDController::cyclicLongitudeInnerLoopUpdate()
 
 void PIDController::cyclicLateralInnerLoopUpdate()
 {
-	float yLateralInnerLoopControlBeforeServoLimits = calculateInnerLoopControlValue(model->YLateralOuterLoopSetpoint(), model->PhiRollDegrees(), lateralInnerLoopGain);
+	float yLateralInnerLoopControlBeforeServoLimits = calculateInnerLoopControlValue(model->YLateralOuterLoopSetpoint(), model->PhiRollDegrees(), lateralInnerLoopGain, model->RollAngularVelocityRadsPerSecond(), rollAngularVelocityGain);
 	
 	float yLateralInnerLoopControl = adjustControlForServoLimits(yLateralInnerLoopControlBeforeServoLimits, minLateralServoControlValue, maxLateralServoControlValue);
 	
@@ -311,36 +323,3 @@ void PIDController::cyclicLateralInnerLoopUpdate()
 }
 
 
-
-//TODO WTF IS THIS DOING HERE?? THIS IS THE WRONG CONTROLLER!!
-void PIDController::addBlownFrame()
-{
-	model->BlownFrames(model->BlownFrames() + 1);
-}
-
-float PIDController::convertYawErrorFrom360to180( float yawError ) 
-{
-	if (yawError >= 180)
-	{
-		yawError = yawError - 360;
-	}
-	else if (yawError < -180)
-	{
-		yawError = yawError + 360;
-	}	
-	
-	return yawError;
-}
-
-float PIDController::adjustForSetpointLimits( float outerLoopControlSetpoint, float minSetpointLimitDegrees, float maxSetpointLimitDegrees ) 
-{
-	if (outerLoopControlSetpoint < minSetpointLimitDegrees)
-	{
-		outerLoopControlSetpoint = minSetpointLimitDegrees;
-	}else if (outerLoopControlSetpoint > maxSetpointLimitDegrees)
-	{
-		outerLoopControlSetpoint = maxSetpointLimitDegrees;
-	}
-	
-	return outerLoopControlSetpoint;
-}
