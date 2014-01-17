@@ -11,6 +11,7 @@ using GroundControlStation.Views;
 using GroundControlStation.Messages;
 using System.IO;
 using GroundControlStation.Util;
+using System.Globalization;
 
 namespace GroundControlStation.Controller
 {
@@ -46,12 +47,13 @@ namespace GroundControlStation.Controller
 
             simThread = new Thread(new ThreadStart(BeginSimPolling));
             flightComputerThread = new Thread(new ThreadStart(BeginFlightComputerPolling));
+            flightComputerThread.Priority = ThreadPriority.Highest;
 
             flightComputerFileLogger = new StreamWriter(Path.Combine(LogFilePath, "FlightComputerLog" + DateTime.Now.ToString("_MM_dd_yyyy_hhmmss") + ".csv"));
-            flightComputerFileLogger.WriteLine(LoggingUtil.ToCsvHeader(",", new FlightComputerTelemetryMessage()));
+            flightComputerFileLogger.WriteLine("DateTime," + LoggingUtil.ToCsvHeader(",", new FlightComputerTelemetryMessage()));
 
             simulatorFileLogger = new StreamWriter(Path.Combine(LogFilePath, "SimulatorLog" + DateTime.Now.ToString("_MM_dd_yyyy_hhmmss") + ".csv"));
-            simulatorFileLogger.WriteLine(LoggingUtil.ToCsvHeader(",", new FlightComputerTelemetryMessage()));
+            simulatorFileLogger.WriteLine("DateTime," + LoggingUtil.ToCsvHeader(",", new SimulatorTelemetry()));
         }
 
 
@@ -86,6 +88,7 @@ namespace GroundControlStation.Controller
             List<Tuple<String, String>> simValues = Model.SimTelm.ListValues();
             simValues.AddRange(Model.ListValues());
 
+     //       Debug.WriteLine(Model.NumOfBlownFrames);
             View.UpdateLatestValues(simValues);
         }
 
@@ -129,7 +132,7 @@ namespace GroundControlStation.Controller
             while (isSimThreadRunning)
             {
                 Model.SimTelm = xplaneInterface.Receive();
-                simulatorFileLogger.WriteLine(LoggingUtil.ToCsv(",", Model.SimTelm));
+                simulatorFileLogger.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + ", " + LoggingUtil.ToCsv(",", Model.SimTelm));
             }
         }
 
@@ -168,7 +171,7 @@ namespace GroundControlStation.Controller
                         //Transmit data to simulator
                         xplaneInterface.Transmit(Model);
 
-                        flightComputerFileLogger.WriteLine(LoggingUtil.ToCsv(",", telem));
+                        flightComputerFileLogger.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + ", " + LoggingUtil.ToCsv(",", telem));
                     }
                     else if (msg.MsgType == SyncMessage.MessageType)
                     {

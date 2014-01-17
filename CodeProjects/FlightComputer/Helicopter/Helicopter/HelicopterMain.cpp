@@ -93,11 +93,12 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	pidController->setMaxLateralServoControlValue(1.0d);
 	pidController->setMinLateralServoControlValue(-1.0d);
 	
-	pidController->setMaxMainRotorServoControlValue(1.0d);
+	//just changed
+	pidController->setMaxMainRotorServoControlValue(.5d);
 	pidController->setMinMainRotorServoControlValue(0.0d);
 	
-	pidController->setMaxRollSetpointDegrees(10);
-	pidController->setMinRollSetpointDegrees(-10);
+	pidController->setMaxRollSetpointDegrees(5);
+	pidController->setMinRollSetpointDegrees(-5);
 	
 	pidController->setMaxPitchSetpointDegrees(13);
 	pidController->setMinPitchSetpointDegrees(-13);

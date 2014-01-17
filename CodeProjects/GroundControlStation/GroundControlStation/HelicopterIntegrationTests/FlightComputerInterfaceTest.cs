@@ -4,6 +4,7 @@ using GroundControlStation.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GroundControlStation.Interfaces;
 using GroundControlStation.Messages;
+using System.Diagnostics;
 
 namespace HelicopterIntegrationTests
 {
@@ -14,7 +15,7 @@ namespace HelicopterIntegrationTests
         [TestMethod]
         public void TestSendReceiveFloat()
         {
-            SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
+            SerialPort port = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
 
             SerialPortInterface portInterface = new SerialPortInterface(port);
@@ -81,7 +82,8 @@ namespace HelicopterIntegrationTests
         [TestMethod]
         public void TestSystemTelemetryTransmitAndReceive()
         {
-            SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
+            SerialPort port = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
+            //SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
 
             SerialPortInterface portInterface = new SerialPortInterface(port);
@@ -91,6 +93,8 @@ namespace HelicopterIntegrationTests
                 fcInt.Open();
 
                 GroundControlStationModel model = new GroundControlStationModel();
+
+
 
                 FlightComputerTelemetryMessage telemetry = (FlightComputerTelemetryMessage)fcInt.Receive();
 
@@ -116,9 +120,16 @@ namespace HelicopterIntegrationTests
 
                 fcInt.Transmit(telemetry);
 
+                DateTime startTime = DateTime.Now;
+
                 telemetry = (FlightComputerTelemetryMessage) fcInt.Receive();
 
                 Assert.IsTrue(telemetry.MagYaw == 12);
+
+                DateTime endTime = DateTime.Now;
+
+                Trace.WriteLine("Time ms: " + endTime.Subtract(startTime).Milliseconds);
+                Assert.IsTrue(false, "Time ms: " + endTime.Subtract(startTime).Milliseconds);
             }
         }
 

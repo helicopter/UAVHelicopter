@@ -9012,12 +9012,13 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
     3e18:	7f eb       	ldi	r23, 0xBF	; 191
     3e1a:	0e 94 c1 1b 	call	0x3782	; 0x3782 <_ZN10helicopter10controller13PIDController30setMinLateralServoControlValueEf>
 	
-	pidController->setMaxMainRotorServoControlValue(1.0d);
+	//just changed
+	pidController->setMaxMainRotorServoControlValue(.5d);
     3e1e:	8b 81       	ldd	r24, Y+3	; 0x03
     3e20:	9c 81       	ldd	r25, Y+4	; 0x04
     3e22:	40 e0       	ldi	r20, 0x00	; 0
     3e24:	50 e0       	ldi	r21, 0x00	; 0
-    3e26:	60 e8       	ldi	r22, 0x80	; 128
+    3e26:	60 e0       	ldi	r22, 0x00	; 0
     3e28:	7f e3       	ldi	r23, 0x3F	; 63
     3e2a:	0e 94 2a 1c 	call	0x3854	; 0x3854 <_ZN10helicopter10controller13PIDController32setMaxMainRotorServoControlValueEf>
 	pidController->setMinMainRotorServoControlValue(0.0d);
@@ -9028,21 +9029,21 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
     3e36:	ba 01       	movw	r22, r20
     3e38:	0e 94 07 1c 	call	0x380e	; 0x380e <_ZN10helicopter10controller13PIDController32setMinMainRotorServoControlValueEf>
 	
-	pidController->setMaxRollSetpointDegrees(10);
+	pidController->setMaxRollSetpointDegrees(5);
     3e3c:	8b 81       	ldd	r24, Y+3	; 0x03
     3e3e:	9c 81       	ldd	r25, Y+4	; 0x04
     3e40:	40 e0       	ldi	r20, 0x00	; 0
     3e42:	50 e0       	ldi	r21, 0x00	; 0
-    3e44:	60 e2       	ldi	r22, 0x20	; 32
-    3e46:	71 e4       	ldi	r23, 0x41	; 65
+    3e44:	60 ea       	ldi	r22, 0xA0	; 160
+    3e46:	70 e4       	ldi	r23, 0x40	; 64
     3e48:	0e 94 4d 1c 	call	0x389a	; 0x389a <_ZN10helicopter10controller13PIDController25setMaxRollSetpointDegreesEf>
-	pidController->setMinRollSetpointDegrees(-10);
+	pidController->setMinRollSetpointDegrees(-5);
     3e4c:	8b 81       	ldd	r24, Y+3	; 0x03
     3e4e:	9c 81       	ldd	r25, Y+4	; 0x04
     3e50:	40 e0       	ldi	r20, 0x00	; 0
     3e52:	50 e0       	ldi	r21, 0x00	; 0
-    3e54:	60 e2       	ldi	r22, 0x20	; 32
-    3e56:	71 ec       	ldi	r23, 0xC1	; 193
+    3e54:	60 ea       	ldi	r22, 0xA0	; 160
+    3e56:	70 ec       	ldi	r23, 0xC0	; 192
     3e58:	0e 94 70 1c 	call	0x38e0	; 0x38e0 <_ZN10helicopter10controller13PIDController25setMinRollSetpointDegreesEf>
 	
 	pidController->setMaxPitchSetpointDegrees(13);
