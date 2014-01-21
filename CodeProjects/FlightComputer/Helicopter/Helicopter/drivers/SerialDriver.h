@@ -37,10 +37,6 @@ namespace helicopter
 				
 				UartPort uartPort;
 				
-				Timer *timer;
-				
-				bool isTimeoutEnabled;
-				
 				bool useDoubleSpeedMode;
 				
 			public:
@@ -52,22 +48,17 @@ namespace helicopter
 				 * Creates a driver for communicating with the UART serial port
 				 * @param baudRate the baud rate for communicating with the serial modem
 				 * @param uartPort Which UART port on the board to utilize.
-				 * @param timer Timer object which controls when to timeout when receiving and transmitting data
-				 * only used when enableTimeout = true.
-				 * @param enableTimeout Bool indicating if the system should timeout
-				 * while waiting to send or receive data. True by default so that the
-				 * driver will timeout if it can't send or receive data after a short timeout period.
+				 * @param useDoubleSpeedMode A flag indicating if double speed mode should
+				 * be used when calculating the baud rate configurations. This is useful for
+				 * using the radio interface because it seems to have issues if double speed
+				 * mode isn't set to true.
 				 */		
 				SerialDriver(
 					unsigned long baudRate, 
 					UartPort uartPort,
-					Timer *timer,
-					bool enableTimeout = true,
-					bool useDoubleSpeedMode = false) :
+					bool useDoubleSpeedMode = true) :
 				baudRate(baudRate),
 				uartPort(uartPort),
-				timer(timer),
-				isTimeoutEnabled(enableTimeout),
 				useDoubleSpeedMode(useDoubleSpeedMode)
 				{
 					
@@ -89,7 +80,7 @@ namespace helicopter
 				 * Sends a byte over Serial
 				 * @byteToSend Byte to send over Serial
 				 */
-				virtual int transmitByte(byte byteToSend);
+				virtual int transmitByte(byte byteToSend, Timer *timer);
 				
 				/**
 				 * Receive Bytes over Serial
@@ -97,7 +88,7 @@ namespace helicopter
 				 * @return -1 if there was an error (timeout), 
 				 * 0 otherwise (success)
 				 */
-				virtual int receiveByte(byte &receivedByte);
+				virtual int receiveByte(byte &receivedByte, Timer *timer);
 		};
 	}
 }

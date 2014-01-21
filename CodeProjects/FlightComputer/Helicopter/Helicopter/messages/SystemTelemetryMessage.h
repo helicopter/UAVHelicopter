@@ -99,7 +99,7 @@ namespace helicopter
 				
 				long NumOfBlownFrames;
 				
-				
+				long SerialCommunicationBufferOverruns;
 
 				
 				
@@ -171,7 +171,8 @@ namespace helicopter
 				sizeof(Timeouts) + 
 				sizeof(UnrecognizedMsgTypes) + 
 				sizeof(ChecksumErrors) + 
-				sizeof(NumOfBlownFrames);
+				sizeof(NumOfBlownFrames) + 
+				sizeof(SerialCommunicationBufferOverruns);
 
 			
 				SystemTelemetryMessage(): Message(MessageType,MessageSize),
@@ -240,7 +241,8 @@ namespace helicopter
 					Timeouts(0),
 					UnrecognizedMsgTypes(0),
 					ChecksumErrors(0),
-					NumOfBlownFrames(0)
+					NumOfBlownFrames(0), 
+					SerialCommunicationBufferOverruns(0)
 				{
 				
 				}

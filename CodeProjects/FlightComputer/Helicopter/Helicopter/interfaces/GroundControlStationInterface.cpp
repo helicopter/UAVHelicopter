@@ -53,11 +53,18 @@ int GroundControlStationInterface::transmit(Message *msgToSend)
 		completeMsg[completeMsgSize - 2] = checksumA;
 		completeMsg[completeMsgSize - 1] = checksumB;
 		
+		if (enableTimeout)
+		{
+			timer->startTimer();
+		}
+		
 		//iterate over the bytes and transmit them, unless there was an error.
 		for (int i = 0; i < completeMsgSize && status == 0; i++)
 		{
-			status = serialDriver->transmitByte(completeMsg[i]);
+			status = serialDriver->transmitByte(completeMsg[i], timer);
 		}
+		
+		timer->stopTimer();
 		
 		delete [] msgPayload;
 		msgPayload = NULL;
@@ -80,6 +87,10 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
     byte secondSyncByte = 0;
     byte thirdSyncByte = 0;
 	
+	if (enableTimeout)
+	{
+		timer->startTimer();
+	}
 
 	//Read until the sync bytes are received or we time out.
 	//Throw away any 'garbage' bytes.
@@ -87,7 +98,7 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 	{
 		firstSyncByte = secondSyncByte;
 		secondSyncByte = thirdSyncByte;
-		status = serialDriver->receiveByte(thirdSyncByte);
+		status = serialDriver->receiveByte(thirdSyncByte, timer);
 	}
 	
 	if (status == 0)
@@ -95,7 +106,7 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 		//once we have found a valid message, get the message ID
 		byte msgType = 0;
 		
-		status = serialDriver->receiveByte(msgType);
+		status = serialDriver->receiveByte(msgType, timer);
 		
 		if (status == 0)
 		{
@@ -108,7 +119,7 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 					break;
 				default:
 					//unrecognized message type.
-					status = -2;
+					status = -3;
 					break;
 			}
 			
@@ -122,7 +133,7 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 				//skip the first position since thats where the message type is located.
 				for (int i = 1; i < msgSize && status == 0; i++)
 				{
-					status = serialDriver->receiveByte(messagePayload[i]);
+					status = serialDriver->receiveByte(messagePayload[i], timer);
 				}
 							
 				if (status == 0)
@@ -133,9 +144,8 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 					byte calculatedChecksumA = 0;
 					byte calculatedChecksumB = 0;
 								
-					//Note: status is getting overwritten here.
-					status = serialDriver->receiveByte(messageChecksumA);
-					status = serialDriver->receiveByte(messageChecksumB);
+					status = serialDriver->receiveByte(messageChecksumA, timer);
+					status = serialDriver->receiveByte(messageChecksumB, timer);
 								
 					//Generate checksum for the message			
 					calculateChecksum(messagePayload, msgSize, calculatedChecksumA, calculatedChecksumB);
@@ -151,13 +161,13 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 							break;
 							default:
 								//unrecognized message type.
-								status = -2;
+								status = -3;
 							break;
 						}
 					}else
 					{
 						//checksum mismatch
-						status = -3;
+						status = -4;
 					}
 				}
 			}
@@ -168,6 +178,8 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 	{
 		receivedMessage = NULL;
 	}
+	
+	timer->stopTimer();
 	
 	return status;
 }

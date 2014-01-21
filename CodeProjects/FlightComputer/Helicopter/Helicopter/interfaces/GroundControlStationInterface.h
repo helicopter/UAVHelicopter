@@ -27,6 +27,10 @@ namespace helicopter
 			private:
 				SerialDriver *serialDriver;
 				
+				Timer *timer;
+				
+				bool enableTimeout;
+				
 				/**
 				 * Calculates the checksum of a message payload using a simple 8-bit fletcher algorithm
 				 * @param msgPayload the payload of the message to calculate the checksum against
@@ -58,14 +62,20 @@ namespace helicopter
 				 * as receiving a byte.
 				 * @param serialDriver the driver used to communicate with the serial port
 				 * which is used to communicate with the Ground Control Station.
+				 * @param timer A timer used to determine if too much time has been spent transmitting
+				 * data or receiving data.
+				 * @param enableTimeout A flag indicating if the timer should be used to determine if the system should
+				 * timeout when sending and receiving data. If false, the system will wait indefiniately for data.
+				 * if true, the system will only wait a short period of time (specified by the timer) before continuing on.
 				 */
-				GroundControlStationInterface(SerialDriver *serialDriver):
-					serialDriver(serialDriver)
+				GroundControlStationInterface(SerialDriver *serialDriver, Timer *timer, bool enableTimeout = true):
+					serialDriver(serialDriver),
+					timer(timer),
+					enableTimeout(enableTimeout)
 					{}
 						
 				~GroundControlStationInterface()
 				{
-					delete serialDriver;
 				}
 					
 				/**
@@ -81,8 +91,11 @@ namespace helicopter
 				 * Receives an incoming message.
 				 * @param receivedMessage the message received. The caller is responsible
 				 * for 'freeing' the message since this message is on the heap.
-				 * @return -1 in the event of an error (timeout), -2 if the message type
-				 * received was not a system telemetry message, -3 if the checksum failed
+				 * @return -1 for a timeout error (we didn't receive all the data in time), 
+				 * -2 in the event of a buffer overrun which can occur if we didn't receive
+				 * a byte in time and it was overwriten by another incoming byte
+				 * -3 if the message type received was not a system telemetry message (unknown message type)
+				 * -4 if the checksum failed
 				 * 0 otherwise (success).
 				 */
 				int receive(Message * &receivedMessage);

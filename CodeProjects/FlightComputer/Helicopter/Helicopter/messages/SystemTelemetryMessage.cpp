@@ -84,6 +84,7 @@ byte *SystemTelemetryMessage::getBytes()
 	encode (msgPtr, UnrecognizedMsgTypes);
 	encode (msgPtr, ChecksumErrors);
 	encode (msgPtr, NumOfBlownFrames);
+	encode (msgPtr, SerialCommunicationBufferOverruns);
 				
 	return msg;
 }
@@ -156,10 +157,11 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		decode (message, LatitudeDegrees);
 		decode (message, LongitudeDegrees);
 						
-		decode (message,Timeouts);
-		decode (message,UnrecognizedMsgTypes);
-		decode (message,ChecksumErrors);
-		decode (message,NumOfBlownFrames);
+		decode (message, Timeouts);
+		decode (message, UnrecognizedMsgTypes);
+		decode (message, ChecksumErrors);
+		decode (message, NumOfBlownFrames);
+		decode (message, SerialCommunicationBufferOverruns);
 	}
 }
 
@@ -219,6 +221,7 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 	message->Timeouts = model->Timeouts();
 	message->UnrecognizedMsgTypes = model->UnrecognizedMsgTypes();
 	message->NumOfBlownFrames = model->BlownFrames();
+	message->SerialCommunicationBufferOverruns = model->SerialCommunicationBufferOverruns();
 	
 	return message;
 }

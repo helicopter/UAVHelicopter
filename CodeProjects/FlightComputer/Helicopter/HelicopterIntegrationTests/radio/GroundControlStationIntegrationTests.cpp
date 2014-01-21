@@ -164,15 +164,15 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	//////////////////////////////////////////////////////////////////////////
 	// Transmit a test message
 	//////////////////////////////////////////////////////////////////////////
-	Timer *t = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 20);
+	Timer *t = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 200);
 	
 	//note:for production, we'll want to set the variable to 'true'
-	SerialDriver *serialDriver = new SerialDriver(115200, SerialDriver::Zero, t, false, true);
+	SerialDriver *serialDriver = new SerialDriver(250000, SerialDriver::Zero, true);
 	//SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, t, false, true);
 	serialDriver->initialize();
 	
 	
-	GroundControlStationInterface radioInterface(serialDriver);
+	GroundControlStationInterface radioInterface(serialDriver, t, true);
 	
 	SystemModel *model = new SystemModel();
 	model->ChecksumErrors(2);

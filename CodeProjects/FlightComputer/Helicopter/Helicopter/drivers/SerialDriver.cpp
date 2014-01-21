@@ -48,81 +48,64 @@ void SerialDriver::initialize()
 	}
 }
 
-int SerialDriver::transmitByte(byte byteToSend)
+int SerialDriver::transmitByte(byte byteToSend, Timer *timer)
 {
+	int status = 0;
+	
 	if (uartPort == Zero)
 	{
-		if (isTimeoutEnabled)
-		{
-			timer->startTimer();
-		}
-		
+
 		/* Wait for empty transmit buffer */
 		while ( !( UCSR0A & (1<<UDRE0)) )
 		{
 			//Check for timeout
-			if (isTimeoutEnabled)
+			if (timer->hasTimedout())
 			{
-				if (timer->hasTimedout())
-				{
-					timer->stopTimer();
-					return -1;
-				}
+				status = -1;
+				break;
 			}
 		}
 				
-				
-		/* Put data into buffer, sends the data */
-		UDR0 = byteToSend;
-		
-		timer->stopTimer();
+		if (status == 0)
+		{
+			/* Put data into buffer, sends the data */
+			UDR0 = byteToSend;			
+		}
+
 	}
 	
-	return 0;
+	return status;
 }
 
-int SerialDriver::receiveByte(byte &receivedByte)
+int SerialDriver::receiveByte(byte &receivedByte, Timer *timer)
 {
-	bool hasDataOverrun = false;
+	int status = 0;
 	
 	if (uartPort == Zero)
 	{
 		
-		if (isTimeoutEnabled)
-		{
-			timer->startTimer();
-		}
-		//int counter = 0;
-		
 		/* Wait for data on the receive buffer */
-		while ( !(UCSR0A & (1<<RXC0)) )
+		while ( !(UCSR0A & (1<<RXC0)))
 		{
 			if (timer->hasTimedout())
 			{
-				timer->stopTimer();
-				return -1;
+				status = -1;
+				break;
 			}
-			/*if (isTimeoutEnabled)
-			{
-				//Check for timeout
-				if (counter > RECEIVETIMEOUTCOUNTER)
-				{
-					return -1;
-				}
-			
-				counter++;			
-			}*/
 		}
 		
-		//determine if there has been a data overrun.
-		//Swallow the overrun because nothing can be done.
-		hasDataOverrun = (UCSR0A & (1 << DOR0)) != 0;
+		if (status == 0)
+		{
+			//determine if there has been a data overrun.
+			if ((UCSR0A & (1 << DOR0)) != 0)
+			{
+				status = -2;
+			}
 		
-		/* Read the data from the serial port buffer */
-		receivedByte = UDR0;
+			/* Read the data from the serial port buffer, even if the buffer was overrun */
+			receivedByte = UDR0;
+		}
 	}
-	
-	timer->stopTimer();
-	
-	return 0;
+
+	return status;
 }

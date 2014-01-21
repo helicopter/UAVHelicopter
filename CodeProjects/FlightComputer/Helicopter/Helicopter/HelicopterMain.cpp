@@ -116,14 +116,15 @@ int main(void)
 	setupDefaultsandReferencePosition(model, pidController);
 	
 	//Timer *timer = new Timer(F_CPU,PRESCALE_BY_TENTWENTYFOUR,75); //Good timeout when using the radio
-	Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 10); //Good timeout when using the USB
+	Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100); //Good timeout when using the USB
 	
 	//Create a driver for communicating with the Ground Control Station (GCS).
 	//SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, timer, true, true);  
-	SerialDriver *serialDriver = new SerialDriver(76800, SerialDriver::Zero, timer, true, true);  
+	//SerialDriver *serialDriver = new SerialDriver(76800, SerialDriver::Zero, true);  
+	SerialDriver *serialDriver = new SerialDriver(250000, SerialDriver::Zero, true);  
 	serialDriver->initialize();
 	
-	GroundControlStationInterface *gcsInterface = new GroundControlStationInterface(serialDriver);
+	GroundControlStationInterface *gcsInterface = new GroundControlStationInterface(serialDriver, timer, true);
 	
 	//This frequency works well for radio.
 //	SimTelemetryTask *simTelemTask = new SimTelemetryTask(radioInterface, model, 0, 10);//starting at tick 1, execute 20 times a second

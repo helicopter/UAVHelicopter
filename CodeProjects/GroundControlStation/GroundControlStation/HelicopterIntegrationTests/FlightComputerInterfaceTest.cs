@@ -82,7 +82,7 @@ namespace HelicopterIntegrationTests
         [TestMethod]
         public void TestSystemTelemetryTransmitAndReceive()
         {
-            SerialPort port = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
+            SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
 

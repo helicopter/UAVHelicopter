@@ -99,6 +99,7 @@ namespace helicopter
 			
 			long numOfFramesBlown;
 			
+			long serialCommunicationBufferOverruns;
 			
 			/**
 			 * Initial position
@@ -168,6 +169,7 @@ namespace helicopter
 				unrecognizedMsgTypes(0),
 				checksumErrors(0),
 				numOfFramesBlown(0),
+				serialCommunicationBufferOverruns(0),
 				
 				initialXPositionEcef(0),
 				initialYPositionEcef(0),
@@ -361,8 +363,11 @@ namespace helicopter
 			long ChecksumErrors() const {return checksumErrors; }
 			void ChecksumErrors(long val) { checksumErrors = val; }
 			
-			long  BlownFrames() const {return numOfFramesBlown;}
+			long BlownFrames() const {return numOfFramesBlown;}
 			void BlownFrames( long val ) { numOfFramesBlown = val;}
+				
+			long SerialCommunicationBufferOverruns() const {return serialCommunicationBufferOverruns;}
+			void SerialCommunicationBufferOverruns( long val ) { serialCommunicationBufferOverruns = val;}				
 
 			long  InitialXPositionEcef() const {return initialXPositionEcef;}
 			void InitialXPositionEcef( long val ) { initialXPositionEcef = val;}			
@@ -371,7 +376,7 @@ namespace helicopter
 			void InitialYPositionEcef( long val ) { initialYPositionEcef = val;}
 
 			long  InitialZPositionEcef() const {return initialZPositionEcef;}
-			void InitialZPositionEcef( long val ) { initialZPositionEcef = val;}							
+			void InitialZPositionEcef( long val ) { initialZPositionEcef = val;}			
 			/*
 			float **  EcefToLocalNEDRotationMatrix() const {return ecefToLocalNEDRotationMatrix;}
 			void EcefToLocalNEDRotationMatrix( long val ) { ecefToLocalNEDRotationMatrix = val;}*/

@@ -182,9 +182,9 @@
         <avrgcccpp.archiver.general.ArchiverFlags>-rcs</avrgcccpp.archiver.general.ArchiverFlags>
       </AvrGccCpp>
     </ToolchainSettings>
-    <OutputFileName>libHelicopter</OutputFileName>
-    <OutputFileExtension>.a</OutputFileExtension>
-    <OutputType>StaticLibrary</OutputType>
+    <OutputFileName>Helicopter</OutputFileName>
+    <OutputFileExtension>.elf</OutputFileExtension>
+    <OutputType>Executable</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="buffer\Buffer.cpp">

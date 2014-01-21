@@ -82,9 +82,12 @@ void SimTelemetryTask::runTaskImpl()
 			model->Timeouts(model->Timeouts() + 1);
 			break;
 		case -2:
-			model->UnrecognizedMsgTypes(model->UnrecognizedMsgTypes() + 1);
+			model->SerialCommunicationBufferOverruns(model->SerialCommunicationBufferOverruns() + 1);
 			break;
 		case -3:
+			model->UnrecognizedMsgTypes(model->UnrecognizedMsgTypes() + 1);
+			break;
+		case -4:
 			model->ChecksumErrors(model->ChecksumErrors() + 1);
 		default:
 			break;

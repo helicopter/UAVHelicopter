@@ -94,6 +94,8 @@ namespace GroundControlStation.Messages
 
         public int NumOfBlownFrames;
 
+        public int SerialCommunicationBufferOverruns;
+
         /// <summary>
         /// This represents the number of bytes in this message including the message type.
         /// </summary>
@@ -164,6 +166,7 @@ namespace GroundControlStation.Messages
             sizeof(float) +
 
 
+            sizeof(int) +
             sizeof(int) +
             sizeof(int) +
             sizeof(int) +
@@ -256,6 +259,7 @@ namespace GroundControlStation.Messages
             UnrecognizedMsgTypes = decodeInt(byteBuffer, ref positionCounter);
             ChecksumErrors = decodeInt(byteBuffer, ref positionCounter);
             NumOfBlownFrames = decodeInt(byteBuffer, ref positionCounter);
+            SerialCommunicationBufferOverruns = decodeInt(byteBuffer, ref positionCounter);
         }
 
 
@@ -332,6 +336,7 @@ namespace GroundControlStation.Messages
             encode(ref rawMsg, UnrecognizedMsgTypes, ref positionCounter);
             encode(ref rawMsg, ChecksumErrors, ref positionCounter);
             encode(ref rawMsg, NumOfBlownFrames, ref positionCounter);
+            encode(ref rawMsg, SerialCommunicationBufferOverruns, ref positionCounter);
 
             return rawMsg;
         }
@@ -457,6 +462,7 @@ namespace GroundControlStation.Messages
             model.UnrecognizedMsgTypes = UnrecognizedMsgTypes;
             model.ChecksumErrors = ChecksumErrors;
             model.NumOfBlownFrames = NumOfBlownFrames;
+            model.SerialCommunicationBufferOverruns = SerialCommunicationBufferOverruns;
         }
 
 

@@ -42,6 +42,7 @@ namespace GroundControlStation.Model
 
         public int NumOfBlownFrames { get; set; }
 
+        public int SerialCommunicationBufferOverruns { get; set; }
 
         public float XNEDBodyFrame { get; set; }
 
@@ -122,6 +123,9 @@ namespace GroundControlStation.Model
 
         public float RollAngularVelocityRadsPerSecond { get; set; }
 
+        public float PitchAngularVelocityGain { get; set; }
+
+        public float RollAngularVelocityGain { get; set; }
 
         public SimulatorTelemetry SimTelm { get; set; }
 
@@ -171,14 +175,12 @@ namespace GroundControlStation.Model
 
             lstValues.Add(new Tuple<string, string>("FC NumOfBlownFrames", NumOfBlownFrames.ToString()));
 
+            lstValues.Add(new Tuple<string, string>("FC SerialCommunicationBufferOverruns", SerialCommunicationBufferOverruns.ToString()));
+
             
 
 
             return lstValues;
         }
-
-        public float PitchAngularVelocityGain { get; set; }
-
-        public float RollAngularVelocityGain { get; set; }
     }
 }
