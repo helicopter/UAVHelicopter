@@ -235,9 +235,13 @@ namespace GroundControlStation.Views
 
             txtLongitudeControlGainValue.Text = (tbLongitudeControlGain.Value / 1000.0).ToString();
             txtLateralControlGainValue.Text = (tbLateralControlGain.Value / 1000.0).ToString();
-
             txtPitchAngularVelocityValue.Text = (tbPitchAngularVelocityGain.Value / 1000.0).ToString();
             txtRollAngularVelocityValue.Text = (tbRollAngularVelocityGain.Value / 1000.0).ToString();
+
+            Controller.Model.LongitudeInnerLoopGain = (float)tbLongitudeControlGain.Value / 1000;
+            Controller.Model.LateralInnerLoopGain = (float)tbLateralControlGain.Value / 1000;
+            Controller.Model.PitchAngularVelocityGain = (float)tbPitchAngularVelocityGain.Value / 1000;
+            Controller.Model.RollAngularVelocityGain = (float)tbRollAngularVelocityGain.Value / 1000;
         }
     }
 }

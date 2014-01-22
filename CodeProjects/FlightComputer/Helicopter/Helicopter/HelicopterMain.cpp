@@ -84,8 +84,8 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	pidController->setControlMaxValue(1.0d);
 	pidController->setControlMinValue(-1.0d);
 	
-	pidController->setMinYawServoControl (-1.0d);
-	pidController->setMaxYawServoControl (1.0d);
+	pidController->setMinYawServoControl (-.96d);
+	pidController->setMaxYawServoControl (.96d);
 	
 	pidController->setMaxLongitudeServoControlValue(1.0d);
 	pidController->setMinLongitudeServoControlValue(-1.0d);

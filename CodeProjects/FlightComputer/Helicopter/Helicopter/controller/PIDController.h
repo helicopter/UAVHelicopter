@@ -383,9 +383,12 @@ namespace helicopter
 				 * @param yawProportionalDegrees The proportional error term between the desired yaw heading and the actual yaw heading in degrees.
 				 * @param yawDerivativeError The error between the desired speed of rotation, and the reference speed of rotation for yaw rotation in degrees per second.
 				 * @param yawIntegral The integral term.
+				 * @param directionFactor This is used to reverse the direction of the calculated setpoint. This is because in the case of lateral control, if in the positive
+				 * direction, it needs a negative roll setpoint to return to the desired position, however, in the case of longitude control, if in the positive direction,
+				 * it needs a positive pitch setpoint to return to the desired position.
 				 * @return a control value between controlMaxValue and controlMinValue (generally between -1 and 1 where 0 is neutral - no blade angle).
 				 */
-				float calculateOuterLoopControlValue(float proportionalError, float velocityError, float integral, float proportionalGain, float derivativeGain);
+				float calculateOuterLoopControlValue(float proportionalError, float velocityError, float integral, float proportionalGain, float derivativeGain, int directionFactor);
 				
 				/**
 				 * Adjusts the given control value by the servo limits and trim values. If the value is above the limit it's adjusted
