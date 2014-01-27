@@ -218,100 +218,116 @@ float PIDController::convertYawErrorFrom360to180( float yawError )
 
 void PIDController::tailRotorCollectiveOuterLoopUpdate()
 {
-	float yawProportional = calculateProportional(model->MagYawDegrees(), model->ReferenceMagYawDegrees());
-	
-	yawProportional = convertYawErrorFrom360to180(yawProportional);
-	
-	float yawIntegralAntiWindup = calculateIntegralAntiWindup(model->YawControlBeforeServoLimitsAdjustment(), model->YawControl(), yawAntiWindupGain);
-	float weightedYawIntegral = calculateIntegral(yawProportional, model->YawIntegral(), yawIntegralAntiWindup, yawIntegralGain);
-	float yawDerivativeError = calculateVelocityError(model->YawVelocityDegreesPerSecond(), model->ReferenceYawVelocityDegreesPerSecond());
-	float yawControlBeforeServoLimitsAdjustment = calculateOuterLoopControlValue(yawProportional, yawDerivativeError, weightedYawIntegral, yawProportionalGain, yawDerivativeGain, 1);
-	float yawControl = adjustControlForServoLimits(yawControlBeforeServoLimitsAdjustment, minYawServoControlValue, maxYawServoControlValue);
-	
-	model->YawControl(yawControl);
-	model->YawControlBeforeServoLimitsAdjustment(yawControlBeforeServoLimitsAdjustment);
-	model->YawIntegral(weightedYawIntegral);
-	model->YawProportional(yawProportional);
-	model->YawDerivativeError(yawDerivativeError);
+	if (model->OperationalState() == SystemModel::AutoPilot)
+	{
+		float yawProportional = calculateProportional(model->MagYawDegrees(), model->ReferenceMagYawDegrees());
+		
+		yawProportional = convertYawErrorFrom360to180(yawProportional);
+		
+		float yawIntegralAntiWindup = calculateIntegralAntiWindup(model->YawControlBeforeServoLimitsAdjustment(), model->YawControl(), yawAntiWindupGain);
+		float weightedYawIntegral = calculateIntegral(yawProportional, model->YawIntegral(), yawIntegralAntiWindup, yawIntegralGain);
+		float yawDerivativeError = calculateVelocityError(model->YawVelocityDegreesPerSecond(), model->ReferenceYawVelocityDegreesPerSecond());
+		float yawControlBeforeServoLimitsAdjustment = calculateOuterLoopControlValue(yawProportional, yawDerivativeError, weightedYawIntegral, yawProportionalGain, yawDerivativeGain, 1);
+		float yawControl = adjustControlForServoLimits(yawControlBeforeServoLimitsAdjustment, minYawServoControlValue, maxYawServoControlValue);
+		
+		model->YawControl(yawControl);
+		model->YawControlBeforeServoLimitsAdjustment(yawControlBeforeServoLimitsAdjustment);
+		model->YawIntegral(weightedYawIntegral);
+		model->YawProportional(yawProportional);
+		model->YawDerivativeError(yawDerivativeError);
+	}
 }
 
 void PIDController::mainRotorCollectiveOuterLoopUpdate()
 {
-	//I JUST CHANGED THIS
-	//float zProportional = calculateProportional(model->AltitudeFeetAgl(), model->ReferenceAltitudeFeet());
-	float zProportional = calculateProportional(model->ZNEDBodyFrame(), model->ReferenceZNEDBodyFrameFeet());
+	if (model->OperationalState() == SystemModel::AutoPilot)
+	{
+		float zProportional = calculateProportional(model->ZNEDBodyFrame(), model->ReferenceZNEDBodyFrameFeet());
 	
-	float zIntegralAntiWindup = calculateIntegralAntiWindup(model->MainRotorControlBeforeServoLimitsAdjustment(), model->MainRotorCollectiveControl(), zAntiWindupGain);
-	float weightedZIntegral = calculateIntegral(zProportional, model->ZIntegral(), zIntegralAntiWindup, zIntegralGain);
-	float zDerivativeError = calculateVelocityError(model->ZVelocityFeetPerSecond(), model->ReferenceZVelocityFeetPerSecond());
-	float mainRotorControlBeforeServoLimitsAdjustment = calculateOuterLoopControlValue(zProportional, zDerivativeError, weightedZIntegral, zProportionalGain, zDerivativeGain, 1);
-	float mainRotorControl = adjustControlForServoLimits(mainRotorControlBeforeServoLimitsAdjustment, minMainRotorServoControlValue, maxMainRotorServoControlValue);
+		float zIntegralAntiWindup = calculateIntegralAntiWindup(model->MainRotorControlBeforeServoLimitsAdjustment(), model->MainRotorCollectiveControl(), zAntiWindupGain);
+		float weightedZIntegral = calculateIntegral(zProportional, model->ZIntegral(), zIntegralAntiWindup, zIntegralGain);
+		float zDerivativeError = calculateVelocityError(model->ZVelocityFeetPerSecond(), model->ReferenceZVelocityFeetPerSecond());
+		float mainRotorControlBeforeServoLimitsAdjustment = calculateOuterLoopControlValue(zProportional, zDerivativeError, weightedZIntegral, zProportionalGain, zDerivativeGain, 1);
+		float mainRotorControl = adjustControlForServoLimits(mainRotorControlBeforeServoLimitsAdjustment, minMainRotorServoControlValue, maxMainRotorServoControlValue);
 	
-	model->MainRotorCollectiveControl(mainRotorControl);
-	model->MainRotorControlBeforeServoLimitsAdjustment(mainRotorControlBeforeServoLimitsAdjustment);
-	model->ZIntegral(weightedZIntegral);
-	model->ZProportional(zProportional);
-	model->ZDerivativeError(zDerivativeError);
+		model->MainRotorCollectiveControl(mainRotorControl);
+		model->MainRotorControlBeforeServoLimitsAdjustment(mainRotorControlBeforeServoLimitsAdjustment);
+		model->ZIntegral(weightedZIntegral);
+		model->ZProportional(zProportional);
+		model->ZDerivativeError(zDerivativeError);
+	}
 }
 
 void PIDController::cyclicLongitudeOuterLoopUpdate()
 {
-	float xProportional = calculateProportional(model->XNEDBodyFrame(), model->ReferenceXNEDBodyFrame());
-	float xIntegralAntiWindup = calculateIntegralAntiWindup(model->LongitudeControlBeforeServoLimitsAdjustment(), model->LongitudeControl(), xAntiWindupGain);
-	float weightedXIntegral = calculateIntegral(xProportional, model->XIntegral(), xIntegralAntiWindup, xIntegralGain);
-	float xDerivativeError = calculateVelocityError(model->XVelocityMetersPerSecond(), model->ReferenceXVelocityMetersPerSecond());
-	float xLongitudinalOuterLoopSetpoint = calculateOuterLoopControlValue(xProportional, xDerivativeError, weightedXIntegral, xProportionalGain, xDerivativeGain, 1);
+	if (model->OperationalState() == SystemModel::AutoPilot)
+	{
+		float xProportional = calculateProportional(model->XNEDBodyFrame(), model->ReferenceXNEDBodyFrame());
+		float xIntegralAntiWindup = calculateIntegralAntiWindup(model->LongitudeControlBeforeServoLimitsAdjustment(), model->LongitudeControl(), xAntiWindupGain);
+		float weightedXIntegral = calculateIntegral(xProportional, model->XIntegral(), xIntegralAntiWindup, xIntegralGain);
+		float xDerivativeError = calculateVelocityError(model->XVelocityMetersPerSecond(), model->ReferenceXVelocityMetersPerSecond());
+		float xLongitudinalOuterLoopSetpoint = calculateOuterLoopControlValue(xProportional, xDerivativeError, weightedXIntegral, xProportionalGain, xDerivativeGain, 1);
 	
-	xLongitudinalOuterLoopSetpoint = adjustForSetpointLimits(xLongitudinalOuterLoopSetpoint, minPitchSetpointDegrees, maxPitchSetpointDegrees);
+		xLongitudinalOuterLoopSetpoint = adjustForSetpointLimits(xLongitudinalOuterLoopSetpoint, minPitchSetpointDegrees, maxPitchSetpointDegrees);
 
-	model->XLongitudeOuterLoopSetpoint(xLongitudinalOuterLoopSetpoint);
-	model->XIntegral(weightedXIntegral);
-	model->XProportional(xProportional);
-	model->XDerivativeError(xDerivativeError);
+		model->XLongitudeOuterLoopSetpoint(xLongitudinalOuterLoopSetpoint);
+		model->XIntegral(weightedXIntegral);
+		model->XProportional(xProportional);
+		model->XDerivativeError(xDerivativeError);
+	}
 }
 
 void PIDController::cyclicLateralOuterLoopUpdate()
 {
-	float yProportional = calculateProportional(model->YNEDBodyFrame(), model->ReferenceYNEDBodyFrame());
-	float yIntegralAntiWindup = calculateIntegralAntiWindup(model->LateralControlBeforeServoLimitsAdjustment(), model->LateralControl(), yAntiWindupGain);
-	float weightedYIntegral = calculateIntegral(yProportional, model->YIntegral(), yIntegralAntiWindup, yIntegralGain);
-	float yDerivativeError = calculateVelocityError(model->YVelocityMetersPerSecond(), model->ReferenceYVelocityMetersPerSecond());
+	if (model->OperationalState() == SystemModel::AutoPilot)
+	{
+		float yProportional = calculateProportional(model->YNEDBodyFrame(), model->ReferenceYNEDBodyFrame());
+		float yIntegralAntiWindup = calculateIntegralAntiWindup(model->LateralControlBeforeServoLimitsAdjustment(), model->LateralControl(), yAntiWindupGain);
+		float weightedYIntegral = calculateIntegral(yProportional, model->YIntegral(), yIntegralAntiWindup, yIntegralGain);
+		float yDerivativeError = calculateVelocityError(model->YVelocityMetersPerSecond(), model->ReferenceYVelocityMetersPerSecond());
 	
-	//we use a -1 direction factor because unlike other controls, if we have a positive proportional error, we actually need a 'negative' desired 
-	//roll setpoint in order for the helicopter to track back towards the desired position. So if the helicopter is directly 'east' of the desired position,
-	//the proportional error will correctly be positive (in a North-east-down coordinate system), but the helicopter will have to roll counter clockwise
-	//to return to the desired position. This differs from if the helicopter was directly north of the desired position. The x proportional would be positive
-	//(in NED), but it would take a positive pitch angle setpoint to get the helicopter to return to the desired position.
-	float yLateralOuterLoopSetpoint = calculateOuterLoopControlValue(yProportional, yDerivativeError, weightedYIntegral, yProportionalGain, yDerivativeGain, -1);
+		//we use a -1 direction factor because unlike other controls, if we have a positive proportional error, we actually need a 'negative' desired 
+		//roll setpoint in order for the helicopter to track back towards the desired position. So if the helicopter is directly 'east' of the desired position,
+		//the proportional error will correctly be positive (in a North-east-down coordinate system), but the helicopter will have to roll counter clockwise
+		//to return to the desired position. This differs from if the helicopter was directly north of the desired position. The x proportional would be positive
+		//(in NED), but it would take a positive pitch angle setpoint to get the helicopter to return to the desired position.
+		float yLateralOuterLoopSetpoint = calculateOuterLoopControlValue(yProportional, yDerivativeError, weightedYIntegral, yProportionalGain, yDerivativeGain, -1);
 
-	yLateralOuterLoopSetpoint = adjustForSetpointLimits(yLateralOuterLoopSetpoint, minRollSetpointDegrees, maxRollSetpointDegrees);
+		yLateralOuterLoopSetpoint = adjustForSetpointLimits(yLateralOuterLoopSetpoint, minRollSetpointDegrees, maxRollSetpointDegrees);
 	
-	model->YLateralOuterLoopSetpoint(yLateralOuterLoopSetpoint);
-	model->YIntegral(weightedYIntegral);
-	model->YProportional(yProportional);
-	model->YDerivativeError(yDerivativeError);
+		model->YLateralOuterLoopSetpoint(yLateralOuterLoopSetpoint);
+		model->YIntegral(weightedYIntegral);
+		model->YProportional(yProportional);
+		model->YDerivativeError(yDerivativeError);
+	}
 }
 
 void PIDController::cyclicLongitudeInnerLoopUpdate()
 {
-	float xLongitudinalInnerLoopControlBeforeServoLimits = calculateInnerLoopControlValue(model->XLongitudeOuterLoopSetpoint(), model->ThetaPitchDegrees(), longitudeInnerLoopGain, model->PitchAngularVelocityRadsPerSecond(), pitchAngularVelocityGain);
+	if (model->OperationalState() == SystemModel::AutoPilot)
+	{
+		float xLongitudinalInnerLoopControlBeforeServoLimits = calculateInnerLoopControlValue(model->XLongitudeOuterLoopSetpoint(), model->ThetaPitchDegrees(), longitudeInnerLoopGain, model->PitchAngularVelocityRadsPerSecond(), pitchAngularVelocityGain);
 	
-	float xLongitudinalInnerLoopControl = adjustControlForServoLimits(xLongitudinalInnerLoopControlBeforeServoLimits, minLongitudeServoControlValue, maxLongitudeServoControlValue);
+		float xLongitudinalInnerLoopControl = adjustControlForServoLimits(xLongitudinalInnerLoopControlBeforeServoLimits, minLongitudeServoControlValue, maxLongitudeServoControlValue);
 	
-	model->LongitudeControlBeforeServoLimitsAdjustment(xLongitudinalInnerLoopControlBeforeServoLimits);
+		model->LongitudeControlBeforeServoLimitsAdjustment(xLongitudinalInnerLoopControlBeforeServoLimits);
 	
-	model->LongitudeControl(xLongitudinalInnerLoopControl);
+		model->LongitudeControl(xLongitudinalInnerLoopControl);
+	}
 }
 
 void PIDController::cyclicLateralInnerLoopUpdate()
 {
-	float yLateralInnerLoopControlBeforeServoLimits = calculateInnerLoopControlValue(model->YLateralOuterLoopSetpoint(), model->PhiRollDegrees(), lateralInnerLoopGain, model->RollAngularVelocityRadsPerSecond(), rollAngularVelocityGain);
-	
-	float yLateralInnerLoopControl = adjustControlForServoLimits(yLateralInnerLoopControlBeforeServoLimits, minLateralServoControlValue, maxLateralServoControlValue);
-	
-	model->LateralControlBeforeServoLimitsAdjustment(yLateralInnerLoopControlBeforeServoLimits);
-	
-	model->LateralControl(yLateralInnerLoopControl);
+	if (model->OperationalState() == SystemModel::AutoPilot)
+	{
+		float yLateralInnerLoopControlBeforeServoLimits = calculateInnerLoopControlValue(model->YLateralOuterLoopSetpoint(), model->PhiRollDegrees(), lateralInnerLoopGain, model->RollAngularVelocityRadsPerSecond(), rollAngularVelocityGain);
+		
+		float yLateralInnerLoopControl = adjustControlForServoLimits(yLateralInnerLoopControlBeforeServoLimits, minLateralServoControlValue, maxLateralServoControlValue);
+		
+		model->LateralControlBeforeServoLimitsAdjustment(yLateralInnerLoopControlBeforeServoLimits);
+		
+		model->LateralControl(yLateralInnerLoopControl);		
+	}
 }
 
 

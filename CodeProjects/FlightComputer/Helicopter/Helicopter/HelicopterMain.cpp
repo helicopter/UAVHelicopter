@@ -17,6 +17,7 @@
 #include "PIDInnerLoopTask.h"
 #include "SensorProcessingTask.h"
 #include "CoordinateUtil.h"
+#include "RadioControllerInterface.h"
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -144,6 +145,10 @@ int main(void)
 	PIDInnerLoopTask *pidInnerLoop = new PIDInnerLoopTask(pidController, 4, (SCHEDULER_TICK_FREQUENCY_HZ / (1/PID_OUTER_LOOP_PERIOD)));
 	
 
+	RadioControllerInterface *rcInterface = RadioControllerInterface::getRadioControllerInterface();
+	
+	rcInterface->SetSystemModel(model);
+
 
 	Scheduler *scheduler = Scheduler::getScheduler();
 	
@@ -191,6 +196,10 @@ int main(void)
 	scheduler->init(); //Sets up the timer registers, inits all tasks,
 	
 	scheduler->start();
+	
+	rcInterface->init();
+	
+	rcInterface->start();
 	
 	
 	while(1)

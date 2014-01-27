@@ -97,7 +97,7 @@ namespace helicopter
 				
 				/**
 				 * If the Scheduler hasn't been created yet, then construct the 
-				 * scheduler 'singleton' and return it.
+				 * scheduler pseudo-'singleton' and return it.
 				 */
 				static Scheduler  *getScheduler();
 				

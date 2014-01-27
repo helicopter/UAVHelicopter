@@ -21,7 +21,16 @@ namespace helicopter
 		 */
 		class SystemModel
 		{
+			public: 
+			
+			/**
+			 * Enum representing whether the helicopter is being controlled
+			 * by a radio transmitter (ManualControl) or by the PID algorithm (AutoPilot).
+			 */
+			enum OperatingState {ManualControl, AutoPilot};
+				
 			private:
+			OperatingState operationalState;
 			
 			/**
 			 * These variables are used for controlling Yaw action (tail rotor)
@@ -113,7 +122,7 @@ namespace helicopter
 			float EcefToLocalNEDRotationMatrix[3][3];
 			
 			SystemModel():
-			
+				operationalState(ManualControl),
 				magYawDegrees(0),
 				referenceMagYawDegrees(0),
 				yawControl(0),
@@ -380,6 +389,9 @@ namespace helicopter
 			/*
 			float **  EcefToLocalNEDRotationMatrix() const {return ecefToLocalNEDRotationMatrix;}
 			void EcefToLocalNEDRotationMatrix( long val ) { ecefToLocalNEDRotationMatrix = val;}*/
+				
+			OperatingState  OperationalState() const {return operationalState;}
+			void OperationalState( OperatingState val ) { operationalState = val;}
 		};
 	}
 	

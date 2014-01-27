@@ -53,6 +53,7 @@ C_SRCS +=  \
 ../drivers/SerialDriver.cpp \
 ../HelicopterMain.cpp \
 ../interfaces/GroundControlStationInterface.cpp \
+../interfaces/RadioControllerInterface.cpp \
 ../messages/Message.cpp \
 ../messages/SyncMessage.cpp \
 ../messages/SystemTelemetryMessage.cpp \
@@ -84,6 +85,7 @@ drivers/MagnetometerDriver.o \
 drivers/SerialDriver.o \
 HelicopterMain.o \
 interfaces/GroundControlStationInterface.o \
+interfaces/RadioControllerInterface.o \
 messages/Message.o \
 messages/SyncMessage.o \
 messages/SystemTelemetryMessage.o \
@@ -108,6 +110,7 @@ drivers/MagnetometerDriver.o \
 drivers/SerialDriver.o \
 HelicopterMain.o \
 interfaces/GroundControlStationInterface.o \
+interfaces/RadioControllerInterface.o \
 messages/Message.o \
 messages/SyncMessage.o \
 messages/SystemTelemetryMessage.o \
@@ -132,6 +135,7 @@ drivers/MagnetometerDriver.d \
 drivers/SerialDriver.d \
 HelicopterMain.d \
 interfaces/GroundControlStationInterface.d \
+interfaces/RadioControllerInterface.d \
 messages/Message.d \
 messages/SyncMessage.d \
 messages/SystemTelemetryMessage.d \
@@ -156,6 +160,7 @@ drivers/MagnetometerDriver.d \
 drivers/SerialDriver.d \
 HelicopterMain.d \
 interfaces/GroundControlStationInterface.d \
+interfaces/RadioControllerInterface.d \
 messages/Message.d \
 messages/SyncMessage.d \
 messages/SystemTelemetryMessage.d \
@@ -183,6 +188,8 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

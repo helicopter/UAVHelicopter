@@ -226,6 +226,12 @@
     <Compile Include="interfaces\GroundControlStationInterface.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="interfaces\RadioControllerInterface.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="interfaces\RadioControllerInterface.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="messages\Message.cpp">
       <SubType>compile</SubType>
     </Compile>

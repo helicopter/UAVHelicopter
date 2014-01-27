@@ -51,7 +51,8 @@ enum PRESCALER {NO_PRESCALER=1, PRESCALE_BY_EIGHT=8,
  */
 //static const int SCHEDULER_TICK_FREQUENCY_HZ = 200;
 //static const int SCHEDULER_TICK_FREQUENCY_HZ = 120; 
-static const int SCHEDULER_TICK_FREQUENCY_HZ = 70; 
+//static const int SCHEDULER_TICK_FREQUENCY_HZ = 70; //original
+static const int SCHEDULER_TICK_FREQUENCY_HZ = 70;
 //static const int SCHEDULER_TICK_FREQUENCY_HZ = 100; //good when not transmitting to GCS
 
 static const double PID_OUTER_LOOP_PERIOD = .05;

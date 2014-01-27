@@ -6,8 +6,8 @@
  */ 
 
 
-#ifndef RADIOINTERFACE_H_
-#define RADIOINTERFACE_H_
+#ifndef GROUNDCONTROLSTATIONINTERFACE_H_
+#define GROUNDCONTROLSTATIONINTERFACE_H_
 
 #include "SerialDriver.h"
 #include "Message.h"
@@ -104,4 +104,4 @@ namespace helicopter
 }
 
 
-#endif /* RADIOINTERFACE_H_ */
+#endif /* GROUNDCONTROLSTATIONINTERFACE_H_ */

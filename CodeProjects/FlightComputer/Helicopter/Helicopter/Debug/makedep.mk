@@ -16,6 +16,8 @@ HelicopterMain.cpp
 
 interfaces\GroundControlStationInterface.cpp
 
+interfaces\RadioControllerInterface.cpp
+
 messages\Message.cpp
 
 messages\SyncMessage.cpp
