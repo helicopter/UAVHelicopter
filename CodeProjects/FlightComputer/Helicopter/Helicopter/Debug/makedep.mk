@@ -12,6 +12,8 @@ drivers\MagnetometerDriver.cpp
 
 drivers\SerialDriver.cpp
 
+drivers\SPIDriver.cpp
+
 HelicopterMain.cpp
 
 interfaces\GroundControlStationInterface.cpp

@@ -182,9 +182,9 @@
         <avrgcccpp.archiver.general.ArchiverFlags>-rcs</avrgcccpp.archiver.general.ArchiverFlags>
       </AvrGccCpp>
     </ToolchainSettings>
-    <OutputFileName>Helicopter</OutputFileName>
-    <OutputFileExtension>.elf</OutputFileExtension>
-    <OutputType>Executable</OutputType>
+    <OutputFileName>libHelicopter</OutputFileName>
+    <OutputFileExtension>.a</OutputFileExtension>
+    <OutputType>StaticLibrary</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="buffer\Buffer.cpp">
@@ -215,6 +215,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="drivers\SerialDriver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="drivers\SPIDriver.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="drivers\SPIDriver.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="HelicopterMain.cpp">
