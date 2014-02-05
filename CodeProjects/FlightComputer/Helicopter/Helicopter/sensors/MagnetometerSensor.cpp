@@ -36,6 +36,7 @@ int MagnetometerSensor::readSensor()
  */
 double MagnetometerSensor::getFRDX()
 {
+	//TODO **** note make this happen only once when the data is read.
 	return  (rawMagX * (cos(theta)*cos(sai))) + (rawMagY * (sin(phi)*sin(theta) * cos(sai) - cos(phi)*sin(sai))) + (rawMagZ * (cos(phi)*sin(theta)*cos(sai)+sin(phi)*sin(sai)));
 }
 

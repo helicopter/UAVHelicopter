@@ -4,8 +4,11 @@
  * Created: 12/17/2013 11:22:37 PM
  *  Author: HP User
  */ 
-#include "CoordinateUtil.h"
 #include <math.h>
+
+#include "CoordinateUtil.h"
+
+#include "MatrixUtil.h"
 
 
 using namespace helicopter::util;
@@ -20,7 +23,8 @@ void CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(float latitudeDegrees
 	float radLat = DegreesToRad(latitudeDegrees);
 	float radLong = DegreesToRad(longitudeDegrees);
 
-	
+	//Create a rotation matrix for rotating earth-centered-earth-fixed coordinates
+	//into Local North-East-Down coordinates.
 	ecefToLocalNEDRotationMatrix[0][0] = -1 * sin(radLat) * cos(radLong);
 	ecefToLocalNEDRotationMatrix[0][1] = -1 * sin(radLat) * sin(radLong);
 	ecefToLocalNEDRotationMatrix[0][2] = cos(radLat);
@@ -28,7 +32,7 @@ void CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(float latitudeDegrees
 	ecefToLocalNEDRotationMatrix[1][1] = cos(radLong);
 	ecefToLocalNEDRotationMatrix[1][2] = 0;
 	ecefToLocalNEDRotationMatrix[2][0] = -1 * cos(radLat) * cos(radLong);
-	ecefToLocalNEDRotationMatrix[2][1] = -1 * cos(radLat)*sin(radLong);
+	ecefToLocalNEDRotationMatrix[2][1] = -1 * cos(radLat) * sin(radLong);
 	ecefToLocalNEDRotationMatrix[2][2] = -1 * sin(radLat);
 }
 
@@ -65,17 +69,10 @@ void CoordinateUtil::ConvertFromECEFToLocalNED(float ecefReferenceX, float ecefR
 	
 	float rotatedMatrix[3] = {};
 	float positionMatrix[3] = {differenceXECEF, differenceYECEF, differenceZECEF};
-	
+		
 	//Rotate the current ecef position from earth centered earth fixed (ECEF) into North-East-Down(NED).
 	//Iterate through the rows of the rotation matrix
-	for (int i = 0; i < 3; i++)
-	{
-		//iterate through the columns of the rotation matrix
-		for (int j = 0; j < 3; j++)
-		{
-			rotatedMatrix[i] += ecefToLocalNEDRotationMatrix[i] [j] * positionMatrix[j];
-		}
-	}
+	MatrixUtil::RotateMatrix(ecefToLocalNEDRotationMatrix,positionMatrix,rotatedMatrix);
 	
 	localNEDX = rotatedMatrix[0];
 	localNEDY = rotatedMatrix[1];

@@ -126,11 +126,5 @@ int spi_messaging_test(TestCase *test)
 	AssertTrue(accelZ != 0);
 	AssertTrue(accelX != accelY && accelY != accelZ);
 
-/*
-spiDriver->write(0x75 | readCommand);
-_delay_ms(10);
-byte accelX = spiDriver->readByte();
-AssertTrue(accelX != 0);
-	*/
 	return 0;
 };

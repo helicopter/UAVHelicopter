@@ -192,6 +192,8 @@ int main(void)
 	}
 	
 	
+	//TODO set this to manual by default and have some sort of flag for what build we are making to know if it should be autopilot or not.
+	model->OperationalState(SystemModel::AutoPilot);
 	
 	scheduler->init(); //Sets up the timer registers, inits all tasks,
 	

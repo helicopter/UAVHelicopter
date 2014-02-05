@@ -16,9 +16,13 @@ radio\GroundControlStationUnitTests.cpp
 
 scheduler\SchedulerTest.cpp
 
+sensors\AccelerometerTests.cpp
+
 sensors\MagnetometerSensorTests.cpp
 
 util\CoordinateUtilTests.cpp
+
+util\MatrixUtilTests.cpp
 
 util\TimerTests.cpp
 

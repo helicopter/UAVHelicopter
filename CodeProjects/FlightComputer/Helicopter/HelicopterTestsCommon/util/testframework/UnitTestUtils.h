@@ -24,7 +24,10 @@ if (!(evaluation)) \
 }
 
 	 
-#define AssertFalse(evaluation) if (evaluation){ return -1;}						
+#define AssertFalse(evaluation) if (evaluation){ return -1;}	
+	
+#define AboutEqual(value1, value2) (value2 < value1 + .0001 && value2 > value1 - .0001) ? true : false
+			
 
 /*
 #define AssertFalse (evaluation)			\

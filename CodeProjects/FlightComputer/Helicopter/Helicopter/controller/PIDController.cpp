@@ -111,35 +111,6 @@ float PIDController::calculateIntegral(float proportional, float oldIntegral, fl
 	return workingIntegral;
 }
 
-//TODO refactor to make this common for all PID calculations
-//float PIDController::calculateIntegral(float yawProportionalDegrees, float oldYawIntegral, float yawAntiWindup)
-//{
-	//float integral = 0;
-	//
-	//integral = oldYawIntegral + yawProportionalDegrees * intervalPeriodSecs;
-	//
-	//if (yawAntiWindup != 0)
-	//{
-		////We want to know if the integral is greater than 0 or less than 0 so that when we subtract
-		////the antiwindup value, we get closer to 0, and don't exceed 0. 
-		//if (integral > 0 && yawAntiWindup > integral)
-		//{
-			//integral = 0;
-		//}else if (integral < 0 && yawAntiWindup < integral)
-		//{
-			//integral = 0;
-		//}
-		//
-		//if (integral != 0)
-		//{
-			//integral = integral - yawAntiWindup;
-		//}
-	//}
-	//
-	//return integral;
-//}
-
-
 float PIDController::calculateVelocityError(float currentVelocity, float referenceVelocity)
 {
 	return currentVelocity - referenceVelocity;

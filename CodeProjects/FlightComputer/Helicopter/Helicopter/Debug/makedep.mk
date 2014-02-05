@@ -48,5 +48,7 @@ util\CommonHeader.cpp
 
 util\CoordinateUtil.cpp
 
+util\MatrixUtil.cpp
+
 util\Timer.cpp
 
