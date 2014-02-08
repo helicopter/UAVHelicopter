@@ -7,11 +7,13 @@
 #include "TestSuite.h"
 #include "GroundControlStationIntegrationTests.h"
 #include "SerialDriverIntegrationTests.h"
+#include "ImuSensorTests.h"
 
 #include <stdio.h>
 #include <avr/io.h>
 
 using namespace helicoptertestscommon::util::testframework;
+
 
 int main(void)
 {
@@ -21,6 +23,7 @@ int main(void)
 	//helicopterTests.addTest(serialreceivetransmit_test, 2);
 	helicopterTests.addTest(systemtelemetrytransmitandreceive_test, 3);
 //	helicopterTests.addTest(reliablyreceive_test, 4);
+	helicopterTests.addTest(readimu_test, 5);
 	
 	
 	

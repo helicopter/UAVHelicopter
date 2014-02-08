@@ -60,9 +60,11 @@ C_SRCS +=  \
 ../messages/SystemTelemetryMessage.cpp \
 ../model/SystemModel.cpp \
 ../scheduler/Scheduler.cpp \
+../sensors/IMUSensor.cpp \
 ../sensors/MagnetometerSensor.cpp \
 ../tasks/PIDInnerLoopTask.cpp \
 ../tasks/PIDOuterLoopTask.cpp \
+../tasks/ReadIMUSensorTask.cpp \
 ../tasks/SensorProcessingTask.cpp \
 ../tasks/SimTelemetryTask.cpp \
 ../tasks/Task.cpp \
@@ -94,9 +96,11 @@ messages/SyncMessage.o \
 messages/SystemTelemetryMessage.o \
 model/SystemModel.o \
 scheduler/Scheduler.o \
+sensors/IMUSensor.o \
 sensors/MagnetometerSensor.o \
 tasks/PIDInnerLoopTask.o \
 tasks/PIDOuterLoopTask.o \
+tasks/ReadIMUSensorTask.o \
 tasks/SensorProcessingTask.o \
 tasks/SimTelemetryTask.o \
 tasks/Task.o \
@@ -121,9 +125,11 @@ messages/SyncMessage.o \
 messages/SystemTelemetryMessage.o \
 model/SystemModel.o \
 scheduler/Scheduler.o \
+sensors/IMUSensor.o \
 sensors/MagnetometerSensor.o \
 tasks/PIDInnerLoopTask.o \
 tasks/PIDOuterLoopTask.o \
+tasks/ReadIMUSensorTask.o \
 tasks/SensorProcessingTask.o \
 tasks/SimTelemetryTask.o \
 tasks/Task.o \
@@ -148,9 +154,11 @@ messages/SyncMessage.d \
 messages/SystemTelemetryMessage.d \
 model/SystemModel.d \
 scheduler/Scheduler.d \
+sensors/IMUSensor.d \
 sensors/MagnetometerSensor.d \
 tasks/PIDInnerLoopTask.d \
 tasks/PIDOuterLoopTask.d \
+tasks/ReadIMUSensorTask.d \
 tasks/SensorProcessingTask.d \
 tasks/SimTelemetryTask.d \
 tasks/Task.d \
@@ -175,9 +183,11 @@ messages/SyncMessage.d \
 messages/SystemTelemetryMessage.d \
 model/SystemModel.d \
 scheduler/Scheduler.d \
+sensors/IMUSensor.d \
 sensors/MagnetometerSensor.d \
 tasks/PIDInnerLoopTask.d \
 tasks/PIDOuterLoopTask.d \
+tasks/ReadIMUSensorTask.d \
 tasks/SensorProcessingTask.d \
 tasks/SimTelemetryTask.d \
 tasks/Task.d \
@@ -187,9 +197,9 @@ util/CoordinateUtil.d \
 util/MatrixUtil.d \
 util/Timer.d
 
-OUTPUT_FILE_PATH +=Helicopter.elf
+OUTPUT_FILE_PATH +=libHelicopter.a
 
-OUTPUT_FILE_PATH_AS_ARGS +=Helicopter.elf
+OUTPUT_FILE_PATH_AS_ARGS +=libHelicopter.a
 
 ADDITIONAL_DEPENDENCIES:=
 
@@ -198,6 +208,10 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
+
+
+
+
 
 
 
@@ -348,19 +362,14 @@ endif
 # All Target
 all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 
-$(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP)
-	@echo Building target: $@
-	@echo Invoking: AVR8/GNU Linker : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="Helicopter.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=atmega2560 
-	@echo Finished building target: $@
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature  "Helicopter.elf" "Helicopter.hex"
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "Helicopter.elf" "Helicopter.eep" || exit 0
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "Helicopter.elf" > "Helicopter.lss"
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature  "Helicopter.elf" "Helicopter.srec"
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-size.exe" "Helicopter.elf"
-	
-	
 
+$(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP)
+	@echo Building target: $@
+	@echo Invoking: AVR8/GNU Archiver : 3.4.2
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-ar.exe$(QUOTE) -rcs  -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS)
+	@echo Finished building target: $@
+	
+	
 
 
 
@@ -369,5 +378,5 @@ $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP)
 clean:
 	-$(RM) $(OBJS_AS_ARGS) $(EXECUTABLES)  
 	-$(RM) $(C_DEPS_AS_ARGS)   
-	rm -rf "Helicopter.elf" "Helicopter.a" "Helicopter.hex" "Helicopter.lss" "Helicopter.eep" "Helicopter.map" "Helicopter.srec"
+	rm -rf "libHelicopter.elf" "libHelicopter.a" "libHelicopter.hex" "libHelicopter.lss" "libHelicopter.eep" "libHelicopter.map" "libHelicopter.srec"
 	

@@ -12,6 +12,45 @@ namespace HelicopterIntegrationTests
     public class FlightComputerInterfaceTest
     {
 
+        short readShort(SerialPortInterface portInterface)
+        {
+            return (short) (portInterface.ReadByte() << 8 | portInterface.ReadByte());
+        }
+
+        float readFloat(SerialPortInterface portInterface)
+        {
+            return (float)(portInterface.ReadByte() << 8 | portInterface.ReadByte());
+        }
+
+        [TestMethod]
+        public void TestSensorData()
+        {
+            SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
+            SerialPortInterface portInterface = new SerialPortInterface(port);
+            portInterface.Open();
+
+            System.Diagnostics.Debug.WriteLine(readShort(portInterface));
+            System.Diagnostics.Debug.WriteLine(readShort(portInterface));
+            System.Diagnostics.Debug.WriteLine(readShort(portInterface));
+            System.Diagnostics.Debug.WriteLine(readShort(portInterface));
+            System.Diagnostics.Debug.WriteLine(readShort(portInterface));
+            System.Diagnostics.Debug.WriteLine(readShort(portInterface));
+            System.Diagnostics.Debug.WriteLine(readFloat(portInterface));
+            System.Diagnostics.Debug.WriteLine(readFloat(portInterface));
+            System.Diagnostics.Debug.WriteLine(readFloat(portInterface));
+            System.Diagnostics.Debug.WriteLine(readFloat(portInterface));
+            System.Diagnostics.Debug.WriteLine(readFloat(portInterface));
+            System.Diagnostics.Debug.WriteLine(readFloat(portInterface));
+
+
+            portInterface.Close();
+        }
+
+
+
+
+
+
         [TestMethod]
         public void TestSendReceiveFloat()
         {

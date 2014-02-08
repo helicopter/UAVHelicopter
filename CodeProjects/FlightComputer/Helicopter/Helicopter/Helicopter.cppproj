@@ -182,9 +182,9 @@
         <avrgcccpp.archiver.general.ArchiverFlags>-rcs</avrgcccpp.archiver.general.ArchiverFlags>
       </AvrGccCpp>
     </ToolchainSettings>
-    <OutputFileName>Helicopter</OutputFileName>
-    <OutputFileExtension>.elf</OutputFileExtension>
-    <OutputType>Executable</OutputType>
+    <OutputFileName>libHelicopter</OutputFileName>
+    <OutputFileExtension>.a</OutputFileExtension>
+    <OutputType>StaticLibrary</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="buffer\Buffer.cpp">
@@ -268,6 +268,12 @@
     <Compile Include="scheduler\Scheduler.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="sensors\IMUSensor.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="sensors\IMUSensor.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="sensors\MagnetometerSensor.cpp">
       <SubType>compile</SubType>
     </Compile>
@@ -287,6 +293,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="tasks\PIDOuterLoopTask.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tasks\ReadIMUSensorTask.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tasks\ReadIMUSensorTask.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="tasks\SensorProcessingTask.cpp">

@@ -15,6 +15,13 @@ namespace GroundControlStation.Views
             InitializeComponent();
         }
 
+        public GraphForm(string title)
+        {
+            InitializeComponent();
+            this.Text = title;
+        }
+
+
         public void PlotLineGraph(double dataPointValue)
         {
             if (this.TelemetryGraph.Series["TelemData"].Points.Count >= 30)
@@ -25,17 +32,6 @@ namespace GroundControlStation.Views
             DataPoint datapoint = new DataPoint(this.TelemetryGraph.Series["TelemData"].Points.Count, dataPointValue);
             
             this.TelemetryGraph.Series["TelemData"].Points.Add(datapoint);
-            /*
-            this.TelemetryGraph.Series["TelemData"].Points.Clear();
-
-            for (int i = 0; i < values.Count; i++)
-            {
-                DataPoint datapoint = new DataPoint(i, values[i]);
-
-                this.TelemetryGraph.Series["TelemData"].Points.Add(datapoint);
-
-            }
-             * */
         }
 
         public void ActivateView()

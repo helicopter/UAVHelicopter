@@ -18,6 +18,8 @@
 #include "SensorProcessingTask.h"
 #include "CoordinateUtil.h"
 #include "RadioControllerInterface.h"
+#include "ReadIMUSensorTask.h"
+#include "IMUSensor.h"
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -29,6 +31,7 @@ using namespace helicopter::interfaces;
 using namespace helicopter::model;
 using namespace helicopter::controller;
 using namespace helicopter::util;
+using namespace helicopter::sensors;
 
 void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidController)
 {	
@@ -144,6 +147,14 @@ int main(void)
 	PIDOuterLoopTask *pidOuterLoop = new PIDOuterLoopTask(pidController, 3, (SCHEDULER_TICK_FREQUENCY_HZ / (1/PID_OUTER_LOOP_PERIOD)));
 	PIDInnerLoopTask *pidInnerLoop = new PIDInnerLoopTask(pidController, 4, (SCHEDULER_TICK_FREQUENCY_HZ / (1/PID_OUTER_LOOP_PERIOD)));
 	
+	SPIDriver *spiDriver = new SPIDriver();
+	spiDriver->init();
+	
+	IMUSensor *imuSensor = new IMUSensor(spiDriver);
+	imuSensor->init();
+	
+	ReadIMUSensorTask *imuSensorTask = new ReadIMUSensorTask(model, imuSensor, 6, (SCHEDULER_TICK_FREQUENCY_HZ / (1/PID_OUTER_LOOP_PERIOD)));
+	
 
 	RadioControllerInterface *rcInterface = RadioControllerInterface::getRadioControllerInterface();
 	
@@ -164,10 +175,13 @@ int main(void)
 	
 	scheduler->addTask(sensorProcessingTask);
 	
+//	scheduler->addTask(imuSensorTask);
+	
 	
 	//Wait until we receive location data before starting the scheduler
 	//TODO rework this
 	bool isInitialized = false;
+	
 	while (!isInitialized)
 	{
 		simTelemTask->runTaskImpl();

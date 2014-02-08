@@ -123,15 +123,17 @@
       <Value>../../Helicopter/buffer</Value>
       <Value>../../Helicopter/drivers</Value>
       <Value>../../Helicopter/scheduler</Value>
-      <Value>../../Helicopter/sensors</Value>
       <Value>../../Helicopter/util</Value>
-      <Value>../../HelicopterUnitTests</Value>
+      <Value>../../Helicopter/sensors</Value>
       <Value>../radio</Value>
-      <Value>../drivers</Value>
+      <Value>../driver</Value>
       <Value>../../Helicopter/interfaces</Value>
       <Value>../../HelicopterTestsCommon/mocks</Value>
       <Value>../../Helicopter/messages</Value>
       <Value>../../Helicopter/model</Value>
+      <Value>../sensor</Value>
+      <Value>../../Helicopter/controller</Value>
+      <Value>../../Helicopter/tasks</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
   <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
@@ -140,15 +142,15 @@
   <avrgcccpp.compiler.warnings.AllWarnings>True</avrgcccpp.compiler.warnings.AllWarnings>
   <avrgcccpp.linker.libraries.Libraries>
     <ListValues>
+      <Value>Helicopter</Value>
       <Value>libm</Value>
       <Value>HelicopterTestsCommon</Value>
-      <Value>Helicopter</Value>
     </ListValues>
   </avrgcccpp.linker.libraries.Libraries>
   <avrgcccpp.linker.libraries.LibrarySearchPaths>
     <ListValues>
-      <Value>../../HelicopterTestsCommon/Debug</Value>
       <Value>../../Helicopter/Debug</Value>
+      <Value>../../HelicopterTestsCommon/Debug</Value>
     </ListValues>
   </avrgcccpp.linker.libraries.LibrarySearchPaths>
   <avrgcccpp.linker.memorysettings.Comment>&lt;segmentname&gt;=&lt;address&gt;, for example  .boot=0xff</avrgcccpp.linker.memorysettings.Comment>
@@ -157,10 +159,10 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="drivers\SerialDriverIntegrationTests.cpp">
+    <Compile Include="driver\SerialDriverIntegrationTests.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="drivers\SerialDriverIntegrationTests.h">
+    <Compile Include="driver\SerialDriverIntegrationTests.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="HelicopterIntegrationTests.cpp">
@@ -172,9 +174,16 @@
     <Compile Include="radio\GroundControlStationIntegrationTests.cpp">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="sensor\ImuSensorTests.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="sensor\ImuSensorTests.h">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="drivers" />
+    <Folder Include="driver" />
+    <Folder Include="sensor" />
     <Folder Include="radio" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />

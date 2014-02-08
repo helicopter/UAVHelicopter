@@ -30,11 +30,15 @@ model\SystemModel.cpp
 
 scheduler\Scheduler.cpp
 
+sensors\IMUSensor.cpp
+
 sensors\MagnetometerSensor.cpp
 
 tasks\PIDInnerLoopTask.cpp
 
 tasks\PIDOuterLoopTask.cpp
+
+tasks\ReadIMUSensorTask.cpp
 
 tasks\SensorProcessingTask.cpp
 

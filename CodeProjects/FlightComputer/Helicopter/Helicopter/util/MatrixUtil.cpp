@@ -24,6 +24,23 @@ void MatrixUtil::CreateRotationMatrix( float phiRotationAboutXRads, float thetaR
 	rotationMatrix[2][2] = cos(phiRotationAboutXRads)*cos(thetaRotationAboutYRads);
 }
 
+void MatrixUtil::RotateMatrix( float rotationMatrix[][3], int valuesToRotate[3], float rotatedValues[3] )
+{
+	//clear out the rotated values list;
+	memset(rotatedValues,0,sizeof(float) * 3);
+	
+	//iterate through the rows of the rotation matrix.
+	for (int row = 0; row < 3; row++)
+	{
+		//iterate through the columns of the rotation matrix
+		for (int column = 0; column < 3; column++)
+		{
+			//technically the rotatedMatrix[row] is writing to a 'column' in the matrix, and valuesToRotate is actually the 'row'.
+			rotatedValues[row] += rotationMatrix[row] [column] * valuesToRotate[column];
+		}
+	}
+}
+
 void MatrixUtil::RotateMatrix( float rotationMatrix[][3], float valuesToRotate[3], float rotatedValues[3] )
 {
 	//clear out the rotated values list;

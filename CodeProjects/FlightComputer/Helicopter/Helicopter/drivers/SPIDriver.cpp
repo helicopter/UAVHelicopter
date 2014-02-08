@@ -1,4 +1,5 @@
 #include <avr/io.h>
+#include <avr/delay.h>
 
 #include "SPIDriver.h"
 
@@ -27,15 +28,15 @@ void SPIDriver::init()
 	//wHAT IS THE BELOW CODE FOR? WHY SET SS HIGH, THEN WRITE 0, AND WHAT IS PB1? i think it should be pb2, pb1
 	//Set the Slave Select line high, 'freeing' up the SPI line. (This would otherwise default to 0, making this device
 	//hold onto the SPI line).
-	PORTB |= (1<<DDB0); //Set SS as high /// THIS WAS HERE BUT I DON'T THINK I NEED IT
+	PORTB |= (1<<PB0); //Set SS as high /// THIS WAS HERE BUT I DON'T THINK I NEED IT
 	//Put the port in a definitive state of 'low' so they can't be 'floating'. MOSI, SPI Clock
-	PORTB &= ~((1<<DDB2) | (1<<PB1)); ///THIS WAS THERE BUT I DON'T THINK WE NEED IT.
+	PORTB &= ~((1<<PB2) | (1<<PB1)); ///THIS WAS THERE BUT I DON'T THINK WE NEED IT.
 	
 	//The barometer can hold the SPI bus, so we stop it so that we
 	//can communicate with the target device.
 	//(Only really needs to be executed once - not per init()).
 	DDRG |= (1<<DDG1);
-	PORTG |= (1<<DDG1);
+	PORTG |= (1<<PG1);
 
 	/**
 	 * SPI Control Register (SPCR)
@@ -85,8 +86,8 @@ int SPIDriver::readInt16()
 {
 	byte highByte = readByte();
 	byte lowByte = readByte();
-
-	return ((int) highByte<<8) | lowByte;
+	
+	return  ((int) highByte<<8) | lowByte;
 }
 
 byte SPIDriver::readByte()
@@ -106,6 +107,7 @@ byte SPIDriver::readByte()
 	 * when data transfer is complete, and is cleared
 	 * when the SPSR register is read.
 	 */
+	while(!(SPSR & (1<<SPIF)));
 	while(!(SPSR & (1<<SPIF)));
 	
 	/**

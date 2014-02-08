@@ -6,14 +6,14 @@
  */ 
 
 
-#ifndef ACCELEROMETERTESTS_H_
-#define ACCELEROMETERTESTS_H_
+#ifndef IMUSENSORTESTS_H_
+#define IMUSENSORTESTS_H_
 
 #include "TestCase.h"
 
 using namespace helicoptertestscommon::util::testframework;
 
-int readaccelerometer_test(TestCase *test);
+int readimu_test(TestCase *test);
 
 
-#endif /* ACCELEROMETERTESTS_H_ */
+#endif /* IMUSENSORTESTS_H_ */

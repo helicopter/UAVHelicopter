@@ -22,7 +22,7 @@ int matrixrotation_test(TestCase *test)
 	 */
 	float phiRotationAboutXRads = 0.0;
 	float thetaRotationAboutYRads = 0.0;
-	float saiRotationAboutZRads = 90 * (M_PI / 180.0); // clockwise rotation
+	float saiRotationAboutZRads = 90 * (M_PI / 180.0); // counter clockwise rotation
 
 	float rotatedValues[3] = {};
 		
@@ -40,6 +40,20 @@ int matrixrotation_test(TestCase *test)
 	AssertTrue(AboutEqual(rotatedValues[0], 1.0f));
 	AssertTrue(AboutEqual(rotatedValues[1], .25f));
 	AssertTrue(AboutEqual(rotatedValues[2], -.75f));	
+	
+	
+	float rotationMatrix[3][3] = {};
+		
+	MatrixUtil::CreateRotationMatrix(phiRotationAboutXRads, thetaRotationAboutYRads, saiRotationAboutZRads, rotationMatrix);
+	
+	int valuesToRotate2[3] = {1, 1, 1}; //{x,y,z} in frame back, right, down
+
+	MatrixUtil::RotateMatrix(rotationMatrix, valuesToRotate2, rotatedValues);
+
+
+	AssertTrue(AboutEqual(rotatedValues[0], -1.0f));
+	AssertTrue(AboutEqual(rotatedValues[1], 1.0f));
+	AssertTrue(AboutEqual(rotatedValues[2], 1.0f));	
 	
 	return 0;
 }
