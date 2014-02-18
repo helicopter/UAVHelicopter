@@ -52,6 +52,7 @@ C_SRCS +=  \
 ../drivers/MagnetometerDriver.cpp \
 ../drivers/SerialDriver.cpp \
 ../drivers/SPIDriver.cpp \
+../drivers/TWIDriver.cpp \
 ../HelicopterMain.cpp \
 ../interfaces/GroundControlStationInterface.cpp \
 ../interfaces/RadioControllerInterface.cpp \
@@ -88,6 +89,7 @@ controller/PIDController.o \
 drivers/MagnetometerDriver.o \
 drivers/SerialDriver.o \
 drivers/SPIDriver.o \
+drivers/TWIDriver.o \
 HelicopterMain.o \
 interfaces/GroundControlStationInterface.o \
 interfaces/RadioControllerInterface.o \
@@ -117,6 +119,7 @@ controller/PIDController.o \
 drivers/MagnetometerDriver.o \
 drivers/SerialDriver.o \
 drivers/SPIDriver.o \
+drivers/TWIDriver.o \
 HelicopterMain.o \
 interfaces/GroundControlStationInterface.o \
 interfaces/RadioControllerInterface.o \
@@ -146,6 +149,7 @@ controller/PIDController.d \
 drivers/MagnetometerDriver.d \
 drivers/SerialDriver.d \
 drivers/SPIDriver.d \
+drivers/TWIDriver.d \
 HelicopterMain.d \
 interfaces/GroundControlStationInterface.d \
 interfaces/RadioControllerInterface.d \
@@ -175,6 +179,7 @@ controller/PIDController.d \
 drivers/MagnetometerDriver.d \
 drivers/SerialDriver.d \
 drivers/SPIDriver.d \
+drivers/TWIDriver.d \
 HelicopterMain.d \
 interfaces/GroundControlStationInterface.d \
 interfaces/RadioControllerInterface.d \
@@ -208,6 +213,8 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

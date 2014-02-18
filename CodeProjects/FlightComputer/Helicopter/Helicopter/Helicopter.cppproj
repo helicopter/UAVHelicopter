@@ -223,6 +223,12 @@
     <Compile Include="drivers\SPIDriver.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="drivers\TWIDriver.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="drivers\TWIDriver.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="HelicopterMain.cpp">
       <SubType>compile</SubType>
     </Compile>

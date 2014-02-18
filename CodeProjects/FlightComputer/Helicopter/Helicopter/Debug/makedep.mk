@@ -14,6 +14,8 @@ drivers\SerialDriver.cpp
 
 drivers\SPIDriver.cpp
 
+drivers\TWIDriver.cpp
+
 HelicopterMain.cpp
 
 interfaces\GroundControlStationInterface.cpp

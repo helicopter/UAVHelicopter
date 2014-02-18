@@ -21,9 +21,10 @@ int main(void)
 
 	//helicopterTests.addTest(radiotransmitandreceive_test, 1);
 	//helicopterTests.addTest(serialreceivetransmit_test, 2);
-	helicopterTests.addTest(systemtelemetrytransmitandreceive_test, 3);
+//	helicopterTests.addTest(systemtelemetrytransmitandreceive_test, 3);
 //	helicopterTests.addTest(reliablyreceive_test, 4);
-	helicopterTests.addTest(readimu_test, 5);
+//	helicopterTests.addTest(readimu_test, 5);
+	helicopterTests.addTest(readmag_test, 6);
 	
 	
 	

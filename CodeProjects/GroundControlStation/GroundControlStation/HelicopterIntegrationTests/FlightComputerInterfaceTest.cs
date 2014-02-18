@@ -199,8 +199,8 @@ namespace HelicopterIntegrationTests
         //        {
         //            telemetry = new FlightComputerTelemetryMessage();
         //            telemetry.MagX = i;
-        //            telemetry.MagY = i;
-        //            telemetry.MagZ = i;
+        //            telemetry.magY = i;
+        //            telemetry.magZ = i;
         //            telemetry.MagYaw = (ushort)i;
         //            telemetry.YawDerivativeError = i;
         //            telemetry.YawIntegral = i;
@@ -217,8 +217,8 @@ namespace HelicopterIntegrationTests
         //        telemetry = (FlightComputerTelemetryMessage) fcInt.Receive();
 
         //        Assert.IsTrue(telemetry.MagX == 0);
-        //        Assert.IsTrue(telemetry.MagY == 0);
-        //        Assert.IsTrue(telemetry.MagZ == 0);
+        //        Assert.IsTrue(telemetry.magY == 0);
+        //        Assert.IsTrue(telemetry.magZ == 0);
         //        Assert.IsTrue(telemetry.MagYaw == 0);
         //        Assert.IsTrue(telemetry.YawDerivativeError == 0);
         //        Assert.IsTrue(telemetry.YawIntegral == 0);

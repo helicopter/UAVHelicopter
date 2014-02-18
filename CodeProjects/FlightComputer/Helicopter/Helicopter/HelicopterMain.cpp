@@ -20,6 +20,7 @@
 #include "RadioControllerInterface.h"
 #include "ReadIMUSensorTask.h"
 #include "IMUSensor.h"
+#include "TWIDriver.h"
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -146,6 +147,8 @@ int main(void)
 	//execute the pid outer loop at the PID_OUTER_LOOP_PERIOD rate. The division is to convert the period into ticks for the scheduler.
 	PIDOuterLoopTask *pidOuterLoop = new PIDOuterLoopTask(pidController, 3, (SCHEDULER_TICK_FREQUENCY_HZ / (1/PID_OUTER_LOOP_PERIOD)));
 	PIDInnerLoopTask *pidInnerLoop = new PIDInnerLoopTask(pidController, 4, (SCHEDULER_TICK_FREQUENCY_HZ / (1/PID_OUTER_LOOP_PERIOD)));
+	
+	TWIDriver *twiDriver = new TWIDriver();
 	
 	SPIDriver *spiDriver = new SPIDriver();
 	spiDriver->init();

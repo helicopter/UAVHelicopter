@@ -34,6 +34,12 @@ namespace helicopter
 				 * indicating that data is ready to be transmitted on the master.
 				 */
 				void beginTransaction();
+				
+				/**
+				 * Free the SPI line by driving the slave select line high
+				 * indicating that this master device is done communicating.
+				 */
+				void endTransaction();				
 
 				/**
 				 * Write a byte of data to the SPI line.
@@ -58,15 +64,6 @@ namespace helicopter
 				 * Reads a single byte from the SPI line.
 				 */
 				byte readByte();
-
-				/**
-				 * Free the SPI line by driving the slave select line high
-				 * indicating that this master device is done communicating.
-				 */
-				void endTransaction();
-				
-
-				
 		};
 	}
 }

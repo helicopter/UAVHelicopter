@@ -29,6 +29,8 @@ namespace HelicopterIntegrationTests
 
         }
 
+
+
         public static void Main()
         {
             SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
@@ -36,31 +38,13 @@ namespace HelicopterIntegrationTests
             portInterface.Open();
 
 
-            GraphForm accelRawX = new GraphForm("accelRawX");
-            GraphForm accelRawY = new GraphForm("accelRawY");
-            GraphForm accelRawZ = new GraphForm("accelRawZ");
-            GraphForm gyroRawX = new GraphForm("gyroRawX");
-            GraphForm gyroRawY = new GraphForm("gyroRawY");
-            GraphForm gyroRawZ = new GraphForm("gyroRawZ");
-            GraphForm accelFrdX = new GraphForm("accelFrdX");
-            GraphForm accelFrdY = new GraphForm("accelFrdY");
-            GraphForm accelFrdZ = new GraphForm("accelFrdZ");
-            GraphForm gyroFrdX = new GraphForm("gyroFrdX");
-            GraphForm gyroFrdY = new GraphForm("gyroFrdY");
-            GraphForm gyroFrdZ = new GraphForm("gyroFrdZ");
+            GraphForm magX = new GraphForm("MagX");
+            GraphForm magZ = new GraphForm("MagZ");
+            GraphForm magY = new GraphForm("MagY");
 
-            accelRawX.Visible = true;
-            accelRawY.Visible = true;
-            accelRawZ.Visible = true;
-            gyroRawX.Visible = true;
-            gyroRawY.Visible = true;
-            gyroRawZ.Visible = true;
-            accelFrdX.Visible = true;
-            accelFrdY.Visible = true;
-            accelFrdZ.Visible = true;
-            gyroFrdX.Visible = true;
-            gyroFrdY.Visible = true;
-            gyroFrdZ.Visible = true;
+            magX.Visible = true;
+            magZ.Visible = true;
+            magY.Visible = true;
 
 
             while (true)
@@ -70,24 +54,74 @@ namespace HelicopterIntegrationTests
                 {
                     var = portInterface.ReadByte();
                 }
-                accelRawX.AddValueToGraph(readShort(portInterface));
-                accelRawY.AddValueToGraph(readShort(portInterface));
-                accelRawZ.AddValueToGraph(readShort(portInterface));
-                gyroRawX.AddValueToGraph(readShort(portInterface));
-                gyroRawY.AddValueToGraph(readShort(portInterface));
-                gyroRawZ.AddValueToGraph(readShort(portInterface));
-
-                accelFrdX.AddValueToGraph(readFloat(portInterface));
-                accelFrdY.AddValueToGraph(readFloat(portInterface));
-                accelFrdZ.AddValueToGraph(readFloat(portInterface));
-                gyroFrdX.AddValueToGraph(readFloat(portInterface));
-                gyroFrdY.AddValueToGraph(readFloat(portInterface));
-
-                float x = readFloat(portInterface);
-                gyroFrdZ.AddValueToGraph(x);
+                magX.AddValueToGraph(readShort(portInterface));
+                magZ.AddValueToGraph(readShort(portInterface));
+                magY.AddValueToGraph(readShort(portInterface));
 
                 Application.DoEvents();
             }
         }
+
+
+        //public static void Main()
+        //{
+        //    SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
+        //    SerialPortInterface portInterface = new SerialPortInterface(port);
+        //    portInterface.Open();
+
+
+        //    GraphForm accelRawX = new GraphForm("accelRawX");
+        //    GraphForm accelRawY = new GraphForm("accelRawY");
+        //    GraphForm accelRawZ = new GraphForm("accelRawZ");
+        //    GraphForm gyroRawX = new GraphForm("gyroRawX");
+        //    GraphForm gyroRawY = new GraphForm("gyroRawY");
+        //    GraphForm gyroRawZ = new GraphForm("gyroRawZ");
+        //    GraphForm accelFrdX = new GraphForm("accelFrdX");
+        //    GraphForm accelFrdY = new GraphForm("accelFrdY");
+        //    GraphForm accelFrdZ = new GraphForm("accelFrdZ");
+        //    GraphForm gyroFrdX = new GraphForm("gyroFrdX");
+        //    GraphForm gyroFrdY = new GraphForm("gyroFrdY");
+        //    GraphForm gyroFrdZ = new GraphForm("gyroFrdZ");
+
+        //    accelRawX.Visible = true;
+        //    accelRawY.Visible = true;
+        //    accelRawZ.Visible = true;
+        //    gyroRawX.Visible = true;
+        //    gyroRawY.Visible = true;
+        //    gyroRawZ.Visible = true;
+        //    accelFrdX.Visible = true;
+        //    accelFrdY.Visible = true;
+        //    accelFrdZ.Visible = true;
+        //    gyroFrdX.Visible = true;
+        //    gyroFrdY.Visible = true;
+        //    gyroFrdZ.Visible = true;
+
+
+        //    while (true)
+        //    {
+        //        int var = 0;
+        //        while (var != 'S')
+        //        {
+        //            var = portInterface.ReadByte();
+        //        }
+        //        accelRawX.AddValueToGraph(readShort(portInterface));
+        //        accelRawY.AddValueToGraph(readShort(portInterface));
+        //        accelRawZ.AddValueToGraph(readShort(portInterface));
+        //        gyroRawX.AddValueToGraph(readShort(portInterface));
+        //        gyroRawY.AddValueToGraph(readShort(portInterface));
+        //        gyroRawZ.AddValueToGraph(readShort(portInterface));
+
+        //        accelFrdX.AddValueToGraph(readFloat(portInterface));
+        //        accelFrdY.AddValueToGraph(readFloat(portInterface));
+        //        accelFrdZ.AddValueToGraph(readFloat(portInterface));
+        //        gyroFrdX.AddValueToGraph(readFloat(portInterface));
+        //        gyroFrdY.AddValueToGraph(readFloat(portInterface));
+
+        //        float x = readFloat(portInterface);
+        //        gyroFrdZ.AddValueToGraph(x);
+
+        //        Application.DoEvents();
+        //    }
+        //}
     }
 }

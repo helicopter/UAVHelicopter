@@ -14,6 +14,7 @@
 using namespace helicoptertestscommon::util::testframework;
 
 int readimu_test(TestCase *test);
+int readmag_test(TestCase *test);
 
 
 #endif /* IMUSENSORTESTS_H_ */

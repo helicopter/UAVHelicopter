@@ -108,7 +108,6 @@ byte SPIDriver::readByte()
 	 * when the SPSR register is read.
 	 */
 	while(!(SPSR & (1<<SPIF)));
-	while(!(SPSR & (1<<SPIF)));
 	
 	/**
 	 * Return the value of SPDR because now the data register
