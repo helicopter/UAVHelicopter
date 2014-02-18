@@ -13,19 +13,6 @@
 using namespace helicopter::drivers;
 
 
-void TWIDriver::init()
-{
-	/**
-	* Configure the two wire control register (TWCR) with the following values:
-	* TWI Enable acknowledge bit (TWEA) - enables acknowledgment of data
-	* TWI Enable bit (TWEN) - enables operation and activates the TWI Interface.
-	*/
-	//TWCR = (1<<TWEN) | (1<<TWIE) | (1<<TWEA);
-	
-	//***trying this without the interrupt flat. 
-	TWCR = (1<<TWEN) | (1<<TWEA);
-}
-
 bool TWIDriver::start()
 {
 	//Send the Start condition

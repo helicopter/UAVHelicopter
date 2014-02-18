@@ -21,7 +21,8 @@ namespace helicopter
 			
 			public: 
 				/**
-				 * Creates a 3x3 rotation matrix which rotates about X, then Y, then Z.
+				 * Creates a 3x3 rotation matrix which rotates about X, then Y, then Z where positive angles are rotations
+				 * about the given axis in a clockwise direction
 				 */
 				static void CreateRotationMatrix( float phiRotationAboutXRads, float thetaRotationAboutYRads, float saiRotationAboutZRads, float rotationMatrix[][3]);
 				

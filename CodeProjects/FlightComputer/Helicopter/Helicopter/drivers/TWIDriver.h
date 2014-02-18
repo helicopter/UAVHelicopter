@@ -17,7 +17,7 @@ namespace helicopter
 	{
 
 		/**
-		 * This clss encapsulates the logic for communicating using the
+		 * This class encapsulates the logic for communicating using the
 		 * Two Wire Serial Interface (TWI) protocol (also called I2C).
 
 			TWEN - TWI ENABLE BIT - The TWEN bit enables TWI operation and activates the TWI interface. When TWEN is written to
@@ -71,12 +71,6 @@ namespace helicopter
 				* sensor to the receive in subsequent calls.
 				*/
 				static const byte MASTERRECEIVER_SLAVE_READ_ACK = 0x40;
-				
-				
-				/**
-				 * Initializes the TWI interface
-				 */
-				void init();
 				
 				/**
 				 * Starts communication with a TW device.

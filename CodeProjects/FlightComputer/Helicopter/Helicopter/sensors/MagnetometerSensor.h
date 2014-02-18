@@ -13,6 +13,7 @@
 
 #include "CommonHeader.h"
 #include "MagnetometerDriver.h"
+#include "TWIDriver.h"
 
 using namespace helicopter::drivers;
 
@@ -42,31 +43,46 @@ namespace helicopter
 		class MagnetometerSensor
 		{
 			private:
-				//Rotation about y axis
-				static const double theta = 0;
-				
-				//Rotation about Z axis
-				static const double sai = (M_PI / 2) * -1;
-				
-				//Rotation about X axis
-				static const double phi = M_PI;
+				static const byte SENSOR_ADDRESS = 0x3C;
+				static const byte WRITE_OPERATION = 0x00;
+				static const byte READ_OPERATION = 0x01;
+	
+				static const byte DATA_OUTPUT_X_MSG_REGISTER = 0x03;
+				static const byte CONFIGURATION_REGISTER_A = 0x00;
+				static const byte MODE_REGISTER = 0x02;
+	
+				static const byte REGISTER_A_CONFIGURATION_75HZ_8AVG = 0x78;
+				static const byte COMPASS_MODE_CONTINUOUS_MEASUREMENT_MODE = 0x00;
 							
-				int16_t rawMagX;
-				int16_t rawMagY;
-				int16_t rawMagZ;
+				int rawMagX;
+				int rawMagY;
+				int rawMagZ;
 				
-				MagnetometerDriver *magDriver;
-			
-			public:
-				MagnetometerSensor(MagnetometerDriver *driver);
+				float frdMagX;
+				float frdMagY;
+				float frdMagZ;	
 				
 				/**
-				 * This method reads the physical values from the sensor and stores
-				 * the values in the rawMag fields. 
-				 * Reading the sensor is separate from getting the NED values to separate
-				 * the 'reading' tasks, from the 'convertion' tasks.
-				 * @return 0 if successful in reading the sensor, -1 otherwise
+				 * The magnetometer is mounted so that the X axis points out the left
+				 * side of the device, the Y axis points out the back of the device
+				 * and the Z axis points up from the device. This rotation matrix
+				 * rotates those values to X-Front, Y-Right, Z-Down
 				 */
+				float magLBUToFRDRotationMatrix[3][3];			
+				
+				TWIDriver *driver;
+			
+			public:
+			
+				MagnetometerSensor(TWIDriver *driver);
+				
+				/**
+				 * Configures and initializes the magnetometer sensor.
+				 * @return true if initialization was successful
+				 * false if an error occurred (an incorrect acknowledgment was received)
+				 */
+				bool init();
+				
 				int readSensor();
 			
 				/**
@@ -97,20 +113,28 @@ namespace helicopter
 				 * Retrieves the X sensor reading converted so that
 				 * it points out the front of the CPU
 				 */				
-				double getFRDX();
+				float getFRDX()
+				{
+					return frdMagX;
+				}
 				
 				/**
 				 * Retrieves the Y sensor reading converted so that
 				 * it points out the right of the CPU
 				 */	
-				double getFRDY();
+				float getFRDY()
+				{
+					return frdMagY;
+				}
 				
 				/**
 				 * Retrieves the Z sensor reading converted so that
 				 * it points down out of the CPU
 				 */					
-				double getFRDZ();
-				
+				float getFRDZ()
+				{
+					return frdMagZ;
+				}
 		};
 	}
 }

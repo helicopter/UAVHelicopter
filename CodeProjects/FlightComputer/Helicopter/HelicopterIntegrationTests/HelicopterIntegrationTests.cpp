@@ -24,7 +24,9 @@ int main(void)
 //	helicopterTests.addTest(systemtelemetrytransmitandreceive_test, 3);
 //	helicopterTests.addTest(reliablyreceive_test, 4);
 //	helicopterTests.addTest(readimu_test, 5);
-	helicopterTests.addTest(readmag_test, 6);
+	//helicopterTests.addTest(readmag_test, 6);
+	helicopterTests.addTest(magdriver_test, 6);
+	
 	
 	
 	
