@@ -6,7 +6,7 @@
  */ 
 
 #include <avr/io.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 
 #include "TWIDriver.h"
 
@@ -88,13 +88,6 @@ byte TWIDriver::readByte(bool acknowledge)
 	
 	//Read the data.
 	byte receivedValue = TWDR;
-	
-	/**
-	 * Sending an acknowledgment will tell the sending device that the data
-	 * was successfully received (and in the case of the magnetometer, moves the
-	 * register to the next address so that the next read will read the next value)
-	 */
-//	acknowledge();
 	
 	return receivedValue;
 }

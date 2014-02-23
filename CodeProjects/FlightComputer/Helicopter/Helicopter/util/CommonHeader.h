@@ -12,7 +12,9 @@
 #ifndef COMMONHEADER_H_
 #define COMMONHEADER_H_
 
-#define F_CPU 16000000UL
+//Note: I defined F_CPU in the visual studio project tool chain because I was getting
+//redefinition warnings or not defined warnings if I didn't.
+//#define F_CPU 16000000UL
 
 
 #include <stdlib.h>

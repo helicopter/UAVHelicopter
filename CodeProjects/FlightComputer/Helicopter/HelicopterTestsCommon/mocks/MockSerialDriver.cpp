@@ -7,14 +7,14 @@
 #include "MockSerialDriver.h"
 
 
-int MockSerialDriver::transmitByte(byte byteToSend)
+int MockSerialDriver::transmit(byte byteToSend)
 {
 	buffer[transmitCounter++] = byteToSend;
 	
 	return 0;
 }
 
-int MockSerialDriver::receiveByte(byte &receivedByte)
+int MockSerialDriver::receive(byte &receivedByte)
 {
 	if (timeoutcount != 0 && receiveCounter >= timeoutcount)
 	{

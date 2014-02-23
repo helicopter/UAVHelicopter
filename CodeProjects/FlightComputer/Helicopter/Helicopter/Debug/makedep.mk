@@ -32,6 +32,8 @@ model\SystemModel.cpp
 
 scheduler\Scheduler.cpp
 
+sensors\BarometerSensor.cpp
+
 sensors\IMUSensor.cpp
 
 sensors\MagnetometerSensor.cpp

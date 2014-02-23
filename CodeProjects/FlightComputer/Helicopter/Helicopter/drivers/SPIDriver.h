@@ -23,6 +23,27 @@ namespace helicopter
 		class SPIDriver
 		{
 			public: 
+			
+				/**
+				 * Defines which slave select line should be used for
+				 * communicating with a device.
+				 * SS_G - This is used by the Barometer
+				 * SS_B - This is used by the Inertial Measurement Unit (IMU)
+				 */
+				enum SLAVE_SELECT_LINE {SS_B = 1, SS_G = 2};			
+							
+			private:
+				SLAVE_SELECT_LINE ssLine;
+			
+			public: 
+			
+				SPIDriver(SLAVE_SELECT_LINE ssLine = SS_B):
+					ssLine(ssLine)
+				{
+					
+				}
+				
+			
 				/**
 				 * Initializes the various SPI ports for writing and
 				 * reading data from an SPI device.
@@ -46,6 +67,11 @@ namespace helicopter
 				 */
 				void write( byte data );
 				
+				/**
+				 * Write a byte of data to the SPI line within a transaction.
+				 */
+				void transactionWrite( byte data );
+				
 				void write( byte commandAddress, byte commandValue );	
 							
 				/**
@@ -58,12 +84,14 @@ namespace helicopter
 				 * Reads a 16 bit integer from the SPI line. This assumes
 				 * the high byte is communicated first.
 				 */
-				int readInt16();
+				int readInt();
+				
+				unsigned int readUInt();
 				
 				/**
 				 * Reads a single byte from the SPI line.
 				 */
-				byte readByte();
+				byte readByte();			
 		};
 	}
 }

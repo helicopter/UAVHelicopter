@@ -80,7 +80,15 @@ namespace helicopter
 				 * Sends a byte over Serial
 				 * @byteToSend Byte to send over Serial
 				 */
-				virtual int transmitByte(byte byteToSend, Timer *timer);
+				virtual int transmit(byte valueToSend, Timer *timer);
+				
+				virtual int transmit(int valueToSend, Timer *timer);
+				
+				virtual int transmit(unsigned long valueToSend, Timer *timer);
+				
+				virtual int transmit(long valueToSend, Timer *timer);
+				
+				virtual int transmit(float valueToSend, Timer *timer);
 				
 				/**
 				 * Receive Bytes over Serial
@@ -88,7 +96,7 @@ namespace helicopter
 				 * @return -1 if there was an error (timeout), 
 				 * 0 otherwise (success)
 				 */
-				virtual int receiveByte(byte &receivedByte, Timer *timer);
+				virtual int receive(byte &receivedByte, Timer *timer);
 		};
 	}
 }

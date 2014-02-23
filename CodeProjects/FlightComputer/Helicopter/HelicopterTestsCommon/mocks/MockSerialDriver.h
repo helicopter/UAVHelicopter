@@ -65,9 +65,9 @@ class MockSerialDriver : public SerialDriver
 		
 	}
 
-	int transmitByte(byte byteToSend);
+	int transmit(byte byteToSend);
 
-	int receiveByte(byte &receivedByte);
+	int receive(byte &receivedByte);
 	
 	void enableTimeout(int tCount);
 };

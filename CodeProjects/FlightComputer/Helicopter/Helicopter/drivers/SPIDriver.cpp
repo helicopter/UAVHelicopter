@@ -1,5 +1,5 @@
 #include <avr/io.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 
 #include "SPIDriver.h"
 
@@ -13,29 +13,28 @@ using namespace helicopter::drivers;
  * SPI Function | data direction pin | port pin | Descrip
  * MISO | PB3 | DDB3 | Master In Slave Out - If this device is the master, used for receiving data from the device that is being communicated with
  * MOSI | PB2 | DDB2 | Master Out Slave In - If this device is the master, used for this device to send data to other devices
- * SCK  | PB1 | DDB1 | SPI Clock - 
- * SS   | PB0 | DDB0 | Slave Select
+ * SCK  | PB1 | DDB1 | SPI Clock  
+ * SS| PB0/PG1 | DDB0/DDG1 | Slave Select(SS)/Chip Select(CS) - When this pin is set to 0, this indicates that the MOSI/MISO line is 'active' for transmission. When set high, it's inactive.
  */
 void SPIDriver::init()
 {
 	/**
-	 * Configure the MOSI (DDB2) pin, SCK (DDB1), and SS (DDB0) pins
-	 * as output
-	 */
+	* Configure the MOSI (DDB2) pin, SCK (DDB1), and SS (DDB0) pin (the SS pin for the accelerometer/IMU)
+	* as output
+	*/
 	DDRB = (1<<DDB2) | (1<<DDB1) | (1<<DDB0);
 	
-	
-	//wHAT IS THE BELOW CODE FOR? WHY SET SS HIGH, THEN WRITE 0, AND WHAT IS PB1? i think it should be pb2, pb1
-	//Set the Slave Select line high, 'freeing' up the SPI line. (This would otherwise default to 0, making this device
-	//hold onto the SPI line).
-	PORTB |= (1<<PB0); //Set SS as high /// THIS WAS HERE BUT I DON'T THINK I NEED IT
-	//Put the port in a definitive state of 'low' so they can't be 'floating'. MOSI, SPI Clock
-	PORTB &= ~((1<<PB2) | (1<<PB1)); ///THIS WAS THERE BUT I DON'T THINK WE NEED IT.
-	
-	//The barometer can hold the SPI bus, so we stop it so that we
-	//can communicate with the target device.
-	//(Only really needs to be executed once - not per init()).
+	/**
+	 * Configure the SS pin for the barometer as output
+	 */
 	DDRG |= (1<<DDG1);
+	
+	//Set the slave select lines 'high', therefore freeing up the SPI line. (This would otherwise default to 0, making this device
+	//hold onto the SPI line). This turns the line 'off' to 'end' any current transactions. These lines
+	//default to low (active) so they have to be pulled high in order to free up the SS lines so a device
+	//can communicate on the line.
+	//Note: Slave Select for the IMU (acclerometer, etc) is PB0, while slave select for the barometer is PG1.
+	PORTB |= (1<<PB0);
 	PORTG |= (1<<PG1);
 
 	/**
@@ -50,10 +49,16 @@ void SPIDriver::init()
 void SPIDriver::beginTransaction()
 {
 	/**
-	 * Set the Slave Select to 0 indicating that the master will be sending
-	 * data across the SPI line.
-	 */
-	PORTB &= ~(1<<PB0);
+	* Set the Slave Select to 0 indicating that the master will be sending
+	* data across the SPI line.
+	*/
+	if (ssLine == SPIDriver::SS_B)
+	{	
+		PORTB &= ~(1<<PB0);
+	}else if (ssLine == SPIDriver::SS_G)
+	{
+		PORTG &= ~(1<<PG1);
+	}
 }
 
 
@@ -63,31 +68,46 @@ void SPIDriver::endTransaction()
 	 * Set the Slave Select line to 1 indicating that the master
 	 * is finished communicating (release the SPI line)
 	 */
-	PORTB |= (1<<PB0);	
+	if (ssLine == SPIDriver::SS_B)
+	{	
+		PORTB |= (1<<PB0);	
+	}else if (ssLine == SPIDriver::SS_G)
+	{
+		PORTG |= (1<<PG1);	
+	}
 }
 
-void SPIDriver::write( byte data )
-{
-	/**
-	 * Write the byte to SPI Data Register
-	 */
-	SPDR = data;
-	
-	/**
-	 * Wait until the SPI Status Register's
-	 * SPI Interrupt flag to be set which is set
-	 * when data transfer is complete, and is cleared
-	 * when the SPSR register is read.
-	 */
-	while(!(SPSR & (1<<SPIF)));
-}
-
-int SPIDriver::readInt16()
+int SPIDriver::readInt()
 {
 	byte highByte = readByte();
 	byte lowByte = readByte();
 	
 	return  ((int) highByte<<8) | lowByte;
+}
+
+unsigned int SPIDriver::readUInt()
+{
+	byte highByte = readByte();
+	byte lowByte = readByte();
+	//
+	//unsigned int hb = 0;
+	//unsigned int lb = 0;
+	//
+	//hb = (unsigned int) highByte;
+	//lb = (unsigned int) lowByte;
+	//
+	//hb = hb << 8;
+	//
+	//return hb | lb;
+	
+	unsigned int returnValue = 0;
+	
+	returnValue = (highByte << 8) | lowByte;
+	
+	return returnValue;
+	
+	
+//	return  (((unsigned int) highByte)<<8) | lowByte;
 }
 
 byte SPIDriver::readByte()
@@ -116,6 +136,29 @@ byte SPIDriver::readByte()
 	return SPDR;
 }
 
+
+void SPIDriver::write( byte data )
+{
+	/**
+	 * Write the byte to SPI Data Register
+	 */
+	SPDR = data;
+
+	/**
+	 * Wait until the SPI Status Register's
+	 * SPI Interrupt flag to be set which is set
+	 * when data transfer is complete, and is cleared
+	 * when the SPSR register is read.
+	 */
+	while(!(SPSR & (1<<SPIF)));
+}
+
+void SPIDriver::transactionWrite( byte data )
+{
+	beginTransaction();
+	write(data);
+	endTransaction();
+}
 
 void SPIDriver::write( byte commandAddress, byte commandValue )
 {

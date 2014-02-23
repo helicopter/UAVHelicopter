@@ -80,16 +80,16 @@ void IMUSensor::readSensor()
 	 */	
 	spiDriver->write(REG_ACCEL_XOUT_H | readCommand);
 
-	rawAccX = spiDriver->readInt16();
-	rawAccY = spiDriver->readInt16();
-	rawAccZ = spiDriver->readInt16();
+	rawAccX = spiDriver->readInt();
+	rawAccY = spiDriver->readInt();
+	rawAccZ = spiDriver->readInt();
 	
 	//read the temp data, and ignore it since it isn't used.
-	spiDriver->readInt16();
+	spiDriver->readInt();
 	
-	rawGyroX = spiDriver->readInt16();
-	rawGyroY = spiDriver->readInt16();
-	rawGyroZ = spiDriver->readInt16();
+	rawGyroX = spiDriver->readInt();
+	rawGyroY = spiDriver->readInt();
+	rawGyroZ = spiDriver->readInt();
 	
 	/**
 	 * The master (this CPU) then pulls the slave select line low indicating

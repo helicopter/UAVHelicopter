@@ -8,5 +8,7 @@ HelicopterIntegrationTests.cpp
 
 radio\GroundControlStationIntegrationTests.cpp
 
+sensor\BarometerSensorTests.cpp
+
 sensor\ImuSensorTests.cpp
 

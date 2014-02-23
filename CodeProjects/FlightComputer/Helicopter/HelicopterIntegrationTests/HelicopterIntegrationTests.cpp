@@ -8,6 +8,7 @@
 #include "GroundControlStationIntegrationTests.h"
 #include "SerialDriverIntegrationTests.h"
 #include "ImuSensorTests.h"
+#include "BarometerSensorTests.h"
 
 #include <stdio.h>
 #include <avr/io.h>
@@ -25,8 +26,9 @@ int main(void)
 //	helicopterTests.addTest(reliablyreceive_test, 4);
 //	helicopterTests.addTest(readimu_test, 5);
 	//helicopterTests.addTest(readmag_test, 6);
-	helicopterTests.addTest(magdriver_test, 6);
-	
+	//helicopterTests.addTest(magdriver_test, 6);
+	//helicopterTests.addTest(magdriver_test, 6);
+	helicopterTests.addTest(readbaro_test, 6);
 	
 	
 	

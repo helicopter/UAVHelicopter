@@ -153,9 +153,6 @@ int main(void)
 	
 	IMUSensor *imuSensor = new IMUSensor(spiDriver);
 	imuSensor->init();
-	
-	ReadIMUSensorTask *imuSensorTask = new ReadIMUSensorTask(model, imuSensor, 6, (SCHEDULER_TICK_FREQUENCY_HZ / (1/PID_OUTER_LOOP_PERIOD)));
-	
 
 	RadioControllerInterface *rcInterface = RadioControllerInterface::getRadioControllerInterface();
 	

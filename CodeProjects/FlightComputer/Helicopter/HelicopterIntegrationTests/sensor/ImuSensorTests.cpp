@@ -23,14 +23,14 @@ using namespace helicopter::util;
 
 void send(SerialDriver *driver, Timer *t, float val)
 {	
-	driver->transmitByte((byte)(((int)val) >> 8),t);
-	driver->transmitByte((byte)val,t);
+	driver->transmit((byte)(((int)val) >> 8),t);
+	driver->transmit((byte)val,t);
 }
 
 void send(SerialDriver *driver, Timer *t, int val)
 {
-	driver->transmitByte((byte) (val >> 8),t);
-	driver->transmitByte((byte)val,t);	
+	driver->transmit((byte) (val >> 8),t);
+	driver->transmit((byte)val,t);	
 }
 
 
@@ -183,11 +183,11 @@ int readmag_test(TestCase *test)
 		//transmit stop condition
 		driver->stop();
 	
-		serialDriver->transmitByte('S',timer);
-		send(serialDriver, timer, magXVal);
-		send(serialDriver, timer, magZVal);
-		send(serialDriver, timer, magYVal);
-	
+		serialDriver->transmit('S',timer);
+		serialDriver->transmit(magXVal, timer);
+		serialDriver->transmit(magZVal, timer);
+		serialDriver->transmit(magYVal, timer);
+
 		_delay_ms(700);
 	
 	}
@@ -234,10 +234,11 @@ int magdriver_test(TestCase *test)
 		_delay_ms(700);
 		magSensor->readSensor();
 		
-		serialDriver->transmitByte('S',timer);
-		send(serialDriver, timer, magSensor->getRawX());
-		send(serialDriver, timer, magSensor->getRawY());
-		send(serialDriver, timer, magSensor->getRawZ());
+		serialDriver->transmit('S',timer);
+		
+		serialDriver->transmit(magSensor->getRawX(), timer);
+		serialDriver->transmit(magSensor->getRawY(), timer);
+		serialDriver->transmit(magSensor->getRawZ(), timer);
 		send(serialDriver, timer, magSensor->getFRDX());
 		send(serialDriver, timer, magSensor->getFRDY());
 		send(serialDriver, timer, magSensor->getFRDZ());

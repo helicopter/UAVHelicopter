@@ -43,9 +43,15 @@ namespace helicopter
 		class MagnetometerSensor
 		{
 			private:
-				static const byte SENSOR_ADDRESS = 0x3C;
 				static const byte WRITE_OPERATION = 0x00;
 				static const byte READ_OPERATION = 0x01;
+							
+				/**
+				* The two wire address for the magentometer sensor. This is used to
+				* reference the magnetometer on the two wire bus since the bus can be
+				* share across multiple sensors.
+				*/
+				static const byte MAGNETOMETER_TWOWIRE_SENSOR_ADDRESS = 0x3C;
 	
 				static const byte DATA_OUTPUT_X_MSG_REGISTER = 0x03;
 				static const byte CONFIGURATION_REGISTER_A = 0x00;

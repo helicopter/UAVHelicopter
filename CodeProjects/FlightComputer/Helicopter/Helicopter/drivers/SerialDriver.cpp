@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include <math.h>
 #include <avr/io.h>
+#include <string.h>
 
 #include "SerialDriver.h"
 #include "CommonHeader.h"
@@ -48,7 +49,69 @@ void SerialDriver::initialize()
 	}
 }
 
-int SerialDriver::transmitByte(byte byteToSend, Timer *timer)
+int SerialDriver::transmit(float valueToSend, Timer *timer)
+{
+	int status1 = 0;
+	int status2 = 0;
+	int status3 = 0;
+	int status4 = 0;
+	
+	byte bytes[4] = {0};
+	
+	memcpy(bytes, (void*) &valueToSend, 4);
+	
+	status1 = transmit(bytes[0],timer);
+	status2 = transmit(bytes[1],timer);
+	status3 = transmit(bytes[2],timer);
+	status4 = transmit(bytes[3],timer);
+	
+	return status1 | status2 | status3 | status4;
+}
+
+int SerialDriver::transmit(int valueToSend, Timer *timer)
+{
+	int status1 = 0;
+	int status2 = 0;
+	
+	status1 = transmit((byte)(((int)valueToSend) >> 8),timer);
+	status2 = transmit((byte)valueToSend,timer);	
+	
+	return status1 | status2;
+}
+
+int SerialDriver::transmit(unsigned long valueToSend, Timer *timer)
+{
+	int status1 = 0;
+	int status2 = 0;
+	int status3 = 0;
+	int status4 = 0;
+	
+
+	status1 = transmit((byte)((valueToSend >> 24) & 0xFF),timer);
+	status2 = transmit((byte)((valueToSend >> 16) & 0xFF),timer);
+	status3 = transmit((byte)((valueToSend >> 8) & 0xFF),timer);
+	status4 = transmit((byte)(valueToSend & 0xFF),timer);
+	
+	return status1 | status2 | status3 | status4;
+}
+
+int SerialDriver::transmit(long valueToSend, Timer *timer)
+{
+	int status1 = 0;
+	int status2 = 0;
+	int status3 = 0;
+	int status4 = 0;
+	
+
+	status1 = transmit((byte)((valueToSend >> 24) & 0xFF),timer);
+	status2 = transmit((byte)((valueToSend >> 16) & 0xFF),timer);
+	status3 = transmit((byte)((valueToSend >> 8) & 0xFF),timer);
+	status4 = transmit((byte)(valueToSend & 0xFF),timer);
+	
+	return status1 | status2 | status3 | status4;
+}
+
+int SerialDriver::transmit(byte valueToSend, Timer *timer)
 {
 	int status = 0;
 	
@@ -69,7 +132,7 @@ int SerialDriver::transmitByte(byte byteToSend, Timer *timer)
 		if (status == 0)
 		{
 			/* Put data into buffer, sends the data */
-			UDR0 = byteToSend;			
+			UDR0 = valueToSend;			
 		}
 
 	}
@@ -77,7 +140,7 @@ int SerialDriver::transmitByte(byte byteToSend, Timer *timer)
 	return status;
 }
 
-int SerialDriver::receiveByte(byte &receivedByte, Timer *timer)
+int SerialDriver::receive(byte &receivedByte, Timer *timer)
 {
 	int status = 0;
 	

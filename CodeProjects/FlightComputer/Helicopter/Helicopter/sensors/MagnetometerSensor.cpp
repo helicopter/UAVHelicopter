@@ -47,7 +47,7 @@ bool MagnetometerSensor::init()
 	}
 	
 	//Indicate that the next value is a write operation 
-	if (!driver->write(SENSOR_ADDRESS | WRITE_OPERATION, TWIDriver::MASTERTRANSMIT_SLAVE_WRITE_ACK))
+	if (!driver->write(MAGNETOMETER_TWOWIRE_SENSOR_ADDRESS | WRITE_OPERATION, TWIDriver::MASTERTRANSMIT_SLAVE_WRITE_ACK))
 	{
 		return false;
 	}
@@ -78,7 +78,7 @@ bool MagnetometerSensor::init()
 	}
 		
 	//Indicate that the next value is a write operation
-	if (!driver->write(SENSOR_ADDRESS | WRITE_OPERATION, TWIDriver::MASTERTRANSMIT_SLAVE_WRITE_ACK))
+	if (!driver->write(MAGNETOMETER_TWOWIRE_SENSOR_ADDRESS | WRITE_OPERATION, TWIDriver::MASTERTRANSMIT_SLAVE_WRITE_ACK))
 	{
 		return false;
 	}		
@@ -116,7 +116,7 @@ int MagnetometerSensor::readSensor()
 		* is a write operation. I.e. we will tell the sensor what internal address
 		* to jump to.
 		*/
-	if (!driver->write(SENSOR_ADDRESS | WRITE_OPERATION, TWIDriver::MASTERTRANSMIT_SLAVE_WRITE_ACK))
+	if (!driver->write(MAGNETOMETER_TWOWIRE_SENSOR_ADDRESS | WRITE_OPERATION, TWIDriver::MASTERTRANSMIT_SLAVE_WRITE_ACK))
 	{
 		return -1;
 	}		
@@ -144,7 +144,7 @@ int MagnetometerSensor::readSensor()
 		* Tell the sensor to read data from the address given above, and send it
 		* to us.
 		*/
-	if (!driver->write(SENSOR_ADDRESS | READ_OPERATION, TWIDriver::MASTERRECEIVER_SLAVE_READ_ACK))
+	if (!driver->write(MAGNETOMETER_TWOWIRE_SENSOR_ADDRESS | READ_OPERATION, TWIDriver::MASTERRECEIVER_SLAVE_READ_ACK))
 	{
 		return -1;
 	}

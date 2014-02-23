@@ -61,6 +61,7 @@ C_SRCS +=  \
 ../messages/SystemTelemetryMessage.cpp \
 ../model/SystemModel.cpp \
 ../scheduler/Scheduler.cpp \
+../sensors/BarometerSensor.cpp \
 ../sensors/IMUSensor.cpp \
 ../sensors/MagnetometerSensor.cpp \
 ../tasks/PIDInnerLoopTask.cpp \
@@ -98,6 +99,7 @@ messages/SyncMessage.o \
 messages/SystemTelemetryMessage.o \
 model/SystemModel.o \
 scheduler/Scheduler.o \
+sensors/BarometerSensor.o \
 sensors/IMUSensor.o \
 sensors/MagnetometerSensor.o \
 tasks/PIDInnerLoopTask.o \
@@ -128,6 +130,7 @@ messages/SyncMessage.o \
 messages/SystemTelemetryMessage.o \
 model/SystemModel.o \
 scheduler/Scheduler.o \
+sensors/BarometerSensor.o \
 sensors/IMUSensor.o \
 sensors/MagnetometerSensor.o \
 tasks/PIDInnerLoopTask.o \
@@ -158,6 +161,7 @@ messages/SyncMessage.d \
 messages/SystemTelemetryMessage.d \
 model/SystemModel.d \
 scheduler/Scheduler.d \
+sensors/BarometerSensor.d \
 sensors/IMUSensor.d \
 sensors/MagnetometerSensor.d \
 tasks/PIDInnerLoopTask.d \
@@ -188,6 +192,7 @@ messages/SyncMessage.d \
 messages/SystemTelemetryMessage.d \
 model/SystemModel.d \
 scheduler/Scheduler.d \
+sensors/BarometerSensor.d \
 sensors/IMUSensor.d \
 sensors/MagnetometerSensor.d \
 tasks/PIDInnerLoopTask.d \
@@ -270,80 +275,82 @@ LIB_DEP+=
 
 
 
+
+
 buffer/%.o: ../buffer/%.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -D "F_CPU=16000000" -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 
 controller/%.o: ../controller/%.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -D "F_CPU=16000000" -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 
 drivers/%.o: ../drivers/%.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -D "F_CPU=16000000" -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 
 ./%.o: .././%.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -D "F_CPU=16000000" -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 
 interfaces/%.o: ../interfaces/%.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -D "F_CPU=16000000" -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 
 messages/%.o: ../messages/%.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -D "F_CPU=16000000" -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 
 model/%.o: ../model/%.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -D "F_CPU=16000000" -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 
 scheduler/%.o: ../scheduler/%.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -D "F_CPU=16000000" -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 
 sensors/%.o: ../sensors/%.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -D "F_CPU=16000000" -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 
 tasks/%.o: ../tasks/%.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -D "F_CPU=16000000" -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 
 util/%.o: ../util/%.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 3.4.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.2.1002\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -I"../util/common" -I"../util" -I"../scheduler" -I"../tasks" -I"../tasks/misctasks" -I"../drivers" -I"../sensors" -I"../interfaces" -I"../model" -I"../messages" -I"../controller"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega2560 -c -D "F_CPU=16000000" -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<"
 	@echo Finished building: $<
 	
 

@@ -26,9 +26,16 @@ namespace HelicopterIntegrationTests
             short b2 = (short)portInterface.ReadByte();
 
             return (float)(b1 | b2);
-
         }
 
+
+        static double baseAltitudeFeet = 0.0;
+        static int counter2 = 0;
+
+        static double alpha = .15;
+
+        static double previousAltitudeFeet = 0.0;
+        static bool isReady = false;
 
         public static void Main()
         {
@@ -37,19 +44,15 @@ namespace HelicopterIntegrationTests
             portInterface.Open();
 
 
-            GraphForm magX = new GraphForm("MagX");
-            GraphForm magZ = new GraphForm("MagZ");
-            GraphForm magY = new GraphForm("MagY");
-            GraphForm frdmagX = new GraphForm("FRDMagX");
-            GraphForm frdmagZ = new GraphForm("FRDMagZ");
-            GraphForm frdmagY = new GraphForm("FRDMagY");
+            GraphForm rawTemp = new GraphForm("RawTemp");
+            GraphForm rawPress = new GraphForm("RawPress");
+            GraphForm temp = new GraphForm("Temp");
+            GraphForm press = new GraphForm("Pressure");
 
-            magX.Visible = true;
-            magZ.Visible = true;
-            magY.Visible = true;
-            frdmagX.Visible = true;
-            frdmagZ.Visible = true;
-            frdmagY.Visible = true;
+            rawTemp.Visible = true;
+            rawPress.Visible = true;
+            temp.Visible = true;
+            press.Visible = true;
 
             while (true)
             {
@@ -58,16 +61,121 @@ namespace HelicopterIntegrationTests
                 {
                     var = portInterface.ReadByte();
                 }
-                magX.AddValueToGraph(readShort(portInterface));
-                magY.AddValueToGraph(readShort(portInterface));
-                magZ.AddValueToGraph(readShort(portInterface));
-                frdmagX.AddValueToGraph(readShort(portInterface));
-                frdmagY.AddValueToGraph(readShort(portInterface));
-                frdmagZ.AddValueToGraph(readShort(portInterface));
-                
+                uint rwTemp = portInterface.ReadUInt(portInterface);
+                rawTemp.AddValueToGraph(rwTemp);
+
+                uint rwPress = portInterface.ReadUInt(portInterface);
+                rawPress.AddValueToGraph(rwPress);
+                int temperature = portInterface.ReadInt(portInterface);
+                temp.AddValueToGraph(temperature);
+                int pressure = portInterface.ReadInt(portInterface);
+            //    press.AddValueToGraph(pressure);
+
                 Application.DoEvents();
+
+
+
+
+
+
+
+
+
+                //altitude equation from: http://www.barnardmicrosystems.com/L4E_FMU_sensors.htm#Pressure
+                double altitudemeters = (288.15 / (6.5 / 1000.0)) * (1 - (Math.Pow((pressure / 101325.0), (6.5 / 1000.0) * (287.052 / 9.78))));
+                double altitudefeet = altitudemeters * 3.28084;
+
+
+
+
+                //*******note the barometer appears to need more time to settle
+                if (counter2 == 40)
+                {
+                    baseAltitudeFeet = altitudefeet;
+                    counter2 = 80;
+                }
+                else if (counter2 == 80)
+                {
+                    //do nothing
+                }
+                else
+                {
+                    counter2++;
+                }
+
+
+
+                //			altitudefeet = (double) (altitudefeet - baseAltitudeFeet);
+
+                //exponential smoothing. http://en.wikipedia.org/wiki/Exponential_smoothing
+                //St = aX + (1-a)St-1
+                //unfortunately, with a=.15 theres about a 2 second delay, and it bounces by .2 feet. which is pretty good
+                //just gotta increase the polling time to decrease that delay. but thats because the if statement
+                //is set to 10.
+                //should wait for it to settle by 3/a measurements. 
+
+                if (isReady)
+                {
+                    //Danger *** This algorithm drifts.
+                    double altitudefeettemp = (double)(altitudefeet - baseAltitudeFeet);
+                    altitudefeet = alpha * (altitudefeettemp) + (1 - alpha) * previousAltitudeFeet;
+                    previousAltitudeFeet = altitudefeet;
+
+                    //altitudefeet = (double) (altitudefeet - baseAltitudeFeet);
+press.AddValueToGraph(altitudefeet);
+                }
+                else
+                {
+                    altitudefeet = (double)(altitudefeet - baseAltitudeFeet);
+                }
+
+
+                if (altitudefeet < 20 && altitudefeet != 0)
+                {
+                    isReady = true;
+                }
+
             }
         }
+
+        //public static void Main()
+        //{
+        //    SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
+        //    SerialPortInterface portInterface = new SerialPortInterface(port);
+        //    portInterface.Open();
+
+
+        //    GraphForm magX = new GraphForm("MagX");
+        //    GraphForm magZ = new GraphForm("MagZ");
+        //    GraphForm magY = new GraphForm("MagY");
+        //    GraphForm frdmagX = new GraphForm("FRDMagX");
+        //    GraphForm frdmagZ = new GraphForm("FRDMagZ");
+        //    GraphForm frdmagY = new GraphForm("FRDMagY");
+
+        //    magX.Visible = true;
+        //    magZ.Visible = true;
+        //    magY.Visible = true;
+        //    frdmagX.Visible = true;
+        //    frdmagZ.Visible = true;
+        //    frdmagY.Visible = true;
+
+        //    while (true)
+        //    {
+        //        int var = 0;
+        //        while (var != 'S')
+        //        {
+        //            var = portInterface.ReadByte();
+        //        }
+        //        magX.AddValueToGraph(readShort(portInterface));
+        //        magY.AddValueToGraph(readShort(portInterface));
+        //        magZ.AddValueToGraph(readShort(portInterface));
+        //        frdmagX.AddValueToGraph(readShort(portInterface));
+        //        frdmagY.AddValueToGraph(readShort(portInterface));
+        //        frdmagZ.AddValueToGraph(readShort(portInterface));
+                
+        //        Application.DoEvents();
+        //    }
+        //}
 
 
         //public static void Main()

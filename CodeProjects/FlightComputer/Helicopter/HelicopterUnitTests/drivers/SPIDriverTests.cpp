@@ -63,7 +63,7 @@ int spi_messaging_test(TestCase *test)
 	spiDriver->beginTransaction();
 
 	//Select Gyro Z as the reference clock. Selecting a gyro clock
-	//is recommended in pag 41 of RM-MPU-6000A.pdf for improved stability.
+	//is recommended in page 41 of RM-MPU-6000A.pdf for improved stability.
 	spiDriver->write(REG_PWR_MGMT_1,BITS_CLKSEL_GYROZ);
 	
 	//Wait for the system to process the clock change. This
@@ -111,9 +111,9 @@ int spi_messaging_test(TestCase *test)
 	 */	
 	spiDriver->write(REG_ACCEL_XOUT_H | readCommand);
 
-	int accelX = spiDriver->readInt16();
-	int accelY = spiDriver->readInt16();
-	int accelZ = spiDriver->readInt16();
+	int accelX = spiDriver->readInt();
+	int accelY = spiDriver->readInt();
+	int accelZ = spiDriver->readInt();
 	
 	/**
 	 * The master (this CPU) then pulls the slave select line low indicating

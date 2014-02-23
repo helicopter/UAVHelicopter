@@ -136,10 +136,12 @@
       <Value>../../Helicopter/tasks</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
+  <avrgcccpp.compiler.optimization.level>Optimize (-O1)</avrgcccpp.compiler.optimization.level>
   <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
   <avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>
   <avrgcccpp.compiler.optimization.DebugLevel>Default (-g2)</avrgcccpp.compiler.optimization.DebugLevel>
   <avrgcccpp.compiler.warnings.AllWarnings>True</avrgcccpp.compiler.warnings.AllWarnings>
+  <avrgcccpp.compiler.miscellaneous.OtherFlags>-D "F_CPU=16000000"</avrgcccpp.compiler.miscellaneous.OtherFlags>
   <avrgcccpp.linker.libraries.Libraries>
     <ListValues>
       <Value>Helicopter</Value>
@@ -172,6 +174,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="radio\GroundControlStationIntegrationTests.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="sensor\BarometerSensorTests.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="sensor\BarometerSensorTests.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="sensor\ImuSensorTests.cpp">
