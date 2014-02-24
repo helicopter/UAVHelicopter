@@ -41,9 +41,7 @@ void SerialDriver::initialize()
 		{
 			UCSR0A |= (1<<U2X0);
 		}
-		
-			
-			
+
 		/* Enable receiver and transmitter */
 		UCSR0B |= (1<<RXEN0) | (1<<TXEN0);
 	}
@@ -58,6 +56,8 @@ int SerialDriver::transmit(float valueToSend, Timer *timer)
 	
 	byte bytes[4] = {0};
 	
+	//Memcpy the float into an array of bytes because the compiler doesn't like
+	//bit shifting floats. 
 	memcpy(bytes, (void*) &valueToSend, 4);
 	
 	status1 = transmit(bytes[0],timer);
@@ -73,7 +73,7 @@ int SerialDriver::transmit(int valueToSend, Timer *timer)
 	int status1 = 0;
 	int status2 = 0;
 	
-	status1 = transmit((byte)(((int)valueToSend) >> 8),timer);
+	status1 = transmit((byte)(valueToSend >> 8),timer);
 	status2 = transmit((byte)valueToSend,timer);	
 	
 	return status1 | status2;

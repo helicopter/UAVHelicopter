@@ -1,9 +1,8 @@
-#include "BarometerSensorTests.h"
-
 
 #include <math.h>
 #include <util/delay.h>
 
+#include "BarometerSensorTests.h"
 #include "UnitTestUtils.h"
 #include "ImuSensorTests.h"
 #include "SPIDriver.h"
@@ -31,18 +30,16 @@ int readbaro_test(TestCase *test)
 	
 	AssertTrue(baroSensor->getRawTemperature() == 0);
 	AssertTrue(baroSensor->getRawPressure() == 0);
-	AssertTrue(baroSensor->getTemperature() == 0);
-	AssertTrue(baroSensor->getPressure() == 0);
+	AssertTrue(baroSensor->getTemperatureCelcius() == 0);
+	AssertTrue(baroSensor->getPressureMillibars() == 0);
 
 	
 	baroSensor->readSensor();
 	
-	/*AssertTrue(baroSensor->getRawTemperature() != 0);
+	AssertTrue(baroSensor->getRawTemperature() != 0);
 	AssertTrue(baroSensor->getRawPressure() != 0);
-	AssertTrue(baroSensor->getTemperature() != 0);
-	AssertTrue(baroSensor->getPressure() != 0);
-	
-	AssertTrue(baroSensor->getRawTemperature() != baroSensor->getTemperature());*/
+	AssertTrue(baroSensor->getTemperatureCelcius() != 0);
+	AssertTrue(baroSensor->getPressureMillibars() != 0);
 	
 	while (true)
 	{
@@ -53,8 +50,8 @@ int readbaro_test(TestCase *test)
 
 		serialDriver->transmit(baroSensor->getRawTemperature(), timer);
 		serialDriver->transmit(baroSensor->getRawPressure(), timer);		
-		serialDriver->transmit(baroSensor->getTemperature(), timer);
-		serialDriver->transmit(baroSensor->getPressure(), timer);
+		serialDriver->transmit(baroSensor->getTemperatureCelcius(), timer);
+		serialDriver->transmit(baroSensor->getPressureMillibars(), timer);
 		
 	}
 	

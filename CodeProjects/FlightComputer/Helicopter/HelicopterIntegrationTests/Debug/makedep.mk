@@ -10,5 +10,7 @@ radio\GroundControlStationIntegrationTests.cpp
 
 sensor\BarometerSensorTests.cpp
 
+sensor\GPSSensorTests.cpp
+
 sensor\ImuSensorTests.cpp
 

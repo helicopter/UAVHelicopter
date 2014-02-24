@@ -71,20 +71,23 @@ namespace helicopter
 				/**
 				 * This is the temperature in Celsius * 100. so 23 degrees C is 2300.
 				 */
-				long temperature;
-				long pressure;
+				long temperatureCelcius;
+				long pressureMillibars;
 				
 				/**
 				 * Each barometer is individually calibrated at the factory. These values are
 				 * used in calculations to compensate temperature and pressure values. 
 				 * Those values are stored in the programmable read only memory (PROM) of the barometer
+				 * I made these int64_t even though the documentation says these could be uint16 because
+				 * when doing the math with these variables, it required 64 bit values and signed values.
+				 * if I tried with uint64's or a smaller size, massive math errors ocurred.
 				 */
-				unsigned int pressureSensitivity_SENSt1_C1;
-				unsigned int pressureSensitivityOffset_OFFt1_C2;
-				unsigned int temperatureCoefficientOfPressureSensitivity_TCS_C3;
-				unsigned int temperatureCoefficientOfPressureOffset_TCO_C4;
-				unsigned int referenceTemperature_Tref_C5;
-				unsigned int temperatureCoefficientOfTheTemperature_TEMPSENS_C6;
+				int64_t pressureSensitivity_SENSt1_C1;
+				int64_t pressureSensitivityOffset_OFFt1_C2;
+				int64_t temperatureCoefficientOfPressureSensitivity_TCS_C3;
+				int64_t temperatureCoefficientOfPressureOffset_TCO_C4;
+				int64_t referenceTemperature_Tref_C5;
+				int64_t temperatureCoefficientOfTheTemperature_TEMPSENS_C6;
 				
 			public:
 				/**
@@ -96,8 +99,8 @@ namespace helicopter
 					spiDriver (spiDriver),
 					rawTemperature(0),
 					rawPressure(0),
-					temperature(0),
-					pressure(0),
+					temperatureCelcius(0),
+					pressureMillibars(0),
 					pressureSensitivity_SENSt1_C1(0),
 					pressureSensitivityOffset_OFFt1_C2(0),
 					temperatureCoefficientOfPressureSensitivity_TCS_C3(0),
@@ -130,14 +133,14 @@ namespace helicopter
 					return rawPressure;
 				}		
 				
-				long getTemperature()
+				long getTemperatureCelcius()
 				{
-					return temperature;
+					return temperatureCelcius;
 				}
 				
-				long getPressure()
+				long getPressureMillibars()
 				{
-					return pressure;
+					return pressureMillibars;
 				}								
 		};
 	}
