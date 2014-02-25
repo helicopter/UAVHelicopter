@@ -53,18 +53,15 @@ int GroundControlStationInterface::transmit(Message *msgToSend)
 		completeMsg[completeMsgSize - 2] = checksumA;
 		completeMsg[completeMsgSize - 1] = checksumB;
 		
-		if (enableTimeout)
-		{
-			timer->startTimer();
-		}
+		serialDriver->startTimer();
 		
 		//iterate over the bytes and transmit them, unless there was an error.
 		for (int i = 0; i < completeMsgSize && status == 0; i++)
 		{
-			status = serialDriver->transmit(completeMsg[i], timer);
+			status = serialDriver->transmit(completeMsg[i]);
 		}
 		
-		timer->stopTimer();
+		serialDriver->stopTimer();
 		
 		delete [] msgPayload;
 		msgPayload = NULL;
@@ -77,7 +74,7 @@ int GroundControlStationInterface::transmit(Message *msgToSend)
  * Note: While receiving a byte, the serial driver may timeout. However, if 
  * a lot of data is constantly received before that timeout, and none of the data
  * is a sync byte, then this method will never stop receiving bytes and will
- * lock up the rest of the system. 
+ * lock up the rest of the system. So the helicopter would crash waiting for data.
  */
 int GroundControlStationInterface::receive(Message * &receivedMessage)
 {
@@ -87,10 +84,11 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
     byte secondSyncByte = 0;
     byte thirdSyncByte = 0;
 	
-	if (enableTimeout)
-	{
-		timer->startTimer();
-	}
+	/**
+	 * Start the timer to prevent the system from waiting indefinitely
+	 * while it receives data (thus causing the helicopter to crash)
+	 */
+	serialDriver->startTimer();
 
 	//Read until the sync bytes are received or we time out.
 	//Throw away any 'garbage' bytes.
@@ -98,7 +96,7 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 	{
 		firstSyncByte = secondSyncByte;
 		secondSyncByte = thirdSyncByte;
-		status = serialDriver->receive(thirdSyncByte, timer);
+		status = serialDriver->receive(thirdSyncByte);
 	}
 	
 	if (status == 0)
@@ -106,7 +104,7 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 		//once we have found a valid message, get the message ID
 		byte msgType = 0;
 		
-		status = serialDriver->receive(msgType, timer);
+		status = serialDriver->receive(msgType);
 		
 		if (status == 0)
 		{
@@ -133,7 +131,7 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 				//skip the first position since thats where the message type is located.
 				for (int i = 1; i < msgSize && status == 0; i++)
 				{
-					status = serialDriver->receive(messagePayload[i], timer);
+					status = serialDriver->receive(messagePayload[i]);
 				}
 							
 				if (status == 0)
@@ -144,8 +142,8 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 					byte calculatedChecksumA = 0;
 					byte calculatedChecksumB = 0;
 								
-					status = serialDriver->receive(messageChecksumA, timer);
-					status = serialDriver->receive(messageChecksumB, timer);
+					status = serialDriver->receive(messageChecksumA);
+					status = serialDriver->receive(messageChecksumB);
 								
 					//Generate checksum for the message			
 					calculateChecksum(messagePayload, msgSize, calculatedChecksumA, calculatedChecksumB);
@@ -179,7 +177,7 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 		receivedMessage = NULL;
 	}
 	
-	timer->stopTimer();
+	serialDriver->stopTimer();
 	
 	return status;
 }

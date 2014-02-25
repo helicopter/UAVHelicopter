@@ -14,7 +14,7 @@
 #include "IMUSensor.h"
 #include "Timer.h"
 #include "SerialDriver.h"
-#include "BarometerSensor.h"
+#include "GPSSensor.h"
 
 using namespace helicopter::drivers;
 using namespace helicopter::sensors;
@@ -23,44 +23,46 @@ using namespace helicopter::util;
 int readgps_test(TestCase *test)
 {
 	Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100); //Good timeout when using the USB
-
-	SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::Zero, true);
+	
+	/**
+	 * Note, this serial driver must be on baud rate 9600 because the GPS code is
+	 * hard coded to communicate over serial at 9600 baud.
+	 */
+	SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::Zero, true, timer);
 	gpsSerialDriver->initialize();
 
-	SerialDriver *serialDriver = new SerialDriver(9600, SerialDriver::Zero, true);
+
+	SerialDriver *serialDriver = new SerialDriver(9600, SerialDriver::Zero, true, timer);
 	serialDriver->initialize();
-//
-	//GPSSensor *gpsSensor = new GPSSensor(gpsSerialDriver);
-	//gpsSensor->init();
-	//
-	////Delay for 30 seconds
-	//for (int i = 0; i < 30);
-	//{
-		//_delay_ms(1000);
-	//}
-//
-	//
-	//AssertTrue(baroSensor->getLattitude() == 0.0f);
-	//AssertTrue(baroSensor->getLongitude() == 0.0f);	
-	//
-	//AssertTrue(gpsSensor->isGpsReady());
-	//
-	//AssertTrue(gpsSensor->readSensor());
-	//
-	//AssertTrue(baroSensor->getLattitude() != 0.0f);
-	//AssertTrue(baroSensor->getLongitude() != 0.0f);
-	//
-	//while (true)
-	//{
-		//_delay_ms(50);
-		//baroSensor->readSensor();
-		//
-		//serialDriver->transmit('S',timer);
-//
-		//serialDriver->transmit(baroSensor->getLattitude(), timer);
-		//serialDriver->transmit(baroSensor->getLongitude(), timer);
-		//
-	//}
+
+	GPSSensor *gpsSensor = new GPSSensor(gpsSerialDriver);
+	gpsSensor->init();
+
+	AssertTrue(gpsSensor->getLattitude() == 0.0f);
+	AssertTrue(gpsSensor->getLongitude() == 0.0f);	
+	
+	//Wait until the GPS sensor is ready.
+	while (!gpsSensor->isGpsReady())
+	{
+		_delay_ms(1000);
+	}
+	
+	AssertTrue(gpsSensor->readSensor());
+	
+	AssertTrue(gpsSensor->getLattitude() != 0.0f);
+	AssertTrue(gpsSensor->getLongitude() != 0.0f);
+	
+	while (true)
+	{
+		_delay_ms(50);
+		AssertTrue(gpsSensor->readSensor());
+		
+		serialDriver->transmit('S');
+
+		serialDriver->transmit(gpsSensor->getLattitude());
+		serialDriver->transmit(gpsSensor->getLongitude());
+		
+	}
 	//
 	/**
 	 * TODO Notes: I'll want to investigate the 'correction' fields.

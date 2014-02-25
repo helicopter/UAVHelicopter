@@ -21,16 +21,16 @@ using namespace helicopter::sensors;
 using namespace helicopter::util;
 
 
-void send(SerialDriver *driver, Timer *t, float val)
+void send(SerialDriver *driver, float val)
 {	
-	driver->transmit((byte)(((int)val) >> 8),t);
-	driver->transmit((byte)val,t);
+	driver->transmit((byte)(((int)val) >> 8));
+	driver->transmit((byte)val);
 }
 
-void send(SerialDriver *driver, Timer *t, int val)
+void send(SerialDriver *driver, int val)
 {
-	driver->transmit((byte) (val >> 8),t);
-	driver->transmit((byte)val,t);	
+	driver->transmit((byte) (val >> 8));
+	driver->transmit((byte)val);	
 }
 
 
@@ -53,7 +53,7 @@ int readmag_test(TestCase *test)
 	
 	Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100); //Good timeout when using the USB
 
-	SerialDriver *serialDriver = new SerialDriver(9600, SerialDriver::Zero, true);
+	SerialDriver *serialDriver = new SerialDriver(9600, SerialDriver::Zero, true, timer);
 	serialDriver->initialize();
 
 	TWIDriver *driver = new TWIDriver();
@@ -183,10 +183,10 @@ int readmag_test(TestCase *test)
 		//transmit stop condition
 		driver->stop();
 	
-		serialDriver->transmit('S',timer);
-		serialDriver->transmit(magXVal, timer);
-		serialDriver->transmit(magZVal, timer);
-		serialDriver->transmit(magYVal, timer);
+		serialDriver->transmit('S');
+		serialDriver->transmit(magXVal);
+		serialDriver->transmit(magZVal);
+		serialDriver->transmit(magYVal);
 
 		_delay_ms(700);
 	
@@ -202,7 +202,7 @@ int magdriver_test(TestCase *test)
 {
 	Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100); //Good timeout when using the USB
 
-	SerialDriver *serialDriver = new SerialDriver(9600, SerialDriver::Zero, true);
+	SerialDriver *serialDriver = new SerialDriver(9600, SerialDriver::Zero, true, timer);
 	serialDriver->initialize();
 
 	TWIDriver *driver = new TWIDriver();
@@ -234,14 +234,14 @@ int magdriver_test(TestCase *test)
 		_delay_ms(700);
 		magSensor->readSensor();
 		
-		serialDriver->transmit('S',timer);
+		serialDriver->transmit('S');
 		
-		serialDriver->transmit(magSensor->getRawX(), timer);
-		serialDriver->transmit(magSensor->getRawY(), timer);
-		serialDriver->transmit(magSensor->getRawZ(), timer);
-		send(serialDriver, timer, magSensor->getFRDX());
-		send(serialDriver, timer, magSensor->getFRDY());
-		send(serialDriver, timer, magSensor->getFRDZ());
+		serialDriver->transmit(magSensor->getRawX());
+		serialDriver->transmit(magSensor->getRawY());
+		serialDriver->transmit(magSensor->getRawZ());
+		send(serialDriver, magSensor->getFRDX());
+		send(serialDriver, magSensor->getFRDY());
+		send(serialDriver, magSensor->getFRDZ());
 	}
 	
 	return 0;

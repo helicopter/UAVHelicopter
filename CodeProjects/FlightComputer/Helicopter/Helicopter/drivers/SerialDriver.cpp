@@ -14,6 +14,23 @@
 
 using namespace helicopter::drivers;
 
+void SerialDriver::startTimer()
+{
+	if (timer != NULL)
+	{
+		timer->startTimer();
+	}
+	
+}
+
+void SerialDriver::stopTimer()
+{
+	if (timer != NULL)
+	{
+		timer->stopTimer();
+	}
+}
+
 void SerialDriver::initialize()
 {
 	unsigned int baudPrescaller = 0;
@@ -47,7 +64,7 @@ void SerialDriver::initialize()
 	}
 }
 
-int SerialDriver::transmit(float valueToSend, Timer *timer)
+int SerialDriver::transmit(float valueToSend)
 {
 	int status1 = 0;
 	int status2 = 0;
@@ -60,26 +77,26 @@ int SerialDriver::transmit(float valueToSend, Timer *timer)
 	//bit shifting floats. 
 	memcpy(bytes, (void*) &valueToSend, 4);
 	
-	status1 = transmit(bytes[0],timer);
-	status2 = transmit(bytes[1],timer);
-	status3 = transmit(bytes[2],timer);
-	status4 = transmit(bytes[3],timer);
+	status1 = transmit(bytes[0]);
+	status2 = transmit(bytes[1]);
+	status3 = transmit(bytes[2]);
+	status4 = transmit(bytes[3]);
 	
 	return status1 | status2 | status3 | status4;
 }
 
-int SerialDriver::transmit(int valueToSend, Timer *timer)
+int SerialDriver::transmit(int valueToSend)
 {
 	int status1 = 0;
 	int status2 = 0;
 	
-	status1 = transmit((byte)(valueToSend >> 8),timer);
-	status2 = transmit((byte)valueToSend,timer);	
+	status1 = transmit((byte)(valueToSend >> 8));
+	status2 = transmit((byte)valueToSend);	
 	
 	return status1 | status2;
 }
 
-int SerialDriver::transmit(unsigned long valueToSend, Timer *timer)
+int SerialDriver::transmit(unsigned long valueToSend)
 {
 	int status1 = 0;
 	int status2 = 0;
@@ -87,15 +104,15 @@ int SerialDriver::transmit(unsigned long valueToSend, Timer *timer)
 	int status4 = 0;
 	
 
-	status1 = transmit((byte)((valueToSend >> 24) & 0xFF),timer);
-	status2 = transmit((byte)((valueToSend >> 16) & 0xFF),timer);
-	status3 = transmit((byte)((valueToSend >> 8) & 0xFF),timer);
-	status4 = transmit((byte)(valueToSend & 0xFF),timer);
+	status1 = transmit((byte)((valueToSend >> 24) & 0xFF));
+	status2 = transmit((byte)((valueToSend >> 16) & 0xFF));
+	status3 = transmit((byte)((valueToSend >> 8) & 0xFF));
+	status4 = transmit((byte)(valueToSend & 0xFF));
 	
 	return status1 | status2 | status3 | status4;
 }
 
-int SerialDriver::transmit(long valueToSend, Timer *timer)
+int SerialDriver::transmit(long valueToSend)
 {
 	int status1 = 0;
 	int status2 = 0;
@@ -103,15 +120,15 @@ int SerialDriver::transmit(long valueToSend, Timer *timer)
 	int status4 = 0;
 	
 
-	status1 = transmit((byte)((valueToSend >> 24) & 0xFF),timer);
-	status2 = transmit((byte)((valueToSend >> 16) & 0xFF),timer);
-	status3 = transmit((byte)((valueToSend >> 8) & 0xFF),timer);
-	status4 = transmit((byte)(valueToSend & 0xFF),timer);
+	status1 = transmit((byte)((valueToSend >> 24) & 0xFF));
+	status2 = transmit((byte)((valueToSend >> 16) & 0xFF));
+	status3 = transmit((byte)((valueToSend >> 8) & 0xFF));
+	status4 = transmit((byte)(valueToSend & 0xFF));
 	
 	return status1 | status2 | status3 | status4;
 }
 
-int SerialDriver::transmit(byte valueToSend, Timer *timer)
+int SerialDriver::transmit(byte valueToSend)
 {
 	int status = 0;
 	
@@ -122,7 +139,7 @@ int SerialDriver::transmit(byte valueToSend, Timer *timer)
 		while ( !( UCSR0A & (1<<UDRE0)) )
 		{
 			//Check for timeout
-			if (timer->hasTimedout())
+			if (timer != NULL && timer->hasTimedout())
 			{
 				status = -1;
 				break;
@@ -140,7 +157,7 @@ int SerialDriver::transmit(byte valueToSend, Timer *timer)
 	return status;
 }
 
-int SerialDriver::receive(byte &receivedByte, Timer *timer)
+int SerialDriver::receive(byte &receivedByte)
 {
 	int status = 0;
 	
@@ -150,7 +167,7 @@ int SerialDriver::receive(byte &receivedByte, Timer *timer)
 		/* Wait for data on the receive buffer */
 		while ( !(UCSR0A & (1<<RXC0)))
 		{
-			if (timer->hasTimedout())
+			if (timer != NULL && timer->hasTimedout())
 			{
 				status = -1;
 				break;

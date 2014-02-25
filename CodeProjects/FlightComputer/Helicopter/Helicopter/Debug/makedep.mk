@@ -34,6 +34,8 @@ scheduler\Scheduler.cpp
 
 sensors\BarometerSensor.cpp
 
+sensors\GPSSensor.cpp
+
 sensors\IMUSensor.cpp
 
 sensors\MagnetometerSensor.cpp

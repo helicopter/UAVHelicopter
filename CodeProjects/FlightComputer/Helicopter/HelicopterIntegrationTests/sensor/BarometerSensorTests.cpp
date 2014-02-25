@@ -19,7 +19,7 @@ int readbaro_test(TestCase *test)
 {
 	Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100); //Good timeout when using the USB
 
-	SerialDriver *serialDriver = new SerialDriver(9600, SerialDriver::Zero, true);
+	SerialDriver *serialDriver = new SerialDriver(9600, SerialDriver::Zero, true, timer);
 	serialDriver->initialize();
 
 	SPIDriver *driver = new SPIDriver(SPIDriver::SS_G);
@@ -46,12 +46,12 @@ int readbaro_test(TestCase *test)
 		_delay_ms(50);
 		baroSensor->readSensor();
 		
-		serialDriver->transmit('S',timer);
+		serialDriver->transmit('S');
 
-		serialDriver->transmit(baroSensor->getRawTemperature(), timer);
-		serialDriver->transmit(baroSensor->getRawPressure(), timer);		
-		serialDriver->transmit(baroSensor->getTemperatureCelcius(), timer);
-		serialDriver->transmit(baroSensor->getPressureMillibars(), timer);
+		serialDriver->transmit(baroSensor->getRawTemperature());
+		serialDriver->transmit(baroSensor->getRawPressure());		
+		serialDriver->transmit(baroSensor->getTemperatureCelcius());
+		serialDriver->transmit(baroSensor->getPressureMillibars());
 		
 	}
 	

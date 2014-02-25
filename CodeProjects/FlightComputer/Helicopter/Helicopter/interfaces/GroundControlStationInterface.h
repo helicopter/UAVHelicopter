@@ -27,10 +27,6 @@ namespace helicopter
 			private:
 				SerialDriver *serialDriver;
 				
-				Timer *timer;
-				
-				bool enableTimeout;
-				
 				/**
 				 * Calculates the checksum of a message payload using a simple 8-bit fletcher algorithm
 				 * @param msgPayload the payload of the message to calculate the checksum against
@@ -62,16 +58,9 @@ namespace helicopter
 				 * as receiving a byte.
 				 * @param serialDriver the driver used to communicate with the serial port
 				 * which is used to communicate with the Ground Control Station.
-				 * @param timer A timer used to determine if too much time has been spent transmitting
-				 * data or receiving data.
-				 * @param enableTimeout A flag indicating if the timer should be used to determine if the system should
-				 * timeout when sending and receiving data. If false, the system will wait indefiniately for data.
-				 * if true, the system will only wait a short period of time (specified by the timer) before continuing on.
 				 */
-				GroundControlStationInterface(SerialDriver *serialDriver, Timer *timer, bool enableTimeout = true):
-					serialDriver(serialDriver),
-					timer(timer),
-					enableTimeout(enableTimeout)
+				GroundControlStationInterface(SerialDriver *serialDriver):
+					serialDriver(serialDriver)
 					{}
 						
 				~GroundControlStationInterface()
