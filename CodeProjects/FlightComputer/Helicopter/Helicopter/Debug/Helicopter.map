@@ -88,12 +88,27 @@ c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu
                               c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_muldi3.o) (__umulhisi3)
 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
                               util/CommonHeader.o (malloc)
+c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(atof.o)
+                              sensors/GPSSensor.o (atof)
 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(memcpy.o)
                               buffer/Record.o (memcpy)
+c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o)
+                              c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(atof.o) (strtod)
+c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(isspace.o)
+                              c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o) (isspace)
+c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strncasecmp_P.o)
+                              c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o) (strncasecmp_P)
+c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(errno.o)
+                              c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o) (errno)
+c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(cty_isfalse.o)
+                              c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(isspace.o) (__ctype_isfalse)
+c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_muluhisi3.o)
+                              c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o) (__muluhisi3)
 
 Allocating common symbols
 Common symbol       size              file
 
+errno               0x2               c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(errno.o)
 __brkval            0x2               c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
 __flp               0x2               c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
 
@@ -140,6 +155,10 @@ Discarded input sections
  .group         0x00000000        0x8 drivers/SerialDriver.o
  .text          0x00000000        0x0 drivers/SerialDriver.o
  .bss           0x00000000        0x0 drivers/SerialDriver.o
+ .text._ZN10helicopter7drivers12SerialDriver8transmitEPKci
+                0x00000000       0x62 drivers/SerialDriver.o
+ .text._ZN10helicopter7drivers12SerialDriver13timedTransmitEPKci
+                0x00000000       0x92 drivers/SerialDriver.o
  .text          0x00000000        0x0 drivers/SPIDriver.o
  .bss           0x00000000        0x0 drivers/SPIDriver.o
  .text._ZN10helicopter7drivers9SPIDriver8readByteEv
@@ -206,12 +225,16 @@ Discarded input sections
                 0x00000000      0x7ee sensors/BarometerSensor.o
  .text          0x00000000        0x0 sensors/GPSSensor.o
  .bss           0x00000000        0x0 sensors/GPSSensor.o
- .text._ZN10helicopter7sensors9GPSSensor10readSensorEv
-                0x00000000        0x4 sensors/GPSSensor.o
+ .rodata.str1.1
+                0x00000000      0x1d5 sensors/GPSSensor.o
  .text._ZN10helicopter7sensors9GPSSensor4initEv
-                0x00000000        0x2 sensors/GPSSensor.o
+                0x00000000       0xfc sensors/GPSSensor.o
  .text._ZN10helicopter7sensors9GPSSensor10isGpsReadyEv
                 0x00000000        0x4 sensors/GPSSensor.o
+ .text._ZN10helicopter7sensors9GPSSensor11parseFieldsEiPh
+                0x00000000       0xec sensors/GPSSensor.o
+ .text._ZN10helicopter7sensors9GPSSensor10readSensorEv
+                0x00000000      0x126 sensors/GPSSensor.o
  .text          0x00000000        0x0 sensors/IMUSensor.o
  .bss           0x00000000        0x0 sensors/IMUSensor.o
  .text._ZN10helicopter7sensors9IMUSensor10readSensorEv
@@ -515,8 +538,45 @@ Discarded input sections
                 0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_umulhisi3.o)
  .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(atof.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(atof.o)
+ .text.avr-libc
+                0x00000000        0x8 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(atof.o)
  .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(memcpy.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(memcpy.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o)
+ .text.avr-libc
+                0x00000000      0x2b6 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o)
+ .progmem.data  0x00000000       0x3b c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(isspace.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(isspace.o)
+ .text.avr-libc
+                0x00000000       0x10 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(isspace.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strncasecmp_P.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strncasecmp_P.o)
+ .text.avr-libc
+                0x00000000       0x30 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strncasecmp_P.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(errno.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(errno.o)
+ COMMON         0x00000000        0x2 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(errno.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(cty_isfalse.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(cty_isfalse.o)
+ .text.avr-libc
+                0x00000000        0x6 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(cty_isfalse.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_muluhisi3.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_muluhisi3.o)
+ .text.libgcc.mul
+                0x00000000       0x16 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_muluhisi3.o)
+ .text.libgcc.div
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_muluhisi3.o)
+ .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_muluhisi3.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_muluhisi3.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_muluhisi3.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_muluhisi3.o)
 
 Memory Configuration
 
@@ -1358,7 +1418,14 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
                 0x00800200                __malloc_heap_end
                 0x00800202                __malloc_heap_start
                 0x00800204                __malloc_margin
+ .data          0x00800206        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(atof.o)
  .data          0x00800206        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(memcpy.o)
+ .data          0x00800206        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o)
+ .data          0x00800206        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(isspace.o)
+ .data          0x00800206        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strncasecmp_P.o)
+ .data          0x00800206        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(errno.o)
+ .data          0x00800206        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(cty_isfalse.o)
+ .data          0x00800206        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_muluhisi3.o)
  *(.data*)
  *(.rodata)
  *(.rodata*)
@@ -1444,7 +1511,7 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
 .user_signatures
  *(.user_signatures*)
 
-.stab           0x00000000     0x3438
+.stab           0x00000000     0x35dc
  *(.stab)
  .stab          0x00000000      0x6e4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6/crtm2560.o
  .stab          0x000006e4       0x78 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(addsf3.o)
@@ -1509,12 +1576,20 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
                                 0x108 (size before relaxing)
  .stab          0x000031c8      0x1ec c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_powser.o)
                                 0x1f8 (size before relaxing)
- .stab          0x000033b4       0x84 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(memcpy.o)
+ .stab          0x000033b4       0x3c c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(atof.o)
+                                 0x48 (size before relaxing)
+ .stab          0x000033f0       0x84 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(memcpy.o)
                                  0x90 (size before relaxing)
+ .stab          0x00003474       0x18 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(isspace.o)
+                                 0xa8 (size before relaxing)
+ .stab          0x0000348c      0x138 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strncasecmp_P.o)
+                                0x144 (size before relaxing)
+ .stab          0x000035c4       0x18 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(cty_isfalse.o)
+                                 0x6c (size before relaxing)
 
-.stabstr        0x00000000      0xf16
+.stabstr        0x00000000     0x10a6
  *(.stabstr)
- .stabstr       0x00000000      0xf16 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6/crtm2560.o
+ .stabstr       0x00000000     0x10a6 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6/crtm2560.o
 
 .stab.excl
  *(.stab.excl)
@@ -1562,6 +1637,8 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .comment       0x00000000       0x30 util/MatrixUtil.o
  .comment       0x00000000       0x30 util/Timer.o
  .comment       0x00000000       0x30 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .comment       0x00000000       0x30 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o)
+ .comment       0x00000000       0x30 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(errno.o)
 
 .debug
  *(.debug)
@@ -1575,7 +1652,7 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x7e0
+.debug_aranges  0x00000000      0x830
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x38 buffer/Buffer.o
@@ -1586,200 +1663,211 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .debug_aranges
                 0x00000120       0x28 drivers/MagnetometerDriver.o
  .debug_aranges
-                0x00000148       0x70 drivers/SerialDriver.o
+                0x00000148       0x80 drivers/SerialDriver.o
  .debug_aranges
-                0x000001b8       0x68 drivers/SPIDriver.o
+                0x000001c8       0x68 drivers/SPIDriver.o
  .debug_aranges
-                0x00000220       0x38 drivers/TWIDriver.o
+                0x00000230       0x38 drivers/TWIDriver.o
  .debug_aranges
-                0x00000258       0x48 HelicopterMain.o
+                0x00000268       0x48 HelicopterMain.o
  .debug_aranges
-                0x000002a0       0x30 interfaces/GroundControlStationInterface.o
+                0x000002b0       0x30 interfaces/GroundControlStationInterface.o
  .debug_aranges
-                0x000002d0       0x40 interfaces/RadioControllerInterface.o
+                0x000002e0       0x40 interfaces/RadioControllerInterface.o
  .debug_aranges
-                0x00000310       0x40 messages/Message.o
+                0x00000320       0x40 messages/Message.o
  .debug_aranges
-                0x00000350       0x40 messages/SyncMessage.o
+                0x00000360       0x40 messages/SyncMessage.o
  .debug_aranges
-                0x00000390       0x58 messages/SystemTelemetryMessage.o
+                0x000003a0       0x58 messages/SystemTelemetryMessage.o
  .debug_aranges
-                0x000003e8       0x18 model/SystemModel.o
+                0x000003f8       0x18 model/SystemModel.o
  .debug_aranges
-                0x00000400       0x58 scheduler/Scheduler.o
+                0x00000410       0x58 scheduler/Scheduler.o
  .debug_aranges
-                0x00000458       0x28 sensors/BarometerSensor.o
+                0x00000468       0x28 sensors/BarometerSensor.o
  .debug_aranges
-                0x00000480       0x30 sensors/GPSSensor.o
+                0x00000490       0x38 sensors/GPSSensor.o
  .debug_aranges
-                0x000004b0       0x28 sensors/IMUSensor.o
+                0x000004c8       0x28 sensors/IMUSensor.o
  .debug_aranges
-                0x000004d8       0x30 sensors/MagnetometerSensor.o
+                0x000004f0       0x30 sensors/MagnetometerSensor.o
  .debug_aranges
-                0x00000508       0x40 tasks/PIDInnerLoopTask.o
+                0x00000520       0x40 tasks/PIDInnerLoopTask.o
  .debug_aranges
-                0x00000548       0x40 tasks/PIDOuterLoopTask.o
+                0x00000560       0x40 tasks/PIDOuterLoopTask.o
  .debug_aranges
-                0x00000588       0x40 tasks/ReadIMUSensorTask.o
+                0x000005a0       0x40 tasks/ReadIMUSensorTask.o
  .debug_aranges
-                0x000005c8       0x40 tasks/SensorProcessingTask.o
+                0x000005e0       0x40 tasks/SensorProcessingTask.o
  .debug_aranges
-                0x00000608       0x40 tasks/SimTelemetryTask.o
+                0x00000620       0x40 tasks/SimTelemetryTask.o
  .debug_aranges
-                0x00000648       0x48 tasks/Task.o
+                0x00000660       0x48 tasks/Task.o
  .debug_aranges
-                0x00000690       0x40 tasks/TransmitTelemetryTask.o
+                0x000006a8       0x40 tasks/TransmitTelemetryTask.o
  .debug_aranges
-                0x000006d0       0x38 util/CommonHeader.o
+                0x000006e8       0x38 util/CommonHeader.o
  .debug_aranges
-                0x00000708       0x48 util/CoordinateUtil.o
+                0x00000720       0x48 util/CoordinateUtil.o
  .debug_aranges
-                0x00000750       0x38 util/MatrixUtil.o
+                0x00000768       0x38 util/MatrixUtil.o
  .debug_aranges
-                0x00000788       0x30 util/Timer.o
+                0x000007a0       0x30 util/Timer.o
  .debug_aranges
-                0x000007b8       0x28 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+                0x000007d0       0x28 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_aranges
+                0x000007f8       0x20 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o)
+ .debug_aranges
+                0x00000818       0x18 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(errno.o)
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000    0x20414
+.debug_info     0x00000000    0x20ee8
  *(.debug_info)
  .debug_info    0x00000000      0x5ca buffer/Buffer.o
  .debug_info    0x000005ca      0x576 buffer/Record.o
  .debug_info    0x00000b40     0x36ed controller/PIDController.o
  .debug_info    0x0000422d      0x1de drivers/MagnetometerDriver.o
- .debug_info    0x0000440b      0x9d0 drivers/SerialDriver.o
- .debug_info    0x00004ddb      0x604 drivers/SPIDriver.o
- .debug_info    0x000053df      0x2b9 drivers/TWIDriver.o
- .debug_info    0x00005698     0x46e0 HelicopterMain.o
- .debug_info    0x00009d78      0x856 interfaces/GroundControlStationInterface.o
- .debug_info    0x0000a5ce     0x1b75 interfaces/RadioControllerInterface.o
- .debug_info    0x0000c143      0x49a messages/Message.o
- .debug_info    0x0000c5dd      0x523 messages/SyncMessage.o
- .debug_info    0x0000cb00     0x4256 messages/SystemTelemetryMessage.o
- .debug_info    0x00010d56       0x4d model/SystemModel.o
- .debug_info    0x00010da3      0x95e scheduler/Scheduler.o
- .debug_info    0x00011701      0x8c1 sensors/BarometerSensor.o
- .debug_info    0x00011fc2      0x2a7 sensors/GPSSensor.o
- .debug_info    0x00012269      0x98b sensors/IMUSensor.o
- .debug_info    0x00012bf4      0x7a1 sensors/MagnetometerSensor.o
- .debug_info    0x00013395     0x1ec3 tasks/PIDInnerLoopTask.o
- .debug_info    0x00015258     0x1ed5 tasks/PIDOuterLoopTask.o
- .debug_info    0x0001712d     0x1e76 tasks/ReadIMUSensorTask.o
- .debug_info    0x00018fa3     0x1890 tasks/SensorProcessingTask.o
- .debug_info    0x0001a833     0x2b63 tasks/SimTelemetryTask.o
- .debug_info    0x0001d396      0x450 tasks/Task.o
- .debug_info    0x0001d7e6     0x18e4 tasks/TransmitTelemetryTask.o
- .debug_info    0x0001f0ca      0x1d8 util/CommonHeader.o
- .debug_info    0x0001f2a2      0x840 util/CoordinateUtil.o
- .debug_info    0x0001fae2      0x45d util/MatrixUtil.o
- .debug_info    0x0001ff3f      0x298 util/Timer.o
- .debug_info    0x000201d7      0x23d c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_info    0x0000440b      0xb50 drivers/SerialDriver.o
+ .debug_info    0x00004f5b      0x604 drivers/SPIDriver.o
+ .debug_info    0x0000555f      0x2b9 drivers/TWIDriver.o
+ .debug_info    0x00005818     0x46e0 HelicopterMain.o
+ .debug_info    0x00009ef8      0x856 interfaces/GroundControlStationInterface.o
+ .debug_info    0x0000a74e     0x1b75 interfaces/RadioControllerInterface.o
+ .debug_info    0x0000c2c3      0x49a messages/Message.o
+ .debug_info    0x0000c75d      0x523 messages/SyncMessage.o
+ .debug_info    0x0000cc80     0x4256 messages/SystemTelemetryMessage.o
+ .debug_info    0x00010ed6       0x4d model/SystemModel.o
+ .debug_info    0x00010f23      0x95e scheduler/Scheduler.o
+ .debug_info    0x00011881      0x8c1 sensors/BarometerSensor.o
+ .debug_info    0x00012142      0x7fa sensors/GPSSensor.o
+ .debug_info    0x0001293c      0x98b sensors/IMUSensor.o
+ .debug_info    0x000132c7      0x7a1 sensors/MagnetometerSensor.o
+ .debug_info    0x00013a68     0x1ec3 tasks/PIDInnerLoopTask.o
+ .debug_info    0x0001592b     0x1ed5 tasks/PIDOuterLoopTask.o
+ .debug_info    0x00017800     0x1e76 tasks/ReadIMUSensorTask.o
+ .debug_info    0x00019676     0x1890 tasks/SensorProcessingTask.o
+ .debug_info    0x0001af06     0x2b63 tasks/SimTelemetryTask.o
+ .debug_info    0x0001da69      0x450 tasks/Task.o
+ .debug_info    0x0001deb9     0x18e4 tasks/TransmitTelemetryTask.o
+ .debug_info    0x0001f79d      0x1d8 util/CommonHeader.o
+ .debug_info    0x0001f975      0x840 util/CoordinateUtil.o
+ .debug_info    0x000201b5      0x45d util/MatrixUtil.o
+ .debug_info    0x00020612      0x298 util/Timer.o
+ .debug_info    0x000208aa      0x23d c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_info    0x00020ae7      0x3ce c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o)
+ .debug_info    0x00020eb5       0x33 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(errno.o)
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000     0x503e
+.debug_abbrev   0x00000000     0x5342
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x27c buffer/Buffer.o
  .debug_abbrev  0x0000027c      0x284 buffer/Record.o
  .debug_abbrev  0x00000500      0x349 controller/PIDController.o
  .debug_abbrev  0x00000849      0x139 drivers/MagnetometerDriver.o
- .debug_abbrev  0x00000982      0x32a drivers/SerialDriver.o
- .debug_abbrev  0x00000cac      0x1cb drivers/SPIDriver.o
- .debug_abbrev  0x00000e77      0x174 drivers/TWIDriver.o
- .debug_abbrev  0x00000feb      0x5c8 HelicopterMain.o
- .debug_abbrev  0x000015b3      0x2e4 interfaces/GroundControlStationInterface.o
- .debug_abbrev  0x00001897      0x32b interfaces/RadioControllerInterface.o
- .debug_abbrev  0x00001bc2      0x23c messages/Message.o
- .debug_abbrev  0x00001dfe      0x2dc messages/SyncMessage.o
- .debug_abbrev  0x000020da      0x434 messages/SystemTelemetryMessage.o
- .debug_abbrev  0x0000250e       0x3e model/SystemModel.o
- .debug_abbrev  0x0000254c      0x373 scheduler/Scheduler.o
- .debug_abbrev  0x000028bf      0x254 sensors/BarometerSensor.o
- .debug_abbrev  0x00002b13      0x175 sensors/GPSSensor.o
- .debug_abbrev  0x00002c88      0x251 sensors/IMUSensor.o
- .debug_abbrev  0x00002ed9      0x248 sensors/MagnetometerSensor.o
- .debug_abbrev  0x00003121      0x345 tasks/PIDInnerLoopTask.o
- .debug_abbrev  0x00003466      0x345 tasks/PIDOuterLoopTask.o
- .debug_abbrev  0x000037ab      0x3a7 tasks/ReadIMUSensorTask.o
- .debug_abbrev  0x00003b52      0x34e tasks/SensorProcessingTask.o
- .debug_abbrev  0x00003ea0      0x468 tasks/SimTelemetryTask.o
- .debug_abbrev  0x00004308      0x23d tasks/Task.o
- .debug_abbrev  0x00004545      0x3f8 tasks/TransmitTelemetryTask.o
- .debug_abbrev  0x0000493d       0xfb util/CommonHeader.o
- .debug_abbrev  0x00004a38      0x20a util/CoordinateUtil.o
- .debug_abbrev  0x00004c42      0x15d util/MatrixUtil.o
- .debug_abbrev  0x00004d9f      0x1a6 util/Timer.o
- .debug_abbrev  0x00004f45       0xf9 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_abbrev  0x00000982      0x349 drivers/SerialDriver.o
+ .debug_abbrev  0x00000ccb      0x1cb drivers/SPIDriver.o
+ .debug_abbrev  0x00000e96      0x174 drivers/TWIDriver.o
+ .debug_abbrev  0x0000100a      0x5c8 HelicopterMain.o
+ .debug_abbrev  0x000015d2      0x2e4 interfaces/GroundControlStationInterface.o
+ .debug_abbrev  0x000018b6      0x32b interfaces/RadioControllerInterface.o
+ .debug_abbrev  0x00001be1      0x23c messages/Message.o
+ .debug_abbrev  0x00001e1d      0x2dc messages/SyncMessage.o
+ .debug_abbrev  0x000020f9      0x434 messages/SystemTelemetryMessage.o
+ .debug_abbrev  0x0000252d       0x3e model/SystemModel.o
+ .debug_abbrev  0x0000256b      0x373 scheduler/Scheduler.o
+ .debug_abbrev  0x000028de      0x254 sensors/BarometerSensor.o
+ .debug_abbrev  0x00002b32      0x270 sensors/GPSSensor.o
+ .debug_abbrev  0x00002da2      0x251 sensors/IMUSensor.o
+ .debug_abbrev  0x00002ff3      0x248 sensors/MagnetometerSensor.o
+ .debug_abbrev  0x0000323b      0x345 tasks/PIDInnerLoopTask.o
+ .debug_abbrev  0x00003580      0x345 tasks/PIDOuterLoopTask.o
+ .debug_abbrev  0x000038c5      0x3a7 tasks/ReadIMUSensorTask.o
+ .debug_abbrev  0x00003c6c      0x34e tasks/SensorProcessingTask.o
+ .debug_abbrev  0x00003fba      0x468 tasks/SimTelemetryTask.o
+ .debug_abbrev  0x00004422      0x23d tasks/Task.o
+ .debug_abbrev  0x0000465f      0x3f8 tasks/TransmitTelemetryTask.o
+ .debug_abbrev  0x00004a57       0xfb util/CommonHeader.o
+ .debug_abbrev  0x00004b52      0x20a util/CoordinateUtil.o
+ .debug_abbrev  0x00004d5c      0x15d util/MatrixUtil.o
+ .debug_abbrev  0x00004eb9      0x1a6 util/Timer.o
+ .debug_abbrev  0x0000505f       0xf9 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_abbrev  0x00005158      0x1c0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o)
+ .debug_abbrev  0x00005318       0x2a c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(errno.o)
 
-.debug_line     0x00000000     0x36c3
+.debug_line     0x00000000     0x3b79
  *(.debug_line)
  .debug_line    0x00000000       0xd9 buffer/Buffer.o
  .debug_line    0x000000d9      0x146 buffer/Record.o
  .debug_line    0x0000021f      0x3c9 controller/PIDController.o
  .debug_line    0x000005e8      0x129 drivers/MagnetometerDriver.o
- .debug_line    0x00000711      0x228 drivers/SerialDriver.o
- .debug_line    0x00000939      0x12f drivers/SPIDriver.o
- .debug_line    0x00000a68       0xd3 drivers/TWIDriver.o
- .debug_line    0x00000b3b      0x5e7 HelicopterMain.o
- .debug_line    0x00001122      0x1ea interfaces/GroundControlStationInterface.o
- .debug_line    0x0000130c      0x186 interfaces/RadioControllerInterface.o
- .debug_line    0x00001492       0xb4 messages/Message.o
- .debug_line    0x00001546      0x16d messages/SyncMessage.o
- .debug_line    0x000016b3      0x49b messages/SystemTelemetryMessage.o
- .debug_line    0x00001b4e       0x47 model/SystemModel.o
- .debug_line    0x00001b95      0x2a2 scheduler/Scheduler.o
- .debug_line    0x00001e37      0x255 sensors/BarometerSensor.o
- .debug_line    0x0000208c       0xb6 sensors/GPSSensor.o
- .debug_line    0x00002142      0x219 sensors/IMUSensor.o
- .debug_line    0x0000235b      0x1c3 sensors/MagnetometerSensor.o
- .debug_line    0x0000251e       0xfd tasks/PIDInnerLoopTask.o
- .debug_line    0x0000261b       0xff tasks/PIDOuterLoopTask.o
- .debug_line    0x0000271a      0x1aa tasks/ReadIMUSensorTask.o
- .debug_line    0x000028c4      0x171 tasks/SensorProcessingTask.o
- .debug_line    0x00002a35      0x31d tasks/SimTelemetryTask.o
- .debug_line    0x00002d52       0xa0 tasks/Task.o
- .debug_line    0x00002df2      0x196 tasks/TransmitTelemetryTask.o
- .debug_line    0x00002f88      0x1ac util/CommonHeader.o
- .debug_line    0x00003134      0x187 util/CoordinateUtil.o
- .debug_line    0x000032bb      0x164 util/MatrixUtil.o
- .debug_line    0x0000341f       0x96 util/Timer.o
- .debug_line    0x000034b5      0x20e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_line    0x00000711      0x27b drivers/SerialDriver.o
+ .debug_line    0x0000098c      0x12f drivers/SPIDriver.o
+ .debug_line    0x00000abb       0xd3 drivers/TWIDriver.o
+ .debug_line    0x00000b8e      0x5e7 HelicopterMain.o
+ .debug_line    0x00001175      0x1ea interfaces/GroundControlStationInterface.o
+ .debug_line    0x0000135f      0x186 interfaces/RadioControllerInterface.o
+ .debug_line    0x000014e5       0xb4 messages/Message.o
+ .debug_line    0x00001599      0x16d messages/SyncMessage.o
+ .debug_line    0x00001706      0x49b messages/SystemTelemetryMessage.o
+ .debug_line    0x00001ba1       0x47 model/SystemModel.o
+ .debug_line    0x00001be8      0x2a2 scheduler/Scheduler.o
+ .debug_line    0x00001e8a      0x255 sensors/BarometerSensor.o
+ .debug_line    0x000020df      0x1d8 sensors/GPSSensor.o
+ .debug_line    0x000022b7      0x219 sensors/IMUSensor.o
+ .debug_line    0x000024d0      0x1c3 sensors/MagnetometerSensor.o
+ .debug_line    0x00002693       0xfd tasks/PIDInnerLoopTask.o
+ .debug_line    0x00002790       0xff tasks/PIDOuterLoopTask.o
+ .debug_line    0x0000288f      0x1aa tasks/ReadIMUSensorTask.o
+ .debug_line    0x00002a39      0x171 tasks/SensorProcessingTask.o
+ .debug_line    0x00002baa      0x31d tasks/SimTelemetryTask.o
+ .debug_line    0x00002ec7       0xa0 tasks/Task.o
+ .debug_line    0x00002f67      0x196 tasks/TransmitTelemetryTask.o
+ .debug_line    0x000030fd      0x1ac util/CommonHeader.o
+ .debug_line    0x000032a9      0x187 util/CoordinateUtil.o
+ .debug_line    0x00003430      0x164 util/MatrixUtil.o
+ .debug_line    0x00003594       0x96 util/Timer.o
+ .debug_line    0x0000362a      0x20e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_line    0x00003838      0x2c1 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o)
+ .debug_line    0x00003af9       0x80 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(errno.o)
 
-.debug_frame    0x00000000     0x1b48
+.debug_frame    0x00000000     0x1cbc
  *(.debug_frame)
  .debug_frame   0x00000000       0x6c buffer/Buffer.o
  .debug_frame   0x0000006c       0xc4 buffer/Record.o
  .debug_frame   0x00000130      0x534 controller/PIDController.o
  .debug_frame   0x00000664       0x34 drivers/MagnetometerDriver.o
- .debug_frame   0x00000698      0x1d4 drivers/SerialDriver.o
- .debug_frame   0x0000086c      0x108 drivers/SPIDriver.o
- .debug_frame   0x00000974       0x54 drivers/TWIDriver.o
- .debug_frame   0x000009c8       0x98 HelicopterMain.o
- .debug_frame   0x00000a60      0x118 interfaces/GroundControlStationInterface.o
- .debug_frame   0x00000b78       0xfc interfaces/RadioControllerInterface.o
- .debug_frame   0x00000c74       0x64 messages/Message.o
- .debug_frame   0x00000cd8       0x84 messages/SyncMessage.o
- .debug_frame   0x00000d5c      0x14c messages/SystemTelemetryMessage.o
- .debug_frame   0x00000ea8      0x194 scheduler/Scheduler.o
- .debug_frame   0x0000103c       0xa8 sensors/BarometerSensor.o
- .debug_frame   0x000010e4       0x44 sensors/GPSSensor.o
- .debug_frame   0x00001128       0x64 sensors/IMUSensor.o
- .debug_frame   0x0000118c       0x90 sensors/MagnetometerSensor.o
- .debug_frame   0x0000121c       0x84 tasks/PIDInnerLoopTask.o
- .debug_frame   0x000012a0       0x84 tasks/PIDOuterLoopTask.o
- .debug_frame   0x00001324       0x98 tasks/ReadIMUSensorTask.o
- .debug_frame   0x000013bc       0xd0 tasks/SensorProcessingTask.o
- .debug_frame   0x0000148c       0xd0 tasks/SimTelemetryTask.o
- .debug_frame   0x0000155c       0x74 tasks/Task.o
- .debug_frame   0x000015d0       0xa0 tasks/TransmitTelemetryTask.o
- .debug_frame   0x00001670       0x54 util/CommonHeader.o
- .debug_frame   0x000016c4      0x200 util/CoordinateUtil.o
- .debug_frame   0x000018c4      0x1b0 util/MatrixUtil.o
- .debug_frame   0x00001a74       0x6c util/Timer.o
- .debug_frame   0x00001ae0       0x68 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_frame   0x00000698      0x250 drivers/SerialDriver.o
+ .debug_frame   0x000008e8      0x108 drivers/SPIDriver.o
+ .debug_frame   0x000009f0       0x54 drivers/TWIDriver.o
+ .debug_frame   0x00000a44       0x98 HelicopterMain.o
+ .debug_frame   0x00000adc      0x118 interfaces/GroundControlStationInterface.o
+ .debug_frame   0x00000bf4       0xfc interfaces/RadioControllerInterface.o
+ .debug_frame   0x00000cf0       0x64 messages/Message.o
+ .debug_frame   0x00000d54       0x84 messages/SyncMessage.o
+ .debug_frame   0x00000dd8      0x14c messages/SystemTelemetryMessage.o
+ .debug_frame   0x00000f24      0x194 scheduler/Scheduler.o
+ .debug_frame   0x000010b8       0xa8 sensors/BarometerSensor.o
+ .debug_frame   0x00001160       0xdc sensors/GPSSensor.o
+ .debug_frame   0x0000123c       0x64 sensors/IMUSensor.o
+ .debug_frame   0x000012a0       0x90 sensors/MagnetometerSensor.o
+ .debug_frame   0x00001330       0x84 tasks/PIDInnerLoopTask.o
+ .debug_frame   0x000013b4       0x84 tasks/PIDOuterLoopTask.o
+ .debug_frame   0x00001438       0x98 tasks/ReadIMUSensorTask.o
+ .debug_frame   0x000014d0       0xd0 tasks/SensorProcessingTask.o
+ .debug_frame   0x000015a0       0xd0 tasks/SimTelemetryTask.o
+ .debug_frame   0x00001670       0x74 tasks/Task.o
+ .debug_frame   0x000016e4       0xa0 tasks/TransmitTelemetryTask.o
+ .debug_frame   0x00001784       0x54 util/CommonHeader.o
+ .debug_frame   0x000017d8      0x200 util/CoordinateUtil.o
+ .debug_frame   0x000019d8      0x1b0 util/MatrixUtil.o
+ .debug_frame   0x00001b88       0x6c util/Timer.o
+ .debug_frame   0x00001bf4       0x68 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_frame   0x00001c5c       0x60 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o)
 
-.debug_str      0x00000000     0x7fef
+.debug_str      0x00000000     0x8345
  *(.debug_str)
  .debug_str     0x00000000      0x4e1 buffer/Buffer.o
                                 0x523 (size before relaxing)
@@ -1789,93 +1877,98 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
                                0x3d4f (size before relaxing)
  .debug_str     0x0000416c       0xfc drivers/MagnetometerDriver.o
                                 0x231 (size before relaxing)
- .debug_str     0x00004268      0x48d drivers/SerialDriver.o
-                                0x61c (size before relaxing)
- .debug_str     0x000046f5      0x2b5 drivers/SPIDriver.o
+ .debug_str     0x00004268      0x514 drivers/SerialDriver.o
+                                0x6af (size before relaxing)
+ .debug_str     0x0000477c      0x2b5 drivers/SPIDriver.o
                                 0x3dc (size before relaxing)
- .debug_str     0x000049aa      0x172 drivers/TWIDriver.o
+ .debug_str     0x00004a31      0x172 drivers/TWIDriver.o
                                 0x2c5 (size before relaxing)
- .debug_str     0x00004b1c     0x125b HelicopterMain.o
+ .debug_str     0x00004ba3     0x125b HelicopterMain.o
                                0x51c5 (size before relaxing)
- .debug_str     0x00005d77      0x1f8 interfaces/GroundControlStationInterface.o
+ .debug_str     0x00005dfe      0x1f8 interfaces/GroundControlStationInterface.o
                                 0x5e0 (size before relaxing)
- .debug_str     0x00005f6f      0x105 interfaces/RadioControllerInterface.o
+ .debug_str     0x00005ff6      0x105 interfaces/RadioControllerInterface.o
                                0x2a93 (size before relaxing)
- .debug_str     0x00006074      0x29d messages/Message.o
+ .debug_str     0x000060fb      0x29d messages/Message.o
                                 0x45f (size before relaxing)
- .debug_str     0x00006311      0x125 messages/SyncMessage.o
+ .debug_str     0x00006398      0x125 messages/SyncMessage.o
                                 0x310 (size before relaxing)
- .debug_str     0x00006436      0x2cb messages/SystemTelemetryMessage.o
+ .debug_str     0x000064bd      0x2cb messages/SystemTelemetryMessage.o
                                0x2aa0 (size before relaxing)
- .debug_str     0x00006701       0x19 model/SystemModel.o
+ .debug_str     0x00006788       0x19 model/SystemModel.o
                                  0xac (size before relaxing)
- .debug_str     0x0000671a      0x225 scheduler/Scheduler.o
+ .debug_str     0x000067a1      0x225 scheduler/Scheduler.o
                                 0x73c (size before relaxing)
- .debug_str     0x0000693f      0x4a2 sensors/BarometerSensor.o
+ .debug_str     0x000069c6      0x4a2 sensors/BarometerSensor.o
                                 0x899 (size before relaxing)
- .debug_str     0x00006de1      0x148 sensors/GPSSensor.o
-                                0x2c4 (size before relaxing)
- .debug_str     0x00006f29       0x8b sensors/IMUSensor.o
+ .debug_str     0x00006e68      0x2c0 sensors/GPSSensor.o
+                                0x523 (size before relaxing)
+ .debug_str     0x00007128       0x8b sensors/IMUSensor.o
                                 0x936 (size before relaxing)
- .debug_str     0x00006fb4      0x366 sensors/MagnetometerSensor.o
+ .debug_str     0x000071b3      0x366 sensors/MagnetometerSensor.o
                                 0x6f3 (size before relaxing)
- .debug_str     0x0000731a      0x12e tasks/PIDInnerLoopTask.o
+ .debug_str     0x00007519      0x12e tasks/PIDInnerLoopTask.o
                                0x3ab5 (size before relaxing)
- .debug_str     0x00007448      0x10c tasks/PIDOuterLoopTask.o
+ .debug_str     0x00007647      0x10c tasks/PIDOuterLoopTask.o
                                0x3ab5 (size before relaxing)
- .debug_str     0x00007554      0x121 tasks/ReadIMUSensorTask.o
+ .debug_str     0x00007753      0x121 tasks/ReadIMUSensorTask.o
                                0x2cdb (size before relaxing)
- .debug_str     0x00007675      0x1b0 tasks/SensorProcessingTask.o
+ .debug_str     0x00007874      0x1b0 tasks/SensorProcessingTask.o
                                0x25c3 (size before relaxing)
- .debug_str     0x00007825      0x174 tasks/SimTelemetryTask.o
+ .debug_str     0x00007a24      0x174 tasks/SimTelemetryTask.o
                                0x3ec9 (size before relaxing)
- .debug_str     0x00007999       0xd2 tasks/Task.o
+ .debug_str     0x00007b98       0xd2 tasks/Task.o
                                 0x388 (size before relaxing)
- .debug_str     0x00007a6b      0x152 tasks/TransmitTelemetryTask.o
+ .debug_str     0x00007c6a      0x152 tasks/TransmitTelemetryTask.o
                                0x28c1 (size before relaxing)
- .debug_str     0x00007bbd       0x2a util/CommonHeader.o
+ .debug_str     0x00007dbc       0x2a util/CommonHeader.o
                                 0x195 (size before relaxing)
- .debug_str     0x00007be7      0x240 util/CoordinateUtil.o
+ .debug_str     0x00007de6      0x240 util/CoordinateUtil.o
                                 0x49c (size before relaxing)
- .debug_str     0x00007e27       0xb8 util/MatrixUtil.o
+ .debug_str     0x00008026       0xb8 util/MatrixUtil.o
                                 0x243 (size before relaxing)
- .debug_str     0x00007edf       0x1c util/Timer.o
+ .debug_str     0x000080de       0x1c util/Timer.o
                                 0x2dd (size before relaxing)
- .debug_str     0x00007efb       0xf4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_str     0x000080fa       0xf4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
                                 0x17c (size before relaxing)
+ .debug_str     0x000081ee       0xf4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o)
+                                0x19b (size before relaxing)
+ .debug_str     0x000082e2       0x63 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(errno.o)
+                                 0x75 (size before relaxing)
 
-.debug_loc      0x00000000     0xf12f
+.debug_loc      0x00000000     0xfda6
  *(.debug_loc)
  .debug_loc     0x00000000      0x1f4 buffer/Buffer.o
  .debug_loc     0x000001f4      0x307 buffer/Record.o
  .debug_loc     0x000004fb     0x20f7 controller/PIDController.o
  .debug_loc     0x000025f2       0x4c drivers/MagnetometerDriver.o
- .debug_loc     0x0000263e      0x961 drivers/SerialDriver.o
- .debug_loc     0x00002f9f      0x436 drivers/SPIDriver.o
- .debug_loc     0x000033d5       0xb6 drivers/TWIDriver.o
- .debug_loc     0x0000348b      0x6ba HelicopterMain.o
- .debug_loc     0x00003b45      0x8a2 interfaces/GroundControlStationInterface.o
- .debug_loc     0x000043e7      0x80a interfaces/RadioControllerInterface.o
- .debug_loc     0x00004bf1       0x74 messages/Message.o
- .debug_loc     0x00004c65      0x172 messages/SyncMessage.o
- .debug_loc     0x00004dd7     0x5803 messages/SystemTelemetryMessage.o
- .debug_loc     0x0000a5da      0x6f3 scheduler/Scheduler.o
- .debug_loc     0x0000accd     0x1115 sensors/BarometerSensor.o
- .debug_loc     0x0000bde2       0x4c sensors/GPSSensor.o
- .debug_loc     0x0000be2e      0x116 sensors/IMUSensor.o
- .debug_loc     0x0000bf44      0x235 sensors/MagnetometerSensor.o
- .debug_loc     0x0000c179      0x19d tasks/PIDInnerLoopTask.o
- .debug_loc     0x0000c316      0x19d tasks/PIDOuterLoopTask.o
- .debug_loc     0x0000c4b3      0x4cd tasks/ReadIMUSensorTask.o
- .debug_loc     0x0000c980      0x315 tasks/SensorProcessingTask.o
- .debug_loc     0x0000cc95      0xa94 tasks/SimTelemetryTask.o
- .debug_loc     0x0000d729       0x74 tasks/Task.o
- .debug_loc     0x0000d79d      0x24a tasks/TransmitTelemetryTask.o
- .debug_loc     0x0000d9e7       0x98 util/CommonHeader.o
- .debug_loc     0x0000da7f      0x998 util/CoordinateUtil.o
- .debug_loc     0x0000e417      0x707 util/MatrixUtil.o
- .debug_loc     0x0000eb1e      0x119 util/Timer.o
- .debug_loc     0x0000ec37      0x4f8 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_loc     0x0000263e      0xc2d drivers/SerialDriver.o
+ .debug_loc     0x0000326b      0x436 drivers/SPIDriver.o
+ .debug_loc     0x000036a1       0xb6 drivers/TWIDriver.o
+ .debug_loc     0x00003757      0x6ba HelicopterMain.o
+ .debug_loc     0x00003e11      0x8a2 interfaces/GroundControlStationInterface.o
+ .debug_loc     0x000046b3      0x80a interfaces/RadioControllerInterface.o
+ .debug_loc     0x00004ebd       0x74 messages/Message.o
+ .debug_loc     0x00004f31      0x172 messages/SyncMessage.o
+ .debug_loc     0x000050a3     0x5803 messages/SystemTelemetryMessage.o
+ .debug_loc     0x0000a8a6      0x6f3 scheduler/Scheduler.o
+ .debug_loc     0x0000af99     0x1115 sensors/BarometerSensor.o
+ .debug_loc     0x0000c0ae      0x56b sensors/GPSSensor.o
+ .debug_loc     0x0000c619      0x116 sensors/IMUSensor.o
+ .debug_loc     0x0000c72f      0x235 sensors/MagnetometerSensor.o
+ .debug_loc     0x0000c964      0x19d tasks/PIDInnerLoopTask.o
+ .debug_loc     0x0000cb01      0x19d tasks/PIDOuterLoopTask.o
+ .debug_loc     0x0000cc9e      0x4cd tasks/ReadIMUSensorTask.o
+ .debug_loc     0x0000d16b      0x315 tasks/SensorProcessingTask.o
+ .debug_loc     0x0000d480      0xa94 tasks/SimTelemetryTask.o
+ .debug_loc     0x0000df14       0x74 tasks/Task.o
+ .debug_loc     0x0000df88      0x24a tasks/TransmitTelemetryTask.o
+ .debug_loc     0x0000e1d2       0x98 util/CommonHeader.o
+ .debug_loc     0x0000e26a      0x998 util/CoordinateUtil.o
+ .debug_loc     0x0000ec02      0x707 util/MatrixUtil.o
+ .debug_loc     0x0000f309      0x119 util/Timer.o
+ .debug_loc     0x0000f422      0x4f8 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_loc     0x0000f91a      0x48c c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o)
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -1883,38 +1976,39 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x7c8
+.debug_ranges   0x00000000      0x838
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x28 buffer/Buffer.o
  .debug_ranges  0x00000028       0x30 buffer/Record.o
  .debug_ranges  0x00000058       0xb0 controller/PIDController.o
  .debug_ranges  0x00000108       0x18 drivers/MagnetometerDriver.o
- .debug_ranges  0x00000120       0x60 drivers/SerialDriver.o
- .debug_ranges  0x00000180       0x58 drivers/SPIDriver.o
- .debug_ranges  0x000001d8       0x28 drivers/TWIDriver.o
- .debug_ranges  0x00000200       0xe0 HelicopterMain.o
- .debug_ranges  0x000002e0       0xb0 interfaces/GroundControlStationInterface.o
- .debug_ranges  0x00000390       0x30 interfaces/RadioControllerInterface.o
- .debug_ranges  0x000003c0       0x30 messages/Message.o
- .debug_ranges  0x000003f0       0x30 messages/SyncMessage.o
- .debug_ranges  0x00000420       0x60 messages/SystemTelemetryMessage.o
- .debug_ranges  0x00000480       0x60 scheduler/Scheduler.o
- .debug_ranges  0x000004e0       0x18 sensors/BarometerSensor.o
- .debug_ranges  0x000004f8       0x20 sensors/GPSSensor.o
- .debug_ranges  0x00000518       0x18 sensors/IMUSensor.o
- .debug_ranges  0x00000530       0x20 sensors/MagnetometerSensor.o
- .debug_ranges  0x00000550       0x30 tasks/PIDInnerLoopTask.o
- .debug_ranges  0x00000580       0x30 tasks/PIDOuterLoopTask.o
- .debug_ranges  0x000005b0       0x30 tasks/ReadIMUSensorTask.o
- .debug_ranges  0x000005e0       0x30 tasks/SensorProcessingTask.o
- .debug_ranges  0x00000610       0x90 tasks/SimTelemetryTask.o
- .debug_ranges  0x000006a0       0x38 tasks/Task.o
- .debug_ranges  0x000006d8       0x30 tasks/TransmitTelemetryTask.o
- .debug_ranges  0x00000708       0x28 util/CommonHeader.o
- .debug_ranges  0x00000730       0x38 util/CoordinateUtil.o
- .debug_ranges  0x00000768       0x28 util/MatrixUtil.o
- .debug_ranges  0x00000790       0x20 util/Timer.o
- .debug_ranges  0x000007b0       0x18 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_ranges  0x00000120       0xb8 drivers/SerialDriver.o
+ .debug_ranges  0x000001d8       0x58 drivers/SPIDriver.o
+ .debug_ranges  0x00000230       0x28 drivers/TWIDriver.o
+ .debug_ranges  0x00000258       0xe0 HelicopterMain.o
+ .debug_ranges  0x00000338       0xb0 interfaces/GroundControlStationInterface.o
+ .debug_ranges  0x000003e8       0x30 interfaces/RadioControllerInterface.o
+ .debug_ranges  0x00000418       0x30 messages/Message.o
+ .debug_ranges  0x00000448       0x30 messages/SyncMessage.o
+ .debug_ranges  0x00000478       0x60 messages/SystemTelemetryMessage.o
+ .debug_ranges  0x000004d8       0x60 scheduler/Scheduler.o
+ .debug_ranges  0x00000538       0x18 sensors/BarometerSensor.o
+ .debug_ranges  0x00000550       0x28 sensors/GPSSensor.o
+ .debug_ranges  0x00000578       0x18 sensors/IMUSensor.o
+ .debug_ranges  0x00000590       0x20 sensors/MagnetometerSensor.o
+ .debug_ranges  0x000005b0       0x30 tasks/PIDInnerLoopTask.o
+ .debug_ranges  0x000005e0       0x30 tasks/PIDOuterLoopTask.o
+ .debug_ranges  0x00000610       0x30 tasks/ReadIMUSensorTask.o
+ .debug_ranges  0x00000640       0x30 tasks/SensorProcessingTask.o
+ .debug_ranges  0x00000670       0x90 tasks/SimTelemetryTask.o
+ .debug_ranges  0x00000700       0x38 tasks/Task.o
+ .debug_ranges  0x00000738       0x30 tasks/TransmitTelemetryTask.o
+ .debug_ranges  0x00000768       0x28 util/CommonHeader.o
+ .debug_ranges  0x00000790       0x38 util/CoordinateUtil.o
+ .debug_ranges  0x000007c8       0x28 util/MatrixUtil.o
+ .debug_ranges  0x000007f0       0x20 util/Timer.o
+ .debug_ranges  0x00000810       0x18 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_ranges  0x00000828       0x10 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(strtod.o)
 
 .debug_macro
  *(.debug_macro)

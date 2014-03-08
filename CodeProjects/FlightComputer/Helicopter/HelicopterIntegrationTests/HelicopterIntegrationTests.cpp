@@ -9,6 +9,7 @@
 #include "SerialDriverIntegrationTests.h"
 #include "ImuSensorTests.h"
 #include "BarometerSensorTests.h"
+#include "GPSSensorTests.h"
 
 #include <stdio.h>
 #include <avr/io.h>
@@ -28,7 +29,11 @@ int main(void)
 	//helicopterTests.addTest(readmag_test, 6);
 	//helicopterTests.addTest(magdriver_test, 6);
 	//helicopterTests.addTest(magdriver_test, 6);
-	helicopterTests.addTest(readbaro_test, 6);
+	//helicopterTests.addTest(readbaro_test, 6);
+//	helicopterTests.addTest(parsegpsmsg_test, 6);
+	helicopterTests.addTest(readgps_test, 6);
+	//helicopterTests.addTest(readSensor_test, 6);
+	
 	
 	
 	

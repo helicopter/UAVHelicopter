@@ -9,7 +9,10 @@
 
 int MockSerialDriver::transmit(byte byteToSend)
 {
-	buffer[transmitCounter++] = byteToSend;
+	if (ignoreTransmits == false)
+	{
+		buffer[transmitCounter++] = byteToSend;
+	}
 	
 	return 0;
 }

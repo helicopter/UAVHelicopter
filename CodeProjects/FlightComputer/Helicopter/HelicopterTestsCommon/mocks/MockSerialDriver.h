@@ -21,16 +21,18 @@ class MockSerialDriver : public SerialDriver
 	int receiveCounter;
 	int numOfCharsInMsg;
 	int timeoutcount;
+	bool ignoreTransmits;
 	public:
 	
 	byte *buffer;
 
-	MockSerialDriver (int numOfChars):
-	SerialDriver(0, SerialDriver::Zero,NULL),
-	transmitCounter(0),
-	receiveCounter(0),
-	numOfCharsInMsg(numOfChars),
-	timeoutcount(0),
+	MockSerialDriver (int numOfChars, bool ignoreTransmits = false):
+		SerialDriver(0, SerialDriver::Zero,NULL),
+		transmitCounter(0),
+		receiveCounter(0),
+		numOfCharsInMsg(numOfChars),
+		timeoutcount(0),
+		ignoreTransmits(ignoreTransmits),
 		buffer(NULL)
 	{
 		buffer = new byte[numOfChars];

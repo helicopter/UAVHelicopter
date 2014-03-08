@@ -9,27 +9,27 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
   2 .bss          00000008  008002a2  008002a2  00006182  2**0
                   ALLOC
-  3 .stab         00003438  00000000  00000000  00006184  2**2
+  3 .stab         000035dc  00000000  00000000  00006184  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00000f16  00000000  00000000  000095bc  2**0
+  4 .stabstr      000010a6  00000000  00000000  00009760  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .comment      0000002f  00000000  00000000  0000a4d2  2**0
+  5 .comment      0000002f  00000000  00000000  0000a806  2**0
                   CONTENTS, READONLY
-  6 .debug_aranges 000007e0  00000000  00000000  0000a501  2**0
+  6 .debug_aranges 00000830  00000000  00000000  0000a835  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_info   00020414  00000000  00000000  0000ace1  2**0
+  7 .debug_info   00020ee8  00000000  00000000  0000b065  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 0000503e  00000000  00000000  0002b0f5  2**0
+  8 .debug_abbrev 00005342  00000000  00000000  0002bf4d  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   000036c3  00000000  00000000  00030133  2**0
+  9 .debug_line   00003b79  00000000  00000000  0003128f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_frame  00001b48  00000000  00000000  000337f8  2**2
+ 10 .debug_frame  00001cbc  00000000  00000000  00034e08  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    00007fef  00000000  00000000  00035340  2**0
+ 11 .debug_str    00008345  00000000  00000000  00036ac4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    0000f12f  00000000  00000000  0003d32f  2**0
+ 12 .debug_loc    0000fda6  00000000  00000000  0003ee09  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 000007c8  00000000  00000000  0004c45e  2**0
+ 13 .debug_ranges 00000838  00000000  00000000  0004ebaf  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -180,70 +180,70 @@ void Buffer::enqueue(Record *record)
      100:	80 3f       	cpi	r24, 0xF0	; 240
 
 00000102 <__trampolines_start>:
-     102:	0c 94 6f 0a 	jmp	0x14de	; 0x14de <_ZN10helicopter7drivers12SerialDriver10initializeEv>
-     106:	0c 94 24 17 	jmp	0x2e48	; 0x2e48 <_ZN10helicopter8messages22SystemTelemetryMessage12buildMessageEPh>
-     10a:	0c 94 09 26 	jmp	0x4c12	; 0x4c12 <_ZN10helicopter5tasks4TaskD0Ev>
+     102:	0c 94 c5 13 	jmp	0x278a	; 0x278a <_ZN10helicopter8messages11SyncMessage8getBytesEv>
+     106:	0c 94 ab 13 	jmp	0x2756	; 0x2756 <_ZN10helicopter8messages7MessageD0Ev>
+     10a:	0c 94 6f 0a 	jmp	0x14de	; 0x14de <_ZN10helicopter7drivers12SerialDriver10initializeEv>
 	
 	_delay_ms(ADC_PROCESSING_TIME_MS);
 	
 	spiDriver->beginTransaction();
-     10e:	0c 94 f9 25 	jmp	0x4bf2	; 0x4bf2 <_ZN10helicopter5tasks4TaskD1Ev>
-     112:	0c 94 27 0b 	jmp	0x164e	; 0x164e <_ZN10helicopter5tasks12FlashLEDTask4initEv>
-     116:	0c 94 db 23 	jmp	0x47b6	; 0x47b6 <_ZN10helicopter5tasks16SimTelemetryTaskD0Ev>
-     11a:	0c 94 71 22 	jmp	0x44e2	; 0x44e2 <_ZN10helicopter5tasks4Task4initEv>
+     10e:	0c 94 e2 13 	jmp	0x27c4	; 0x27c4 <_ZN10helicopter8messages22SystemTelemetryMessageD0Ev>
+     112:	0c 94 f8 25 	jmp	0x4bf0	; 0x4bf0 <_ZN10helicopter5tasks4Task11runTaskImplEv>
+     116:	0c 94 ea 13 	jmp	0x27d4	; 0x27d4 <_ZN10helicopter8messages22SystemTelemetryMessage8getBytesEv>
+     11a:	0c 94 2a 26 	jmp	0x4c54	; 0x4c54 <_ZN10helicopter5tasks21TransmitTelemetryTask11runTaskImplEv>
 	
 	/**
 	 * Read the ADC results
 	 */
 	spiDriver->write(ADC_READ_COMMAND);
-     11e:	0c 94 5c 0b 	jmp	0x16b8	; 0x16b8 <_ZN10helicopter5tasks12FlashLEDTaskD0Ev>
-     122:	0c 94 de 0a 	jmp	0x15bc	; 0x15bc <_ZN10helicopter7drivers12SerialDriverD0Ev>
-     126:	0c 94 a7 13 	jmp	0x274e	; 0x274e <_ZN10helicopter8messages7Message8getBytesEv>
-     12a:	0c 94 a1 13 	jmp	0x2742	; 0x2742 <_ZN10helicopter8messages7MessageD1Ev>
-     12e:	0c 94 2a 26 	jmp	0x4c54	; 0x4c54 <_ZN10helicopter5tasks21TransmitTelemetryTask11runTaskImplEv>
+     11e:	0c 94 34 0b 	jmp	0x1668	; 0x1668 <_ZN10helicopter5tasks12FlashLEDTask11runTaskImplEv>
+     122:	0c 94 71 22 	jmp	0x44e2	; 0x44e2 <_ZN10helicopter5tasks4Task4initEv>
+     126:	0c 94 de 0a 	jmp	0x15bc	; 0x15bc <_ZN10helicopter7drivers12SerialDriverD0Ev>
+     12a:	0c 94 e3 23 	jmp	0x47c6	; 0x47c6 <_ZN10helicopter5tasks16SimTelemetryTask11runTaskImplEv>
+     12e:	0c 94 d5 23 	jmp	0x47aa	; 0x47aa <_ZN10helicopter5tasks16SimTelemetryTaskD1Ev>
 	rawTemperature = spiDriver->readByte();
-     132:	0c 94 fa 08 	jmp	0x11f4	; 0x11f4 <_ZN10helicopter7drivers12SerialDriverD1Ev>
-     136:	0c 94 56 0b 	jmp	0x16ac	; 0x16ac <_ZN10helicopter5tasks12FlashLEDTaskD1Ev>
-     13a:	0c 94 68 09 	jmp	0x12d0	; 0x12d0 <_ZN10helicopter7drivers12SerialDriver8transmitEm>
-     13e:	0c 94 00 09 	jmp	0x1200	; 0x1200 <_ZN10helicopter7drivers12SerialDriver8transmitEf>
-     142:	0c 94 ab 13 	jmp	0x2756	; 0x2756 <_ZN10helicopter8messages7MessageD0Ev>
-     146:	0c 94 ea 22 	jmp	0x45d4	; 0x45d4 <_ZN10helicopter5tasks20SensorProcessingTask11runTaskImplEv>
-     14a:	0c 94 e2 13 	jmp	0x27c4	; 0x27c4 <_ZN10helicopter8messages22SystemTelemetryMessageD0Ev>
-     14e:	0c 94 dc 13 	jmp	0x27b8	; 0x27b8 <_ZN10helicopter8messages22SystemTelemetryMessageD1Ev>
-     152:	0c 94 78 22 	jmp	0x44f0	; 0x44f0 <_ZN10helicopter5tasks16PIDInnerLoopTaskD0Ev>
-     156:	0c 94 a3 22 	jmp	0x4546	; 0x4546 <_ZN10helicopter5tasks16PIDOuterLoopTaskD1Ev>
+     132:	0c 94 dc 22 	jmp	0x45b8	; 0x45b8 <_ZN10helicopter5tasks20SensorProcessingTaskD1Ev>
+     136:	0c 94 fa 08 	jmp	0x11f4	; 0x11f4 <_ZN10helicopter7drivers12SerialDriverD1Ev>
+     13a:	0c 94 aa 13 	jmp	0x2754	; 0x2754 <_ZN10helicopter8messages7Message12buildMessageEPh>
+     13e:	0c 94 27 0b 	jmp	0x164e	; 0x164e <_ZN10helicopter5tasks12FlashLEDTask4initEv>
+     142:	0c 94 f9 25 	jmp	0x4bf2	; 0x4bf2 <_ZN10helicopter5tasks4TaskD1Ev>
+     146:	0c 94 56 0b 	jmp	0x16ac	; 0x16ac <_ZN10helicopter5tasks12FlashLEDTaskD1Ev>
+     14a:	0c 94 68 09 	jmp	0x12d0	; 0x12d0 <_ZN10helicopter7drivers12SerialDriver8transmitEm>
+     14e:	0c 94 a9 22 	jmp	0x4552	; 0x4552 <_ZN10helicopter5tasks16PIDOuterLoopTaskD0Ev>
+     152:	0c 94 00 09 	jmp	0x1200	; 0x1200 <_ZN10helicopter7drivers12SerialDriver8transmitEf>
+     156:	0c 94 1c 26 	jmp	0x4c38	; 0x4c38 <_ZN10helicopter5tasks21TransmitTelemetryTaskD1Ev>
 	rawTemperature = rawTemperature << 8 | spiDriver->readByte();
-     15a:	0c 94 42 0a 	jmp	0x1484	; 0x1484 <_ZN10helicopter7drivers12SerialDriver8transmitEh>
-     15e:	0c 94 b7 13 	jmp	0x276e	; 0x276e <_ZN10helicopter8messages11SyncMessageD1Ev>
-     162:	0c 94 0a 0a 	jmp	0x1414	; 0x1414 <_ZN10helicopter7drivers12SerialDriver7receiveERh>
-     166:	0c 94 aa 13 	jmp	0x2754	; 0x2754 <_ZN10helicopter8messages7Message12buildMessageEPh>
-     16a:	0c 94 72 22 	jmp	0x44e4	; 0x44e4 <_ZN10helicopter5tasks16PIDInnerLoopTaskD1Ev>
-     16e:	0c 94 c5 13 	jmp	0x278a	; 0x278a <_ZN10helicopter8messages11SyncMessage8getBytesEv>
-     172:	0c 94 ff 25 	jmp	0x4bfe	; 0x4bfe <_ZN10helicopter5tasks4Task7runTaskEv>
-     176:	0c 94 ea 13 	jmp	0x27d4	; 0x27d4 <_ZN10helicopter8messages22SystemTelemetryMessage8getBytesEv>
-     17a:	0c 94 22 26 	jmp	0x4c44	; 0x4c44 <_ZN10helicopter5tasks21TransmitTelemetryTaskD0Ev>
+     15a:	0c 94 a7 13 	jmp	0x274e	; 0x274e <_ZN10helicopter8messages7Message8getBytesEv>
+     15e:	0c 94 09 26 	jmp	0x4c12	; 0x4c12 <_ZN10helicopter5tasks4TaskD0Ev>
+     162:	0c 94 ff 25 	jmp	0x4bfe	; 0x4bfe <_ZN10helicopter5tasks4Task7runTaskEv>
+     166:	0c 94 d4 13 	jmp	0x27a8	; 0x27a8 <_ZN10helicopter8messages11SyncMessageD0Ev>
+     16a:	0c 94 e2 22 	jmp	0x45c4	; 0x45c4 <_ZN10helicopter5tasks20SensorProcessingTaskD0Ev>
+     16e:	0c 94 b1 22 	jmp	0x4562	; 0x4562 <_ZN10helicopter5tasks16PIDOuterLoopTask11runTaskImplEv>
+     172:	0c 94 a3 22 	jmp	0x4546	; 0x4546 <_ZN10helicopter5tasks16PIDOuterLoopTaskD1Ev>
+     176:	0c 94 24 17 	jmp	0x2e48	; 0x2e48 <_ZN10helicopter8messages22SystemTelemetryMessage12buildMessageEPh>
+     17a:	0c 94 42 0a 	jmp	0x1484	; 0x1484 <_ZN10helicopter7drivers12SerialDriver8transmitEh>
 	rawTemperature = rawTemperature << 8 | spiDriver->readByte();	
-     17e:	0c 94 1c 26 	jmp	0x4c38	; 0x4c38 <_ZN10helicopter5tasks21TransmitTelemetryTaskD1Ev>
-     182:	0c 94 a9 22 	jmp	0x4552	; 0x4552 <_ZN10helicopter5tasks16PIDOuterLoopTaskD0Ev>
+     17e:	0c 94 0a 0a 	jmp	0x1414	; 0x1414 <_ZN10helicopter7drivers12SerialDriver7receiveERh>
+     182:	0c 94 a1 13 	jmp	0x2742	; 0x2742 <_ZN10helicopter8messages7MessageD1Ev>
      186:	0c 94 80 22 	jmp	0x4500	; 0x4500 <_ZN10helicopter5tasks16PIDInnerLoopTask11runTaskImplEv>
-     18a:	0c 94 e2 22 	jmp	0x45c4	; 0x45c4 <_ZN10helicopter5tasks20SensorProcessingTaskD0Ev>
-     18e:	0c 94 b1 22 	jmp	0x4562	; 0x4562 <_ZN10helicopter5tasks16PIDOuterLoopTask11runTaskImplEv>
-     192:	0c 94 e3 23 	jmp	0x47c6	; 0x47c6 <_ZN10helicopter5tasks16SimTelemetryTask11runTaskImplEv>
-     196:	0c 94 34 0b 	jmp	0x1668	; 0x1668 <_ZN10helicopter5tasks12FlashLEDTask11runTaskImplEv>
-     19a:	0c 94 dc 22 	jmp	0x45b8	; 0x45b8 <_ZN10helicopter5tasks20SensorProcessingTaskD1Ev>
-     19e:	0c 94 f8 25 	jmp	0x4bf0	; 0x4bf0 <_ZN10helicopter5tasks4Task11runTaskImplEv>
+     18a:	0c 94 b7 13 	jmp	0x276e	; 0x276e <_ZN10helicopter8messages11SyncMessageD1Ev>
+     18e:	0c 94 dc 13 	jmp	0x27b8	; 0x27b8 <_ZN10helicopter8messages22SystemTelemetryMessageD1Ev>
+     192:	0c 94 72 22 	jmp	0x44e4	; 0x44e4 <_ZN10helicopter5tasks16PIDInnerLoopTaskD1Ev>
+     196:	0c 94 db 23 	jmp	0x47b6	; 0x47b6 <_ZN10helicopter5tasks16SimTelemetryTaskD0Ev>
+     19a:	0c 94 5c 0b 	jmp	0x16b8	; 0x16b8 <_ZN10helicopter5tasks12FlashLEDTaskD0Ev>
+     19e:	0c 94 ea 22 	jmp	0x45d4	; 0x45d4 <_ZN10helicopter5tasks20SensorProcessingTask11runTaskImplEv>
 
 	spiDriver->endTransaction();
-     1a2:	0c 94 42 09 	jmp	0x1284	; 0x1284 <_ZN10helicopter7drivers12SerialDriver8transmitEi>
-     1a6:	0c 94 b7 09 	jmp	0x136e	; 0x136e <_ZN10helicopter7drivers12SerialDriver8transmitEl>
+     1a2:	0c 94 22 26 	jmp	0x4c44	; 0x4c44 <_ZN10helicopter5tasks21TransmitTelemetryTaskD0Ev>
+     1a6:	0c 94 42 09 	jmp	0x1284	; 0x1284 <_ZN10helicopter7drivers12SerialDriver8transmitEi>
 	
 	/**
 	* Formulas from page 7 on MS5611-01BA03.pdf
 	*/
 	int64_t rawPress = rawPressure;
-     1aa:	0c 94 bd 13 	jmp	0x277a	; 0x277a <_ZN10helicopter8messages11SyncMessage12buildMessageEPh>
-     1ae:	0c 94 d5 23 	jmp	0x47aa	; 0x47aa <_ZN10helicopter5tasks16SimTelemetryTaskD1Ev>
-     1b2:	0c 94 d4 13 	jmp	0x27a8	; 0x27a8 <_ZN10helicopter8messages11SyncMessageD0Ev>
+     1aa:	0c 94 b7 09 	jmp	0x136e	; 0x136e <_ZN10helicopter7drivers12SerialDriver8transmitEl>
+     1ae:	0c 94 78 22 	jmp	0x44f0	; 0x44f0 <_ZN10helicopter5tasks16PIDInnerLoopTaskD0Ev>
+     1b2:	0c 94 bd 13 	jmp	0x277a	; 0x277a <_ZN10helicopter8messages11SyncMessage12buildMessageEPh>
 
 000001b6 <__ctors_end>:
      1b6:	11 24       	eor	r1, r1
@@ -3165,7 +3165,7 @@ int SerialDriver::receive(byte &receivedByte)
 
 00001484 <_ZN10helicopter7drivers12SerialDriver8transmitEh>:
 	
-	return status1 | status2 | status3 | status4;
+	return status;
 }
 
 int SerialDriver::transmit(byte valueToSend)
@@ -3183,7 +3183,7 @@ int SerialDriver::transmit(byte valueToSend)
     1492:	8e 81       	ldd	r24, Y+6	; 0x06
     1494:	88 23       	and	r24, r24
     1496:	61 f0       	breq	.+24     	; 0x14b0 <_ZN10helicopter7drivers12SerialDriver8transmitEh+0x2c>
-	return status1 | status2 | status3 | status4;
+	return status;
 }
 
 int SerialDriver::transmit(byte valueToSend)

@@ -61,6 +61,22 @@ void SerialDriver::initialize()
 
 		/* Enable receiver and transmitter */
 		UCSR0B |= (1<<RXEN0) | (1<<TXEN0);
+	} else if (uartPort == One)
+	{
+		/* Set baud rate */
+		UBRR1 = baudPrescaller;
+		
+		/* Set frame format: asynchronous usart, no parity 1stop bit, 8 bits of data, */
+		UCSR1C |= (1<<UCSZ11)|(1<<UCSZ10);
+		
+		//If double speed mode flag was set, set the U2X0 flag to enable double speed mode.
+		if (useDoubleSpeedMode)
+		{
+			UCSR1A |= (1<<U2X1);
+		}
+
+		/* Enable receiver and transmitter */
+		UCSR1B |= (1<<RXEN1) | (1<<TXEN1);		
 	}
 }
 
@@ -128,6 +144,49 @@ int SerialDriver::transmit(long valueToSend)
 	return status1 | status2 | status3 | status4;
 }
 
+int SerialDriver::transmit(const char *buffer)
+{
+	int length = strlen(buffer);
+	
+	return transmit (buffer, length);
+}
+
+int SerialDriver::transmit(const char *buffer, int numOfBytes)
+{
+	int status = 0;
+
+	for (int i = 0; i < numOfBytes && status == 0; i++)
+	{
+		status = transmit((byte) buffer[i]);
+	}
+	
+	return status;
+}
+
+int SerialDriver::timedTransmit(const char *buffer, int numOfBytes)
+{
+	int status = 0;
+	
+	if (timer != NULL)
+	{
+		timer->startTimer();
+	}
+	
+	
+	for (int i = 0; i < numOfBytes && status == 0; i++)
+	{
+		status = transmit(buffer[i]);
+	}
+	
+	
+	if (timer != NULL)
+	{
+		timer->stopTimer();
+	}
+	
+	return status;
+}
+
 int SerialDriver::transmit(byte valueToSend)
 {
 	int status = 0;
@@ -152,6 +211,24 @@ int SerialDriver::transmit(byte valueToSend)
 			UDR0 = valueToSend;			
 		}
 
+	}else if (uartPort == One)
+	{
+		/* Wait for empty transmit buffer */
+		while ( !( UCSR1A & (1<<UDRE1)) )
+		{
+			//Check for timeout
+			if (timer != NULL && timer->hasTimedout())
+			{
+				status = -1;
+				break;
+			}
+		}
+		
+		if (status == 0)
+		{
+			/* Put data into buffer, sends the data */
+			UDR1 = valueToSend;
+		}		
 	}
 	
 	return status;
@@ -164,7 +241,10 @@ int SerialDriver::receive(byte &receivedByte)
 	if (uartPort == Zero)
 	{
 		
-		/* Wait for data on the receive buffer */
+		/* 
+		* Wait for data on the receive buffer. This is done by
+		* checking the Receiver Complete register (RXC)
+		*/
 		while ( !(UCSR0A & (1<<RXC0)))
 		{
 			if (timer != NULL && timer->hasTimedout())
@@ -176,8 +256,13 @@ int SerialDriver::receive(byte &receivedByte)
 		
 		if (status == 0)
 		{
-			//determine if there has been a data overrun.
-			if ((UCSR0A & (1 << DOR0)) != 0)
+			/*
+			* Determine if there has been:
+			* a Data Overrun (Data Overrun Register (DOR))
+			* a parity error (USART parity error (UPE))
+			* a Frame error (Frame Error (FE))
+			*/
+			if ((UCSR0A & ((1 << DOR0) | (1<<FE0) | (1<<UPE0))) != 0)
 			{
 				status = -2;
 			}
@@ -185,7 +270,63 @@ int SerialDriver::receive(byte &receivedByte)
 			/* Read the data from the serial port buffer, even if the buffer was overrun */
 			receivedByte = UDR0;
 		}
+	} else if (uartPort == One)
+	{
+			
+		/* 
+		* Wait for data on the receive buffer. This is done by
+		* checking the Receiver Complete register (RXC)
+		*/
+		while ( !(UCSR1A & (1<<RXC1)))
+		{
+			if (timer != NULL && timer->hasTimedout())
+			{
+				status = -1;
+				break;
+			}
+		}
+			
+		if (status == 0)
+		{
+			/*
+			* Determine if there has been:
+			* a Data Overrun (Data Overrun Register (DOR))
+			* a parity error (USART parity error (UPE))
+			* a Frame error (Frame Error (FE))
+			*/
+
+			if ((UCSR1A & ((1 << DOR1) | (1<<FE1) | (1<<UPE1))) != 0)
+			{
+				status = -2;
+			}
+				
+			/* Read the data from the serial port buffer, even if the buffer was overrun */
+			receivedByte = UDR1;
+		}
 	}
 
 	return status;
+}
+
+void SerialDriver::clearBuffer()
+{
+	byte dummy = 0;
+	
+	if (uartPort == Zero)
+	{
+		//This clears the buffers, and since the byte is shifted off of the
+		//Usart Data Register (UDR),  any buffer overrun or other error flags are cleared as well
+		while (UCSR0A & (1<<RXC0) )
+		{
+			dummy = UDR0;
+		}
+	} else if (uartPort == One)
+	{
+		while (UCSR1A & (1<<RXC1) )
+		{
+			dummy = UDR1;
+		}		
+	}
+	
+	dummy++; // here to remove 'set but not used' warning
 }

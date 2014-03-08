@@ -29,7 +29,7 @@ namespace helicopter
 				/**
 				 * Data type for identifying which UART port 
 				 */
-				enum UartPort {Zero};
+				enum UartPort {Zero, One};
 					
 			private:
 				
@@ -114,12 +114,41 @@ namespace helicopter
 				virtual int transmit(float valueToSend);
 				
 				/**
+				 * Assuming a null terminated char buffer.
+				 */
+				int transmit(const char *buffer);
+				
+				int transmit(const char *buffer, int numOfBytes);
+				
+				/**
+				 * Transmits the data within a timed context. The timer is started
+				 * before transmits starts
+				 * @return -1 if the timer timed out while transmitting. 
+				 * -2 if a byte was received before we could process the current byte and there was an overrun
+				 * 0 otherwise (success)
+				 */
+				int timedTransmit(const char *buffer, int numOfBytes);
+				
+				
+				/**
 				 * Receive Bytes over Serial
 				 * @receivedByte byte received from serial
 				 * @return -1 if there was an error (timeout), 
 				 * 0 otherwise (success)
 				 */
 				virtual int receive(byte &receivedByte);
+				
+				
+				/**
+				 * Clears the buffer of any data, and clears any buffer overflow
+				 * indicators. 
+				 * The serial port has a 2 byte buffer where the last byte could be in a
+				 * state of being overwritten multiple times. This clears any overwrite flags and
+				 * any data still left in the buffer.
+				 * Note: i think there are actually 3 total bytes. 2 buffer bytes + 1 current UDR value byte.
+				 * The documentation indicates a 2 byte buffer on page 217 of the atmelavr2560_datasheet.pdf
+				 */
+				void clearBuffer();
 		};
 	}
 }

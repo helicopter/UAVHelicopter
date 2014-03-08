@@ -34,7 +34,7 @@ namespace helicopter
 				 * Calculates the Ne Variable used to convert crom lat/long to ecef.
 				 * This is the Prime vertical radius of curvature of the earth
 				 * @param E The first eccentricity
-				 * @param the lattitude of the helicopter in Radians
+				 * @param the latitude of the helicopter in Radians
 				 */
 				static float calculateNe(float E, float latitudeRads);
 			
