@@ -18,10 +18,21 @@ namespace helicopter
 {
 	namespace sensors
 	{
+		/**
+		 * Class for reading the Ublox Lea-6h GPS.
+		 * U-Center was used to generate messages to send to GPS
+		 */
 		class GPSSensor
 		{
 			public: 
 				enum FixStatus {INVALID = 1, VALID = 2};
+					
+				/**
+				 * Number of multiplications by 10 (10^x) that are applied to the
+				 * lat/long fields to shift the significant digits to transform the floating
+				 * point value into a long.
+				 */
+				static const int LATLONG_SIGNIFICANT_DIGITS_SHIFTED = 8;
 						
 			private:
 				static const int STATUS_COMMA_LOCATION = 2;
@@ -32,25 +43,51 @@ namespace helicopter
 				
 				static const int GPS_MSG_BUFFER_SIZE = 150;
 				
+				/**
+				 * UBX message for polling lat, long, height
+				 */
+				static const byte NAV_POSLLH_POLLMSG[];
+				
+				static const byte NAV_POSECEF_POLLMSG[];
+				
+				static const byte NAV_STATUS_POLLMSG[];
+				
 				SerialDriver *serialDriver;
 
 				byte rawGpsMsg[GPS_MSG_BUFFER_SIZE];
 				
 				int msgBytesRead;
 				
-				long latitude;
-				long longitude;
+				/*
+				int64_t latitude;
+				int64_t longitude;
+				*/
+				
+				//latitude in degrees
+				long latitudeDegE7;
+				long longitudeDegE7;
+				
+				long xEcefCm;
+				long yEcefCm;
+				long zEcefCm;
+				unsigned long positionAccuracyEstimateEcefCm;
 				
 				FixStatus positionFixStatus;
 				
-				long parseDegrees( bool isLatitude, byte * gpsMsg, int hemisphereLocation, int variableLocation, int variableLength);
+				int64_t parseDegrees( bool isLatitude, byte * gpsMsg, int hemisphereLocation, int variableLocation, int variableLength);
+				
+				int readSensor(byte *pollMsg, int pollMsgSize, byte *msgData, int msgDataSize );
 				
 			public:
 				GPSSensor(SerialDriver *serialDriver): 
 					serialDriver (serialDriver),
 					msgBytesRead(0),
-					latitude (0),
-					longitude (0),
+					latitudeDegE7 (0),
+					longitudeDegE7 (0),
+					xEcefCm (0),
+					yEcefCm (0),
+					zEcefCm (0),
+					positionAccuracyEstimateEcefCm (0),
 					positionFixStatus(INVALID)
 				{
 					memset(rawGpsMsg, 0, sizeof(rawGpsMsg));
@@ -61,7 +98,27 @@ namespace helicopter
 				 * Reads the sensor values from the sensor and converts the values into
 				 * usable lat, long formats
 				 */
-				int readSensor();
+				//int readSensor();
+				
+				
+				
+				
+				/**
+				 * Reads the sensors latitude, longitude and height (NAV-POSLLH)
+				 */
+				int readSensorLLH();
+				
+				
+				/**
+				 * Reads the sensors x, y, z position in ECEF (NAV-POSECEF)
+				 */
+				int readSensorECEF();
+				
+				/**
+				 * Reads the navigation status on the sensor (NAV-STATUS)
+				 * If GPS fields >= 0x03 (3d fix) then fix status = valid.
+				 */
+				int readSensorNavStatus();
 				
 				/**
 				 * Configures and initializes the GPS
@@ -82,16 +139,54 @@ namespace helicopter
 					return rawGpsMsg;
 				}
 				
-				long getLatitude()
+				/*
+				int64_t getLatitude()
 				{
 					return latitude;
 				}
 				
-				long getLongitude()
+				int64_t getLongitude()
 				{
 					return longitude;
 				}
+				*/
+				/**
+				 * Latitude in degrees X 10^7
+				 */
+
+				long getLatitudeDegE7()
+				{
+					return latitudeDegE7;
+				}
 				
+				/**
+				 * Longitude in degrees X 10^7
+				 */				
+				long getLongitudeDegE7()
+				{
+					return longitudeDegE7;
+				}			
+					
+				long getXEcefCm()
+				{
+					return xEcefCm;
+				}
+
+				long getYEcefCm()
+				{
+					return yEcefCm;
+				}
+				
+				long getZEcefCm()
+				{
+					return zEcefCm;
+				}							
+
+				unsigned long getPositionAccuracyEstimateEcefCm()
+				{
+					return positionAccuracyEstimateEcefCm;
+				}
+								
 				FixStatus getPositionFixStatus()
 				{
 					return positionFixStatus;

@@ -111,6 +111,8 @@ namespace helicopter
 				
 				virtual int transmit(long valueToSend);
 				
+				virtual int transmit(int64_t valueToSend);
+				
 				virtual int transmit(float valueToSend);
 				
 				/**

@@ -13,64 +13,170 @@
 
 using namespace helicopter::sensors;
 
-int GPSSensor::readSensor()
+
+const byte GPSSensor::NAV_POSLLH_POLLMSG[] = {0xB5, 0x62, 0x01, 0x02, 0x00, 0x00, 0x03, 0x0A};
+
+const byte GPSSensor::NAV_POSECEF_POLLMSG[] = {0xB5, 0x62, 0x01, 0x01, 0x00, 0x00, 0x02, 0x07};
+	
+const byte GPSSensor::NAV_STATUS_POLLMSG[] = {0xB5, 0x62, 0x01, 0x03, 0x00, 0x00, 0x04, 0x0D};	
+	
+
+int GPSSensor::readSensor(byte *pollMsg, int pollMsgSize, byte *msgData, int msgDataSize )
 {
 	int status = 0;
-
-	byte last = 0;
-	byte secondToLast = 0;
 	
-	//Clear out the current msg memory.
-	memset(rawGpsMsg, 0, sizeof(rawGpsMsg));
+	//Clear the serial driver's buffer of any existing data.
+	serialDriver->clearBuffer();
 	
-	//reset counter back to 0.
-	msgBytesRead = 0;
-	
+	//Start timer
 	serialDriver->startTimer();
 	
-	status = serialDriver->transmit("$EIGPQ,RMC*3A\r\n");
 	
+	//Send poll command
+	status = serialDriver->transmit((const char*)pollMsg, pollMsgSize);
 	
+	byte b = 0;
 	
-	//I'll need to count how many bytes I read to be able to decrypt. 
-	
-	/**
-	 * Keep receiving bytes until the status is an error, or the end of the message
-	 * is received (carriage return, line feed)
-	 */
-	while (status == 0 && !(secondToLast == '\r' && last == '\n'))
-	//while (last != '\n')
+	//loop until the first header character is found.
+	while (status == 0 && b != 0xB5)
 	{
-		secondToLast = last;
-		
-		status = serialDriver->receive(last);
-		
-		if (status == 0)
-		{
-			rawGpsMsg[msgBytesRead++] = last;
-			
-
-			if (msgBytesRead >= 150)
-			{
-				status = -1;
-			}			
-		}
+		status = serialDriver->receive(b);
 	}
+	
+	msgData[0] = b;
+	
+	//while loop for reading data if status == 0
+	for (int i = 1; i < msgDataSize && status == 0; i++)
+	{
+		status = serialDriver->receive(b);
+		
+		msgData[i] = b;
+	}
+	
 
-
+	//Stop timer
 	serialDriver->stopTimer();
 	
-	/**
-	 * Parse out the lat, long, and status fields. 
-	 */
+	return status;
+}
+
+
+
+int GPSSensor::readSensorNavStatus()
+{
+	int status = 0;
+	
+	byte statusMsg[22] = {0};
+	
+	status = readSensor((byte *)NAV_STATUS_POLLMSG, sizeof(NAV_STATUS_POLLMSG), statusMsg, sizeof(statusMsg));
+	
 	if (status == 0)
 	{
-		parseFields(msgBytesRead, rawGpsMsg);
+		//parse results
+		positionFixStatus =  statusMsg[10] >= 3 ? VALID : INVALID;
 	}
-
 
 	return status;
 }
+
+int GPSSensor::readSensorECEF()
+{
+	int status = 0;
+	
+	byte ecefMsg[26] = {0};
+	
+	status = readSensor((byte *)NAV_POSECEF_POLLMSG, sizeof(NAV_POSECEF_POLLMSG), ecefMsg, sizeof(ecefMsg));
+	
+	if (status == 0)
+	{
+		//parse results
+		xEcefCm =  ((long)ecefMsg[13] << 24) | ((long)ecefMsg[12] << 16) | ((long)ecefMsg[11] << 8) | (long)ecefMsg[10];
+		yEcefCm =  ((long)ecefMsg[17] << 24) | ((long)ecefMsg[16] << 16) | ((long)ecefMsg[15] << 8) | (long) ecefMsg[14];
+		zEcefCm =  ((long)ecefMsg[21] << 24) | ((long)ecefMsg[20] << 16) | ((long)ecefMsg[19] << 8) | (long) ecefMsg[18];
+		positionAccuracyEstimateEcefCm =  ((long)ecefMsg[25] << 24) | ((long)ecefMsg[24] << 16) | ((long)ecefMsg[23] << 8) | (long) ecefMsg[22];
+	}
+
+	return status;
+}
+
+int GPSSensor::readSensorLLH()
+{
+	int status = 0;
+	
+	byte llhMsg[34] = {0};
+	
+	status = readSensor((byte *)NAV_POSLLH_POLLMSG, sizeof(NAV_POSLLH_POLLMSG), llhMsg, sizeof(llhMsg));
+	
+	if (status == 0)
+	{
+		//parse results
+		longitudeDegE7 =  ((long)llhMsg[13] << 24) | ((long)llhMsg[12] << 16) | ((long)llhMsg[11] << 8) | (long)llhMsg[10];
+		latitudeDegE7 =  ((long)llhMsg[17] << 24) | ((long)llhMsg[16] << 16) | ((long)llhMsg[15] << 8) | (long) llhMsg[14];		
+	}
+
+	return status;
+}
+
+
+//
+//int GPSSensor::readSensor()
+//{
+	//int status = 0;
+//
+	//byte last = 0;
+	//byte secondToLast = 0;
+	//
+	////Clear out the current msg memory.
+	//memset(rawGpsMsg, 0, sizeof(rawGpsMsg));
+	//
+	////reset counter back to 0.
+	//msgBytesRead = 0;
+	//
+	//serialDriver->startTimer();
+	//
+	//status = serialDriver->transmit("$EIGPQ,RMC*3A\r\n");
+	//
+	//
+	//
+	////I'll need to count how many bytes I read to be able to decrypt. 
+	//
+	///**
+	 //* Keep receiving bytes until the status is an error, or the end of the message
+	 //* is received (carriage return, line feed)
+	 //*/
+	//while (status == 0 && !(secondToLast == '\r' && last == '\n'))
+	////while (last != '\n')
+	//{
+		//secondToLast = last;
+		//
+		//status = serialDriver->receive(last);
+		//
+		//if (status == 0)
+		//{
+			//rawGpsMsg[msgBytesRead++] = last;
+			//
+//
+			//if (msgBytesRead >= 150)
+			//{
+				//status = -1;
+			//}			
+		//}
+	//}
+//
+//
+	//serialDriver->stopTimer();
+	//
+	///**
+	 //* Parse out the lat, long, and status fields. 
+	 //*/
+	//if (status == 0)
+	//{
+		//parseFields(msgBytesRead, rawGpsMsg);
+	//}
+//
+//
+	//return status;
+//}
 
 void GPSSensor::init()
 {
@@ -80,7 +186,8 @@ void GPSSensor::init()
 	 * Setup the port settings so that the GPS sends and receives data on UART 2
 	 * with a baud rate of 9600
 	 */
-	serialDriver->transmit("$PUBX,41,1,0002,0002,9600,1*15\r\n");
+	//serialDriver->transmit("$PUBX,41,1,0002,0002,38400,1*25\r\n");
+	//serialDriver->transmit("$PUBX,41,1,0002,0002,9600,1*15\r\n");
 	
 	/**
 	 * Disable all automatic transmission of messages since
@@ -205,14 +312,14 @@ void GPSSensor::parseFields( int msgLength, byte *gpsMsg )
 			 */			
 			if ((temp = parseDegrees(true, gpsMsg, latHemisphereLocation, latitudeLocation, latLength)) != 0)
 			{
-				latitude = temp;
+				latitudeDegE7 = temp;
 			}
 			
 			temp = 0;
 			
 			if ((temp = parseDegrees(false, gpsMsg, longHemisphereLocation, longitudeLocation, longLength)) != 0)
 			{
-				longitude = temp;
+				longitudeDegE7 = temp;
 			}
 		}
 }
@@ -225,12 +332,12 @@ float GPSSensor::convertFromNMEAToDegrees( float NMEACoordinate, char hemisphere
 	return (degrees + ((NMEACoordinate - degrees * 100)/60)) * (hemisphere == 'N' ? 0 : -1);
 }
 
-long GPSSensor::parseDegrees( bool isLatitude, byte * gpsMsg, int hemisphereLocation, int variableLocation, int variableLength) 
+int64_t GPSSensor::parseDegrees( bool isLatitude, byte * gpsMsg, int hemisphereLocation, int variableLocation, int variableLength) 
 {
 	int numOfMaxDegreeCharacters = isLatitude ? 2 : 3;
 	
 	char currentChar = 0;
-	long degrees = 0;
+	int64_t degrees = 0;
 	int index = variableLocation;
 		
 	//Pull out the hemisphere location
@@ -249,15 +356,14 @@ long GPSSensor::parseDegrees( bool isLatitude, byte * gpsMsg, int hemisphereLoca
 	}
 		
 		
-	long minutes = 0;
+	int64_t minutes = 0;
 		
 	//max num of minutes characters is the length of the message, minutes the 
 	//num of degrees, minus the 1 for the '-' sign if there is one
 	int numOfMaxMinutesCharacters = variableLength - numOfMaxDegreeCharacters;
-	int numberOfShifts = 7; //Number of multiplications by 10 that need to be made
 	int shiftIdx = 0;
 		
-	while (shiftIdx < numberOfShifts)
+	while (shiftIdx < LATLONG_SIGNIFICANT_DIGITS_SHIFTED)
 	{
 		//If the shift index is less then the number of characters in the minutes field,
 		//then pull out the current character and process it. Otherwise, just shift the field by
@@ -285,7 +391,7 @@ long GPSSensor::parseDegrees( bool isLatitude, byte * gpsMsg, int hemisphereLoca
 	}
 		
 	//Convert the minutes into degrees, and add them to the degrees value.
-	degrees = ((degrees + ((long)(minutes / .60f))));
+	degrees = ((degrees + ((int64_t)(minutes / .60f))));
 		
 	/**
 	* If the hemisphere is in the western or southern hemisphere, then the degree value will be negative.

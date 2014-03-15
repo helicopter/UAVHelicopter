@@ -57,12 +57,15 @@ void SerialDriver::initialize()
 		if (useDoubleSpeedMode)
 		{
 			UCSR0A |= (1<<U2X0);
+		}else
+		{
+			UCSR0A &= ~(1<<U2X0);
 		}
 
-		/* Enable receiver and transmitter */
+		/* Enable receiver and transmitter. Receiver Enable(RXEN), Transmitter Enable (TXEN) */
 		UCSR0B |= (1<<RXEN0) | (1<<TXEN0);
 	} else if (uartPort == One)
-	{
+	{			
 		/* Set baud rate */
 		UBRR1 = baudPrescaller;
 		
@@ -73,9 +76,12 @@ void SerialDriver::initialize()
 		if (useDoubleSpeedMode)
 		{
 			UCSR1A |= (1<<U2X1);
+		}else
+		{
+			UCSR1A &= ~(1<<U2X1);
 		}
 
-		/* Enable receiver and transmitter */
+		/* Enable receiver and transmitter. Receiver Enable(RXEN), Transmitter Enable (TXEN) */
 		UCSR1B |= (1<<RXEN1) | (1<<TXEN1);		
 	}
 }
@@ -106,7 +112,7 @@ int SerialDriver::transmit(int valueToSend)
 	int status1 = 0;
 	int status2 = 0;
 	
-	status1 = transmit((byte)(valueToSend >> 8));
+	status1 = transmit((byte)((valueToSend >> 8) & 0xFF));
 	status2 = transmit((byte)valueToSend);	
 	
 	return status1 | status2;
@@ -142,6 +148,29 @@ int SerialDriver::transmit(long valueToSend)
 	status4 = transmit((byte)(valueToSend & 0xFF));
 	
 	return status1 | status2 | status3 | status4;
+}
+
+int SerialDriver::transmit(int64_t valueToSend)
+{
+	int status1 = 0;
+	int status2 = 0;
+	int status3 = 0;
+	int status4 = 0;
+	int status5 = 0;
+	int status6 = 0;
+	int status7 = 0;
+	int status8 = 0;	
+
+	status1 = transmit((byte)((valueToSend >> 56) & 0xFF));
+	status2 = transmit((byte)((valueToSend >> 48) & 0xFF));
+	status3 = transmit((byte)((valueToSend >> 40) & 0xFF));
+	status4 = transmit((byte)((valueToSend >> 32) & 0xFF));
+	status5 = transmit((byte)((valueToSend >> 24) & 0xFF));
+	status6 = transmit((byte)((valueToSend >> 16) & 0xFF));
+	status7 = transmit((byte)((valueToSend >> 8) & 0xFF));
+	status8 = transmit((byte)(valueToSend & 0xFF));
+	
+	return status1 | status2 | status3 | status4 | status5 | status6 | status7 | status8;
 }
 
 int SerialDriver::transmit(const char *buffer)

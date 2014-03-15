@@ -38,15 +38,15 @@ namespace GroundControlStation.Interfaces
             port.Close();
         }
 
-        public short ReadShort(SerialPortInterface portInterface)
+        public short ReadShort()
         {
-            byte b1 = (byte)(ReadByte() << 8);
-            byte b2 = (byte)ReadByte();
+            byte b1 = ReadByte();
+            byte b2 = ReadByte();
 
-            return (short)(b1 | b2);
+            return (short)(b1 << 8 | b2);
         }
 
-        public int ReadInt(SerialPortInterface portInterface)
+        public int ReadInt()
         {
             byte b1 = ReadByte();
             byte b2 = ReadByte();
@@ -67,7 +67,30 @@ namespace GroundControlStation.Interfaces
             //return (int)(b1 | b2 | b3 | b4);
         }
 
-        public uint ReadUInt(SerialPortInterface portInterface)
+        public long ReadLong()
+        {
+            byte b1 = ReadByte();
+            byte b2 = ReadByte();
+            byte b3 = ReadByte();
+            byte b4 = ReadByte();
+            byte b5 = ReadByte();
+            byte b6 = ReadByte();
+            byte b7 = ReadByte();
+            byte b8 = ReadByte();
+
+            int val = (int)(b1 << 56);
+            val |= (int)(b2 << 48);
+            val |= (int)(b3 << 40);
+            val |= (int)(b4 << 32);
+            val |= (int)(b5 << 24);
+            val |= (int)(b6 << 16);
+            val |= (int)(b7 << 8);
+            val |= (int)b8;
+
+            return val;
+        }
+
+        public uint ReadUInt()
         {
             byte b1 = ReadByte();
             byte b2 = ReadByte();
@@ -88,7 +111,7 @@ namespace GroundControlStation.Interfaces
         }
 
 
-        public float ReadFloat(SerialPortInterface portInterface)
+        public float ReadFloat()
         {
             byte[] bytes = new byte[4];
 
@@ -126,5 +149,7 @@ namespace GroundControlStation.Interfaces
         {
             port.Write(buffer, offset, count);
         }
+
+
     }
 }

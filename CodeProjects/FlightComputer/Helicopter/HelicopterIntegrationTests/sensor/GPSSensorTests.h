@@ -14,11 +14,16 @@
 
 using namespace helicoptertestscommon::util::testframework;
 
+
 int readSensor_test(TestCase *test);
-int readgps_test(TestCase *test);
-int parsegpsmsg_test(TestCase *test);
-
-
+int readRealSensor_test(TestCase *test);
+//
+//int readSensor_test(TestCase *test);
+//int readgps_test(TestCase *test);
+//int parsegpsmsg_test(TestCase *test);
+//int calcXY_test(TestCase *test);
+//
+//
 
 
 
