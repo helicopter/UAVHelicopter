@@ -58,10 +58,19 @@ int readRealSensor_test(TestCase *test)
 		}
 		*/
 		
+		int status = 0;
+		
+		serialDriver->transmit((byte) 'T');
+		
 		//Read the sensor data
-		gpsSensor->readSensorECEF();
-		gpsSensor->readSensorLLH();
-		gpsSensor->readSensorNavStatus();
+		status = gpsSensor->readSensorECEF();
+		status == -4? serialDriver->transmit((byte)'B') : serialDriver->transmit((byte)'S');
+		
+		status = gpsSensor->readSensorLLH();
+		status == -4? serialDriver->transmit((byte)'B') : serialDriver->transmit((byte)'S');
+		
+		status = gpsSensor->readSensorNavStatus();
+		status == -4? serialDriver->transmit((byte)'B') : serialDriver->transmit((byte)'S');
 		
 		//Transmit Data
 		serialDriver->transmit(gpsSensor->getLatitudeDegE7());
@@ -74,7 +83,15 @@ int readRealSensor_test(TestCase *test)
 		
 		
 		
-		_delay_ms(350);
+		
+		/*
+		byte b = 0;
+		gpsSerialDriver->receive(b);
+		serialDriver->transmit(b);
+		*/
+		
+		
+		//_delay_ms(350);
 	}
 	
 	
@@ -92,9 +109,9 @@ int readSensor_test(TestCase *test)
 	
 
 	GPSSensor *gpsSensor = new GPSSensor(gpsSerialDriver);
-	gpsSensor->init(); 
+	//gpsSensor->init(); 
 	
-	byte llMsg[] = {0x13,0x44,0x99,0x22,//first four bytes are junk to ensure it skips junk data.
+	byte llMsg[] = {0x13, 0x44, 0x99, 0x22, 0xB5, 0x62, 0x05, 0x01, 0x00, 0x00, 0x00, 0x00, 0x0C, 0xAA, //first bytes are junk to ensure it skips junk data.
 		0xB5, 0x62, 0x01, 0x02, 0x1C, 0x00, //header, id, length
 		0x00, 0x00, 0x00, 0x00, 0x7B, 0x00, 0x00, 0x00, 0x7C, 0x00, 0x00, 0x00, 0x7D, 0x00, 0x00, 0x00, 0xF4, 0x00, 0x00, 0x00  //data
 	};

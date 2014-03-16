@@ -35,6 +35,7 @@ int main(void)
 	//helicopterTests.addTest(readSensor_test, 6);
 	//helicopterTests.addTest(calcXY_test, 6);
 	helicopterTests.addTest(readRealSensor_test, 6);
+	//helicopterTests.addTest(readSensor_test, 6);
 	
 	
 	

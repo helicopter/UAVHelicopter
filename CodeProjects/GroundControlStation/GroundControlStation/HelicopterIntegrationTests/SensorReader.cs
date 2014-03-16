@@ -50,10 +50,14 @@ namespace HelicopterIntegrationTests
             port.DiscardInBuffer();
             while (true)
             {
+                //List<byte> bts = new List<byte>();
+
                 while (true)
                 {
 
-                    /*byte[] buff = new byte[34];
+                   // bts.Add(portInterface.ReadByte());
+                    /*
+                    byte[] buff = new byte[34];
 
                     for (int i = 0; i < 34; i++)
                     {
@@ -64,6 +68,21 @@ namespace HelicopterIntegrationTests
                     a++;
                     */
 
+                    /**
+                     * This is needed to prevent getting out of synch. After a restart
+                     * the system could have already transmitted half of the data, so the first message
+                     * after a restart will be junk. Then this will snychronize the messages after the first
+                     * transmit.
+                     */
+                    while (portInterface.ReadByte() != 'T')
+                    {
+
+                    }
+
+                    byte bb = 0;
+                    bb = portInterface.ReadByte();
+                    bb = portInterface.ReadByte();
+                    bb = portInterface.ReadByte();
                     
                     int latitude = portInterface.ReadInt();
                     int longitude = portInterface.ReadInt();
@@ -73,8 +92,14 @@ namespace HelicopterIntegrationTests
                     int y = portInterface.ReadInt();
                     int z = portInterface.ReadInt();
                     int b = 0;
-
+                    
                     Console.WriteLine("lat: " + latitude.ToString() + " long: " + longitude.ToString() + " pos acc " + positionAcc.ToString() + " fixStatus " + fixStatus.ToString() +  " x: " + x.ToString() + " y: " + y.ToString() +" z " +  z.ToString());
+                     
+
+
+
+
+
                     /*
                     bytes = new byte[80];
 

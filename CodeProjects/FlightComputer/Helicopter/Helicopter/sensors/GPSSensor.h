@@ -52,6 +52,11 @@ namespace helicopter
 				
 				static const byte NAV_STATUS_POLLMSG[];
 				
+				/**
+				 * Target=uart1, protocolin = ubx, protocolout = ubx, baud = 9600
+				 */
+				static const byte CFG_PRT[];
+				
 				SerialDriver *serialDriver;
 
 				byte rawGpsMsg[GPS_MSG_BUFFER_SIZE];

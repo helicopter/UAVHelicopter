@@ -14,11 +14,16 @@
 using namespace helicopter::sensors;
 
 
+/**
+ * Ublox's U-Center application was used to generate these messages
+ */
 const byte GPSSensor::NAV_POSLLH_POLLMSG[] = {0xB5, 0x62, 0x01, 0x02, 0x00, 0x00, 0x03, 0x0A};
 
 const byte GPSSensor::NAV_POSECEF_POLLMSG[] = {0xB5, 0x62, 0x01, 0x01, 0x00, 0x00, 0x02, 0x07};
 	
 const byte GPSSensor::NAV_STATUS_POLLMSG[] = {0xB5, 0x62, 0x01, 0x03, 0x00, 0x00, 0x04, 0x0D};	
+	
+const byte GPSSensor::CFG_PRT[] = {0xB5, 0x62, 0x06, 0x00, 0x14, 0x00, 0x01, 0x00, 0x00, 0x00, 0xD0, 0x08, 0x00, 0x00, 0x80, 0x25, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x9A, 0x79};
 	
 
 int GPSSensor::readSensor(byte *pollMsg, int pollMsgSize, byte *msgData, int msgDataSize )
@@ -37,16 +42,40 @@ int GPSSensor::readSensor(byte *pollMsg, int pollMsgSize, byte *msgData, int msg
 	
 	byte b = 0;
 	
-	//loop until the first header character is found.
-	while (status == 0 && b != 0xB5)
+	/**
+	 * The message that is being sent will have the same header and ID fields of the message
+	 * that should be received. So convert the header and ID field into a long to be compared
+	 * against the incoming header and ID field.
+	 */
+	unsigned long desiredHeaderID = (unsigned long) pollMsg[0] << 24 | 
+									(unsigned long) pollMsg[1] << 16 | 
+									(unsigned long) pollMsg[2] << 8 | 
+									(unsigned long) pollMsg[3];
+	unsigned long currentFourBytes = 0;
+	
+	/*
+	* loop until the header/id is found, or a timeout occurs. 
+	* This prevents synchronization issues where if a message transmission to the
+	* GPS was canceled half way, the next message send would result in
+	* an nack half way through the next message transmission, so you have
+	* to ensure that the message that is being read, is the desired message.
+	*/
+	while (status == 0 && currentFourBytes != desiredHeaderID)
 	{
 		status = serialDriver->receive(b);
+		currentFourBytes = currentFourBytes << 8 | b;
 	}
 	
-	msgData[0] = b;
+	/**
+	 * Populate the message array with the first four bytes.
+	 */
+	msgData[0] = 0xFF & (currentFourBytes >> 24);
+	msgData[1] = 0xFF & (currentFourBytes >> 16);
+	msgData[2] = 0xFF & (currentFourBytes >> 8);
+	msgData[3] = 0xFF & currentFourBytes;
 	
 	//while loop for reading data if status == 0
-	for (int i = 1; i < msgDataSize && status == 0; i++)
+	for (int i = 4; i < msgDataSize && status == 0; i++)
 	{
 		status = serialDriver->receive(b);
 		
@@ -106,7 +135,7 @@ int GPSSensor::readSensorLLH()
 	byte llhMsg[34] = {0};
 	
 	status = readSensor((byte *)NAV_POSLLH_POLLMSG, sizeof(NAV_POSLLH_POLLMSG), llhMsg, sizeof(llhMsg));
-	
+
 	if (status == 0)
 	{
 		//parse results
@@ -117,69 +146,10 @@ int GPSSensor::readSensorLLH()
 	return status;
 }
 
-
-//
-//int GPSSensor::readSensor()
-//{
-	//int status = 0;
-//
-	//byte last = 0;
-	//byte secondToLast = 0;
-	//
-	////Clear out the current msg memory.
-	//memset(rawGpsMsg, 0, sizeof(rawGpsMsg));
-	//
-	////reset counter back to 0.
-	//msgBytesRead = 0;
-	//
-	//serialDriver->startTimer();
-	//
-	//status = serialDriver->transmit("$EIGPQ,RMC*3A\r\n");
-	//
-	//
-	//
-	////I'll need to count how many bytes I read to be able to decrypt. 
-	//
-	///**
-	 //* Keep receiving bytes until the status is an error, or the end of the message
-	 //* is received (carriage return, line feed)
-	 //*/
-	//while (status == 0 && !(secondToLast == '\r' && last == '\n'))
-	////while (last != '\n')
-	//{
-		//secondToLast = last;
-		//
-		//status = serialDriver->receive(last);
-		//
-		//if (status == 0)
-		//{
-			//rawGpsMsg[msgBytesRead++] = last;
-			//
-//
-			//if (msgBytesRead >= 150)
-			//{
-				//status = -1;
-			//}			
-		//}
-	//}
-//
-//
-	//serialDriver->stopTimer();
-	//
-	///**
-	 //* Parse out the lat, long, and status fields. 
-	 //*/
-	//if (status == 0)
-	//{
-		//parseFields(msgBytesRead, rawGpsMsg);
-	//}
-//
-//
-	//return status;
-//}
-
 void GPSSensor::init()
 {
+
+	
 	//Link to CRC calculator http://www.hhhh.org/wiml/proj/nmeaxor.html
 	
 	/**
@@ -193,6 +163,8 @@ void GPSSensor::init()
 	 * Disable all automatic transmission of messages since
 	 * we will be polling for data.
 	 */
+	
+	/*
 	serialDriver->transmit("$PUBX,40,RMC,0,0,0,0,0,0*47\r\n");
 	serialDriver->transmit("$PUBX,40,GGA,0,0,0,0,0,0*5A\r\n");
 	serialDriver->transmit("$PUBX,40,VTG,0,0,0,0,0,0*5E\r\n");
@@ -205,12 +177,21 @@ void GPSSensor::init()
 	serialDriver->transmit("$PUBX,40,GST,0,0,0,0,0,0*5B\r\n");
 	serialDriver->transmit("$PUBX,40,GSV,0,0,0,0,0,0*59\r\n");
 	serialDriver->transmit("$PUBX,40,THS,0,0,0,0,0,0*54\r\n");
+	*/
+	
+	/**
+	* Configure the GPS's port to use, protocol, and speed.
+	*/
+	serialDriver->transmit((const char*)CFG_PRT, sizeof(CFG_PRT));
+	
+	
 	
 	/**
 	 * Data will be received from the GPS before we canceled all the 
 	 * message from being auto sent. Therefore, the buffer will
 	 * have garbage data on it that needs to be cleared.
 	 */
+	_delay_ms(50);
 	serialDriver->clearBuffer();
 }
 				
