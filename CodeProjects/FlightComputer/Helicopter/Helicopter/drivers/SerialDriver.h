@@ -143,7 +143,9 @@ namespace helicopter
 				
 				/**
 				 * Clears the buffer of any data, and clears any buffer overflow
-				 * indicators. 
+				 * indicators. Continues to read data until there is no more data on the buffer.
+				 * Don't use this in time sensitive code. 
+				 * 
 				 * The serial port has a 2 byte buffer where the last byte could be in a
 				 * state of being overwritten multiple times. This clears any overwrite flags and
 				 * any data still left in the buffer.

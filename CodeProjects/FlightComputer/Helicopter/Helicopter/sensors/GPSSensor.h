@@ -27,21 +27,7 @@ namespace helicopter
 			public: 
 				enum FixStatus {INVALID = 1, VALID = 2};
 					
-				/**
-				 * Number of multiplications by 10 (10^x) that are applied to the
-				 * lat/long fields to shift the significant digits to transform the floating
-				 * point value into a long.
-				 */
-				static const int LATLONG_SIGNIFICANT_DIGITS_SHIFTED = 8;
-						
 			private:
-				static const int STATUS_COMMA_LOCATION = 2;
-				static const int LAT_COMMA_LOCATION = 3;
-				static const int LONG_COMMA_LOCATION = 5;
-				static const int LAT_HEMI_COMMA_LOCATION = LAT_COMMA_LOCATION + 1;
-				static const int LONG_HEMI_COMMA_LOCATION = LONG_COMMA_LOCATION + 1;
-				
-				static const int GPS_MSG_BUFFER_SIZE = 150;
 				
 				/**
 				 * UBX message for polling lat, long, height
@@ -51,24 +37,14 @@ namespace helicopter
 				static const byte NAV_POSECEF_POLLMSG[];
 				
 				static const byte NAV_STATUS_POLLMSG[];
-				
-				/**
-				 * Target=uart1, protocolin = ubx, protocolout = ubx, baud = 9600
-				 */
+
 				static const byte CFG_PRT[];
+
+				static const byte CFG_RATE[];				
 				
 				SerialDriver *serialDriver;
-
-				byte rawGpsMsg[GPS_MSG_BUFFER_SIZE];
 				
-				int msgBytesRead;
-				
-				/*
-				int64_t latitude;
-				int64_t longitude;
-				*/
-				
-				//latitude in degrees
+				//latitude in degrees * 10^7
 				long latitudeDegE7;
 				long longitudeDegE7;
 				
@@ -83,10 +59,14 @@ namespace helicopter
 				
 				int readSensor(byte *pollMsg, int pollMsgSize, byte *msgData, int msgDataSize );
 				
+				/**
+				 * Reads data from the GPS.
+				 */
+				int receiveGpsData(unsigned long desiredHeaderID, byte *msgData, int msgDataSize); 
+				
 			public:
 				GPSSensor(SerialDriver *serialDriver): 
 					serialDriver (serialDriver),
-					msgBytesRead(0),
 					latitudeDegE7 (0),
 					longitudeDegE7 (0),
 					xEcefCm (0),
@@ -95,18 +75,7 @@ namespace helicopter
 					positionAccuracyEstimateEcefCm (0),
 					positionFixStatus(INVALID)
 				{
-					memset(rawGpsMsg, 0, sizeof(rawGpsMsg));
 				}
-				
-				
-				/**
-				 * Reads the sensor values from the sensor and converts the values into
-				 * usable lat, long formats
-				 */
-				//int readSensor();
-				
-				
-				
 				
 				/**
 				 * Reads the sensors latitude, longitude and height (NAV-POSLLH)
@@ -128,37 +97,13 @@ namespace helicopter
 				/**
 				 * Configures and initializes the GPS
 				 */
-				void init();
+				int init();
 				
 				bool isGpsReady();
 				
-				
-				int getMsgBytesRead()
-				{
-					return msgBytesRead;
-				}
-				
-				//This is obviously very dangerous. Don't delete this data. 
-				byte * getRawMsg()
-				{
-					return rawGpsMsg;
-				}
-				
-				/*
-				int64_t getLatitude()
-				{
-					return latitude;
-				}
-				
-				int64_t getLongitude()
-				{
-					return longitude;
-				}
-				*/
 				/**
 				 * Latitude in degrees X 10^7
 				 */
-
 				long getLatitudeDegE7()
 				{
 					return latitudeDegE7;
@@ -196,12 +141,6 @@ namespace helicopter
 				{
 					return positionFixStatus;
 				}
-				
-				void parseFields( int msgLength, byte *gpsMsg );
-				
-				//TODO: Delete this method since it's not used anymore. But delete it after checkin so i've got a record of it
-				//incase i want to use it again.
-				float convertFromNMEAToDegrees( float NMEACoordinate, char hemisphere );			
 		};
 	}
 }

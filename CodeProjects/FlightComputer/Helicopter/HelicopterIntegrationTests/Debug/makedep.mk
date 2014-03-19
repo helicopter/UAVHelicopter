@@ -6,6 +6,8 @@ driver\SerialDriverIntegrationTests.cpp
 
 HelicopterIntegrationTests.cpp
 
+navigation\NavigationPrototypeTests.cpp
+
 radio\GroundControlStationIntegrationTests.cpp
 
 sensor\BarometerSensorTests.cpp

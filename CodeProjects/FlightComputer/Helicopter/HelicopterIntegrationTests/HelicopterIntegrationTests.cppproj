@@ -134,6 +134,7 @@
       <Value>../sensor</Value>
       <Value>../../Helicopter/controller</Value>
       <Value>../../Helicopter/tasks</Value>
+      <Value>../navigation</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
   <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
@@ -170,6 +171,12 @@
     <Compile Include="HelicopterIntegrationTests.cpp">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="navigation\NavigationPrototypeTests.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="navigation\NavigationPrototypeTests.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="radio\GroundControlStationIntegrationTests.h">
       <SubType>compile</SubType>
     </Compile>
@@ -197,6 +204,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="driver" />
+    <Folder Include="navigation" />
     <Folder Include="sensor" />
     <Folder Include="radio" />
   </ItemGroup>

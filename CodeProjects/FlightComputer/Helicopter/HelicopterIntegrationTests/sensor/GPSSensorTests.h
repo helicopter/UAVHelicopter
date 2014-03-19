@@ -17,6 +17,13 @@ using namespace helicoptertestscommon::util::testframework;
 
 int readSensor_test(TestCase *test);
 int readRealSensor_test(TestCase *test);
+int nedGps_test(TestCase *test);
+int partialTransmit_test(TestCase *test);
+int gpsPartialReceive_test(TestCase *test);
+int baudchange_test(TestCase *test);
+
+
+
 //
 //int readSensor_test(TestCase *test);
 //int readgps_test(TestCase *test);

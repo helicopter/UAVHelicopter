@@ -24,11 +24,12 @@ namespace helicopter
 		class CoordinateUtil
 		{	
 			private:
+				
 				//The first eccentricity, used to convert lat/long to ecef
-				static const float E = 0.08181919;
+				static const float E;
 				
 				//The semi-major axis: Radius of the earth in Meters.
-				static const float Rea = 6378137.0;
+				static const float Rea;
 				
 				/**
 				 * Calculates the Ne Variable used to convert crom lat/long to ecef.

@@ -13,6 +13,10 @@
 
 using namespace helicopter::util;
 
+
+const float CoordinateUtil::E = 0.08181919;
+const float CoordinateUtil::Rea = 6378137.0;
+
 float CoordinateUtil::DegreesToRad(float valueDegrees)
 {
 	return valueDegrees * (M_PI / 180.0);
