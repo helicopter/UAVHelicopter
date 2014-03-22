@@ -20,7 +20,7 @@ int serialreceivetransmit_test(TestCase *test)
 	Timer *t = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 75);
 	
 	SerialDriver serialDriver (38400, SerialDriver::Zero, false, t);
-	serialDriver.initialize();
+	serialDriver.init();
 	
 	byte transmitVal = 127;
 	AssertTrue2(serialDriver.transmit(transmitVal) == 0, 1);

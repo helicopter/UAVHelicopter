@@ -10,7 +10,7 @@
 using namespace helicopter::drivers;
 
 //TODO Implement this
-int MagnetometerDriver::initialize()
+int MagnetometerDriver::init()
 {
 	//TODO Implement This
 	return 0;

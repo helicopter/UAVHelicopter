@@ -31,7 +31,7 @@ void SerialDriver::stopTimer()
 	}
 }
 
-void SerialDriver::initialize()
+void SerialDriver::init()
 {
 	unsigned int baudPrescaller = 0;
 	

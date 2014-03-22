@@ -97,7 +97,7 @@ namespace helicopter
 				* This is necessary before communication with
 				* the hardware can begin
 				*/
-				virtual void initialize();
+				virtual void init();
 				
 				/**
 				 * Sends a byte over Serial

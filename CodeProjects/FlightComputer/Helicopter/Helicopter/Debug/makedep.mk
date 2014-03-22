@@ -30,6 +30,8 @@ messages\SystemTelemetryMessage.cpp
 
 model\SystemModel.cpp
 
+navigation\AHRS.cpp
+
 scheduler\Scheduler.cpp
 
 sensors\BarometerSensor.cpp

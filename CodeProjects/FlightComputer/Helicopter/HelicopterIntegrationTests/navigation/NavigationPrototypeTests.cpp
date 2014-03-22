@@ -14,23 +14,44 @@
 #include "Timer.h"
 #include "IMUSensor.h"
 #include "GPSSensor.h"
+#include "TWIDriver.h"
+#include "MagnetometerDriver.h"
+#include "MagnetometerSensor.h"
+#include "AHRS.h"
 
 
 using namespace helicopter::drivers;
 using namespace helicopter::util;
 using namespace helicopter::sensors;
+using namespace helicopter::util;
+using namespace helicopter::navigation;
 
+
+//TODO:
+//Check the timing of this function, can it keep up with adequate speed?
+//(assuming it didn't use serial communication every iteration)
+//Perhaps even remove the delay since serial driver will be slow enough.
 
 int ahrs_test(TestCase *test)
 {
 	//Create objects for reading sensors
 	SPIDriver *spiDriver = new SPIDriver();
+	spiDriver->init();
+	
+	TWIDriver *twDriver = new TWIDriver();
+	
+	SerialDriver *serialDriver = new SerialDriver(115200, SerialDriver::Zero, true, NULL);
+	serialDriver->init();
+	
+	MagnetometerSensor *magnetometerSensor = new MagnetometerSensor(twDriver);
+	magnetometerSensor->init();
 	
 	IMUSensor *imuSensor = new IMUSensor(spiDriver);
 	imuSensor->init();
 	
-	//Create AHRS
-	//AHRS *ahrs = new AHRS();
+
+	//Create AHRS. 98f is the sampling frequency of the gyroscope
+	AHRS *ahrs = new AHRS(1/98.0f);
 	
 	
 	int counter = 0;
@@ -40,22 +61,57 @@ int ahrs_test(TestCase *test)
 	{
 		//Read IMU
 		imuSensor->readSensor();
-	
-		//Read GPS at 1 hz.
-		if (counter >= 50)
-		{
-			counter = 0;
-		}else
-		{
-			counter++;
-		}
+		magnetometerSensor->readSensor();
+		
+		/*ahrs->update(.2, .3, .4,
+			.5, .6, .7,
+			.8, .9, .10);*/
 		
 		//Update AHRS
+		ahrs->update(imuSensor->getFRDAccXMss(), imuSensor->getFRDAccYMss(), imuSensor->getFRDAccZMss(),
+					 imuSensor->getFRDGyroXRs(), imuSensor->getFRDGyroYRs(), imuSensor->getFRDGyroZRs(),
+					 magnetometerSensor->getFRDX(), magnetometerSensor->getFRDY(), magnetometerSensor->getFRDZ());
 		
-	
-		//Send linear acc, and euler angles to GCS.
+		if (counter++ > 10)
+		{
+			//Send linear acc, and euler angles to GCS.
+			serialDriver->transmit((byte)'S');
+			
+			
+			serialDriver->transmit(ahrs->getYawRads());
+			serialDriver->transmit(ahrs->getPitchRads());
+			serialDriver->transmit(ahrs->getRollRads());			
+			serialDriver->transmit(ahrs->data1);
+			serialDriver->transmit(ahrs->data2);
+			serialDriver->transmit(ahrs->data3);
+
+			
+			/*
+			serialDriver->transmit(imuSensor->getFRDAccXMss());
+			serialDriver->transmit(imuSensor->getFRDAccYMss());
+			serialDriver->transmit(imuSensor->getFRDAccZMss());
+			serialDriver->transmit(imuSensor->getFRDGyroXRs());
+			serialDriver->transmit(imuSensor->getFRDGyroYRs());
+			serialDriver->transmit(imuSensor->getFRDGyroZRs());
+			serialDriver->transmit(magnetometerSensor->getFRDX());
+			serialDriver->transmit(magnetometerSensor->getFRDY());
+			serialDriver->transmit(magnetometerSensor->getFRDZ());
+			*/
+			
 		
-		_delay_ms(20);	
+			/*
+			serialDriver->transmit(ahrs->getYawRads());
+			serialDriver->transmit(ahrs->getPitchRads());
+			serialDriver->transmit(ahrs->getRollRads());
+			serialDriver->transmit(ahrs->getLinearAccelerationXMss());
+			serialDriver->transmit(ahrs->getLinearAccelerationYMss());
+			serialDriver->transmit(ahrs->getLinearAccelerationZMss());*/
+			
+			counter = 0;
+		}
+		
+		
+		//_delay_ms(20);	
 	}
 
 	

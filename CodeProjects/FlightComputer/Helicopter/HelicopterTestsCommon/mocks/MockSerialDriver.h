@@ -65,7 +65,7 @@ class MockSerialDriver : public SerialDriver
 		receiveCounter = 0;
 	}
 
-	void initialize()
+	void init()
 	{
 		
 	}

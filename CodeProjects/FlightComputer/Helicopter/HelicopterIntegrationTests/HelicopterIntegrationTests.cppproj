@@ -135,6 +135,7 @@
       <Value>../../Helicopter/controller</Value>
       <Value>../../Helicopter/tasks</Value>
       <Value>../navigation</Value>
+      <Value>../../Helicopter/navigation</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
   <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>

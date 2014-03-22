@@ -166,6 +166,7 @@
       <Value>../model</Value>
       <Value>../messages</Value>
       <Value>../controller</Value>
+      <Value>../navigation</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
   <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
@@ -267,6 +268,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="model\SystemModel.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="navigation\AHRS.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="navigation\AHRS.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="scheduler\Scheduler.cpp">
@@ -376,6 +383,7 @@
     <Folder Include="messages" />
     <Folder Include="model" />
     <Folder Include="controller" />
+    <Folder Include="navigation" />
     <Folder Include="scheduler\" />
     <Folder Include="sensors" />
     <Folder Include="tasks" />

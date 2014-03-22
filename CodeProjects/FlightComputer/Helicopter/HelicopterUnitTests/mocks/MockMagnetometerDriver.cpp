@@ -14,7 +14,7 @@ MockMagnetometerDriver::MockMagnetometerDriver(int16_t fakeRawXReading, int16_t 
 	this->fakeRawZReading = fakeRawZReading;
 }
 
-int MockMagnetometerDriver::initialize()
+int MockMagnetometerDriver::init()
 {
 	return 0;
 }

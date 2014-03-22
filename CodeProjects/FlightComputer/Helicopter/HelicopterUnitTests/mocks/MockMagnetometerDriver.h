@@ -27,7 +27,7 @@ class MockMagnetometerDriver : public MagnetometerDriver
 		
 		MockMagnetometerDriver(int16_t fakeRawXReading, int16_t fakeRawYReading, int16_t fakeRawZReading);	
 		
-		int initialize();
+		int init();
 		
 		int readSensor(int16_t *rawMagX, int16_t *rawMagY, int16_t *rawMagZ);
 };

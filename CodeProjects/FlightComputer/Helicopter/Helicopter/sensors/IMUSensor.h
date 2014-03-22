@@ -39,6 +39,9 @@ namespace helicopter
 		 * X pointing out the nose (front) of the aircraft
 		 * Y is pointing out of the right of the aircraft
 		 * Z is pointing down out of the aircraft
+		 *
+		 * Information on the MPU-6000 can be found in the following document:
+		 * RM-MPU-6000A.pdf
 		 */
 		class IMUSensor
 		{
@@ -57,12 +60,35 @@ namespace helicopter
 				static const byte BITS_I2C_IF_DIS = 0x10;
 				static const byte BITS_SMPLRT_DIV = 0x00;
 				static const byte BITS_DLPF_CFG = 0x02; //digital low pass filter speed 94 Hz for accel, 98Hz for gyro
-				static const byte BITS_FS_SEL = 0x18; //+-2000 */s. Full scale range of the gyro scope. This is the max setting. LSB Sensitivity = 16.4 LSB/*/s (page 32)
-				static const byte BITS_AFS_SEL = 0x00; //+- 2g scale range of the accelerometer. This is the minimum setting. LSB  sensitivity = 16384 LSB/g (page 30)
+				
+				//+-2000 */s. Full scale range of the gyro scope. This is the max setting. LSB Sensitivity = 16.4 LSB/*/s (page 32). 
+				//Note: if this is changed, you have to change the RAW_GYRO_TO_RADS_PER_SECOND_CONVERTER which converts raw data to rads per sec.
+				static const byte BITS_FS_SEL = 0x18; 
+				
+				//+- 2g scale range of the accelerometer. This is the minimum setting. LSB  sensitivity = 16384 LSB/g (page 30)
+				//Note: if this is changed, you have to change the RAW_ACC_TO_RADS_PER_SECOND_SECOND_CONVERTER which converts raw data to
+				//acceleration
+				static const byte BITS_AFS_SEL = 0x00; 
 	
 				static const byte readCommand = 0x80;
 				
-				float accelRFUToFRDRotationMatrix[3][3];
+				/**
+				 * Per page 32 in the RM-MPU-6000A document, since FS_SEL is 
+				 * set to +-2000 degrees per sec, there are 16.4 LSB's per degree per second
+				 * therefore, to get radians per sec, you have to take the sensor reading,
+				 * / by 16.4, which gives you degrees per sec, then convert that to rads.
+				 * 16.4 comes from document, 180 / pi is used to convert degrees to rads.
+				 */
+				static const float RAW_GYRO_TO_RADS_PER_SECOND_CONVERTER;
+
+				/**
+				 * Per page 30 in the RM-MPU-6000A document, since AFS_SEL is 
+				 * set to +-2g, there are 16384 LSB's per g
+				 * This value converts from the raw data to acceleration in meters per second per second.
+				 */				
+				static const float RAW_ACC_TO_RADS_PER_SECOND_SECOND_CONVERTER;
+				
+				float imuRFUToFRDRotationMatrix[3][3];
 				
 	
 				SPIDriver *spiDriver; 
@@ -83,20 +109,20 @@ namespace helicopter
 				 * where X goes out the front, Y axis goes out the right, and positive Z
 				 * values point down out the bottom of the ardupilot device.
 				 */
-				float frdAccX;
-				float frdAccY;
-				float frdAccZ;
+				float frdAccXMss;
+				float frdAccYMss;
+				float frdAccZMss;
 				
-				float frdGyroX;
-				float frdGyroY;
-				float frdGyroZ;
+				float frdGyroXRs;
+				float frdGyroYRs;
+				float frdGyroZRs;
 				
 				
 			public:
 				/**
-				 * Constructs the accel sensor.
+				 * Constructs the Inertial Measurement Unit sensor.
 				 * @param driver The SPI driver used to communicate with the
-				 * MPU6000's accelerometer sensor via the SPI protocol.
+				 * MPU6000's sensor via the SPI protocol.
 				 */
 				IMUSensor(SPIDriver *spiDriver): 
 					spiDriver (spiDriver),
@@ -106,18 +132,21 @@ namespace helicopter
 					rawGyroX(0),
 					rawGyroY(0),
 					rawGyroZ(0),
-					frdAccX(0),
-					frdAccY(0),
-					frdAccZ(0)
+					frdAccXMss(0),
+					frdAccYMss(0),
+					frdAccZMss(0),
+					frdGyroXRs(0),
+					frdGyroYRs(0),
+					frdGyroZRs(0)
 				{
 					/**
 					 * Create a rotation matrix to rotate the accelerometer sensor data by
 					 * 180 degrees on the x axis, then 0 degrees on the y axis, then 90 degrees 
 					 * clockwise on the Z axis.
 					 */
-					memset(accelRFUToFRDRotationMatrix,0,sizeof(float)*9);
+					memset(imuRFUToFRDRotationMatrix,0,sizeof(imuRFUToFRDRotationMatrix));
 					
-					MatrixUtil::CreateRotationMatrix(M_PI, 0.0f, (M_PI/2), accelRFUToFRDRotationMatrix);
+					MatrixUtil::CreateRotationMatrix(M_PI, 0.0f, (M_PI/2), imuRFUToFRDRotationMatrix);
 				}
 				
 				/**
@@ -139,13 +168,35 @@ namespace helicopter
 				int getRawGyroY() { return rawGyroY;}
 				int getRawGyroZ() { return rawGyroZ;}					
 				
-				float getFRDAccX() { return frdAccX;}
-				float getFRDAccY() { return frdAccY;}
-				float getFRDAccZ() { return frdAccZ;}
+				/**
+				 * Returns the acceleration in meters per second per second in the X direction in Front (X) Right (Y) Down (Z) coordinate system
+				 */
+				float getFRDAccXMss() { return frdAccXMss;}
 					
-				float getFRDGyroX() { return frdGyroX;}
-				float getFRDGyroY() { return frdGyroY;}
-				float getFRDGyroZ() { return frdGyroZ;}			
+				/**
+				 * Returns the acceleration in meters per second per second in the Y direction in Front (X) Right (Y) Down (Z) coordinate system
+				 */					
+				float getFRDAccYMss() { return frdAccYMss;}
+					
+				/**
+				 * Returns the acceleration in meters per second per second in the Z direction in Front (X) Right (Y) Down (Z) coordinate system
+				 */					
+				float getFRDAccZMss() { return frdAccZMss;}
+					
+				/**
+				 * Returns the angular velocity in rads per second about the X axis in Front (X) Right (Y) Down (Z) coordinate system
+				 */					
+				float getFRDGyroXRs() { return frdGyroXRs;}
+					
+				/**
+				 * Returns the angular velocity in rads per second about the Y axis in Front (X) Right (Y) Down (Z) coordinate system
+				 */							
+				float getFRDGyroYRs() { return frdGyroYRs;}
+					
+				/**
+				 * Returns the angular velocity in rads per second about the Z axis in Front (X) Right (Y) Down (Z) coordinate system
+				 */							
+				float getFRDGyroZRs() { return frdGyroZRs;}	
 		};
 	}
 }

@@ -28,6 +28,92 @@ namespace HelicopterIntegrationTests
             return (float)(b1 | b2);
         }
 
+        
+        public static void Main()
+        {
+            SerialPort port = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
+            SerialPortInterface portInterface = new SerialPortInterface(port);
+            portInterface.Open();
+
+
+            GraphForm yawG = new GraphForm("yaw");
+            GraphForm pitchG = new GraphForm("pitch");
+            GraphForm rollG = new GraphForm("roll");
+            GraphForm lax = new GraphForm("lax");
+            GraphForm lay = new GraphForm("lay");
+            GraphForm laz = new GraphForm("laz");
+            yawG.Visible = true;
+            pitchG.Visible = true;
+            rollG.Visible = true;
+            lax.Visible = true;
+            lay.Visible = true;
+            laz.Visible = true;
+
+            /*
+            GraphForm accxg = new GraphForm("accx");
+            GraphForm accyg = new GraphForm("accy");
+            GraphForm acczg = new GraphForm("accz");
+            GraphForm magxg = new GraphForm("magx");
+            GraphForm magyg = new GraphForm("magy");
+            GraphForm magzg = new GraphForm("magz");
+            accxg.Visible = true;
+            accyg.Visible = true;
+            acczg.Visible = true;
+            magxg.Visible = true;
+            magyg.Visible = true;
+            magzg.Visible = true;
+             * */
+
+            port.DiscardInBuffer();
+            while (true)
+            {
+                while (portInterface.ReadByte() != 'S')
+                {
+
+                }
+
+                
+                float yaw = portInterface.ReadFloat() * (float)(180.0f / Math.PI);
+                float pitch = portInterface.ReadFloat() * (float)(180.0f / Math.PI);
+                float roll = portInterface.ReadFloat() * (float)(180.0f / Math.PI);
+                float lineX = portInterface.ReadFloat();
+                float lineY = portInterface.ReadFloat();
+                float lineZ = portInterface.ReadFloat();
+                yawG.AddValueToGraph(yaw);
+                pitchG.AddValueToGraph(pitch);
+                rollG.AddValueToGraph(roll);
+                lax.AddValueToGraph(lineX);
+                lay.AddValueToGraph(lineY);
+                laz.AddValueToGraph(lineZ);
+                
+                
+                /*
+                float accx = portInterface.ReadFloat();
+                float accy = portInterface.ReadFloat();
+                float accz = portInterface.ReadFloat();
+                float gyrox = portInterface.ReadFloat();
+                float gyroy = portInterface.ReadFloat();
+                float gyroz = portInterface.ReadFloat();
+                float magx = portInterface.ReadFloat();
+                float magy = portInterface.ReadFloat();
+                float magz = portInterface.ReadFloat();
+                accxg.AddValueToGraph(accx);
+                accyg.AddValueToGraph(accy);
+                acczg.AddValueToGraph(accz);
+                magxg.AddValueToGraph(magx);
+                magyg.AddValueToGraph(magy);
+                magzg.AddValueToGraph(magz);                
+                */
+
+
+
+                Application.DoEvents();
+            }
+
+        }
+
+
+
 
         
         //public static void Main()
@@ -58,48 +144,48 @@ namespace HelicopterIntegrationTests
         //}
          
         
-        public static void Main()
-        {
-            SerialPort port = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
-            SerialPortInterface portInterface = new SerialPortInterface(port);
-            portInterface.Open();
+        //public static void Main()
+        //{
+        //    SerialPort port = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
+        //    SerialPortInterface portInterface = new SerialPortInterface(port);
+        //    portInterface.Open();
 
 
-            GraphForm x = new GraphForm("x");
-            GraphForm y = new GraphForm("y");
-            x.Visible = true;
-            y.Visible = true;
+        //    GraphForm x = new GraphForm("x");
+        //    GraphForm y = new GraphForm("y");
+        //    x.Visible = true;
+        //    y.Visible = true;
 
-            port.DiscardInBuffer();
-            while (true)
-            {
-                while (portInterface.ReadByte() != 'T')
-                {
+        //    port.DiscardInBuffer();
+        //    while (true)
+        //    {
+        //        while (portInterface.ReadByte() != 'T')
+        //        {
 
-                }
+        //        }
 
-                float xNedCm = portInterface.ReadFloat();
-                float yNedCm = portInterface.ReadFloat();
-                float zNedCm = portInterface.ReadFloat();
+        //        float xNedCm = portInterface.ReadFloat();
+        //        float yNedCm = portInterface.ReadFloat();
+        //        float zNedCm = portInterface.ReadFloat();
 
-                long initialx = portInterface.ReadInt();
-                long initialy = portInterface.ReadInt();
-                long initialz = portInterface.ReadInt();
-                long curx = portInterface.ReadInt();
-                long cury = portInterface.ReadInt();
-                long curz = portInterface.ReadInt();
-                long diffx = portInterface.ReadInt();
-                long diffy = portInterface.ReadInt();
-                long diffz = portInterface.ReadInt();
-                short errorCount1 = portInterface.ReadShort();
-                short errorCount2 = portInterface.ReadShort();
-                int b = 0;
-                System.Diagnostics.Debug.WriteLine("error count1 " + errorCount1 + ", error count2 " + errorCount2 + ", intx " + initialx + ", inty " + initialy + ", xned " + xNedCm + ", yned " + yNedCm);  
+        //        long initialx = portInterface.ReadInt();
+        //        long initialy = portInterface.ReadInt();
+        //        long initialz = portInterface.ReadInt();
+        //        long curx = portInterface.ReadInt();
+        //        long cury = portInterface.ReadInt();
+        //        long curz = portInterface.ReadInt();
+        //        long diffx = portInterface.ReadInt();
+        //        long diffy = portInterface.ReadInt();
+        //        long diffz = portInterface.ReadInt();
+        //        short errorCount1 = portInterface.ReadShort();
+        //        short errorCount2 = portInterface.ReadShort();
+        //        int b = 0;
+        //        System.Diagnostics.Debug.WriteLine("error count1 " + errorCount1 + ", error count2 " + errorCount2 + ", intx " + initialx + ", inty " + initialy + ", xned " + xNedCm + ", yned " + yNedCm);  
 
 
-            }
+        //    }
 
-        }
+        //}
          
 
     //    //Test reading GPS.

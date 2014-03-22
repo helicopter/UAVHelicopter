@@ -169,7 +169,7 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	//note:for production, we'll want to set the variable to 'true'
 	SerialDriver *serialDriver = new SerialDriver(250000, SerialDriver::Zero, true, t);
 	//SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, t, false, true);
-	serialDriver->initialize();
+	serialDriver->init();
 	
 	
 	GroundControlStationInterface radioInterface(serialDriver);

@@ -32,7 +32,7 @@ namespace helicopter
 				* the sensor can begin.
 				* @return 0 if successful, -1 if there was an error.
 				*/
-				virtual int initialize();
+				virtual int init();
 				
 				/**
 				 * Reads the raw X, Y, and Z sensor readings from the magnetometer

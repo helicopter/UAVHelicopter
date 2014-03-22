@@ -11,7 +11,32 @@
 
 using namespace helicopter::util;
 
-void MatrixUtil::CreateRotationMatrix( float phiRotationAboutXRads, float thetaRotationAboutYRads, float saiRotationAboutZRads, float rotationMatrix[][3] )
+void MatrixUtil::CrossProduct(float vector1[3], float vector2[3], float (&crossProduct)[3])
+{
+	crossProduct[0] = vector1[1] * vector2[2] - vector1[2]*vector2[1];
+	crossProduct[1] = -1 * (vector1[0] * vector2[2] - vector1[2]*vector2[0]);
+	crossProduct[2] = vector1[0] * vector2[1] - vector1[1] * vector2[0];
+}
+
+void MatrixUtil::Normalize(float (&vector)[3])
+{
+	float magnitude = 0;
+	
+	//Square each vector value and add it to the magnitude
+	for (int i = 0; i < 3; i++)
+	{
+		magnitude += vector[i] * vector[i];
+	}
+	
+	magnitude = sqrt(magnitude);
+	
+	for (int i = 0; i < 3; i++)
+	{
+		vector[i] = vector[i] / magnitude;
+	}
+}
+
+void MatrixUtil::CreateRotationMatrix( float phiRotationAboutXRads, float thetaRotationAboutYRads, float saiRotationAboutZRads, float (&rotationMatrix)[3][3] )
 {
 	rotationMatrix[0][0] = cos(thetaRotationAboutYRads)*cos(saiRotationAboutZRads);
 	rotationMatrix[0][1] = sin(phiRotationAboutXRads)*sin(thetaRotationAboutYRads)*cos(saiRotationAboutZRads) - cos(phiRotationAboutXRads)*sin(saiRotationAboutZRads);
@@ -65,4 +90,10 @@ void MatrixUtil::RotateMatrix( float phiRotationAboutXRads, float thetaRotationA
 	CreateRotationMatrix(phiRotationAboutXRads, thetaRotationAboutYRads, saiRotationAboutZRads, rotationMatrix);
 		
 	RotateMatrix(rotationMatrix, valuesToRotate, rotatedValues);
+}
+
+
+float MatrixUtil::DotProduct( float vector1[3], float vector2[3] )
+{
+	return vector1[0]*vector2[0] + vector1[1]*vector2[1] + vector1[2]*vector2[2];
 }

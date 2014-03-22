@@ -28,10 +28,10 @@ int baudchange_test(TestCase *test)
 	
 	
 	SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, gpsTimer);
-	gpsSerialDriver->initialize();
+	gpsSerialDriver->init();
 
 	SerialDriver *serialDriver = new SerialDriver(9600, SerialDriver::Zero, true, NULL);
-	serialDriver->initialize();
+	serialDriver->init();
 	
 	serialDriver->transmit('T');
 	
@@ -213,10 +213,10 @@ int baudchange_test(TestCase *test)
 int gpsPartialReceive_test(TestCase *test)
 {
 	SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, NULL);
-	gpsSerialDriver->initialize();
+	gpsSerialDriver->init();
 
 	SerialDriver *serialDriver = new SerialDriver(9600, SerialDriver::Zero, true, NULL);
-	serialDriver->initialize();
+	serialDriver->init();
 	
 	serialDriver->transmit('T');
 	
@@ -274,10 +274,10 @@ int gpsPartialReceive_test(TestCase *test)
 int partialTransmit_test(TestCase *test)
 {
 	SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, NULL);
-	gpsSerialDriver->initialize();
+	gpsSerialDriver->init();
 
 	SerialDriver *serialDriver = new SerialDriver(9600, SerialDriver::Zero, true, NULL);
-	serialDriver->initialize();
+	serialDriver->init();
 	
 	serialDriver->transmit('T');
 	
@@ -327,10 +327,10 @@ int nedGps_test(TestCase *test)
 	 * hard coded to communicate over serial at 9600 baud.
 	 */
 	SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, gpsTimer);
-	gpsSerialDriver->initialize();
+	gpsSerialDriver->init();
 
 	SerialDriver *serialDriver = new SerialDriver(115200, SerialDriver::Zero, true, timer);
-	serialDriver->initialize();
+	serialDriver->init();
 
 	GPSSensor *gpsSensor = new GPSSensor(gpsSerialDriver);
 	gpsSensor->init();
@@ -442,10 +442,10 @@ int readRealSensor_test(TestCase *test)
 	 * hard coded to communicate over serial at 9600 baud.
 	 */
 	SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, gpsTimer);
-	gpsSerialDriver->initialize();
+	gpsSerialDriver->init();
 
 	SerialDriver *serialDriver = new SerialDriver(9600, SerialDriver::Zero, true, timer);
-	serialDriver->initialize();
+	serialDriver->init();
 
 	GPSSensor *gpsSensor = new GPSSensor(gpsSerialDriver);
 	gpsSensor->init();

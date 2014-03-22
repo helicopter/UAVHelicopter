@@ -54,7 +54,7 @@ int readmag_test(TestCase *test)
 	Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100); //Good timeout when using the USB
 
 	SerialDriver *serialDriver = new SerialDriver(9600, SerialDriver::Zero, true, timer);
-	serialDriver->initialize();
+	serialDriver->init();
 
 	TWIDriver *driver = new TWIDriver();
 	
@@ -203,7 +203,7 @@ int magdriver_test(TestCase *test)
 	Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100); //Good timeout when using the USB
 
 	SerialDriver *serialDriver = new SerialDriver(9600, SerialDriver::Zero, true, timer);
-	serialDriver->initialize();
+	serialDriver->init();
 
 	TWIDriver *driver = new TWIDriver();
 	

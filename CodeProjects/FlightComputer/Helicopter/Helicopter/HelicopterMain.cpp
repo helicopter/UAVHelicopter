@@ -125,7 +125,7 @@ int main(void)
 	//SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, timer, true, true);  
 	//SerialDriver *serialDriver = new SerialDriver(76800, SerialDriver::Zero, true);  
 	SerialDriver *serialDriver = new SerialDriver(250000, SerialDriver::Zero, true, timer);  
-	serialDriver->initialize();
+	serialDriver->init();
 	
 	GroundControlStationInterface *gcsInterface = new GroundControlStationInterface(serialDriver);
 	

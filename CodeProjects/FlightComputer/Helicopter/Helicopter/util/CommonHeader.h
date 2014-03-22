@@ -48,6 +48,20 @@ enum PRESCALER {NO_PRESCALER=1, PRESCALE_BY_EIGHT=8,
 	PRESCALE_BY_TWOFIFTYSIX=256,
 	PRESCALE_BY_TENTWENTYFOUR=1024};
 	
+	
+/**
+ * Common Constants
+ */
+
+
+/**
+ * This is the earths average gravity (as opposed to equatorial average)
+ * From: http://en.wikipedia.org/wiki/Gravity_of_Earth
+ */
+static const float GRAVITY_MSS = 9.80665;
+
+	
+	
 /**
  * The frequency that the scheduler should run at in terms of ticks per second.
  */
