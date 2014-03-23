@@ -6,8 +6,6 @@
  */ 
 
 #include "MagnetometerSensorTests.h"
-#include "MagnetometerDriver.h"
-#include "MockMagnetometerDriver.h"
 #include "MagnetometerSensor.h"
 #include "UnitTestUtils.h"
 

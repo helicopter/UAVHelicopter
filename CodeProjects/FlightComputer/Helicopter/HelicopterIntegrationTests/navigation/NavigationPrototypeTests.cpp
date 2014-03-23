@@ -15,7 +15,6 @@
 #include "IMUSensor.h"
 #include "GPSSensor.h"
 #include "TWIDriver.h"
-#include "MagnetometerDriver.h"
 #include "MagnetometerSensor.h"
 #include "AHRS.h"
 
@@ -78,12 +77,15 @@ int ahrs_test(TestCase *test)
 			serialDriver->transmit((byte)'S');
 			
 			
-			serialDriver->transmit(ahrs->getYawRads());
+			/*serialDriver->transmit(ahrs->getYawRads());
 			serialDriver->transmit(ahrs->getPitchRads());
-			serialDriver->transmit(ahrs->getRollRads());			
+			serialDriver->transmit(ahrs->getRollRads());*/
+			/*serialDriver->transmit(imuSensor->getFRDGyroZRs());
+			serialDriver->transmit(imuSensor->getFRDGyroYRs());
+			serialDriver->transmit(imuSensor->getFRDGyroXRs());		
 			serialDriver->transmit(ahrs->data1);
 			serialDriver->transmit(ahrs->data2);
-			serialDriver->transmit(ahrs->data3);
+			serialDriver->transmit(ahrs->data3);*/
 
 			
 			/*
@@ -99,13 +101,14 @@ int ahrs_test(TestCase *test)
 			*/
 			
 		
-			/*
+			
 			serialDriver->transmit(ahrs->getYawRads());
 			serialDriver->transmit(ahrs->getPitchRads());
 			serialDriver->transmit(ahrs->getRollRads());
 			serialDriver->transmit(ahrs->getLinearAccelerationXMss());
 			serialDriver->transmit(ahrs->getLinearAccelerationYMss());
-			serialDriver->transmit(ahrs->getLinearAccelerationZMss());*/
+			serialDriver->transmit(ahrs->getLinearAccelerationZMss());
+			
 			
 			counter = 0;
 		}

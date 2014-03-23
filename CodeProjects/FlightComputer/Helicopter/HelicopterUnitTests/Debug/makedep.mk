@@ -10,8 +10,6 @@ drivers\SPIDriverTests.cpp
 
 HelicopterUnitTests.cpp
 
-mocks\MockMagnetometerDriver.cpp
-
 radio\GroundControlStationUnitTests.cpp
 
 scheduler\SchedulerTest.cpp

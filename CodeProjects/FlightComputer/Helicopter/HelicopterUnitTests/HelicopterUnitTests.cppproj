@@ -162,7 +162,6 @@
       <Value>../../Helicopter/scheduler</Value>
       <Value>../../Helicopter/drivers</Value>
       <Value>../../Helicopter/sensors</Value>
-      <Value>../mocks</Value>
       <Value>../sensors</Value>
       <Value>../../HelicopterTestsCommon/util/testframework</Value>
       <Value>../buffer</Value>
@@ -231,12 +230,6 @@
     <Compile Include="HelicopterUnitTests.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="mocks\MockMagnetometerDriver.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="mocks\MockMagnetometerDriver.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="radio\GroundControlStationUnitTests.h">
       <SubType>compile</SubType>
     </Compile>
@@ -275,7 +268,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="mocks" />
     <Folder Include="buffer" />
     <Folder Include="controllers" />
     <Folder Include="drivers" />

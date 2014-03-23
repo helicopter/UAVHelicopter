@@ -12,7 +12,6 @@
 #include <math.h>
 
 #include "CommonHeader.h"
-#include "MagnetometerDriver.h"
 #include "TWIDriver.h"
 
 using namespace helicopter::drivers;

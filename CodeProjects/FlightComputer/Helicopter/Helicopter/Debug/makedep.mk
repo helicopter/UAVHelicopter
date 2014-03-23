@@ -8,8 +8,6 @@ buffer\Record.cpp
 
 controller\PIDController.cpp
 
-drivers\MagnetometerDriver.cpp
-
 drivers\SerialDriver.cpp
 
 drivers\SPIDriver.cpp

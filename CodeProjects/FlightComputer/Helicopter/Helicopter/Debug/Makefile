@@ -50,7 +50,6 @@ C_SRCS +=  \
 ../buffer/Buffer.cpp \
 ../buffer/Record.cpp \
 ../controller/PIDController.cpp \
-../drivers/MagnetometerDriver.cpp \
 ../drivers/SerialDriver.cpp \
 ../drivers/SPIDriver.cpp \
 ../drivers/TWIDriver.cpp \
@@ -90,7 +89,6 @@ OBJS +=  \
 buffer/Buffer.o \
 buffer/Record.o \
 controller/PIDController.o \
-drivers/MagnetometerDriver.o \
 drivers/SerialDriver.o \
 drivers/SPIDriver.o \
 drivers/TWIDriver.o \
@@ -123,7 +121,6 @@ OBJS_AS_ARGS +=  \
 buffer/Buffer.o \
 buffer/Record.o \
 controller/PIDController.o \
-drivers/MagnetometerDriver.o \
 drivers/SerialDriver.o \
 drivers/SPIDriver.o \
 drivers/TWIDriver.o \
@@ -156,7 +153,6 @@ C_DEPS +=  \
 buffer/Buffer.d \
 buffer/Record.d \
 controller/PIDController.d \
-drivers/MagnetometerDriver.d \
 drivers/SerialDriver.d \
 drivers/SPIDriver.d \
 drivers/TWIDriver.d \
@@ -189,7 +185,6 @@ C_DEPS_AS_ARGS +=  \
 buffer/Buffer.d \
 buffer/Record.d \
 controller/PIDController.d \
-drivers/MagnetometerDriver.d \
 drivers/SerialDriver.d \
 drivers/SPIDriver.d \
 drivers/TWIDriver.d \
@@ -229,8 +224,6 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
-
-
 
 
 

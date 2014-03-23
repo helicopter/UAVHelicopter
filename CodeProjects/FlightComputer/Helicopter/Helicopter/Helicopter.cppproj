@@ -207,12 +207,6 @@
     <Compile Include="controller\PIDController.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="drivers\MagnetometerDriver.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="drivers\MagnetometerDriver.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="drivers\SerialDriver.cpp">
       <SubType>compile</SubType>
     </Compile>

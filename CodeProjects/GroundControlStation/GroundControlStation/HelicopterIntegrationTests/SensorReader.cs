@@ -35,7 +35,7 @@ namespace HelicopterIntegrationTests
             SerialPortInterface portInterface = new SerialPortInterface(port);
             portInterface.Open();
 
-
+            
             GraphForm yawG = new GraphForm("yaw");
             GraphForm pitchG = new GraphForm("pitch");
             GraphForm rollG = new GraphForm("roll");
@@ -48,21 +48,28 @@ namespace HelicopterIntegrationTests
             lax.Visible = true;
             lay.Visible = true;
             laz.Visible = true;
-
+            
+            
             /*
             GraphForm accxg = new GraphForm("accx");
             GraphForm accyg = new GraphForm("accy");
             GraphForm acczg = new GraphForm("accz");
+            GraphForm gyroxg = new GraphForm("gyrox");
+            GraphForm gyroyg = new GraphForm("gyroy");
+            GraphForm gyrozg = new GraphForm("gyroz");
             GraphForm magxg = new GraphForm("magx");
             GraphForm magyg = new GraphForm("magy");
             GraphForm magzg = new GraphForm("magz");
             accxg.Visible = true;
             accyg.Visible = true;
             acczg.Visible = true;
+            gyroxg.Visible = true;
+            gyroyg.Visible = true;
+            gyrozg.Visible = true;
             magxg.Visible = true;
             magyg.Visible = true;
             magzg.Visible = true;
-             * */
+            */
 
             port.DiscardInBuffer();
             while (true)
@@ -100,6 +107,9 @@ namespace HelicopterIntegrationTests
                 accxg.AddValueToGraph(accx);
                 accyg.AddValueToGraph(accy);
                 acczg.AddValueToGraph(accz);
+                gyroxg.AddValueToGraph(gyrox);
+                gyroyg.AddValueToGraph(gyroy);
+                gyrozg.AddValueToGraph(gyroz);
                 magxg.AddValueToGraph(magx);
                 magyg.AddValueToGraph(magy);
                 magzg.AddValueToGraph(magz);                

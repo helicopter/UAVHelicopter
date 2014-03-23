@@ -13,7 +13,12 @@
 using namespace helicopter::navigation;
 using namespace helicopter::util;
 
+/*
 const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .07f;
+const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .01f;
+*/
+
+const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .01f;
 const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .01f;
 
 
@@ -74,6 +79,29 @@ void AHRS::update(float frdAccXMss, float frdAccYMss, float frdAccZMss,
 	MatrixUtil::Normalize(accelerometerVector);
 	MatrixUtil::Normalize(magnetometerVector);
 	
+	/**
+	 * The magnetometer vector is not orthogonal to the gravitational vector. It actually points
+	 * downward 'into' the earth. The angle is called the 'magnetic angle of inclination' and
+	 * is roughly 70 degrees into the earths surface in North America.
+	 *
+	 * Because of this, if it's not corrected for, the pitch and roll axes will greatly move
+	 * in response to what should only be a yaw rotation. I.e. if the device is sitting on a table
+	 * and you rotated it to point south, that rotation would be recognized as a pitch and roll movement
+	 * as well as a yaw movement. 
+	 *
+	 * This is corrected by taking the cross product of the accelerometer vector, and the magnetometer vector, 
+	 * to get a 'west facing' (assuming NED coordinate system) vector. Then taking the cross product of the
+	 * west vector, and the accelerometer vector to get a 'north facing' vector which is the corrected
+	 * magnetometer vector.
+	 *
+	 * Taken from Starlino's January 20, 2012 post at http://www.starlino.com/dcm_tutorial.html 
+	 */
+	float westFacingVector[3] = {0};
+	float correctedMagnetometerVector[3] = {0};
+		
+	MatrixUtil::CrossProduct(dcm[2], magnetometerVector, westFacingVector);	
+	MatrixUtil::CrossProduct(westFacingVector, dcm[2], correctedMagnetometerVector);	
+		
 
 
 	//Calculate the cross product between the accelerometer data, and the
@@ -82,12 +110,8 @@ void AHRS::update(float frdAccXMss, float frdAccYMss, float frdAccZMss,
 	//iteration.
 	//d?a ­= dt wa = KB0 x (KB1A­ - KB0) - see http://www.starlino.com/dcm_tutorial.html for proof		
 	MatrixUtil::CrossProduct(accelerometerVector, dcm[2], accelerometerAngularDisplacement);
-	MatrixUtil::CrossProduct(magnetometerVector, dcm[0], magnetometerAngularDisplacement);
-/*
-data1 = 	gyroscopeAngularDisplacement[0];
-data2 = 	gyroscopeAngularDisplacement[1];
-data3 = 	gyroscopeAngularDisplacement[2];
-*/
+	//MatrixUtil::CrossProduct(magnetometerVector, dcm[0], magnetometerAngularDisplacement);
+	MatrixUtil::CrossProduct(correctedMagnetometerVector, dcm[0], magnetometerAngularDisplacement);
 	
 	//Calculate the weighted average of the angular displacements to obtain the correction vector
 	//to adjust the DCM.
@@ -141,8 +165,13 @@ data3 = 	angularDisplacementWeightedAverage[2];
 	/**
 	 * Calculate the euler angles
 	 */
-	yawRads = atan2(dcm[1][0], dcm[0][0]);
+/*	yawRads = atan2(dcm[1][0], dcm[0][0]);
 	
+	//TODO Answer why we multiply by negative one. I don't think this is correct since the definition of asin is positive counter clockwise x.
+	pitchRads = -1 * asin(dcm[2][0]);
+	rollRads = atan2(dcm[2][1], dcm[2][2]);
+	*/
+	yawRads = atan2(dcm[1][0], dcm[0][0]);
 	//TODO Answer why we multiply by negative one. I don't think this is correct since the definition of asin is positive counter clockwise x.
 	pitchRads = -1 * asin(dcm[2][0]);
 	rollRads = atan2(dcm[2][1], dcm[2][2]);
