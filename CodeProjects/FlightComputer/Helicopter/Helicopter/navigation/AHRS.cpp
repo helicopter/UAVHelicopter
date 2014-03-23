@@ -18,8 +18,8 @@ const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .07f;
 const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .01f;
 */
 
-const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .01f;
-const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .01f;
+const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .1f;
+const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .1f;
 
 
 void AHRS::scaleAndAdjust(float vectorToAdjust[3], float vectorToScale[3], float scalerValue, float (&outputVector)[3])
@@ -32,7 +32,7 @@ void AHRS::scaleAndAdjust(float vectorToAdjust[3], float vectorToScale[3], float
 
 void AHRS::orthonormalizeDcm() 
 {
-		/**
+	/**
 	 * The dot product of two orthonormal vectors should be 0 (because cos(90) = 0). So this
 	 * gives us an error of how far from orthonormal the vectors are. It's a measure
 	 * of how much X and Y are rotated towards each other. 
@@ -110,7 +110,6 @@ void AHRS::update(float frdAccXMss, float frdAccYMss, float frdAccZMss,
 	//iteration.
 	//d?a ­= dt wa = KB0 x (KB1A­ - KB0) - see http://www.starlino.com/dcm_tutorial.html for proof		
 	MatrixUtil::CrossProduct(accelerometerVector, dcm[2], accelerometerAngularDisplacement);
-	//MatrixUtil::CrossProduct(magnetometerVector, dcm[0], magnetometerAngularDisplacement);
 	MatrixUtil::CrossProduct(correctedMagnetometerVector, dcm[0], magnetometerAngularDisplacement);
 	
 	//Calculate the weighted average of the angular displacements to obtain the correction vector
@@ -128,11 +127,7 @@ void AHRS::update(float frdAccXMss, float frdAccYMss, float frdAccZMss,
 												(1 + ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT + MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT);
 
 	}
-data1 = 	angularDisplacementWeightedAverage[0];
-data2 = 	angularDisplacementWeightedAverage[1];
-data3 = 	angularDisplacementWeightedAverage[2];	
-	
-	
+
 	/**
 	 * Adjust the dcm matrix by the calculated angular displacement. We adjust the DCM matrix by the averaged
 	 * angle displacement of the three sensors because this reduces noise caused by any one sensor, and 
@@ -157,22 +152,16 @@ data3 = 	angularDisplacementWeightedAverage[2];
 	 * in the DCM (dcm[2]) and multiplying the individual components by the gravity constant.
 	 * This will give you what proportion of acceleration is due to gravity. Then you subtract
 	 * the accelerometer's value from the proportion due to gravity. 
+	 * (You actually add the two values together because gravity is a negative value)
 	 */
-	linearAccelerationXMss = frdAccXMss - dcm[2][0] * GRAVITY_MSS;
-	linearAccelerationYMss = frdAccYMss - dcm[2][1] * GRAVITY_MSS;
-	linearAccelerationZMss = frdAccZMss - dcm[2][2] * GRAVITY_MSS;
+	linearAccelerationXMss = frdAccXMss + dcm[2][0] * GRAVITY_MSS;
+	linearAccelerationYMss = frdAccYMss + dcm[2][1] * GRAVITY_MSS;
+	linearAccelerationZMss = frdAccZMss + dcm[2][2] * GRAVITY_MSS;
 	
 	/**
 	 * Calculate the euler angles
 	 */
-/*	yawRads = atan2(dcm[1][0], dcm[0][0]);
-	
-	//TODO Answer why we multiply by negative one. I don't think this is correct since the definition of asin is positive counter clockwise x.
-	pitchRads = -1 * asin(dcm[2][0]);
-	rollRads = atan2(dcm[2][1], dcm[2][2]);
-	*/
 	yawRads = atan2(dcm[1][0], dcm[0][0]);
-	//TODO Answer why we multiply by negative one. I don't think this is correct since the definition of asin is positive counter clockwise x.
 	pitchRads = -1 * asin(dcm[2][0]);
 	rollRads = atan2(dcm[2][1], dcm[2][2]);
 }

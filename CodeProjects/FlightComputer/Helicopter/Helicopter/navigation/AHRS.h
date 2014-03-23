@@ -90,88 +90,85 @@ namespace helicopter
 				void orthonormalizeDcm();
 			
 			public:
-float data1 = 0;
-float data2 = 0;	
-float data3 = 0;		
-			
-			/**
-			 * @param the time interval between gyroscope readings. I.e. .02 seconds.
-			 */
-			AHRS(float gyroTimeInterval):
-				gyroTimeInterval(gyroTimeInterval),
-				frdAccX(0),
-				frdAccY(0),
-				frdAccZ(0),
-				frdGyroXRadsPerSec(0),
-				frdGyroYRadsPerSec(0),
-				frdGyroZRadsPerSec(0),
-				frdMagX(0),
-				frdMagY(0),
-				frdMagZ(0),
-				yawRads(0),
-				pitchRads(0),
-				rollRads(0),
-				linearAccelerationXMss(0),
-				linearAccelerationYMss(0),
-				linearAccelerationZMss(0)	
-			{
+
 				/**
-				 * Setup initial state of the DCM matrix with initial unit vectors
-				 * {{1,0,0},{0,1,0},{0,0,1}}
+				 * @param the time interval between gyroscope readings. I.e. .02 seconds.
 				 */
-				dcm[0][0] = 1;
-				dcm[0][1] = 0;
-				dcm[0][2] = 0;
-				dcm[1][0] = 0;
-				dcm[1][1] = 1;
-				dcm[1][2] = 0;
-				dcm[2][0] = 0;
-				dcm[2][1] = 0;
-				dcm[2][2] = 1;
-			}
+				AHRS(float gyroTimeInterval):
+					gyroTimeInterval(gyroTimeInterval),
+					frdAccX(0),
+					frdAccY(0),
+					frdAccZ(0),
+					frdGyroXRadsPerSec(0),
+					frdGyroYRadsPerSec(0),
+					frdGyroZRadsPerSec(0),
+					frdMagX(0),
+					frdMagY(0),
+					frdMagZ(0),
+					yawRads(0),
+					pitchRads(0),
+					rollRads(0),
+					linearAccelerationXMss(0),
+					linearAccelerationYMss(0),
+					linearAccelerationZMss(0)	
+				{
+					/**
+					 * Setup initial state of the DCM matrix with initial unit vectors
+					 * {{1,0,0},{0,1,0},{0,0,1}}
+					 */
+					dcm[0][0] = 1;
+					dcm[0][1] = 0;
+					dcm[0][2] = 0;
+					dcm[1][0] = 0;
+					dcm[1][1] = 1;
+					dcm[1][2] = 0;
+					dcm[2][0] = 0;
+					dcm[2][1] = 0;
+					dcm[2][2] = 1;
+				}
 			
-			/**
-			 * Updates the internal representation of the orientation of the helicopter with the given
-			 * sensor data and calculates the linear acceleration and euler angles given the updated orientation
-			 * While the internal representation doesn't care about units for acceleration, in order to calculate linear acceleration
-			 * the accelerometer data must be in meters per second per second.
-			 *
-			 * @param frdAccXMss - The accelerometer's X value in meters per second per second in Front-Right-Down coordinate system
-			 * @param frdAccYMss - The accelerometer's Y value in meters per second per second in Front-Right-Down coordinate system
-			 * @param frdAccZMss - The accelerometer's Z value in meters per second per second in Front-Right-Down coordinate system
-			 * @param frdGyroXRs - The Gyroscopes angular acceleration value in Rads per second about the X axis in the Front-Right-Down coordinate system
-			 * @param frdGyroYRs - The Gyroscopes angular acceleration value in Rads per second about the Y axis in the Front-Right-Down coordinate system
-			 * @param frdGyroZRs - The Gyroscopes angular acceleration value in Rads per second about the Z axis in the Front-Right-Down coordinate system
-			 * @param frdMaxX - The magnetometer sensor reading (no units needed) in the X axis in the Front Right Down coordinate system
-			 * @param frdMaxY - The magnetometer sensor reading (no units needed) in the Y axis in the Front Right Down coordinate system
-			 * @param frdMaxZ - The magnetometer sensor reading (no units needed) in the Z axis in the Front Right Down coordinate system
-			 */ 
-			void update(float frdAccXMss, float frdAccYMss, float frdAccZMss,
-					float frdGyroXRs, float frdGyroYRs, float frdGyroZRs,
-					float frdMagX, float frdMagY, float frdMagZ);
+				/**
+				 * Updates the internal representation of the orientation of the helicopter with the given
+				 * sensor data and calculates the linear acceleration and euler angles given the updated orientation
+				 * While the internal representation doesn't care about units for acceleration, in order to calculate linear acceleration
+				 * the accelerometer data must be in meters per second per second.
+				 *
+				 * @param frdAccXMss - The accelerometer's X value in meters per second per second in Front-Right-Down coordinate system
+				 * @param frdAccYMss - The accelerometer's Y value in meters per second per second in Front-Right-Down coordinate system
+				 * @param frdAccZMss - The accelerometer's Z value in meters per second per second in Front-Right-Down coordinate system
+				 * @param frdGyroXRs - The Gyroscopes angular acceleration value in Rads per second about the X axis in the Front-Right-Down coordinate system
+				 * @param frdGyroYRs - The Gyroscopes angular acceleration value in Rads per second about the Y axis in the Front-Right-Down coordinate system
+				 * @param frdGyroZRs - The Gyroscopes angular acceleration value in Rads per second about the Z axis in the Front-Right-Down coordinate system
+				 * @param frdMaxX - The magnetometer sensor reading (no units needed) in the X axis in the Front Right Down coordinate system
+				 * @param frdMaxY - The magnetometer sensor reading (no units needed) in the Y axis in the Front Right Down coordinate system
+				 * @param frdMaxZ - The magnetometer sensor reading (no units needed) in the Z axis in the Front Right Down coordinate system
+				 */ 
+				void update(float frdAccXMss, float frdAccYMss, float frdAccZMss,
+						float frdGyroXRs, float frdGyroYRs, float frdGyroZRs,
+						float frdMagX, float frdMagY, float frdMagZ);
 					
-			float getYawRads();
+				float getYawRads();
 			
-			float getPitchRads();
+				float getPitchRads();
 			
-			float getRollRads();
+				float getRollRads();
 			
-			/**
-			 * Returns the linear acceleration of body frame FRD in the X direction in Meters per second^2
-			 */
-			float getLinearAccelerationXMss();
+				/**
+				 * Returns the linear acceleration of body frame FRD in the X direction in Meters per second^2
+				 */
+				float getLinearAccelerationXMss();
 			
-			/**
-			 * Returns the linear acceleration of body frame FRD in the Y direction in Meters per second^2
-			 */
-			float getLinearAccelerationYMss();
+				/**
+				 * Returns the linear acceleration of body frame FRD in the Y direction in Meters per second^2
+				 */
+				float getLinearAccelerationYMss();
 			
 			
-			//TODO: What is positive?
-			/**
-			 * Returns the linear acceleration of body frame FRD in the Z direction in Meters per second^2
-			 */
-			float getLinearAccelerationZMss();
+				//TODO: What is positive?
+				/**
+				 * Returns the linear acceleration of body frame FRD in the Z direction in Meters per second^2
+				 */
+				float getLinearAccelerationZMss();
 			
 		};
 	}
