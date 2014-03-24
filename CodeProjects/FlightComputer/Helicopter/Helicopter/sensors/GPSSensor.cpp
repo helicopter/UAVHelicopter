@@ -17,6 +17,8 @@ using namespace helicopter::sensors;
  */
 const byte GPSSensor::NAV_POSLLH_POLLMSG[] = {0xB5, 0x62, 0x01, 0x02, 0x00, 0x00, 0x03, 0x0A};
 
+const byte GPSSensor::NAV_SOL_POLLMSG[] = {0xB5, 0x62, 0x01, 0x06, 0x00, 0x00, 0x07, 0x016};
+
 const byte GPSSensor::NAV_POSECEF_POLLMSG[] = {0xB5, 0x62, 0x01, 0x01, 0x00, 0x00, 0x02, 0x07};
 	
 const byte GPSSensor::NAV_STATUS_POLLMSG[] = {0xB5, 0x62, 0x01, 0x03, 0x00, 0x00, 0x04, 0x0D};	
@@ -114,6 +116,36 @@ int GPSSensor::readSensor(byte *pollMsg, int pollMsgSize, byte *msgData, int msg
 }
 
 
+int GPSSensor::readSensorSolution()
+{
+	int status = 0;
+	
+	byte navSolMsg[60] = {0};
+	
+	status = readSensor((byte *)NAV_SOL_POLLMSG, sizeof(NAV_SOL_POLLMSG), navSolMsg, sizeof(navSolMsg));
+	
+	if (status == 0)
+	{
+		//Parse status info 
+		positionFixStatus =  navSolMsg[16] >= 3 ? VALID : INVALID;
+		
+		//Parse position info
+		xEcefCm =  ((long)navSolMsg[21] << 24) | ((long)navSolMsg[20] << 16) | ((long)navSolMsg[19] << 8) | (long) navSolMsg[18];
+		yEcefCm =  ((long)navSolMsg[25] << 24) | ((long)navSolMsg[24] << 16) | ((long)navSolMsg[23] << 8) | (long) navSolMsg[22];
+		zEcefCm =  ((long)navSolMsg[29] << 24) | ((long)navSolMsg[28] << 16) | ((long)navSolMsg[27] << 8) | (long) navSolMsg[26];
+		positionAccuracyEstimateEcefCm =  ((long)navSolMsg[33] << 24) | ((long)navSolMsg[32] << 16) | ((long)navSolMsg[31] << 8) | (long) navSolMsg[30];
+		
+		//Parse velocity info
+		xVEcefCms =  ((long)navSolMsg[37] << 24) | ((long)navSolMsg[36] << 16) | ((long)navSolMsg[35] << 8) | (long) navSolMsg[34];
+		yVEcefCms =  ((long)navSolMsg[41] << 24) | ((long)navSolMsg[40] << 16) | ((long)navSolMsg[39] << 8) | (long) navSolMsg[38];
+		zVEcefCms =  ((long)navSolMsg[45] << 24) | ((long)navSolMsg[44] << 16) | ((long)navSolMsg[43] << 8) | (long) navSolMsg[42];
+		velocityAccuracyEstimateEcefCms =  ((long)navSolMsg[49] << 24) | ((long)navSolMsg[48] << 16) | ((long)navSolMsg[47] << 8) | (long) navSolMsg[46];
+		
+	}
+
+	return status;
+}
+
 
 int GPSSensor::readSensorNavStatus()
 {
@@ -178,9 +210,6 @@ int GPSSensor::init()
 	/**
 	* Configure the GPS's port to use, protocol, and speed.
 	*/
-	//status = readSensor((byte *)CFG_PRT, sizeof(CFG_PRT), statusMsg, sizeof(statusMsg));
-	
-
 	serialDriver->transmit((const char*)CFG_PRT, sizeof(CFG_PRT));
 	
 	/**
@@ -199,20 +228,6 @@ int GPSSensor::init()
 	serialDriver->transmit((const char*)CFG_RATE, sizeof(CFG_RATE));
 	
 	status |= receiveGpsData(desiredHeaderID, ack, sizeof(ack)); 
-	
-
-
-	
-	//
-	//
-	//
-	///**
-	 //* Data will be received from the GPS before we canceled all the 
-	 //* message from being auto sent. Therefore, the buffer will
-	 //* have garbage data on it that needs to be cleared.
-	 //*/
-	//_delay_ms(50);
-	//serialDriver->clearBuffer();
 	
 	return status;
 }

@@ -159,10 +159,11 @@ void AHRS::update(float frdAccXMss, float frdAccYMss, float frdAccZMss,
 	linearAccelerationZMss = frdAccZMss + dcm[2][2] * GRAVITY_MSS;
 	
 	/**
-	 * Calculate the euler angles
+	 * Calculate the euler angles. Eqn 3. In Euler Angles.pdf By William Premerlani
 	 */
-	yawRads = atan2(dcm[1][0], dcm[0][0]);
-	pitchRads = -1 * asin(dcm[2][0]);
+	//Add the yaw angle to pi to convert from -pi or pi being north and -3pi/2 being east to 0 or 2pi being north, and pi/2 being east
+	yawRads = M_PI + atan2(dcm[1][0], dcm[0][0]);
+	pitchRads = -asin(dcm[2][0]);
 	rollRads = atan2(dcm[2][1], dcm[2][2]);
 }
 

@@ -186,7 +186,7 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 	
 
 	message->ThetaPitchDegrees = model->ThetaPitchDegrees();
-	message->XNEDBodyFrame = model->XNEDBodyFrame();
+	message->XNEDBodyFrame = model->XNEDLocalFrame();
 	message->XDerivativeError = model->XDerivativeError();
 	message->XIntegral = model->XIntegral();
 	message->XProportional = model->XProportional();
@@ -197,7 +197,7 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 
 	
 	message->PhiRollDegrees = model->PhiRollDegrees();
-	message->YNEDBodyFrame = model->YNEDBodyFrame();
+	message->YNEDBodyFrame = model->YNEDLocalFrame();
 	message->YDerivativeError = model->YDerivativeError();
 	message->YIntegral = model->YIntegral();
 	message->YProportional = model->YProportional();
@@ -213,7 +213,7 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 	message->ZProportional = model->ZProportional();
 	message->ZVelocityMetersPerSecond = (model->ZVelocityFeetPerSecond() / 3.2804f);
 	message->MainRotorCollectiveControl = model->MainRotorCollectiveControl();
-	message->ZNEDBodyFrame = model->ZNEDBodyFrame();
+	message->ZNEDBodyFrame = model->ZNEDLocalFrame();
 	
 	
 	

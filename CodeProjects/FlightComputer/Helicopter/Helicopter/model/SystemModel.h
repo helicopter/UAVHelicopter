@@ -237,8 +237,8 @@ namespace helicopter
 		
 		
 		
-			float XNEDBodyFrame() const {return xNEDBodyFrame;}
-			void XNEDBodyFrame(float val) { xNEDBodyFrame = val;}
+			float XNEDLocalFrame() const {return xNEDBodyFrame;}
+			void XNEDLocalFrame(float val) { xNEDBodyFrame = val;}
 						
 			float ReferenceXNEDBodyFrame() const {return referenceXNEDBodyFrame;}
 			void ReferenceXNEDBodyFrame(float val) { referenceXNEDBodyFrame = val;}
@@ -281,8 +281,8 @@ namespace helicopter
 						
 
 
-			float YNEDBodyFrame() const {return yNEDBodyFrame;}
-			void YNEDBodyFrame(float val) { yNEDBodyFrame = val;}
+			float YNEDLocalFrame() const {return yNEDBodyFrame;}
+			void YNEDLocalFrame(float val) { yNEDBodyFrame = val;}
 
 			float ReferenceYNEDBodyFrame() const {return referenceYNEDBodyFrame;}
 			void ReferenceYNEDBodyFrame(float val) { referenceYNEDBodyFrame = val;}
@@ -326,8 +326,8 @@ namespace helicopter
 			float AltitudeFeetAgl() const { return altitudeFeetAgl; }
 			void AltitudeFeetAgl(float val) { altitudeFeetAgl = val; }
 
-			float ZNEDBodyFrame() const { return zNEDBodyFrame; }
-			void ZNEDBodyFrame(float val) { zNEDBodyFrame = val; }
+			float ZNEDLocalFrame() const { return zNEDBodyFrame; }
+			void ZNEDLocalFrame(float val) { zNEDBodyFrame = val; }
 
 
 			float ReferenceZNEDBodyFrameFeet() const {return referenceAltitudeFeet;}

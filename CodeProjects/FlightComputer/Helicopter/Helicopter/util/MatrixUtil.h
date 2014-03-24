@@ -22,9 +22,18 @@ namespace helicopter
 			public: 
 				/**
 				 * Creates a 3x3 rotation matrix which rotates about X, then Y, then Z where positive angles are rotations
-				 * about the given axis in a clockwise direction
+				 * about the given axis in a clockwise direction.
+				 *
+				 * The rotation matrix that is created can be used to go from Body Frame coordinate System, to Local NED coordinate System
 				 */
 				static void CreateRotationMatrix( float phiRotationAboutXRads, float thetaRotationAboutYRads, float saiRotationAboutZRads, float (&rotationMatrix)[3][3]);
+				
+				/**
+				 * This creates a 3x3 rotation matrix that is the transpose of the matrix created in CreateRotationMatrix.
+				 *
+				 * This rotation matrix can be used to go from Local NED to Body Frame coordinate Systems.
+				 */
+				static void CreateRotationMatrixTransposed( float phiRotationAboutXRads, float thetaRotationAboutYRads, float saiRotationAboutZRads, float (&rotationMatrix)[3][3]);
 				
 				/**
 				 * Rotates a 3x1 matrix using a 3x3 rotation matrix
@@ -59,6 +68,11 @@ namespace helicopter
 				 * Calculates the dot product of two vectors
 				 */
 				static float DotProduct( float vector1[3], float vector2[3] );
+				
+				/**
+				 * Creates a transpose of the given matrix.
+				 */
+				static void Transpose(float originalMatrix[3][3], float (&transposedMatrix)[3][3]);
 		};
 	}
 	

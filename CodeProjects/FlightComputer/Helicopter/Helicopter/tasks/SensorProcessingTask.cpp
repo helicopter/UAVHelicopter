@@ -28,7 +28,7 @@ void SensorProcessingTask::runTaskImpl()
 		localNEDX,localNEDY,localNEDZ);
 		
 		
-	model->XNEDBodyFrame(localNEDX);
-	model->YNEDBodyFrame(localNEDY);
-	model->ZNEDBodyFrame(localNEDZ);
+	model->XNEDLocalFrame(localNEDX);
+	model->YNEDLocalFrame(localNEDY);
+	model->ZNEDLocalFrame(localNEDZ);
 }

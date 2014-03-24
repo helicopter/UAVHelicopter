@@ -16,9 +16,9 @@ void ReadIMUSensorTask::runTaskImpl()
 	//Read the sensor values from the IMU Sensor.
 	imuSensor->readSensor();
 	
-	model->XNEDBodyFrame(imuSensor->getFRDAccXMss());
-	model->YNEDBodyFrame(imuSensor->getFRDAccYMss());
-	model->ZNEDBodyFrame(imuSensor->getFRDAccZMss());
+	model->XNEDLocalFrame(imuSensor->getFRDAccXMss());
+	model->YNEDLocalFrame(imuSensor->getFRDAccYMss());
+	model->ZNEDLocalFrame(imuSensor->getFRDAccZMss());
 	
 	model->YawProportional(imuSensor->getFRDGyroXRs());
 	model->YawIntegral(imuSensor->getFRDGyroYRs());

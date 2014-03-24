@@ -83,7 +83,7 @@ float PIDController::calculateIntegral(float proportional, float oldIntegral, fl
 	workingIntegral = proportional * intervalPeriodSecs * integralGain;
 	
 	//Integrate (i.e. sum this working value with the current integral value).
-	//Note: i'm going out of order from what is defined in the book referenced above.
+	//Note: I'm going out of order from what is defined in the book referenced above.
 	//I am summing before subtracting the antiwindup value to make it easier.
 	//I also find it odd that the integral 'gain' is being applied before 
 	//accounting for the anti-windup. But this could be to compensate for large errors.
@@ -213,7 +213,7 @@ void PIDController::mainRotorCollectiveOuterLoopUpdate()
 {
 	if (model->OperationalState() == SystemModel::AutoPilot)
 	{
-		float zProportional = calculateProportional(model->ZNEDBodyFrame(), model->ReferenceZNEDBodyFrameFeet());
+		float zProportional = calculateProportional(model->ZNEDLocalFrame(), model->ReferenceZNEDBodyFrameFeet());
 	
 		float zIntegralAntiWindup = calculateIntegralAntiWindup(model->MainRotorControlBeforeServoLimitsAdjustment(), model->MainRotorCollectiveControl(), zAntiWindupGain);
 		float weightedZIntegral = calculateIntegral(zProportional, model->ZIntegral(), zIntegralAntiWindup, zIntegralGain);
@@ -233,7 +233,7 @@ void PIDController::cyclicLongitudeOuterLoopUpdate()
 {
 	if (model->OperationalState() == SystemModel::AutoPilot)
 	{
-		float xProportional = calculateProportional(model->XNEDBodyFrame(), model->ReferenceXNEDBodyFrame());
+		float xProportional = calculateProportional(model->XNEDLocalFrame(), model->ReferenceXNEDBodyFrame());
 		float xIntegralAntiWindup = calculateIntegralAntiWindup(model->LongitudeControlBeforeServoLimitsAdjustment(), model->LongitudeControl(), xAntiWindupGain);
 		float weightedXIntegral = calculateIntegral(xProportional, model->XIntegral(), xIntegralAntiWindup, xIntegralGain);
 		float xDerivativeError = calculateVelocityError(model->XVelocityMetersPerSecond(), model->ReferenceXVelocityMetersPerSecond());
@@ -252,7 +252,7 @@ void PIDController::cyclicLateralOuterLoopUpdate()
 {
 	if (model->OperationalState() == SystemModel::AutoPilot)
 	{
-		float yProportional = calculateProportional(model->YNEDBodyFrame(), model->ReferenceYNEDBodyFrame());
+		float yProportional = calculateProportional(model->YNEDLocalFrame(), model->ReferenceYNEDBodyFrame());
 		float yIntegralAntiWindup = calculateIntegralAntiWindup(model->LateralControlBeforeServoLimitsAdjustment(), model->LateralControl(), yAntiWindupGain);
 		float weightedYIntegral = calculateIntegral(yProportional, model->YIntegral(), yIntegralAntiWindup, yIntegralGain);
 		float yDerivativeError = calculateVelocityError(model->YVelocityMetersPerSecond(), model->ReferenceYVelocityMetersPerSecond());

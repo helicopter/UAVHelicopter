@@ -17,6 +17,7 @@
 #include "TWIDriver.h"
 #include "MagnetometerSensor.h"
 #include "AHRS.h"
+#include "CoordinateUtil.h"
 
 
 using namespace helicopter::drivers;
@@ -33,6 +34,34 @@ using namespace helicopter::navigation;
 
 int ahrs_test(TestCase *test)
 {
+	//Create AHRS. 98f is the sampling frequency of the gyroscope
+	float gyroscopeSamplingFrequency = 98.0f;
+	float accelerometerSamplingFrequency = 94.0f;
+	
+	float accelFreqSquared = accelerometerSamplingFrequency * accelerometerSamplingFrequency;
+
+	float complementaryFilterAlpha = 1.0f;
+	float complimentaryFilterBeta = 1.0f;
+	float velocityX = 0.0f;
+	
+	
+	float velocityBodyFrame[3] = {0};
+	
+	
+	
+	
+	AHRS *ahrs = new AHRS(1/gyroscopeSamplingFrequency);
+	
+	
+	
+	
+	
+	Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 500);
+	
+	
+	SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, gpsTimer);
+	gpsSerialDriver->init();
+		
 	//Create objects for reading sensors
 	SPIDriver *spiDriver = new SPIDriver();
 	spiDriver->init();
@@ -42,18 +71,49 @@ int ahrs_test(TestCase *test)
 	SerialDriver *serialDriver = new SerialDriver(115200, SerialDriver::Zero, true, NULL);
 	serialDriver->init();
 	
+	GPSSensor *gpsSensor = new GPSSensor(gpsSerialDriver);
+	gpsSensor->init();
+		
 	MagnetometerSensor *magnetometerSensor = new MagnetometerSensor(twDriver);
 	magnetometerSensor->init();
 	
 	IMUSensor *imuSensor = new IMUSensor(spiDriver);
 	imuSensor->init();
 	
+	
+	while (!gpsSensor->isGpsReady())
+	{
+		gpsSensor->readSensorSolution();
+	}
+	
+	while (gpsSensor->getXEcefCm() == 0 || gpsSensor->getYEcefCm() == 0 || gpsSensor->getZEcefCm() == 0)
+	{
+		gpsSensor->readSensorSolution();
+	}
+		
+	gpsSensor->readSensorLLH();
+		
+	/**
+	 * calculate eceftoned rotation matrix and set initial ECEF values
+	 */
+	float EcefToLocalNEDRotationMatrix[3][3];
+	memset(EcefToLocalNEDRotationMatrix, 0, 3 * 3 * sizeof(float));
+	
+	float latitude = (float) gpsSensor->getLatitudeDegE7() / 10000000.0f;
+	float longitude = (float) gpsSensor->getLongitudeDegE7() / 10000000.0f;
 
-	//Create AHRS. 98f is the sampling frequency of the gyroscope
-	AHRS *ahrs = new AHRS(1/98.0f);
+	CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(latitude, longitude, EcefToLocalNEDRotationMatrix);
+
+	long initialXPositionEcef = gpsSensor->getXEcefCm();
+	long initialYPositionEcef = gpsSensor->getYEcefCm();
+	long initialZPositionEcef = gpsSensor->getZEcefCm();	
+		
+	
+	
 	
 	
 	int counter = 0;
+	int counter2 = 0;
 	
 	//Supposed to be a 50 hz loop. Not even close due to lag of transmitting data.
 	while (true)
@@ -61,6 +121,7 @@ int ahrs_test(TestCase *test)
 		//Read IMU
 		imuSensor->readSensor();
 		magnetometerSensor->readSensor();
+		
 		
 		/*ahrs->update(.2, .3, .4,
 			.5, .6, .7,
@@ -70,6 +131,86 @@ int ahrs_test(TestCase *test)
 		ahrs->update(imuSensor->getFRDAccXMss(), imuSensor->getFRDAccYMss(), imuSensor->getFRDAccZMss(),
 					 imuSensor->getFRDGyroXRs(), imuSensor->getFRDGyroYRs(), imuSensor->getFRDGyroZRs(),
 					 magnetometerSensor->getFRDX(), magnetometerSensor->getFRDY(), magnetometerSensor->getFRDZ());
+		
+		
+		
+		
+		/**
+		 * Calculate nav settings. From this paper: A comparison of complementary and kalman filtering.pdf by Walter T. Higgins, JR
+		 */
+		
+		
+		/**
+		 * Calculate velocity
+		 */
+/*		float tempVelocityX = ahrs->getLinearAccelerationXMss() * (1/accelerometerSamplingFrequency) + velocityX;
+		
+		
+		
+		//apply complimentary filter
+		tempVelocityX = tempVelocityX * (1 - (accelFreqSquared / (accelFreqSquared + complementaryFilterAlpha * accelerometerSamplingFrequency + complimentaryFilterBeta)));
+*/		
+		
+		if (counter2++ >= 30)
+		{
+			gpsSensor->readSensorSolution();
+			
+			/*
+			
+			//Get the current helicopters position relative to it's starting point in ecef.
+			long differenceXECEF = gpsSensor->getXEcefCm() - initialXPositionEcef;
+			long differenceYECEF = gpsSensor->getYEcefCm() - initialYPositionEcef;
+			long differenceZECEF = gpsSensor->getZEcefCm() - initialZPositionEcef;
+			
+			
+			
+			float rotatedMatrix[3] = {};
+			float positionMatrix[3] = {(float)differenceXECEF, (float)differenceYECEF, (float)differenceZECEF};
+		
+			//Rotate the current ecef position from earth centered earth fixed (ECEF) into North-East-Down(NED).
+			//Iterate through the rows of the rotation matrix
+			MatrixUtil::RotateMatrix(EcefToLocalNEDRotationMatrix,positionMatrix,rotatedMatrix);
+		
+			float localNEDXCm = rotatedMatrix[0];
+			float localNEDYCm = rotatedMatrix[1];
+			float localNEDZCm = rotatedMatrix[2];			
+			*/
+			
+			//Rotate ECEF velocity to local NED
+			float rotatedVelocityMatrix[3] = {};
+			float velocityMatrix[3] = {(float)gpsSensor->getXVEcefCms(), (float)gpsSensor->getYVEcefCms(), (float)gpsSensor->getZVEcefCms()};
+			MatrixUtil::RotateMatrix(EcefToLocalNEDRotationMatrix,velocityMatrix,rotatedVelocityMatrix);
+
+			//rotate velocity into body frame
+			float nedToBodyFrameMatrix[3][3] = {};
+			MatrixUtil::CreateRotationMatrixTransposed(ahrs->getRollRads(), ahrs->getPitchRads(), ahrs->getYawRads(), nedToBodyFrameMatrix);
+			MatrixUtil::RotateMatrix(nedToBodyFrameMatrix,rotatedVelocityMatrix,velocityBodyFrame);
+			
+			//MatrixUtil::RotateMatrix(ahrs->getRollRads(), ahrs->getPitchRads(), ahrs->getYawRads(), rotatedVelocityMatrix, velocityBodyFrame);
+			
+			
+			
+			float gpsXVel =(float) (gpsSensor->getXVEcefCms() / 1000);
+			
+			//velocityX = tempVelocityX + (gpsXVel * (complimentaryFilterBeta / (accelFreqSquared + complementaryFilterAlpha * accelerometerSamplingFrequency + complimentaryFilterBeta)));
+			counter2 = 0;
+		}else
+		{
+//			velocityX = tempVelocityX;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		if (counter++ > 10)
 		{
@@ -108,7 +249,16 @@ int ahrs_test(TestCase *test)
 			serialDriver->transmit(ahrs->getLinearAccelerationXMss());
 			serialDriver->transmit(ahrs->getLinearAccelerationYMss());
 			serialDriver->transmit(ahrs->getLinearAccelerationZMss());
+			//serialDriver->transmit(velocityX);
+			serialDriver->transmit(velocityBodyFrame[0]);
 			
+			
+			
+			
+			
+			
+			
+
 			
 			counter = 0;
 		}

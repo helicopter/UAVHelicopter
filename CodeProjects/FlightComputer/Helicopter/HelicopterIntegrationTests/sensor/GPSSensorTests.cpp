@@ -378,7 +378,8 @@ int nedGps_test(TestCase *test)
 		
 		
 		//Read the sensor data
-		int status = gpsSensor->readSensorECEF();
+		//int status = gpsSensor->readSensorECEF();
+		int status = gpsSensor->readSensorSolution();
 		
 		if(status == -1)errorCount1++;
 		if(status == -2)errorCount2++;
@@ -419,6 +420,11 @@ int nedGps_test(TestCase *test)
 		serialDriver->transmit(differenceXECEF);
 		serialDriver->transmit(differenceYECEF);
 		serialDriver->transmit(differenceZECEF);
+		
+		serialDriver->transmit(gpsSensor->getXVEcefCms());
+		serialDriver->transmit(gpsSensor->getYVEcefCms());
+		serialDriver->transmit(gpsSensor->getZVEcefCms());
+		
 		serialDriver->transmit(errorCount1);
 		serialDriver->transmit(errorCount2);
 		

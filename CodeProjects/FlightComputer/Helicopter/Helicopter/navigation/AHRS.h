@@ -147,29 +147,48 @@ namespace helicopter
 						float frdGyroXRs, float frdGyroYRs, float frdGyroZRs,
 						float frdMagX, float frdMagY, float frdMagZ);
 					
+				/**
+				 * Returns the Yaw of the system in radians (0-2pi). 0 = North, Pi/2 = east, 0-2pi.
+				 */
 				float getYawRads();
 			
+				/**
+				 * Returns the pitch of the system in rads (-pi/2, pi/2). 0 = level with ground, pi/2 nose up in air
+				 * -pi/2 nose pointing to ground. 
+				 */
 				float getPitchRads();
 			
+				/**
+				 * Returns the roll of the system in rads (-pi, pi). 
+				 * When looking at the back of the device (in the direction of the x axis in front-right-down coordinate system),
+				 * 0 = level with ground, +pi/2 = on it's right side via clockwise rotation, almost +pi = upside down from clockwise rotation
+				 * -pi/2 = on left side from counter clockwise rotation, almost -pi - upside down from counter clockwise rotation
+				 */
 				float getRollRads();
 			
 				/**
 				 * Returns the linear acceleration of body frame FRD in the X direction in Meters per second^2
+				 * In Front-Right-down coordinate system
+				 * + when the device is pushed 'forward'
+				 * - when device is pushed backwards
 				 */
 				float getLinearAccelerationXMss();
 			
 				/**
 				 * Returns the linear acceleration of body frame FRD in the Y direction in Meters per second^2
+				 * In Front-Right-down coordinate system
+				 * + when the device is pushed 'right'
+				 * - when device is pushed 'left'
 				 */
 				float getLinearAccelerationYMss();
 			
-			
-				//TODO: What is positive?
 				/**
 				 * Returns the linear acceleration of body frame FRD in the Z direction in Meters per second^2
+				 * In Front-Right-down coordinate system
+				 * + when the device is pushed 'down'
+				 * - when device is pushed up				 
 				 */
 				float getLinearAccelerationZMss();
-			
 		};
 	}
 }

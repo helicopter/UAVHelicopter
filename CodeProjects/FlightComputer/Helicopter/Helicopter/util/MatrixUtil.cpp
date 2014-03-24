@@ -36,6 +36,17 @@ void MatrixUtil::Normalize(float (&vector)[3])
 	}
 }
 
+void MatrixUtil::Transpose(float originalMatrix[3][3], float (&transposedMatrix)[3][3])
+{
+	for(int i = 0 ; i < 3 ; i++ )
+	{
+		for(int j = 0 ; j < 3 ; j++ )
+		{
+			transposedMatrix[j][i] = originalMatrix[i][j];
+		}
+	}
+}
+
 void MatrixUtil::CreateRotationMatrix( float phiRotationAboutXRads, float thetaRotationAboutYRads, float saiRotationAboutZRads, float (&rotationMatrix)[3][3] )
 {
 	rotationMatrix[0][0] = cos(thetaRotationAboutYRads)*cos(saiRotationAboutZRads);
@@ -46,6 +57,19 @@ void MatrixUtil::CreateRotationMatrix( float phiRotationAboutXRads, float thetaR
 	rotationMatrix[1][2] = cos(phiRotationAboutXRads)*sin(thetaRotationAboutYRads)*sin(saiRotationAboutZRads) - sin(phiRotationAboutXRads)*cos(saiRotationAboutZRads);
 	rotationMatrix[2][0] = -sin(thetaRotationAboutYRads);
 	rotationMatrix[2][1] = sin(phiRotationAboutXRads)*cos(thetaRotationAboutYRads);
+	rotationMatrix[2][2] = cos(phiRotationAboutXRads)*cos(thetaRotationAboutYRads);
+}
+
+void MatrixUtil::CreateRotationMatrixTransposed( float phiRotationAboutXRads, float thetaRotationAboutYRads, float saiRotationAboutZRads, float (&rotationMatrix)[3][3] )
+{
+	rotationMatrix[0][0] = cos(thetaRotationAboutYRads)*cos(saiRotationAboutZRads);
+	rotationMatrix[0][1] = cos(thetaRotationAboutYRads)*sin(saiRotationAboutZRads);
+	rotationMatrix[0][2] = -sin(thetaRotationAboutYRads);
+	rotationMatrix[1][0] = sin(phiRotationAboutXRads)*sin(thetaRotationAboutYRads)*cos(saiRotationAboutZRads) - cos(phiRotationAboutXRads)*sin(saiRotationAboutZRads);
+	rotationMatrix[1][1] = sin(phiRotationAboutXRads)*sin(thetaRotationAboutYRads)*sin(saiRotationAboutZRads) + cos(phiRotationAboutXRads)*cos(saiRotationAboutZRads);
+	rotationMatrix[1][2] = sin(phiRotationAboutXRads)*cos(thetaRotationAboutYRads);
+	rotationMatrix[2][0] = cos(phiRotationAboutXRads)*sin(thetaRotationAboutYRads)*cos(saiRotationAboutZRads) + sin(phiRotationAboutXRads)*sin(saiRotationAboutZRads);
+	rotationMatrix[2][1] = cos(phiRotationAboutXRads)*sin(thetaRotationAboutYRads)*sin(saiRotationAboutZRads) - sin(phiRotationAboutXRads)*cos(saiRotationAboutZRads);
 	rotationMatrix[2][2] = cos(phiRotationAboutXRads)*cos(thetaRotationAboutYRads);
 }
 

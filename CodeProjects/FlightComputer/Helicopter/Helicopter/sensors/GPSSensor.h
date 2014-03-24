@@ -34,6 +34,8 @@ namespace helicopter
 				 */
 				static const byte NAV_POSLLH_POLLMSG[];
 				
+				static const byte NAV_SOL_POLLMSG[];
+				
 				static const byte NAV_POSECEF_POLLMSG[];
 				
 				static const byte NAV_STATUS_POLLMSG[];
@@ -52,6 +54,11 @@ namespace helicopter
 				long yEcefCm;
 				long zEcefCm;
 				unsigned long positionAccuracyEstimateEcefCm;
+				
+				long xVEcefCms;
+				long yVEcefCms;
+				long zVEcefCms;
+				unsigned long velocityAccuracyEstimateEcefCms;
 				
 				FixStatus positionFixStatus;
 				
@@ -73,6 +80,10 @@ namespace helicopter
 					yEcefCm (0),
 					zEcefCm (0),
 					positionAccuracyEstimateEcefCm (0),
+					xVEcefCms(0),
+					yVEcefCms(0),
+					zVEcefCms(0),
+					velocityAccuracyEstimateEcefCms (0),
 					positionFixStatus(INVALID)
 				{
 				}
@@ -93,6 +104,12 @@ namespace helicopter
 				 * If GPS fields >= 0x03 (3d fix) then fix status = valid.
 				 */
 				int readSensorNavStatus();
+				
+				/**
+				 * Reads the NAV-SOL (navigation solution information) message from the GPS.
+				 * This includes position, and velocity information in ECEF as well as status info.
+				 */
+				int readSensorSolution();
 				
 				/**
 				 * Configures and initializes the GPS
@@ -136,6 +153,28 @@ namespace helicopter
 				{
 					return positionAccuracyEstimateEcefCm;
 				}
+				
+				
+				
+				long getXVEcefCms()
+				{
+					return xVEcefCms;
+				}
+
+				long getYVEcefCms()
+				{
+					return yVEcefCms;
+				}
+				
+				long getZVEcefCms()
+				{
+					return zVEcefCms;
+				}
+
+				unsigned long getVelocityAccuracyEstimateEcefCm()
+				{
+					return velocityAccuracyEstimateEcefCms;
+				}				
 								
 				FixStatus getPositionFixStatus()
 				{
