@@ -73,7 +73,7 @@ void MatrixUtil::CreateRotationMatrixTransposed( float phiRotationAboutXRads, fl
 	rotationMatrix[2][2] = cos(phiRotationAboutXRads)*cos(thetaRotationAboutYRads);
 }
 
-void MatrixUtil::RotateMatrix( float rotationMatrix[][3], int valuesToRotate[3], float rotatedValues[3] )
+void MatrixUtil::RotateMatrix( float rotationMatrix[][3], int valuesToRotate[3], float (&rotatedValues)[3] )
 {
 	//clear out the rotated values list;
 	memset(rotatedValues,0,sizeof(float) * 3);
@@ -90,7 +90,7 @@ void MatrixUtil::RotateMatrix( float rotationMatrix[][3], int valuesToRotate[3],
 	}
 }
 
-void MatrixUtil::RotateMatrix( float rotationMatrix[][3], float valuesToRotate[3], float rotatedValues[3] )
+void MatrixUtil::RotateMatrix( float rotationMatrix[][3], float valuesToRotate[3], float (&rotatedValues)[3] )
 {
 	//clear out the rotated values list;
 	memset(rotatedValues,0,sizeof(float) * 3);
@@ -107,7 +107,7 @@ void MatrixUtil::RotateMatrix( float rotationMatrix[][3], float valuesToRotate[3
 	}
 }
 
-void MatrixUtil::RotateMatrix( float phiRotationAboutXRads, float thetaRotationAboutYRads, float saiRotationAboutZRads, float valuesToRotate[3], float rotatedValues[3])
+void MatrixUtil::RotateMatrix( float phiRotationAboutXRads, float thetaRotationAboutYRads, float saiRotationAboutZRads, float valuesToRotate[3], float (&rotatedValues)[3])
 {
 	float rotationMatrix[3][3] = {};
 		

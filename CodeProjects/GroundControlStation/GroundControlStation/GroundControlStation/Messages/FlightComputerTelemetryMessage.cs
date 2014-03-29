@@ -660,6 +660,10 @@ namespace GroundControlStation.Messages
             //Divide by 100 to convert from Pa to Mb
             float pressureMb = (101325 * (float) Math.Pow(1 - .0000225577 * (model.SimTelm.ZAltitudeFtMsl * .3048), 5.25588)) / 100;
 
+            //equation from http://www.regentsprep.org/Regents/math/algtrig/ATP8b/exponentialResource.htm
+        //    float altitudeKmMsl = (float) model.SimTelm.ZAltitudeFtMsl / 3280.84f;
+        //    float pressureMb = (float)(1.0 * Math.Exp((float)-1 * ((altitudeKmMsl) / 7))) * 1000;
+
             //root (((altitude / (288.15 / (6.5 / 1000.0))) - 1), (6.5 / 1000.0) * (287.052 / 9.78)))
 
             msg.XAccelFrdMss = xGrav;

@@ -62,18 +62,20 @@ void NavigationTask::runTaskImpl()
 	
 	/**
 	 * Process barometer data into altitude
-	 * altitude equation from: http://www.barnardmicrosystems.com/L4E_FMU_sensors.htm#Pressure
+	 * altitude equation from:https://www.brisbanehotairballooning.com.au/faqs/education/113-pressure-altitude-conversion.html
+	 * Multiply by -1 because in NED, 'down' is positive. 
 	 */
-	float altitudeMeters = (288.15/(6.5/1000.0))*(1-(pow((model->PressureMillibars()/101325.0),(6.5/1000.0)*(287.052/9.78))));
+
+	float altitudeMslMeters = ((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-6.8755856 * 0.000001)) / 3.28084;
 					
 	//exponential smoothing. http://en.wikipedia.org/wiki/Exponential_smoothing
 	//St = aX + (1-a)St-1
-	float altitudeMetersAglTemp = (float) (altitudeMeters - model->InitialAltitudeMeters());
+	float altitudeMetersAglTemp = (float) (altitudeMslMeters - model->InitialAltitudeMeters());
 	float previousAltitudeMetersAgl = model->AltitudeMetersAgl();
 	float currentAltitudeMetersAgl = WEIGHT * (altitudeMetersAglTemp) + (1 - WEIGHT)*previousAltitudeMetersAgl;
 	model->AltitudeMetersAgl(currentAltitudeMetersAgl);
 	
-	//Calculate altitude speed.
+	//Calculate altitude speed. 
 	model->ZVelocityMetersPerSecond((currentAltitudeMetersAgl - previousAltitudeMetersAgl) * BAROMETER_SENSOR_READ_PERIOD);
 	
 	
@@ -82,12 +84,6 @@ void NavigationTask::runTaskImpl()
 	/**
 	* Convert position to local NED
 	*/
-//	float positionLocalNED[3] = {};
-	
-//	float positionMatrix[3] = {(float)model->XEcefCm(), (float)model->YEcefCm(), (float)model->AltitudeMetersAgl()};
-//	MatrixUtil::RotateMatrix(model->EcefToLocalNEDRotationMatrix,positionMatrix,positionLocalNED);		
-	
-	
 	float localNEDX = 0.0;
 	float localNEDY = 0.0;
 	float localNEDZ = 0.0;
@@ -99,5 +95,5 @@ void NavigationTask::runTaskImpl()
 	model->XNEDLocalFrame(localNEDX);
 	model->YNEDLocalFrame(localNEDY);
 	//model->ZNEDLocalFrame(localNEDZ);//don't use localnedz as the z value because the altitude from barometer is more accurate
-	model->ZNEDLocalFrame(currentAltitudeMetersAgl);
+	model->ZNEDLocalFrame(currentAltitudeMetersAgl * -1); // multiply by -1 because in NED frame, postive is 'down'.
 }

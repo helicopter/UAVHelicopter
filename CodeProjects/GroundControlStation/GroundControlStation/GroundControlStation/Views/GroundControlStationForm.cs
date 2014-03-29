@@ -44,6 +44,9 @@ namespace GroundControlStation.Views
 
         public IGraphingView GainAdjustments { get; set; }
 
+
+        public IGraphingView ZNED { get; set; }
+
         public GroundControlStationForm(GroundControlStationController controller)
         {
             InitializeComponent();
@@ -78,6 +81,8 @@ namespace GroundControlStation.Views
             YDerivative = new GraphForm();
 
             YControl = new GraphForm();
+
+            ZNED = new GraphForm();
 
             GainAdjustmentsForm gainAdjustments = new GainAdjustmentsForm();
             gainAdjustments.Controller = controller;
@@ -202,6 +207,11 @@ namespace GroundControlStation.Views
             {
                 graph.ActivateView();
             }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(ZNED);
         }
 
     }

@@ -80,6 +80,11 @@ namespace GroundControlStation.Controller
             UpdateView(View.YDerivative, Model.YDerivativeError);
             UpdateView(View.YControl, Model.LateralControl);
 
+
+
+            //UpdateView(View.ZNED, Model.ZNEDLocalFrame);
+            UpdateView(View.ZNED, Model.ZNEDLocalFrame * 3.28084);
+
             UpdateLatestValues();
         }
 

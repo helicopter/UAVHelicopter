@@ -138,8 +138,13 @@ int main(void)
 //	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(radioInterface, model, 1, 10);//starting at tick 2, execute 20 times a second
 
 	//this frequency works well for USB.
-	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,0, 4);//starting at tick 0, execute 50 times a second
+/*	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,0, 4);//starting at tick 0, execute 50 times a second
 	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, 1, 4);//starting at tick 1, execute 50 times a second
+	*/
+	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
+	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
+	
+	
 	
 	FlashLEDTask *flashTask = new FlashLEDTask(2, SCHEDULER_TICK_FREQUENCY_HZ);//starting at tick 2, execute once a second
 		
@@ -152,9 +157,12 @@ int main(void)
 	
 	
 	//AHRS *ahrs = new AHRS(GYRO_SENSOR_READ_PERIOD);
-	AHRS *ahrs = new AHRS(1/20); //for simulator angular velocity reads.
+	AHRS *ahrs = new AHRS(1/20.0f); //for simulator angular velocity reads.
 	
-	NavigationTask *navTask = new NavigationTask(ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz.
+//	NavigationTask *navTask = new NavigationTask(ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz.
+
+	//it looks like navtask really needs to run at 200hz.
+	NavigationTask *navTask = new NavigationTask(ahrs, model, 0, 1); //Run at SCHEDULER_TICK_FREQUENCY_HZ hz. (in this case, 200 hz).
 	
 	
 	
@@ -222,7 +230,11 @@ int main(void)
 			
 			//Calculate initial altitude
 			//altitude equation from: http://www.barnardmicrosystems.com/L4E_FMU_sensors.htm#Pressure
-			model->InitialAltitudeMeters((288.15/(6.5/1000.0))*(1-(pow((model->PressureMillibars()/101325.0),(6.5/1000.0)*(287.052/9.78)))));
+			//multiply by -1 because in NED/FRD frame, down is positive. 
+			//model->InitialAltitudeMeters(((288.15/(6.5/1000.0))*(1-(pow((model->PressureMillibars()/101325.0),(6.5/1000.0)*(287.052/9.78))))) * -1);
+			
+			//https://www.brisbanehotairballooning.com.au/faqs/education/113-pressure-altitude-conversion.html
+			model->InitialAltitudeMeters(((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-6.8755856 * 0.000001)) / 3.28084);
 		}
 		_delay_ms(100);
 	}

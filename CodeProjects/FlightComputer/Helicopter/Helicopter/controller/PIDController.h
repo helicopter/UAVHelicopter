@@ -398,16 +398,21 @@ namespace helicopter
 				 */
 				float adjustControlForServoLimits( float controlValueToAdjust, float maxServoControlValue, float minServoControlValue );
 				
+				/**
+				 * Calculates the body frame position error, and feeds that to the other outer
+				 * loop updates.
+				 */
+				void outerLoopUpdate();
 				
-				void cyclicLongitudeOuterLoopUpdate();
+				void cyclicLongitudeOuterLoopUpdate(float xProportional);
 				
 				void cyclicLongitudeInnerLoopUpdate();
 				
-				void cyclicLateralOuterLoopUpdate();
+				void cyclicLateralOuterLoopUpdate(float yProportional);
 				
 				void cyclicLateralInnerLoopUpdate();
 				
-				void mainRotorCollectiveOuterLoopUpdate();
+				void mainRotorCollectiveOuterLoopUpdate(float zProportional);
 				
 				/**
 				 * Calculates the control value for the tail rotor given the various parameters defined in the model

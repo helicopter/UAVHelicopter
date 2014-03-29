@@ -38,18 +38,18 @@ namespace helicopter
 				/**
 				 * Rotates a 3x1 matrix using a 3x3 rotation matrix
 				 */
-				static void RotateMatrix( float rotationMatrix[][3], float valuesToRotate[3], float rotatedValues[3]);
+				static void RotateMatrix( float rotationMatrix[][3], float valuesToRotate[3], float (&rotatedValues)[3]);
 				
 				/**
 				 * Rotates a 3x1 matrix using a 3x3 rotation matrix
 				 */
-				static void RotateMatrix( float rotationMatrix[][3], int valuesToRotate[3], float rotatedValues[3]);	
+				static void RotateMatrix( float rotationMatrix[][3], int valuesToRotate[3], float (&rotatedValues)[3]);	
 				
 				/**
 				 * Rotates a 3x1 matrix using the generated matrix created by the CreateRotationMatrix method.
 				 * e.g. if saiRotationAboutZRads is pi/2 (90 degrees), then that would result in the x/y plane being rotated 90 degrees clockwise.
 				 */
-				static void RotateMatrix( float phiRotationAboutXRads, float thetaRotationAboutYRads, float saiRotationAboutZRads, float valuesToRotate[3], float rotatedValues[3]);
+				static void RotateMatrix( float phiRotationAboutXRads, float thetaRotationAboutYRads, float saiRotationAboutZRads, float valuesToRotate[3], float (&rotatedValues)[3]);
 				
 				/**
 				 * Normalizes the contents of a vector so the magnitude of the vector = 1.

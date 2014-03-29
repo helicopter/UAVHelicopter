@@ -63,7 +63,7 @@ namespace helicopter
 			/**
 			 * These variables are used for controlling the lateral action (cyclic roll motion)
 			 */
-			float yNEDBodyFrame;
+			float yNEDLocalFrame;
 			float referenceYNEDLocalFrame;
 			float lateralControlBeforeServoLimitsAdjustment;
 			float lateralControl;
@@ -79,7 +79,7 @@ namespace helicopter
 			 * These variables are used for controlling heave action (collective altitude motion)
 			 */
 			float altitudeMetersAgl;
-			float zNEDBodyFrame;
+			float zNEDLocalFrame;
 			float referenceAltitudeMeters;
 			float mainRotorControl;
 			float mainRotorControlBeforeServoLimitsAdjustment;
@@ -167,7 +167,7 @@ namespace helicopter
 				xDerivativeError(0),
 				thetaPitchDegrees(0),
 			
-				yNEDBodyFrame(0),
+				yNEDLocalFrame(0),
 				referenceYNEDLocalFrame(0),
 				lateralControlBeforeServoLimitsAdjustment(0),
 				lateralControl(0),
@@ -181,7 +181,7 @@ namespace helicopter
 			
 			
 				altitudeMetersAgl(0),
-				zNEDBodyFrame(0),
+				zNEDLocalFrame(0),
 				referenceAltitudeMeters(0),
 				mainRotorControl(0),
 				mainRotorControlBeforeServoLimitsAdjustment(0),
@@ -291,8 +291,8 @@ namespace helicopter
 						
 
 
-			float YNEDLocalFrame() const {return yNEDBodyFrame;}
-			void YNEDLocalFrame(float val) { yNEDBodyFrame = val;}
+			float YNEDLocalFrame() const {return yNEDLocalFrame;}
+			void YNEDLocalFrame(float val) { yNEDLocalFrame = val;}
 
 			float ReferenceYNEDLocalFrame() const {return referenceYNEDLocalFrame;}
 			void ReferenceYNEDLocalFrame(float val) { referenceYNEDLocalFrame = val;}
@@ -328,8 +328,8 @@ namespace helicopter
 			float AltitudeMetersAgl() const { return altitudeMetersAgl; }
 			void AltitudeMetersAgl(float val) { altitudeMetersAgl = val; }
 
-			float ZNEDLocalFrame() const { return zNEDBodyFrame; }
-			void ZNEDLocalFrame(float val) { zNEDBodyFrame = val; }
+			float ZNEDLocalFrame() const { return zNEDLocalFrame; }
+			void ZNEDLocalFrame(float val) { zNEDLocalFrame = val; }
 
 
 			float ReferenceZNEDLocalFrameMeters() const {return referenceAltitudeMeters;}
