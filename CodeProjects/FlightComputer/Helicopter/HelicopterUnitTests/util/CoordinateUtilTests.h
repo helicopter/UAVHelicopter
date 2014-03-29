@@ -17,5 +17,4 @@ using namespace helicoptertestscommon::util::testframework;
 int coordinateutil_test(TestCase *test);
 
 
-
 #endif /* COORDINATEUTILTESTS_H_ */

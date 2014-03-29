@@ -167,8 +167,8 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	Timer *t = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 200);
 	
 	//note:for production, we'll want to set the variable to 'true'
-	SerialDriver *serialDriver = new SerialDriver(250000, SerialDriver::Zero, true, t);
-	//SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, t, false, true);
+	//SerialDriver *serialDriver = new SerialDriver(250000, SerialDriver::Zero, true, t);
+	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, false, t);
 	serialDriver->init();
 	
 	
@@ -176,22 +176,29 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	
 	SystemModel *model = new SystemModel();
 	model->ChecksumErrors(2);
-	model->MagYawDegrees(2.22);
+//	model->MagYawDegrees(2.22);
 	model->Timeouts(2);
 	model->UnrecognizedMsgTypes(2);
-	model->YawControl(2.22);
 	model->YawDerivativeError(2.22);
 	model->YawIntegral(2.22);
 	model->YawProportional(2.22);
-	model->YawVelocityDegreesPerSecond(2.22);
+	model->YawAngularVelocityRadsPerSecond(2.22);
 	
 	
-	model->AltitudeFeetAgl(2.22);
+	model->AltitudeMetersAgl(4.46);
 	model->LateralControl(2.22);
 	model->LateralControlBeforeServoLimitsAdjustment(2.22);
 	model->LongitudeControl(2.22);
 	model->MainRotorCollectiveControl(2.22);
 	
+	model->YawControl(3.22f);
+	model->XProportional(4.22f);
+	model->YProportional(1.22f);
+	model->ZProportional(6.22f);
+	model->ZIntegral(8.22f);
+	model->ZNEDLocalFrame(9.22f);
+	model->XNEDLocalFrame(19.22f);
+	model->YNEDLocalFrame(21.33f);
 	
 	SystemTelemetryMessage *transmitMessage = SystemTelemetryMessage::buildMessageFromModel(model);
 	
@@ -215,21 +222,32 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	receivedMsg->updateModelFromMessage(model2);
 	
 	AssertTrue(model2->ChecksumErrors() == 2);
-	AssertTrue(model2->MagYawDegrees() == 2.22);
+	//AssertTrue(model2->MagYawDegrees() == 2.22);
 	AssertTrue(model2->Timeouts() == 2);
 	AssertTrue(model2->UnrecognizedMsgTypes() == 2);
-	AssertTrue(model2->YawControl() == 2.22);
+	AssertTrue(model2->YawControl() == 3.22);
 	AssertTrue(model2->YawDerivativeError() == 2.22);
 	AssertTrue(model2->YawIntegral() == 2.22);
 	AssertTrue(model2->YawProportional() == 2.22);
-	AssertTrue(model2->YawVelocityDegreesPerSecond() == 2.22);
+	AssertTrue(model2->YawAngularVelocityRadsPerSecond() == 2.22);
+	
+	
+	/* Can't test these values because I don't convert them.
+	AssertTrue(model2->YawControl() == 3.22f);
+	AssertTrue(model2->XProportional() == 4.22f);
+	AssertTrue(model2->YProportional() == 1.22f);
+	AssertTrue(model2->ZProportional() == 6.22f);
+	AssertTrue(model2->ZIntegral() == 8.22f);
+	AssertTrue(model2->ZNEDLocalFrame() == 9.22f);
+	AssertTrue(model2->XNEDLocalFrame() == 19.22f);
+	*/
 	
 	delete receivedMsg;
 	
 	
 	//Send a signal to the other software indicating that this test passed.
 	transmitMessage = new SystemTelemetryMessage();
-	transmitMessage->MagYaw = 12;
+	transmitMessage->PressureMillibars = 12;
 	
 	AssertTrue2(radioInterface.transmit(transmitMessage) == 0, 7);
 	

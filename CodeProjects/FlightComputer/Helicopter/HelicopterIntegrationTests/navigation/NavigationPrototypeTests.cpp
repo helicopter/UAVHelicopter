@@ -27,6 +27,7 @@ using namespace helicopter::util;
 using namespace helicopter::navigation;
 
 
+
 //TODO:
 //Check the timing of this function, can it keep up with adequate speed?
 //(assuming it didn't use serial communication every iteration)
@@ -36,13 +37,13 @@ int ahrs_test(TestCase *test)
 {
 	//Create AHRS. 98f is the sampling frequency of the gyroscope
 	float gyroscopeSamplingFrequency = 98.0f;
-	float accelerometerSamplingFrequency = 94.0f;
+	//float accelerometerSamplingFrequency = 94.0f;
 	
-	float accelFreqSquared = accelerometerSamplingFrequency * accelerometerSamplingFrequency;
+	//float accelFreqSquared = accelerometerSamplingFrequency * accelerometerSamplingFrequency;
 
-	float complementaryFilterAlpha = 1.0f;
-	float complimentaryFilterBeta = 1.0f;
-	float velocityX = 0.0f;
+	//float complementaryFilterAlpha = 1.0f;
+	//float complimentaryFilterBeta = 1.0f;
+	//float velocityX = 0.0f;
 	
 	
 	float velocityBodyFrame[3] = {0};
@@ -104,10 +105,11 @@ int ahrs_test(TestCase *test)
 
 	CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(latitude, longitude, EcefToLocalNEDRotationMatrix);
 
+	/*
 	long initialXPositionEcef = gpsSensor->getXEcefCm();
 	long initialYPositionEcef = gpsSensor->getYEcefCm();
 	long initialZPositionEcef = gpsSensor->getZEcefCm();	
-		
+	*/
 	
 	
 	
@@ -190,7 +192,7 @@ int ahrs_test(TestCase *test)
 			
 			
 			
-			float gpsXVel =(float) (gpsSensor->getXVEcefCms() / 1000);
+			//float gpsXVel =(float) (gpsSensor->getXVEcefCms() / 1000);
 			
 			//velocityX = tempVelocityX + (gpsXVel * (complimentaryFilterBeta / (accelFreqSquared + complementaryFilterAlpha * accelerometerSamplingFrequency + complimentaryFilterBeta)));
 			counter2 = 0;
@@ -288,6 +290,26 @@ int prototypefusion_test(TestCase *test)
 	//every time read the imu
 	//run the algorithm
 	//send the data to the GCS.
+	
+	
+	return 0;
+}
+
+
+int fakedata_test(TestCase *test)
+{
+	float gyroscopeSamplingFrequency = 98.0f;
+	
+	
+	AHRS *ahrs = new AHRS(1/gyroscopeSamplingFrequency);
+	
+	while(true)
+	{
+		//the mag value should be positive since it's supposed to be in FRD format.
+		//ahrs->update(-.386354269,.0948173553,9.792792,0.0107812453,-0.000344082626,0,-0.0526136123,-0.3411594,0.9385319);		
+		ahrs->update(-.386354269,.0948173553,9.792792,0,0,0,-0.0526136123,-0.3411594,0.9385319);		
+	}
+
 	
 	
 	return 0;

@@ -2,16 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using GroundControlStation.Util;
 
 namespace GroundControlStation.Messages
 {
     public class FlightComputerTelemetryMessage : Message
     {
         public const byte MessageType = 2;
-
-        public float MagYaw;
-
-        public float YawVelocityDegreesPerSecond;
 
 
         public float YawIntegral;
@@ -37,9 +34,9 @@ namespace GroundControlStation.Messages
 
 
 
-        public float XNEDBodyFrame;
+        public float XNEDLocalFrame;
         public float XVelocityMetersPerSecond;
-        public float ThetaPitchDegrees;
+        public float PitchRads;
 
         public float XIntegral;
         public float XProportional;
@@ -51,12 +48,11 @@ namespace GroundControlStation.Messages
         public float XAntiWindupGain;
         public float LongitudeInnerLoopGain;
         public float XLongitudeOuterLoopSetpoint;
-        public float PitchAngularVelocityRadsPerSecond;
         public float PitchAngularVelocityGain;
 
-        public float YNEDBodyFrame;
+        public float YNEDLocalFrame;
         public float YVelocityMetersPerSecond;
-        public float PhiRollDegrees;
+        public float RollRads;
         public float YIntegral;
         public float YProportional;
         public float YDerivativeError;
@@ -67,11 +63,11 @@ namespace GroundControlStation.Messages
         public float YAntiWindupGain;
         public float LateralInnerLoopGain;
         public float YLateralOuterLoopSetpoint;
-        public float RollAngularVelocityRadsPerSecond;
         public float RollAngularVelocityGain;
 
-        public float AltitudeFeetAgl;
+        public float AltitudeMetersAgl;
         public float ZVelocityMetersPerSecond;
+        public float YawRads;
         public float ZIntegral;
         public float ZProportional;
         public float ZDerivativeError;
@@ -80,20 +76,34 @@ namespace GroundControlStation.Messages
         public float ZDerivativeGain;
         public float ZProportionalGain;
         public float ZAntiWindupGain;
-        public float ZNEDBodyFrame;
+        public float ZNEDLocalFrame;
 
         public float LatitudeDegrees;
         public float LongitudeDegrees;
 
 
+        float XAccelFrdMss;
+        float YAccelFrdMss;
+        float ZAccelFrdMss;
+        float YawAngularVelocityRadsPerSecond;
+        float PitchAngularVelocityRadsPerSecond;
+        float RollAngularVelocityRadsPerSecond;
+        float XMagFrd;
+        float YMagFrd;
+        float ZMagFrd;
+        int XEcefCm;
+        int YEcefCm;
+        int ZEcefCm;
+        int XVEcefCms;
+        int YVEcefCms;
+        int ZVEcefCms;
+        float PressureMillibars;
+
+
         public int Timeouts;
-
         public int UnrecognizedMsgTypes;
-
         public int ChecksumErrors;
-
         public int NumOfBlownFrames;
-
         public int SerialCommunicationBufferOverruns;
 
         /// <summary>
@@ -102,7 +112,6 @@ namespace GroundControlStation.Messages
         public const int NumOfBytesInMsg =
             sizeof(byte) +
             sizeof(float) +
-            sizeof(float) +
 
             sizeof(float) +
             sizeof(float) +
@@ -130,7 +139,6 @@ namespace GroundControlStation.Messages
             sizeof(float) +
             sizeof(float) +
             sizeof(float) +
-            sizeof(float) +
 
             sizeof(float) +
             sizeof(float) +
@@ -158,13 +166,27 @@ namespace GroundControlStation.Messages
             sizeof(float) +
             sizeof(float) +
             sizeof(float) +
-
-            sizeof(float) +
             sizeof(float) +
 
             sizeof(float) +
             sizeof(float) +
 
+            sizeof(float) + 
+            sizeof(float) + 
+            sizeof(float) + 
+            sizeof(float) + 
+            sizeof(float) + 
+            sizeof(float) + 
+            sizeof(float) + 
+            sizeof(float) + 
+            sizeof(float) +
+            sizeof(int) +
+            sizeof(int) +  
+            sizeof(int) + 
+            sizeof(int) + 
+            sizeof(int) +
+            sizeof(int) + 
+            sizeof(float) + 
 
             sizeof(int) +
             sizeof(int) +
@@ -191,8 +213,6 @@ namespace GroundControlStation.Messages
             int positionCounter = 0;
             MsgType = decodeByte(byteBuffer, ref positionCounter);
 
-            MagYaw = decodeFloat(byteBuffer, ref positionCounter);
-            YawVelocityDegreesPerSecond = decodeFloat(byteBuffer, ref positionCounter);
             YawIntegral = decodeFloat(byteBuffer, ref positionCounter);
             YawProportional = decodeFloat(byteBuffer, ref positionCounter);
             YawDerivativeError = decodeFloat(byteBuffer, ref positionCounter);
@@ -205,9 +225,9 @@ namespace GroundControlStation.Messages
 
 
 
-            XNEDBodyFrame = decodeFloat(byteBuffer, ref positionCounter);
+            XNEDLocalFrame = decodeFloat(byteBuffer, ref positionCounter);
             XVelocityMetersPerSecond = decodeFloat(byteBuffer, ref positionCounter);
-            ThetaPitchDegrees = decodeFloat(byteBuffer, ref positionCounter);
+            PitchRads = decodeFloat(byteBuffer, ref positionCounter);
             XIntegral = decodeFloat(byteBuffer, ref positionCounter);
             XProportional = decodeFloat(byteBuffer, ref positionCounter);
             XDerivativeError = decodeFloat(byteBuffer, ref positionCounter);
@@ -218,12 +238,11 @@ namespace GroundControlStation.Messages
             XAntiWindupGain = decodeFloat(byteBuffer, ref positionCounter);
             LongitudeInnerLoopGain = decodeFloat(byteBuffer, ref positionCounter);
             XLongitudeOuterLoopSetpoint = decodeFloat(byteBuffer, ref positionCounter);
-            PitchAngularVelocityRadsPerSecond = decodeFloat(byteBuffer, ref positionCounter);
             PitchAngularVelocityGain = decodeFloat(byteBuffer, ref positionCounter);
 
-            YNEDBodyFrame = decodeFloat(byteBuffer, ref positionCounter);
+            YNEDLocalFrame = decodeFloat(byteBuffer, ref positionCounter);
             YVelocityMetersPerSecond = decodeFloat(byteBuffer, ref positionCounter);
-            PhiRollDegrees = decodeFloat(byteBuffer, ref positionCounter);
+            RollRads = decodeFloat(byteBuffer, ref positionCounter);
             YIntegral = decodeFloat(byteBuffer, ref positionCounter);
             YProportional = decodeFloat(byteBuffer, ref positionCounter);
             YDerivativeError = decodeFloat(byteBuffer, ref positionCounter);
@@ -234,11 +253,11 @@ namespace GroundControlStation.Messages
             YAntiWindupGain = decodeFloat(byteBuffer, ref positionCounter);
             LateralInnerLoopGain = decodeFloat(byteBuffer, ref positionCounter);
             YLateralOuterLoopSetpoint = decodeFloat(byteBuffer, ref positionCounter);
-            RollAngularVelocityRadsPerSecond = decodeFloat(byteBuffer, ref positionCounter);
             RollAngularVelocityGain = decodeFloat(byteBuffer, ref positionCounter);
 
-            AltitudeFeetAgl = decodeFloat(byteBuffer, ref positionCounter);
+            AltitudeMetersAgl = decodeFloat(byteBuffer, ref positionCounter);
             ZVelocityMetersPerSecond = decodeFloat(byteBuffer, ref positionCounter);
+            YawRads = decodeFloat(byteBuffer, ref positionCounter);
             ZIntegral = decodeFloat(byteBuffer, ref positionCounter);
             ZProportional = decodeFloat(byteBuffer, ref positionCounter);
             ZDerivativeError = decodeFloat(byteBuffer, ref positionCounter);
@@ -247,10 +266,32 @@ namespace GroundControlStation.Messages
             ZDerivativeGain = decodeFloat(byteBuffer, ref positionCounter);
             ZProportionalGain = decodeFloat(byteBuffer, ref positionCounter);
             ZAntiWindupGain = decodeFloat(byteBuffer, ref positionCounter);
-            ZNEDBodyFrame = decodeFloat(byteBuffer, ref positionCounter);
+            ZNEDLocalFrame = decodeFloat(byteBuffer, ref positionCounter);
 
             LatitudeDegrees = decodeFloat(byteBuffer, ref positionCounter);
             LongitudeDegrees = decodeFloat(byteBuffer, ref positionCounter);
+
+
+
+            XAccelFrdMss = decodeFloat(byteBuffer, ref positionCounter);
+            YAccelFrdMss = decodeFloat(byteBuffer, ref positionCounter);
+            ZAccelFrdMss = decodeFloat(byteBuffer, ref positionCounter);
+            YawAngularVelocityRadsPerSecond = decodeFloat(byteBuffer, ref positionCounter);
+            PitchAngularVelocityRadsPerSecond = decodeFloat(byteBuffer, ref positionCounter);
+            RollAngularVelocityRadsPerSecond = decodeFloat(byteBuffer, ref positionCounter);
+            XMagFrd = decodeFloat(byteBuffer, ref positionCounter);
+            YMagFrd = decodeFloat(byteBuffer, ref positionCounter);
+            ZMagFrd = decodeFloat(byteBuffer, ref positionCounter);
+            XEcefCm = decodeInt(byteBuffer, ref positionCounter);
+            YEcefCm = decodeInt(byteBuffer, ref positionCounter);
+            ZEcefCm = decodeInt(byteBuffer, ref positionCounter);
+            XVEcefCms = decodeInt(byteBuffer, ref positionCounter);
+            YVEcefCms = decodeInt(byteBuffer, ref positionCounter);
+            ZVEcefCms = decodeInt(byteBuffer, ref positionCounter);
+            PressureMillibars = decodeFloat(byteBuffer, ref positionCounter);
+
+
+
 
 
 
@@ -270,8 +311,6 @@ namespace GroundControlStation.Messages
             int positionCounter = 0;
 
             encode(ref rawMsg, MsgType, ref positionCounter);
-            encode(ref rawMsg, MagYaw, ref positionCounter);
-            encode(ref rawMsg, YawVelocityDegreesPerSecond, ref positionCounter);
             encode(ref rawMsg, YawIntegral, ref positionCounter);
             encode(ref rawMsg, YawProportional, ref positionCounter);
             encode(ref rawMsg, YawDerivativeError, ref positionCounter);
@@ -283,9 +322,9 @@ namespace GroundControlStation.Messages
 
 
 
-            encode(ref rawMsg, XNEDBodyFrame, ref positionCounter);
+            encode(ref rawMsg, XNEDLocalFrame, ref positionCounter);
             encode(ref rawMsg, XVelocityMetersPerSecond, ref positionCounter);
-            encode(ref rawMsg, ThetaPitchDegrees, ref positionCounter);
+            encode(ref rawMsg, PitchRads, ref positionCounter);
             encode(ref rawMsg, XIntegral, ref positionCounter);
             encode(ref rawMsg, XProportional, ref positionCounter);
             encode(ref rawMsg, XDerivativeError, ref positionCounter);
@@ -296,12 +335,11 @@ namespace GroundControlStation.Messages
             encode(ref rawMsg, XAntiWindupGain, ref positionCounter);
             encode(ref rawMsg, LongitudeInnerLoopGain, ref positionCounter);
             encode(ref rawMsg, XLongitudeOuterLoopSetpoint, ref positionCounter);
-            encode(ref rawMsg, PitchAngularVelocityRadsPerSecond, ref positionCounter);
             encode(ref rawMsg, PitchAngularVelocityGain, ref positionCounter);
 
-            encode(ref rawMsg, YNEDBodyFrame, ref positionCounter);
+            encode(ref rawMsg, YNEDLocalFrame, ref positionCounter);
             encode(ref rawMsg, YVelocityMetersPerSecond, ref positionCounter);
-            encode(ref rawMsg, PhiRollDegrees, ref positionCounter);
+            encode(ref rawMsg, RollRads, ref positionCounter);
             encode(ref rawMsg, YIntegral, ref positionCounter);
             encode(ref rawMsg, YProportional, ref positionCounter);
             encode(ref rawMsg, YDerivativeError, ref positionCounter);
@@ -312,12 +350,12 @@ namespace GroundControlStation.Messages
             encode(ref rawMsg, YAntiWindupGain, ref positionCounter);
             encode(ref rawMsg, LateralInnerLoopGain, ref positionCounter);
             encode(ref rawMsg, YLateralOuterLoopSetpoint, ref positionCounter);
-            encode(ref rawMsg, RollAngularVelocityRadsPerSecond, ref positionCounter);
             encode(ref rawMsg, RollAngularVelocityGain, ref positionCounter);
 
 
-            encode(ref rawMsg, AltitudeFeetAgl, ref positionCounter);
+            encode(ref rawMsg, AltitudeMetersAgl, ref positionCounter);
             encode(ref rawMsg, ZVelocityMetersPerSecond, ref positionCounter);
+            encode(ref rawMsg, YawRads, ref positionCounter);
             encode(ref rawMsg, ZIntegral, ref positionCounter);
             encode(ref rawMsg, ZProportional, ref positionCounter);
             encode(ref rawMsg, ZDerivativeError, ref positionCounter);
@@ -326,10 +364,38 @@ namespace GroundControlStation.Messages
             encode(ref rawMsg, ZDerivativeGain, ref positionCounter);
             encode(ref rawMsg, ZProportionalGain, ref positionCounter);
             encode(ref rawMsg, ZAntiWindupGain, ref positionCounter);
-            encode(ref rawMsg, ZNEDBodyFrame, ref positionCounter);
+            encode(ref rawMsg, ZNEDLocalFrame, ref positionCounter);
 
             encode(ref rawMsg, LatitudeDegrees, ref positionCounter);
             encode(ref rawMsg, LongitudeDegrees, ref positionCounter);
+
+
+
+
+
+            encode(ref rawMsg,  XAccelFrdMss, ref positionCounter);
+            encode(ref rawMsg,  YAccelFrdMss, ref positionCounter);
+            encode(ref rawMsg,  ZAccelFrdMss, ref positionCounter);
+            encode(ref rawMsg,  YawAngularVelocityRadsPerSecond, ref positionCounter);
+            encode(ref rawMsg,  PitchAngularVelocityRadsPerSecond, ref positionCounter);
+            encode(ref rawMsg,  RollAngularVelocityRadsPerSecond, ref positionCounter);
+            encode(ref rawMsg,  XMagFrd, ref positionCounter);
+            encode(ref rawMsg,  YMagFrd, ref positionCounter);
+            encode(ref rawMsg,  ZMagFrd, ref positionCounter);
+            encode(ref rawMsg,  XEcefCm, ref positionCounter);
+            encode(ref rawMsg,  YEcefCm, ref positionCounter);
+            encode(ref rawMsg,  ZEcefCm, ref positionCounter);
+            encode(ref rawMsg,  XVEcefCms, ref positionCounter);
+            encode(ref rawMsg,  YVEcefCms, ref positionCounter);
+            encode(ref rawMsg,  ZVEcefCms, ref positionCounter);
+            encode(ref rawMsg,  PressureMillibars, ref positionCounter);
+
+
+
+
+
+
+
 
 
             encode(ref rawMsg, Timeouts, ref positionCounter);
@@ -403,17 +469,15 @@ namespace GroundControlStation.Messages
 
         public void UpdateModel(GroundControlStationModel model)
         {
-            model.MagYaw =  MagYaw;
-            model.YawVelocityDegreesPerSecond =  YawVelocityDegreesPerSecond;
             model.YawIntegral = YawIntegral;
             model.YawProportional = YawProportional;
             model.YawDerivativeError = YawDerivativeError;
 
 
 
-            model.XNEDBodyFrame = XNEDBodyFrame;
+            model.XNEDLocalFrame = XNEDLocalFrame;
             model.XVelocityMetersPerSecond = XVelocityMetersPerSecond;
-            model.ThetaPitchDegrees = ThetaPitchDegrees;
+            model.ThetaPitchDegrees = PitchRads;
             model.XIntegral = XIntegral;
             model.XProportional = XProportional;
             model.XDerivativeError = XDerivativeError;
@@ -426,9 +490,9 @@ namespace GroundControlStation.Messages
             //model.XAntiWindupGain = XAntiWindupGain;
             //model.LongitudeInnerLoopGain = LongitudeInnerLoopGain;
 
-            model.YNEDBodyFrame = YNEDBodyFrame;
+            model.YNEDLocalFrame = YNEDLocalFrame;
             model.YVelocityMetersPerSecond = YVelocityMetersPerSecond;
-            model.PhiRollDegrees = PhiRollDegrees;
+            model.PhiRollDegrees = RollRads;
             model.YIntegral = YIntegral;
             model.YProportional = YProportional;
             model.YDerivativeError = YDerivativeError;
@@ -443,19 +507,43 @@ namespace GroundControlStation.Messages
 
 
 
-            model.AltitudeFeetAgl = AltitudeFeetAgl;
+            model.AltitudeMetersAgl = AltitudeMetersAgl;
             model.ZVelocityFeetPerSecond = ZVelocityMetersPerSecond;
+            model.YawRads = YawRads;
             model.ZIntegral = ZIntegral;
             model.ZProportional = ZProportional;
             model.ZDerivativeError = ZDerivativeError;
             model.MainRotorCollectiveControl = MainRotorCollectiveControl;
-            model.ZNEDBodyFrame = ZNEDBodyFrame;
+            model.ZNEDLocalFrame = ZNEDLocalFrame;
             //model.ZIntegralGain = ZIntegralGain;
             //model.ZDerivativeGain = ZDerivativeGain;
             //model.ZProportionalGain = ZProportionalGain;
             //model.ZAntiWindupGain = ZAntiWindupGain;
 
             model.YawControl = YawControl;
+
+
+
+
+
+            model.XAccelFrdMss = XAccelFrdMss;
+            model.YAccelFrdMss = YAccelFrdMss;
+            model.ZAccelFrdMss = ZAccelFrdMss;
+            model.YawVelocityRadsPerSecond = YawAngularVelocityRadsPerSecond;
+            model.PitchAngularVelocityRadsPerSecond = PitchAngularVelocityRadsPerSecond;
+            model.RollAngularVelocityRadsPerSecond = RollAngularVelocityRadsPerSecond;
+            model.XMagFrd = XMagFrd;
+            model.YMagFrd = YMagFrd;
+            model.ZMagFrd = ZMagFrd;
+            model.XEcefCm = XEcefCm;
+            model.YEcefCm = YEcefCm;
+            model.ZEcefCm = ZEcefCm;
+            model.XVEcefCms = XVEcefCms;
+            model.YVEcefCms = YVEcefCms;
+            model.ZVEcefCms = ZVEcefCms;
+            model.PressureMillibars = PressureMillibars;
+
+
 
 
             model.Timeouts = Timeouts;
@@ -469,8 +557,6 @@ namespace GroundControlStation.Messages
         public static FlightComputerTelemetryMessage CreateFromModel(GroundControlStationModel model)
         {
             FlightComputerTelemetryMessage msg = new FlightComputerTelemetryMessage();
-            msg.MagYaw = model.SimTelm.MagHeadingDegrees;
-            msg.YawVelocityDegreesPerSecond = (float) ConvertToDegPerSec(model.SimTelm.YawVelocityRadsPerS);
 
             msg.YawIntegralGain = model.YawIntegralGain;
             msg.YawDerivativeGain = model.YawDerivativeGain;
@@ -500,21 +586,104 @@ namespace GroundControlStation.Messages
 
             msg.LatitudeDegrees = model.SimTelm.LatitudeDegrees;
             msg.LongitudeDegrees = model.SimTelm.LongitudeDegrees;
-            msg.AltitudeFeetAgl = model.SimTelm.ZAltitudeFtAgl;
+      //      msg.AltitudeMetersAgl = model.SimTelm.ZAltitudeFtAgl * .3048f; //Removed since it should be calculated from pressure
 
-            msg.XVelocityMetersPerSecond = model.SimTelm.XVelocityNEDFrameMs;
-            msg.YVelocityMetersPerSecond = model.SimTelm.YVelocityNEDFrameMs;
-            msg.ZVelocityMetersPerSecond = model.SimTelm.ZVelocityNEDFrameMs;
+            msg.XVelocityMetersPerSecond = model.SimTelm.XVelocityFRDBodyFrameMs;
+            msg.YVelocityMetersPerSecond = model.SimTelm.YVelocityFRDBodyFrameMs;
+            msg.ZVelocityMetersPerSecond = model.SimTelm.ZVelocityFRDBodyFrameMs;
 
-            msg.ThetaPitchDegrees = model.SimTelm.PitchDegrees;
-            msg.PhiRollDegrees = model.SimTelm.RollDegrees;
+
+            //****** Remove these since these should be calculated.            
+            //msg.PitchRads = Util.Util.ConvertToRads(model.SimTelm.PitchDegrees);
+            //msg.RollRads = Util.Util.ConvertToRads(model.SimTelm.RollDegrees);
+
+
+            /**
+              * Calculate fake sensor readings from data from simulator.
+              */
+
+            //Take the yaw, pitch, and roll, to create a gravitational vector
+            //then add lateral acceleration to it
+            //http://stackoverflow.com/questions/1568568/how-to-convert-euler-angles-to-directional-vector
+            float yawRads = Util.Util.ConvertToRads(model.SimTelm.MagHeadingDegrees);
+            float pitchRads = Util.Util.ConvertToRads(model.SimTelm.PitchDegrees);
+            float rollRads = Util.Util.ConvertToRads(model.SimTelm.RollDegrees);
+
+
+            float[,] rotationMatrix = Util.Util.CreateRotationMatrixTransposed(rollRads,pitchRads,yawRads);
+            float[] rotatedUnitVector = Util.Util.RotateMatrix(rotationMatrix,new float[3]{0,0,-1});
+
+            float xGrav = rotatedUnitVector[0] * Util.Util.GRAVITY;
+            float yGrav = rotatedUnitVector[1] * Util.Util.GRAVITY;
+            float zGrav = rotatedUnitVector[2] * Util.Util.GRAVITY;
+
+
+            xGrav += model.SimTelm.XVelocityFRDBodyFrameMs * (1 / Util.Util.INTERVAL_BETWEEN_SIM_DATA);
+            yGrav += model.SimTelm.YVelocityFRDBodyFrameMs * (1 / Util.Util.INTERVAL_BETWEEN_SIM_DATA);
+            zGrav += model.SimTelm.ZVelocityFRDBodyFrameMs * (1 / Util.Util.INTERVAL_BETWEEN_SIM_DATA);
+
+
+            /**
+             * Calculate magnetic vector including the angle of inclination
+             */
+            float[,] magFrameRotationMatrix = Util.Util.CreateRotationMatrix(0, Util.Util.ConvertToRads(-70), 0);
+            float[] magFrameRotatedUnitVector = Util.Util.RotateMatrix(magFrameRotationMatrix, new float[3] { 1, 0, 0 });
+
+            float[,] magRotationMatrix = Util.Util.CreateRotationMatrixTransposed(rollRads, pitchRads, yawRads);
+            float[] magRotatedUnitVector = Util.Util.RotateMatrix(magRotationMatrix, magFrameRotatedUnitVector);
+
+            
+            /**
+             * Calculate position in ECEF based on lat
+             */
+            float ecefX = 0;
+            float ecefY = 0;
+            float ecefZ = 0;
+
+            Util.Util.ConvertFromGeodeticToECEF(model.SimTelm.LatitudeDegrees, model.SimTelm.LongitudeDegrees, model.SimTelm.ZAltitudeFtAgl, out ecefX, out ecefY, out ecefZ);
+
+            /**
+             * Convert velocity from Body frame to NED to ECEF
+             */
+            float[,] rotationMatrixVelocity = Util.Util.CreateRotationMatrixTransposed(rollRads, pitchRads, yawRads);
+            float[] velocityRotatedVectorNED = Util.Util.RotateMatrix(rotationMatrixVelocity, new float[] { model.SimTelm.XVelocityFRDBodyFrameMs, model.SimTelm.YVelocityFRDBodyFrameMs, model.SimTelm.ZVelocityFRDBodyFrameMs});
+
+
+            float[,] rotationMatrixVelocityECEF = Util.Util.CalculateECEFToLocalNEDRotationMatrixTransposed(model.SimTelm.LatitudeDegrees, model.SimTelm.LongitudeDegrees);
+            float[] velocityRotatedVectorECEF = Util.Util.RotateMatrix(rotationMatrixVelocityECEF, velocityRotatedVectorNED);
+
+
+            /**
+             * Convert altitude to pressure
+             */
+            //equation from http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
+            //Divide by 100 to convert from Pa to Mb
+            float pressureMb = (101325 * (float) Math.Pow(1 - .0000225577 * (model.SimTelm.ZAltitudeFtMsl * .3048), 5.25588)) / 100;
+
+            //root (((altitude / (288.15 / (6.5 / 1000.0))) - 1), (6.5 / 1000.0) * (287.052 / 9.78)))
+
+            msg.XAccelFrdMss = xGrav;
+            msg.YAccelFrdMss = yGrav;
+            msg.ZAccelFrdMss = zGrav;
+            msg.YawAngularVelocityRadsPerSecond = model.SimTelm.YawVelocityRadsPerS;
+            msg.PitchAngularVelocityRadsPerSecond = model.SimTelm.PitchVelocityRadsPerS;
+            msg.RollAngularVelocityRadsPerSecond = model.SimTelm.RollVelocityRadsPerS;
+            msg.XMagFrd = magRotatedUnitVector[0];
+            msg.YMagFrd = magRotatedUnitVector[1];
+            msg.ZMagFrd = magRotatedUnitVector[2];
+            msg.XEcefCm = (int) (ecefX * 100.0f);
+            msg.YEcefCm = (int) (ecefY * 100.0f);
+            msg.ZEcefCm = (int) (ecefZ * 100.0f);
+            msg.XVEcefCms = (int)(velocityRotatedVectorECEF[0] * 100);// * 100 to convert to cm's a second
+            msg.YVEcefCms = (int)(velocityRotatedVectorECEF[1] * 100);// * 100 to convert to cm's a second
+            msg.ZVEcefCms = (int)(velocityRotatedVectorECEF[2] * 100);// * 100 to convert to cm's a second
+            msg.PressureMillibars = pressureMb;
+            
+
+
 
             return msg;
         }
 
-        private static double ConvertToDegPerSec(float radsPerSecValue)
-        {
-            return radsPerSecValue * (180.0 / Math.PI);
-        }
     }
 }

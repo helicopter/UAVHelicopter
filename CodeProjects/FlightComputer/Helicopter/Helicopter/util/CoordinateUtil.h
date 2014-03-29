@@ -29,7 +29,7 @@ namespace helicopter
 				static const float E;
 				
 				//The semi-major axis: Radius of the earth in Meters.
-				static const float Rea;
+				static const float REA;
 				
 				/**
 				 * Calculates the Ne Variable used to convert crom lat/long to ecef.
@@ -54,7 +54,7 @@ namespace helicopter
 				 * @param ecefToLocalNEDRotationMatrix OutputParam: a 3x3 matrix which will be populated with the rotation matrix used to convert
 				 * earth centered earth fixed coordinates to Local North East Down coordinates.
 				 */
-				static void CalculateECEFToLocalNEDRotationMatrix(float latitudeDegrees, float longitudeDegrees, float  ecefToLocalNEDRotationMatrix[][3]);
+				static void CalculateECEFToLocalNEDRotationMatrix(float latitudeDegrees, float longitudeDegrees, float  (&ecefToLocalNEDRotationMatrix)[3][3]);
 			
 				/**
 				 * This method converts a set of curvilinear geodetic coordinates (lat long) to Cartesian coordinates (xyz) in the
@@ -84,6 +84,14 @@ namespace helicopter
 				static void ConvertFromECEFToLocalNED(float ecefReferenceX, float ecefReferenceY, float ecefReferenceZ, 
 					float ecefX, float ecefY, float ecefZ, float ecefToLocalNEDRotationMatrix[][3],
 					float &localNEDX, float &localNEDY, float &localNEDZ);
+					
+					
+				/**
+				 * Same as the other method, but it uses integers instead. 
+				 */
+				static void ConvertFromECEFToLocalNED(long ecefReferenceX, long ecefReferenceY, long ecefReferenceZ,
+					long ecefX, long ecefY, long ecefZ, float ecefToLocalNEDRotationMatrix[][3],
+					float &localNEDX, float &localNEDY, float &localNEDZ);					
 					
 				static void ConvertFromGeodedicToLocalNED(
 					float geodedicLatitude, float geodedicLongitude, float altitudeFeetAgl, 

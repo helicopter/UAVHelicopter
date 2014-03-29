@@ -39,7 +39,7 @@ int main(void)
 //	helicopterTests.addTest(gcsinterfacemessagereceivingandtransmitting_test, 7);
 //	helicopterTests.addTest(timeout_test, 8);
 //	helicopterTests.addTest(calculateYaw_test, 9);
-	helicopterTests.addTest(spi_messaging_test, 10);
+//	helicopterTests.addTest(spi_messaging_test, 10);
 //	helicopterTests.addTest(matrixrotation_test, 11);
 //	helicopterTests.addTest(readimu_test, 12);
 	

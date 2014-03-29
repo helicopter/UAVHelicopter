@@ -18,8 +18,6 @@ byte *SystemTelemetryMessage::getBytes()
 	byte *msgPtr = msg;
 	
 	encode (msgPtr, msgType);
-	encode (msgPtr, MagYaw);
-	encode (msgPtr, YawVelocityDegreesPerSecond);
 	encode (msgPtr, YawIntegral);
 	encode (msgPtr, YawProportional);
 	encode (msgPtr, YawDerivativeError);
@@ -31,9 +29,9 @@ byte *SystemTelemetryMessage::getBytes()
 	
 
 
-	encode (msgPtr, XNEDBodyFrame);
+	encode (msgPtr, XNEDLocalFrame);
 	encode (msgPtr, XVelocityMetersPerSecond);
-	encode (msgPtr, ThetaPitchDegrees);	
+	encode (msgPtr, PitchRads);	
 	encode (msgPtr, XIntegral);
 	encode (msgPtr, XProportional);
 	encode (msgPtr, XDerivativeError);
@@ -44,12 +42,11 @@ byte *SystemTelemetryMessage::getBytes()
 	encode (msgPtr, XAntiWindupGain);	
 	encode (msgPtr, LongitudeInnerLoopGain);	
 	encode (msgPtr, XLongitudeOuterLoopSetpoint);
-	encode (msgPtr, PitchAngularVelocityRadsPerSecond);
 	encode (msgPtr, PitchAngularVelocityGain);
 	
-	encode (msgPtr, YNEDBodyFrame);
+	encode (msgPtr, YNEDLocalFrame);
 	encode (msgPtr, YVelocityMetersPerSecond);
-	encode (msgPtr, PhiRollDegrees);
+	encode (msgPtr, RollRads);
 	encode (msgPtr, YIntegral);
 	encode (msgPtr, YProportional);
 	encode (msgPtr, YDerivativeError);
@@ -60,12 +57,12 @@ byte *SystemTelemetryMessage::getBytes()
 	encode (msgPtr, YAntiWindupGain);
 	encode (msgPtr, LateralInnerLoopGain);	
 	encode (msgPtr, YLateralOuterLoopSetpoint);
-	encode (msgPtr, RollAngularVelocityRadsPerSecond);
 	encode (msgPtr, RollAngularVelocityGain);
 	
 
-	encode (msgPtr, AltitudeFeetAgl);
+	encode (msgPtr, AltitudeMetersAgl);
 	encode (msgPtr, ZVelocityMetersPerSecond);
+	encode (msgPtr, YawRads);
 	encode (msgPtr, ZIntegral);
 	encode (msgPtr, ZProportional);
 	encode (msgPtr, ZDerivativeError);
@@ -74,11 +71,34 @@ byte *SystemTelemetryMessage::getBytes()
 	encode (msgPtr, ZDerivativeGain);
 	encode (msgPtr, ZProportionalGain);
 	encode (msgPtr, ZAntiWindupGain);
-	encode (msgPtr, ZNEDBodyFrame);
+	encode (msgPtr, ZNEDLocalFrame);
 		
 	
 	encode(msgPtr, LatitudeDegrees);
 	encode(msgPtr, LongitudeDegrees);
+	
+	
+	encode (msgPtr, XAccelFrdMss);
+	encode (msgPtr, YAccelFrdMss);
+	encode (msgPtr, ZAccelFrdMss);
+	encode (msgPtr, YawAngularVelocityRadsPerSecond);
+	encode (msgPtr, PitchAngularVelocityRadsPerSecond);
+	encode (msgPtr, RollAngularVelocityRadsPerSecond);
+	encode (msgPtr, XMagFrd);
+	encode (msgPtr, YMagFrd);
+	encode (msgPtr, ZMagFrd);
+	encode (msgPtr, XEcefCm);
+	encode (msgPtr, YEcefCm);
+	encode (msgPtr, ZEcefCm);	
+	encode (msgPtr, XVEcefCms);
+	encode (msgPtr, YVEcefCms);
+	encode (msgPtr, ZVEcefCms);
+	encode (msgPtr, PressureMillibars);	
+	
+	
+	
+	
+	
 	
 	encode (msgPtr, Timeouts);
 	encode (msgPtr, UnrecognizedMsgTypes);
@@ -94,8 +114,6 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 	if (message != NULL)
 	{
 		decode (message,msgType);
-		decode (message,MagYaw);
-		decode (message, YawVelocityDegreesPerSecond);
 		decode (message, YawIntegral);
 		decode (message, YawProportional);
 		decode (message, YawDerivativeError);	
@@ -108,9 +126,9 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		
 		
 
-		decode (message, XNEDBodyFrame);
+		decode (message, XNEDLocalFrame);
 		decode (message, XVelocityMetersPerSecond);
-		decode (message, ThetaPitchDegrees);
+		decode (message, PitchRads);
 		decode (message, XIntegral);
 		decode (message, XProportional);
 		decode (message, XDerivativeError);
@@ -121,12 +139,11 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		decode (message, XAntiWindupGain);
 		decode (message, LongitudeInnerLoopGain);
 		decode (message, XLongitudeOuterLoopSetpoint);
-		decode (message, PitchAngularVelocityRadsPerSecond);
 		decode (message, PitchAngularVelocityGain);
 
-		decode (message, YNEDBodyFrame);
+		decode (message, YNEDLocalFrame);
 		decode (message, YVelocityMetersPerSecond);
-		decode (message, PhiRollDegrees);
+		decode (message, RollRads);
 		decode (message, YIntegral);
 		decode (message, YProportional);
 		decode (message, YDerivativeError);
@@ -137,12 +154,12 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		decode (message, YAntiWindupGain);
 		decode (message, LateralInnerLoopGain);
 		decode (message, YLateralOuterLoopSetpoint);
-		decode (message, RollAngularVelocityRadsPerSecond);
 		decode (message, RollAngularVelocityGain);
 		
 
-		decode (message, AltitudeFeetAgl);
+		decode (message, AltitudeMetersAgl);
 		decode (message, ZVelocityMetersPerSecond);
+		decode (message, YawRads);
 		decode (message, ZIntegral);
 		decode (message, ZProportional);
 		decode (message, ZDerivativeError);
@@ -151,11 +168,32 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		decode (message, ZDerivativeGain);
 		decode (message, ZProportionalGain);
 		decode (message, ZAntiWindupGain);
-		decode (message, ZNEDBodyFrame);
+		decode (message, ZNEDLocalFrame);
 		
 	
 		decode (message, LatitudeDegrees);
 		decode (message, LongitudeDegrees);
+		
+		
+		decode (message, XAccelFrdMss);
+		decode (message, YAccelFrdMss);
+		decode (message, ZAccelFrdMss);
+		decode (message, YawAngularVelocityRadsPerSecond);
+		decode (message, PitchAngularVelocityRadsPerSecond);
+		decode (message, RollAngularVelocityRadsPerSecond);
+		decode (message, XMagFrd);
+		decode (message, YMagFrd);
+		decode (message, ZMagFrd);
+		decode (message, XEcefCm);
+		decode (message, YEcefCm);	
+		decode (message, ZEcefCm);				
+		decode (message, XVEcefCms);
+		decode (message, YVEcefCms);
+		decode (message, ZVEcefCms);
+		decode (message, PressureMillibars);		
+
+		
+		
 						
 		decode (message, Timeouts);
 		decode (message, UnrecognizedMsgTypes);
@@ -177,16 +215,14 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 {
 	SystemTelemetryMessage *message = new SystemTelemetryMessage();
 	
-	message->MagYaw = model->MagYawDegrees();
 	message->YawDerivativeError = model->YawDerivativeError();
 	message->YawIntegral = model->YawIntegral();
 	message->YawProportional = model->YawProportional();
-	message->YawVelocityDegreesPerSecond = model->YawVelocityDegreesPerSecond();
 	message->YawControl = model->YawControl();
 	
 
-	message->ThetaPitchDegrees = model->ThetaPitchDegrees();
-	message->XNEDBodyFrame = model->XNEDLocalFrame();
+	message->PitchRads = model->PitchRads();
+	message->XNEDLocalFrame = model->XNEDLocalFrame();
 	message->XDerivativeError = model->XDerivativeError();
 	message->XIntegral = model->XIntegral();
 	message->XProportional = model->XProportional();
@@ -196,8 +232,8 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 	message->PitchAngularVelocityRadsPerSecond = model->PitchAngularVelocityRadsPerSecond();
 
 	
-	message->PhiRollDegrees = model->PhiRollDegrees();
-	message->YNEDBodyFrame = model->YNEDLocalFrame();
+	message->RollRads = model->RollRads();
+	message->YNEDLocalFrame = model->YNEDLocalFrame();
 	message->YDerivativeError = model->YDerivativeError();
 	message->YIntegral = model->YIntegral();
 	message->YProportional = model->YProportional();
@@ -207,13 +243,34 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 	message->RollAngularVelocityRadsPerSecond = model->RollAngularVelocityRadsPerSecond();	
 	
 	
-	message->AltitudeFeetAgl = model->AltitudeFeetAgl();
+	message->AltitudeMetersAgl = model->AltitudeMetersAgl();
 	message->ZDerivativeError = model->ZDerivativeError();
+	message->YawRads = model->YawRads();
 	message->ZIntegral = model->ZIntegral();
 	message->ZProportional = model->ZProportional();
-	message->ZVelocityMetersPerSecond = (model->ZVelocityFeetPerSecond() / 3.2804f);
+	message->ZVelocityMetersPerSecond = (model->ZVelocityMetersPerSecond());
 	message->MainRotorCollectiveControl = model->MainRotorCollectiveControl();
-	message->ZNEDBodyFrame = model->ZNEDLocalFrame();
+	message->ZNEDLocalFrame = model->ZNEDLocalFrame();
+	
+	
+	
+	message->XAccelFrdMss = model->XAccelFrdMss();
+	message->YAccelFrdMss = model->YAccelFrdMss();
+	message->ZAccelFrdMss = model->ZAccelFrdMss();
+	message->YawAngularVelocityRadsPerSecond = model->YawAngularVelocityRadsPerSecond();
+	message->PitchAngularVelocityRadsPerSecond = model->PitchAngularVelocityRadsPerSecond();
+	message->RollAngularVelocityRadsPerSecond = model->RollAngularVelocityRadsPerSecond();
+	message->XMagFrd = model->XMagFrd();
+	message->YMagFrd = model->YMagFrd();
+	message->ZMagFrd = model->ZMagFrd();
+
+	message->XEcefCm = model->XEcefCm();
+	message->YEcefCm = model->YEcefCm();
+	message->ZEcefCm = model->ZEcefCm();	
+	message->XVEcefCms = model->XVEcefCms();
+	message->YVEcefCms = model->YVEcefCms();
+	message->ZVEcefCms = model->ZVEcefCms();
+	message->PressureMillibars = model->PressureMillibars();
 	
 	
 	
@@ -223,6 +280,9 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 	message->NumOfBlownFrames = model->BlownFrames();
 	message->SerialCommunicationBufferOverruns = model->SerialCommunicationBufferOverruns();
 	
+	message->LatitudeDegrees = model->LatitudeDegrees();
+	message->LongitudeDegrees = model->LongitudeDegrees();
+	
 	return message;
 }
 
@@ -230,8 +290,7 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 //TODO delete this method, its not used.
 void SystemTelemetryMessage::updateModelFromMessage (SystemModel *model)
 {
-	model->MagYawDegrees(this->MagYaw);
-	model->YawVelocityDegreesPerSecond(this->YawVelocityDegreesPerSecond);
+	model->YawAngularVelocityRadsPerSecond(this->YawAngularVelocityRadsPerSecond);
 	model->YawIntegral(this->YawIntegral);
 	model->YawProportional(this->YawProportional);
 	model->YawDerivativeError(this->YawDerivativeError);
@@ -249,25 +308,51 @@ void SystemTelemetryMessage::updateModelFromMessageFromSimulator (SystemModel *m
 	//from actual sensors, but when running off of the simulator, these sensor
 	//readings come from the simulator itself.
 	
-	model->MagYawDegrees(this->MagYaw);
-	model->YawVelocityDegreesPerSecond(this->YawVelocityDegreesPerSecond);
-	
 	//model->XNEDBodyFrame((double) this->XNEDBodyFrame / 100);//not supposed to be here since this is a calculated value, not a sensor reading.
-	model->XVelocityMetersPerSecond(this->XVelocityMetersPerSecond);
-	model->ThetaPitchDegrees(this->ThetaPitchDegrees);
-	model->PitchAngularVelocityRadsPerSecond(this->PitchAngularVelocityRadsPerSecond);
+	
+	//model->ThetaPitchDegrees(this->ThetaPitchDegrees);
+	
 	
 	//model->YNEDBodyFrame((double) this->YNEDBodyFrame / 100);
-	model->YVelocityMetersPerSecond(this->YVelocityMetersPerSecond);
-	model->PhiRollDegrees(this->PhiRollDegrees);
-	model->RollAngularVelocityRadsPerSecond(this->RollAngularVelocityRadsPerSecond);
 	
-	model->AltitudeFeetAgl(this->AltitudeFeetAgl);
+	//model->PhiRollDegrees(this->PhiRollDegrees);
+	
+	
+	//model->AltitudeMetersAgl(this->AltitudeMetersAgl);
 	
 	//Convert from meters per sec, to foot per sec.
 	
-	model->ZVelocityFeetPerSecond(this->ZVelocityMetersPerSecond * 3.28084d); 
 	
+	
+	//Copy fake gyroscope data
+	model->PitchAngularVelocityRadsPerSecond(this->PitchAngularVelocityRadsPerSecond);
+	model->YawAngularVelocityRadsPerSecond(this->YawAngularVelocityRadsPerSecond);
+	model->RollAngularVelocityRadsPerSecond(this->RollAngularVelocityRadsPerSecond);
+	
+	
+	//Copy fake GPS data
+	model->XVelocityMetersPerSecond(this->XVelocityMetersPerSecond);
+	model->YVelocityMetersPerSecond(this->YVelocityMetersPerSecond);
+	//ZVelocity is derived from pressure changes. //model->ZVelocityMetersPerSecond(this->ZVelocityMetersPerSecond); 
 	model->LatitudeDegrees(this->LatitudeDegrees);
 	model->LongitudeDegrees(this->LongitudeDegrees);
+	model->XEcefCm(this->XEcefCm);
+	model->YEcefCm(this->YEcefCm);
+	model->ZEcefCm(this->ZEcefCm);
+		
+	//Copy fake accelerometer data
+	model->XAccelFrdMss(this->XAccelFrdMss);
+	model->YAccelFrdMss(this->YAccelFrdMss);
+	model->ZAccelFrdMss(this->ZAccelFrdMss);
+	model->XVEcefCms(this->XVEcefCms);
+	model->YVEcefCms(this->YVEcefCms);
+
+	//copy fake mag data
+	model->XMagFrd(this->XMagFrd);
+	model->YMagFrd(this->YMagFrd);
+	model->ZMagFrd(this->ZMagFrd);
+	
+	//Copy fake barometer data.
+	model->PressureMillibars(this->PressureMillibars);	
+
 }

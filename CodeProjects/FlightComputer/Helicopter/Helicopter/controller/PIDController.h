@@ -67,18 +67,18 @@ namespace helicopter
 				float minMainRotorServoControlValue;
 				float maxMainRotorServoControlValue;
 				
-				float minPitchSetpointDegrees;
-				float maxPitchSetpointDegrees;
+				float minPitchSetpointRads;
+				float maxPitchSetpointRads;
 				
-				float minRollSetpointDegrees;
-				float maxRollSetpointDegrees;
+				float minRollSetpointRads;
+				float maxRollSetpointRads;
 				
 				float intervalPeriodSecs;
 					
 				float controlMaxValue;
 				float controlMinValue;
 				
-				float adjustForSetpointLimits(float outerLoopControlSetpoint, float minSetpointLimitDegrees, float maxSetpointLimitDegrees);
+				float adjustForSetpointLimits(float outerLoopControlSetpoint, float minSetpointLimitRads, float maxSetpointLimitRads);
 				
 			public:
 				PIDController (SystemModel *model);
@@ -209,24 +209,24 @@ namespace helicopter
 				}
 
 
-				void setMaxRollSetpointDegrees(float val)
+				void setMaxRollSetpointRads(float val)
 				{
-					maxRollSetpointDegrees = val;
+					maxRollSetpointRads = val;
 				}
 				
-				void setMinRollSetpointDegrees(float val)
+				void setMinRollSetpointRads(float val)
 				{
-					minRollSetpointDegrees = val;
+					minRollSetpointRads = val;
 				}
 				
-				void setMaxPitchSetpointDegrees(float val)
+				void setMaxPitchSetpointRads(float val)
 				{
-					maxPitchSetpointDegrees = val;
+					maxPitchSetpointRads = val;
 				}
 				
-				void setMinPitchSetpointDegrees(float val)
+				void setMinPitchSetpointRads(float val)
 				{	
-					minPitchSetpointDegrees = val;
+					minPitchSetpointRads = val;
 				}				
 				
 				
@@ -416,7 +416,7 @@ namespace helicopter
 				
 				void addBlownFrame();
 				
-				float convertYawErrorFrom360to180( float yawError );
+				float convertYawErrorFrom2PitoPlusMinusPi( float yawError );
 		};
 	}
 }

@@ -121,8 +121,8 @@ namespace HelicopterIntegrationTests
         [TestMethod]
         public void TestSystemTelemetryTransmitAndReceive()
         {
-            SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One);
-            //SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
+            //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One);
+            SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
 
             SerialPortInterface portInterface = new SerialPortInterface(port);
@@ -141,34 +141,42 @@ namespace HelicopterIntegrationTests
 
                 Assert.IsTrue(telemetry.MsgType == 2);
                 Assert.IsTrue(model.ChecksumErrors == 2);
-                Assert.IsTrue(model.MagYaw == 2.22f);
+                //Assert.IsTrue(model.MagYaw == 2.22f);
                 Assert.IsTrue(model.Timeouts == 2);
                 Assert.IsTrue(model.UnrecognizedMsgTypes == 2);
              //   Assert.IsTrue(model.YawControl == 2.22f);
                 Assert.IsTrue(model.YawDerivativeError == 2.22f);
                 Assert.IsTrue(model.YawIntegral == 2.22f);
                 Assert.IsTrue(model.YawProportional == 2.22f);
-                Assert.IsTrue(model.YawVelocityDegreesPerSecond == 2.22f);
+                Assert.IsTrue(model.YawVelocityRadsPerSecond == 2.22f);
 
 
-                Assert.IsTrue(model.AltitudeFeetAgl == 2.22f);
+                Assert.IsTrue(model.AltitudeMetersAgl == 4.46f);
                 Assert.IsTrue(model.LateralControl == 2.22f);
                 Assert.IsTrue(model.MainRotorCollectiveControl == 2.22f);
 
-
+                Assert.IsTrue(model.YawControl == 3.22f);
+                Assert.IsTrue(model.XProportional == 4.22f);
+                Assert.IsTrue(model.YProportional == 1.22f);
+                Assert.IsTrue(model.ZProportional == 6.22f);
+                Assert.IsTrue(model.ZIntegral == 8.22f);
+                Assert.IsTrue(model.ZNEDLocalFrame == 9.22f);
+                Assert.IsTrue(model.XNEDLocalFrame == 19.22f);
+                Assert.IsTrue(model.YNEDLocalFrame == 21.33f);
 
                 fcInt.Transmit(telemetry);
 
                 DateTime startTime = DateTime.Now;
 
                 telemetry = (FlightComputerTelemetryMessage) fcInt.Receive();
+                telemetry.UpdateModel(model);
 
-                Assert.IsTrue(telemetry.MagYaw == 12);
+                Assert.IsTrue(model.PressureMillibars == 12);
 
                 DateTime endTime = DateTime.Now;
 
                 Trace.WriteLine("Time ms: " + endTime.Subtract(startTime).Milliseconds);
-                Assert.IsTrue(false, "Time ms: " + endTime.Subtract(startTime).Milliseconds);
+              //  Assert.IsTrue(false, "Time ms: " + endTime.Subtract(startTime).Milliseconds);
             }
         }
 

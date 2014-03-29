@@ -27,10 +27,6 @@ namespace helicopter
 		{
 			public:
 
-				float MagYaw;
-				float YawVelocityDegreesPerSecond;
-				
-				
 				float YawIntegral;
 				float YawProportional;
 				float YawDerivativeError;
@@ -41,9 +37,9 @@ namespace helicopter
 				float YawAntiWindupGain;
 				
 				
-				float XNEDBodyFrame;
+				float XNEDLocalFrame;
 				float XVelocityMetersPerSecond;
-				float ThetaPitchDegrees;
+				float PitchRads;
 				float XIntegral;
 				float XProportional;
 				float XDerivativeError;
@@ -54,12 +50,11 @@ namespace helicopter
 				float XAntiWindupGain;
 				float LongitudeInnerLoopGain;
 				float XLongitudeOuterLoopSetpoint;
-				float PitchAngularVelocityRadsPerSecond;
 				float PitchAngularVelocityGain;
 				
-				float YNEDBodyFrame;
+				float YNEDLocalFrame;
 				float YVelocityMetersPerSecond;
-				float PhiRollDegrees;
+				float RollRads;
 				float YIntegral;
 				float YProportional;
 				float YDerivativeError;
@@ -70,11 +65,14 @@ namespace helicopter
 				float YAntiWindupGain;
 				float LateralInnerLoopGain;
 				float YLateralOuterLoopSetpoint;
-				float RollAngularVelocityRadsPerSecond;
 				float RollAngularVelocityGain;
 
-				float AltitudeFeetAgl;
+
+
+
+				float AltitudeMetersAgl;
 				float ZVelocityMetersPerSecond;
+				float YawRads;
 				float ZIntegral;
 				float ZProportional;
 				float ZDerivativeError;
@@ -83,10 +81,35 @@ namespace helicopter
 				float ZDerivativeGain;
 				float ZProportionalGain;
 				float ZAntiWindupGain;
-				float ZNEDBodyFrame;
+				float ZNEDLocalFrame;
 										
 				float LatitudeDegrees;
-				float LongitudeDegrees;								
+				float LongitudeDegrees;	
+				
+				
+				
+				/**
+				 * Sensor readings
+				 */
+				
+				float XAccelFrdMss;
+				float YAccelFrdMss;
+				float ZAccelFrdMss;		
+				float YawAngularVelocityRadsPerSecond;
+				float PitchAngularVelocityRadsPerSecond;
+				float RollAngularVelocityRadsPerSecond;
+				float XMagFrd;
+				float YMagFrd;
+				float ZMagFrd;
+				long XEcefCm;
+				long YEcefCm;
+				long ZEcefCm;				
+				long XVEcefCms;
+				long YVEcefCms;
+				long ZVEcefCms;
+				float PressureMillibars;
+				
+														
 				
 				/**
 				 * Instrumentation fields
@@ -106,10 +129,8 @@ namespace helicopter
 				
 				static const byte MessageType = 2;
 			
-				static const byte MessageSize =
-				sizeof(msgType) +
-				sizeof(MagYaw) +
-				sizeof(YawVelocityDegreesPerSecond) + 
+				static const int MessageSize =
+				sizeof(msgType) + 
 				sizeof(YawIntegral) +
 				sizeof(YawProportional) +
 				sizeof(YawDerivativeError) +
@@ -120,9 +141,9 @@ namespace helicopter
 				sizeof(YawAntiWindupGain) +
 				
 				
-				sizeof(XNEDBodyFrame) +
+				sizeof(XNEDLocalFrame) +
 				sizeof(XVelocityMetersPerSecond) +
-				sizeof(ThetaPitchDegrees) +
+				sizeof(PitchRads) +
 				sizeof(XIntegral) +
 				sizeof(XProportional) +
 				sizeof(XDerivativeError) +
@@ -133,13 +154,12 @@ namespace helicopter
 				sizeof(XAntiWindupGain) +
 				sizeof(LongitudeInnerLoopGain) +
 				sizeof(XLongitudeOuterLoopSetpoint) +
-				sizeof(PitchAngularVelocityRadsPerSecond) +
 				sizeof(PitchAngularVelocityGain) +
 				
 				
-				sizeof(YNEDBodyFrame) +
+				sizeof(YNEDLocalFrame) +
 				sizeof(YVelocityMetersPerSecond) +
-				sizeof(PhiRollDegrees) +
+				sizeof(RollRads) +
 				sizeof(YIntegral) +
 				sizeof(YProportional) +
 				sizeof(YDerivativeError) +
@@ -149,12 +169,12 @@ namespace helicopter
 				sizeof(YProportionalGain) +
 				sizeof(YAntiWindupGain) +
 				sizeof(LateralInnerLoopGain) +
-				sizeof(YLateralOuterLoopSetpoint)+
-				sizeof(RollAngularVelocityRadsPerSecond) +
+				sizeof(YLateralOuterLoopSetpoint) +
 				sizeof(RollAngularVelocityGain) +
 								
-				sizeof(AltitudeFeetAgl) +
+				sizeof(AltitudeMetersAgl) +
 				sizeof(ZVelocityMetersPerSecond) +
+				sizeof(YawRads) +
 				sizeof(ZIntegral) +
 				sizeof(ZProportional) +
 				sizeof(ZDerivativeError) +
@@ -163,10 +183,30 @@ namespace helicopter
 				sizeof(ZDerivativeGain) +
 				sizeof(ZProportionalGain) +
 				sizeof(ZAntiWindupGain) +
-				sizeof(ZNEDBodyFrame) + 
+				sizeof(ZNEDLocalFrame) + 
 				
 				sizeof(LatitudeDegrees) +
 				sizeof(LongitudeDegrees) +
+				
+				
+				
+				sizeof(XAccelFrdMss) +
+				sizeof(YAccelFrdMss) +
+				sizeof(ZAccelFrdMss) +
+				sizeof(YawAngularVelocityRadsPerSecond) +
+				sizeof(PitchAngularVelocityRadsPerSecond) +
+				sizeof(RollAngularVelocityRadsPerSecond) +
+				sizeof(XMagFrd) +
+				sizeof(YMagFrd) +
+				sizeof(ZMagFrd) +
+				sizeof(XEcefCm) +
+				sizeof(YEcefCm) +
+				sizeof(ZEcefCm) +
+				sizeof(XVEcefCms) +
+				sizeof(YVEcefCms) +
+				sizeof(ZVEcefCms) +
+				sizeof(PressureMillibars) +		
+				
 				
 				sizeof(Timeouts) + 
 				sizeof(UnrecognizedMsgTypes) + 
@@ -177,9 +217,6 @@ namespace helicopter
 			
 				SystemTelemetryMessage(): Message(MessageType,MessageSize),
 				
-				
-					MagYaw(0),
-					YawVelocityDegreesPerSecond(0),
 					YawIntegral(0),
 					YawProportional(0),
 					YawDerivativeError(0),
@@ -190,9 +227,9 @@ namespace helicopter
 					YawAntiWindupGain(0),
 					
 					
-					XNEDBodyFrame(0),
+					XNEDLocalFrame(0),
 					XVelocityMetersPerSecond(0),
-					ThetaPitchDegrees(0),
+					PitchRads(0),
 					XIntegral(0),
 					XProportional(0),
 					XDerivativeError(0),
@@ -203,12 +240,11 @@ namespace helicopter
 					XAntiWindupGain(0),
 					LongitudeInnerLoopGain(0),
 					XLongitudeOuterLoopSetpoint(0),
-					PitchAngularVelocityRadsPerSecond(0),
 					PitchAngularVelocityGain(0),
 					
-					YNEDBodyFrame(0),
+					YNEDLocalFrame(0),
 					YVelocityMetersPerSecond(0),
-					PhiRollDegrees(0),
+					RollRads(0),
 					YIntegral(0),
 					YProportional(0),
 					YDerivativeError(0),
@@ -219,11 +255,11 @@ namespace helicopter
 					YAntiWindupGain(0),
 					LateralInnerLoopGain(0),
 					YLateralOuterLoopSetpoint(0),
-					RollAngularVelocityRadsPerSecond(0),
 					RollAngularVelocityGain(0),
 					
-					AltitudeFeetAgl(0),
+					AltitudeMetersAgl(0),
 					ZVelocityMetersPerSecond(0),
+					YawRads(0),
 					ZIntegral(0),
 					ZProportional(0),
 					ZDerivativeError(0),
@@ -232,10 +268,37 @@ namespace helicopter
 					ZDerivativeGain(0),
 					ZProportionalGain(0),
 					ZAntiWindupGain(0),
-					ZNEDBodyFrame(0),
+					ZNEDLocalFrame(0),
 					
 					LatitudeDegrees(0),
 					LongitudeDegrees(0),
+							
+							
+							
+							
+					XAccelFrdMss(0),
+					YAccelFrdMss(0),
+					ZAccelFrdMss(0),
+					YawAngularVelocityRadsPerSecond(0),
+					PitchAngularVelocityRadsPerSecond(0),
+					RollAngularVelocityRadsPerSecond(0),
+					XMagFrd(0),
+					YMagFrd(0),
+					ZMagFrd(0),
+				    XEcefCm(0),
+				    YEcefCm(0),	
+					ZEcefCm(0),			
+					XVEcefCms(0),
+					YVEcefCms(0),
+					ZVEcefCms(0),
+					PressureMillibars(0),							
+							
+							
+							
+							
+							
+							
+							
 										
 														
 					Timeouts(0),

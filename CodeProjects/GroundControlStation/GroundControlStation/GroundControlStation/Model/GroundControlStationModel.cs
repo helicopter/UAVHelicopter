@@ -11,7 +11,7 @@ namespace GroundControlStation.Model
     {
         public float MagYaw { get; set; }
 
-        public float YawVelocityDegreesPerSecond { get; set; }
+        public float YawVelocityRadsPerSecond { get; set; }
 
 
         public float YawIntegral { get; set; }
@@ -44,7 +44,7 @@ namespace GroundControlStation.Model
 
         public int SerialCommunicationBufferOverruns { get; set; }
 
-        public float XNEDBodyFrame { get; set; }
+        public float XNEDLocalFrame { get; set; }
 
         public float XVelocityMetersPerSecond { get; set; }
 
@@ -68,7 +68,7 @@ namespace GroundControlStation.Model
 
         public float LongitudeInnerLoopGain { get; set; }
 
-        public float YNEDBodyFrame { get; set; }
+        public float YNEDLocalFrame { get; set; }
 
         public float YVelocityMetersPerSecond { get; set; }
 
@@ -92,7 +92,7 @@ namespace GroundControlStation.Model
 
         public float LateralInnerLoopGain { get; set; }
 
-        public float AltitudeFeetAgl { get; set; }
+        public float AltitudeMetersAgl { get; set; }
 
         public float ZVelocityFeetPerSecond { get; set; }
 
@@ -112,7 +112,7 @@ namespace GroundControlStation.Model
 
         public float ZAntiWindupGain { get; set; }
 
-        public float ZNEDBodyFrame { get; set; }
+        public float ZNEDLocalFrame { get; set; }
 
 
         public float XLongitudeOuterLoopSetpoint { get; set; }
@@ -126,6 +126,38 @@ namespace GroundControlStation.Model
         public float PitchAngularVelocityGain { get; set; }
 
         public float RollAngularVelocityGain { get; set; }
+
+
+
+        public float XAccelFrdMss { get; set; }
+
+        public float YAccelFrdMss { get; set; }
+
+        public float ZAccelFrdMss { get; set; }
+
+        public float XMagFrd { get; set; }
+
+        public float YMagFrd { get; set; }
+
+        public float ZMagFrd { get; set; }
+
+        public int XVEcefCms { get; set; }
+
+        public int YVEcefCms { get; set; }
+
+        public int ZVEcefCms { get; set; }
+
+        public float PressureMillibars { get; set; }
+
+        public int XEcefCm { get; set; }
+
+        public int YEcefCm { get; set; }
+
+        public int ZEcefCm { get; set; }
+
+        public float YawRads { get; set; }
+
+        
 
         public SimulatorTelemetry SimTelm { get; set; }
 
@@ -141,7 +173,7 @@ namespace GroundControlStation.Model
 
             lstValues.Add(new Tuple<string, string>("FC Mag Yaw", MagYaw.ToString()));
 
-            lstValues.Add(new Tuple<string, string>("FC Yaw Velocity DPS", YawVelocityDegreesPerSecond.ToString()));
+            lstValues.Add(new Tuple<string, string>("FC Yaw Velocity RPS", YawVelocityRadsPerSecond.ToString()));
 
             lstValues.Add(new Tuple<string, string>("FC Yaw Integral", YawIntegral.ToString()));
 
@@ -161,11 +193,11 @@ namespace GroundControlStation.Model
             lstValues.Add(new Tuple<string, string>("FC XOuterLoopSetpoint", XLongitudeOuterLoopSetpoint.ToString()));
             lstValues.Add(new Tuple<string, string>("FC YOuterLoopSetpoint", YLateralOuterLoopSetpoint.ToString()));
 
-            lstValues.Add(new Tuple<string, string>("FC XNED", XNEDBodyFrame.ToString()));
+            lstValues.Add(new Tuple<string, string>("FC XNED", XNEDLocalFrame.ToString()));
 
-            lstValues.Add(new Tuple<string, string>("FC YNED", YNEDBodyFrame.ToString()));
+            lstValues.Add(new Tuple<string, string>("FC YNED", YNEDLocalFrame.ToString()));
 
-            lstValues.Add(new Tuple<string, string>("FC ZNED", AltitudeFeetAgl.ToString()));
+            lstValues.Add(new Tuple<string, string>("FC ZNED", AltitudeMetersAgl.ToString()));
 
             lstValues.Add(new Tuple<string, string>("FC Timeouts", Timeouts.ToString()));
 
@@ -182,5 +214,6 @@ namespace GroundControlStation.Model
 
             return lstValues;
         }
+
     }
 }

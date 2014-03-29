@@ -35,12 +35,11 @@ namespace helicopter
 			/**
 			 * These variables are used for controlling Yaw action (tail rotor)
 			 */
-			float magYawDegrees;
-			float referenceMagYawDegrees;
+			
+			float referenceMagYawRads;
 			float yawControl;
 			float yawControlBeforeServoLimitsAdjustment;
-			float yawVelocityDegreesPerSecond;
-			float referenceYawVelocityDegreesPerSecond;
+			float referenceYawVelocityRadsPerSecond;
 			float yawIntegral;
 			float yawProportional;
 			float yawDerivativeError;
@@ -48,8 +47,8 @@ namespace helicopter
 			/**
 			 * These variables are used for controlling the longitudinal action (cyclic pitch motion)
 			 */
-			float xNEDBodyFrame;
-			float referenceXNEDBodyFrame;
+			float xNEDLocalFrame;
+			float referenceXNEDLocalFrame;
 			float longitudeControlBeforeServoLimitsAdjustment;
 			float longitudeControl;
 			float xVelocityMetersPerSecond;
@@ -59,13 +58,13 @@ namespace helicopter
 			float xIntegral;
 			float xDerivativeError;
 			float thetaPitchDegrees;
-			float pitchAngularVelocityRadsPerSecond;
+
 			
 			/**
 			 * These variables are used for controlling the lateral action (cyclic roll motion)
 			 */
 			float yNEDBodyFrame;
-			float referenceYNEDBodyFrame;
+			float referenceYNEDLocalFrame;
 			float lateralControlBeforeServoLimitsAdjustment;
 			float lateralControl;
 			float yVelocityMetersPerSecond;
@@ -75,18 +74,17 @@ namespace helicopter
 			float yIntegral;
 			float yDerivativeError;
 			float phiRollDegrees;
-			float rollAngularVelocityRadsPerSecond;
 			
 			/**
 			 * These variables are used for controlling heave action (collective altitude motion)
 			 */
-			float altitudeFeetAgl;
+			float altitudeMetersAgl;
 			float zNEDBodyFrame;
-			float referenceAltitudeFeet;
+			float referenceAltitudeMeters;
 			float mainRotorControl;
 			float mainRotorControlBeforeServoLimitsAdjustment;
-			float zVelocityFeetPerSecond;
-			float referenceZVelocityFeetPerSecond;
+			float zVelocityMetersPerSecond;
+			float referenceZVelocityMetersPerSecond;
 			float zIntegral;
 			float zProportional;
 			float zDerivativeError;
@@ -116,6 +114,32 @@ namespace helicopter
 			float initialXPositionEcef;
 			float initialYPositionEcef;
 			float initialZPositionEcef;
+			float initialAltitudeMeters;
+			
+			
+			float rollRads;
+			float pitchRads;
+			float yawRads;
+			
+			/**
+			 * Sensor Readings
+			 */
+			float pitchAngularVelocityRs;
+			float rollAngularVelocityRs;
+			float yawAngularVelocityRs;
+			float xAccelFrdMss;
+			float yAccelFrdMss;
+			float zAccelFrdMss;
+			float xMagFrd;
+			float yMagFrd;
+			float zMagFrd;
+			long xEcefCm;
+			long yEcefCm;
+			long zEcefCm;		
+			long xVEcefCms;
+			long yVEcefCms;
+			long zVEcefCms;
+			float pressureMillibars;
 			
 			public:
 			
@@ -123,18 +147,16 @@ namespace helicopter
 			
 			SystemModel():
 				operationalState(ManualControl),
-				magYawDegrees(0),
-				referenceMagYawDegrees(0),
+				referenceMagYawRads(0),
 				yawControl(0),
 				yawControlBeforeServoLimitsAdjustment(0),
-				yawVelocityDegreesPerSecond(0),
-				referenceYawVelocityDegreesPerSecond(0),
+				referenceYawVelocityRadsPerSecond(0),
 				yawIntegral(0),
 				yawProportional(0),
 				yawDerivativeError(0),
 			
-				xNEDBodyFrame(0),
-				referenceXNEDBodyFrame(0),
+				xNEDLocalFrame(0),
+				referenceXNEDLocalFrame(0),
 				longitudeControlBeforeServoLimitsAdjustment(0),
 				longitudeControl(0),
 				xVelocityMetersPerSecond(0),
@@ -144,10 +166,9 @@ namespace helicopter
 				xIntegral(0),
 				xDerivativeError(0),
 				thetaPitchDegrees(0),
-				pitchAngularVelocityRadsPerSecond(0),
 			
 				yNEDBodyFrame(0),
-				referenceYNEDBodyFrame(0),
+				referenceYNEDLocalFrame(0),
 				lateralControlBeforeServoLimitsAdjustment(0),
 				lateralControl(0),
 				yVelocityMetersPerSecond(0),
@@ -157,16 +178,15 @@ namespace helicopter
 				yIntegral(0),
 				yDerivativeError(0),
 				phiRollDegrees(0),
-				rollAngularVelocityRadsPerSecond(0),
 			
 			
-				altitudeFeetAgl(0),
+				altitudeMetersAgl(0),
 				zNEDBodyFrame(0),
-				referenceAltitudeFeet(0),
+				referenceAltitudeMeters(0),
 				mainRotorControl(0),
 				mainRotorControlBeforeServoLimitsAdjustment(0),
-				zVelocityFeetPerSecond(0),
-				referenceZVelocityFeetPerSecond(0),
+				zVelocityMetersPerSecond(0),
+				referenceZVelocityMetersPerSecond(0),
 				zIntegral(0),
 				zProportional(0),
 				zDerivativeError(0),
@@ -182,7 +202,23 @@ namespace helicopter
 				
 				initialXPositionEcef(0),
 				initialYPositionEcef(0),
-				initialZPositionEcef(0)
+				initialZPositionEcef(0),
+				rollRads(0),
+				pitchRads(0),
+				yawRads(0),
+				pitchAngularVelocityRs(0),
+				rollAngularVelocityRs(0),
+				yawAngularVelocityRs(0),
+				xAccelFrdMss(0),
+				yAccelFrdMss(0),
+				zAccelFrdMss(0),
+				xMagFrd(0),
+				yMagFrd(0),
+				zMagFrd(0),
+				xVEcefCms(0),
+				yVEcefCms(0),
+				zVEcefCms(0),
+				pressureMillibars(0)						
 			{
 				EcefToLocalNEDRotationMatrix[0][0] = 0;
 				EcefToLocalNEDRotationMatrix[0][1] = 0;
@@ -194,23 +230,9 @@ namespace helicopter
 				EcefToLocalNEDRotationMatrix[2][1] = 0;
 				EcefToLocalNEDRotationMatrix[2][2] = 0;								
 			}
-			
-			/**
-			 * RawMag values represents the raw magnetic heading values received from
-			 * the sensors in the x y and z axis, in the following frame of reference:
-			 * X axis is left out of the FC
-			 * Y axis is pointing behind the FC
-			 * Z axis is pointing up out of the FC
-			 */
-			
-
-			float MagYawDegrees() const { return magYawDegrees; }
-			void MagYawDegrees(float val) { magYawDegrees = val; }	
 				
-				
-				
-			float ReferenceMagYawDegrees() const {return referenceMagYawDegrees;}
-			void ReferenceMagYawDegrees(float val) { referenceMagYawDegrees = val;}
+			float ReferenceMagYawRads() const {return referenceMagYawRads;}
+			void ReferenceMagYawRads(float val) { referenceMagYawRads = val;}
 				
 				
 			float YawControl() const {return yawControl;}
@@ -219,11 +241,8 @@ namespace helicopter
 			float YawControlBeforeServoLimitsAdjustment() const {return yawControlBeforeServoLimitsAdjustment;}
 			void YawControlBeforeServoLimitsAdjustment(float val) { yawControlBeforeServoLimitsAdjustment = val;}
 				
-			float YawVelocityDegreesPerSecond() const {return yawVelocityDegreesPerSecond;}
-			void YawVelocityDegreesPerSecond(float val) { yawVelocityDegreesPerSecond = val;}
-				
-			float ReferenceYawVelocityDegreesPerSecond() const {return referenceYawVelocityDegreesPerSecond;}
-			void ReferenceYawVelocityDegreesPerSecond(float val) { referenceYawVelocityDegreesPerSecond = val;}
+			float ReferenceYawVelocityRadsPerSecond() const {return referenceYawVelocityRadsPerSecond;}
+			void ReferenceYawVelocityRadsPerSecond(float val) { referenceYawVelocityRadsPerSecond = val;}
 				
 			float YawIntegral() const {return yawIntegral;}
 			void YawIntegral(float val) { yawIntegral = val;}
@@ -237,11 +256,11 @@ namespace helicopter
 		
 		
 		
-			float XNEDLocalFrame() const {return xNEDBodyFrame;}
-			void XNEDLocalFrame(float val) { xNEDBodyFrame = val;}
+			float XNEDLocalFrame() const {return xNEDLocalFrame;}
+			void XNEDLocalFrame(float val) { xNEDLocalFrame = val;}
 						
-			float ReferenceXNEDBodyFrame() const {return referenceXNEDBodyFrame;}
-			void ReferenceXNEDBodyFrame(float val) { referenceXNEDBodyFrame = val;}
+			float ReferenceXNEDLocalFrame() const {return referenceXNEDLocalFrame;}
+			void ReferenceXNEDLocalFrame(float val) { referenceXNEDLocalFrame = val;}
 
 			float LongitudeControlBeforeServoLimitsAdjustment() const {return longitudeControlBeforeServoLimitsAdjustment;}
 			void LongitudeControlBeforeServoLimitsAdjustment(float val) { longitudeControlBeforeServoLimitsAdjustment = val;}
@@ -267,15 +286,6 @@ namespace helicopter
 			float XDerivativeError() const {return xDerivativeError;}
 			void XDerivativeError(float val) { xDerivativeError = val;}
 				
-		
-			float ThetaPitchDegrees() const {return thetaPitchDegrees;}
-			void ThetaPitchDegrees(float val) {thetaPitchDegrees = val;}
-		
-			float PitchAngularVelocityRadsPerSecond() const {return pitchAngularVelocityRadsPerSecond;}
-			void PitchAngularVelocityRadsPerSecond(float val) {pitchAngularVelocityRadsPerSecond = val;}
-		
-						
-						
 						
 						
 						
@@ -284,8 +294,8 @@ namespace helicopter
 			float YNEDLocalFrame() const {return yNEDBodyFrame;}
 			void YNEDLocalFrame(float val) { yNEDBodyFrame = val;}
 
-			float ReferenceYNEDBodyFrame() const {return referenceYNEDBodyFrame;}
-			void ReferenceYNEDBodyFrame(float val) { referenceYNEDBodyFrame = val;}
+			float ReferenceYNEDLocalFrame() const {return referenceYNEDLocalFrame;}
+			void ReferenceYNEDLocalFrame(float val) { referenceYNEDLocalFrame = val;}
 
 			float LateralControlBeforeServoLimitsAdjustment() const {return lateralControlBeforeServoLimitsAdjustment;}
 			void LateralControlBeforeServoLimitsAdjustment(float val) { lateralControlBeforeServoLimitsAdjustment = val;}
@@ -310,28 +320,20 @@ namespace helicopter
 
 			float YDerivativeError() const {return yDerivativeError;}
 			void YDerivativeError(float val) { yDerivativeError = val;}
-
-
-			float PhiRollDegrees() const {return phiRollDegrees;}
-			void PhiRollDegrees(float val) {phiRollDegrees = val;}
-
-			float RollAngularVelocityRadsPerSecond() const {return rollAngularVelocityRadsPerSecond;}
-			void RollAngularVelocityRadsPerSecond(float val) {rollAngularVelocityRadsPerSecond = val;}
-
 						
 						
 						
 						
 
-			float AltitudeFeetAgl() const { return altitudeFeetAgl; }
-			void AltitudeFeetAgl(float val) { altitudeFeetAgl = val; }
+			float AltitudeMetersAgl() const { return altitudeMetersAgl; }
+			void AltitudeMetersAgl(float val) { altitudeMetersAgl = val; }
 
 			float ZNEDLocalFrame() const { return zNEDBodyFrame; }
 			void ZNEDLocalFrame(float val) { zNEDBodyFrame = val; }
 
 
-			float ReferenceZNEDBodyFrameFeet() const {return referenceAltitudeFeet;}
-			void ReferenceZNEDBodyFrameFeet(float val) { referenceAltitudeFeet = val;}
+			float ReferenceZNEDLocalFrameMeters() const {return referenceAltitudeMeters;}
+			void ReferenceZNEDLocalFrameMeters(float val) { referenceAltitudeMeters = val;}
 
 
 			float MainRotorCollectiveControl() const {return mainRotorControl;}
@@ -340,11 +342,11 @@ namespace helicopter
 			float MainRotorControlBeforeServoLimitsAdjustment() const {return mainRotorControlBeforeServoLimitsAdjustment;}
 			void MainRotorControlBeforeServoLimitsAdjustment(float val) { mainRotorControlBeforeServoLimitsAdjustment = val;}
 
-			float ZVelocityFeetPerSecond() const {return zVelocityFeetPerSecond;}
-			void ZVelocityFeetPerSecond(float val) { zVelocityFeetPerSecond = val;}
+			float ZVelocityMetersPerSecond() const {return zVelocityMetersPerSecond;}
+			void ZVelocityMetersPerSecond(float val) { zVelocityMetersPerSecond = val;}
 
-			float ReferenceZVelocityFeetPerSecond() const {return referenceZVelocityFeetPerSecond;}
-			void ReferenceZVelocityFeetPerSecond(float val) { referenceZVelocityFeetPerSecond = val;}
+			float ReferenceZVelocityMetersPerSecond() const {return referenceZVelocityMetersPerSecond;}
+			void ReferenceZVelocityMetersPerSecond(float val) { referenceZVelocityMetersPerSecond = val;}
 
 			float ZIntegral() const {return zIntegral;}
 			void ZIntegral(float val) { zIntegral = val;}
@@ -392,6 +394,73 @@ namespace helicopter
 				
 			OperatingState  OperationalState() const {return operationalState;}
 			void OperationalState( OperatingState val ) { operationalState = val;}
+				
+				
+				
+				
+				
+				
+			float YawAngularVelocityRadsPerSecond() const {return yawAngularVelocityRs;}
+			void YawAngularVelocityRadsPerSecond(float val) {yawAngularVelocityRs = val;}
+				
+			float PitchAngularVelocityRadsPerSecond() const {return pitchAngularVelocityRs;}
+			void PitchAngularVelocityRadsPerSecond(float val) {pitchAngularVelocityRs = val;}
+
+			float RollAngularVelocityRadsPerSecond() const {return rollAngularVelocityRs;}
+			void RollAngularVelocityRadsPerSecond(float val) {rollAngularVelocityRs = val;}		
+				
+				
+			float XAccelFrdMss() const {return xAccelFrdMss;}
+			void XAccelFrdMss(float val) {xAccelFrdMss = val;}
+
+			float YAccelFrdMss() const {return yAccelFrdMss;}
+			void YAccelFrdMss(float val) {yAccelFrdMss = val;}
+				
+			float ZAccelFrdMss() const {return zAccelFrdMss;}
+			void ZAccelFrdMss(float val) {zAccelFrdMss = val;}	
+				
+			float XMagFrd() const {return xMagFrd;}
+			void XMagFrd(float val) {xMagFrd = val;}
+
+			float YMagFrd() const {return yMagFrd;}
+			void YMagFrd(float val) {yMagFrd = val;}
+
+			float ZMagFrd() const {return zMagFrd;}
+			void ZMagFrd(float val) {zMagFrd = val;}	
+				
+			float YawRads() const {return yawRads;}
+			void YawRads(float val) {yawRads = val;}	
+				
+			float PitchRads() const {return pitchRads;}
+			void PitchRads(float val) {pitchRads = val;}
+				
+			float RollRads() const {return rollRads;}
+			void RollRads(float val) {rollRads = val;}	
+
+			long XEcefCm() const {return xEcefCm;}
+			void XEcefCm(long val) {xEcefCm = val;}
+			
+			long YEcefCm() const {return yEcefCm;}
+			void YEcefCm(long val) {yEcefCm = val;}
+				
+			long ZEcefCm() const {return zEcefCm;}
+			void ZEcefCm(long val) {zEcefCm = val;}				
+				
+			long XVEcefCms() const {return xVEcefCms;}
+			void XVEcefCms(long val) {xVEcefCms = val;}	
+				
+			long YVEcefCms() const {return yVEcefCms;}
+			void YVEcefCms(long val) {yVEcefCms = val;}
+				
+			long ZVEcefCms() const {return zVEcefCms;}
+			void ZVEcefCms(long val) {zVEcefCms = val;}		
+				
+			float PressureMillibars() const {return pressureMillibars;}
+			void PressureMillibars(float val) {pressureMillibars = val;}
+								
+			float InitialAltitudeMeters() const {return initialAltitudeMeters;}
+			void InitialAltitudeMeters(float val) {initialAltitudeMeters = val;}													
+													
 		};
 	}
 	

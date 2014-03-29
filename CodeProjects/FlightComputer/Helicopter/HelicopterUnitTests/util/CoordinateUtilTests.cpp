@@ -10,6 +10,7 @@
 
 using namespace helicopter::util;
 
+
 int coordinateutil_test(TestCase *test)
 {
 	//3 4  x  2 3 = 38 37

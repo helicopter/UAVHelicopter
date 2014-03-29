@@ -23,7 +23,7 @@ void SensorProcessingTask::runTaskImpl()
 	float localNEDY = 0;
 	float localNEDZ = 0;
 	
-	CoordinateUtil::ConvertFromGeodedicToLocalNED(model->LatitudeDegrees(), model->LongitudeDegrees(), model->AltitudeFeetAgl(), 
+	CoordinateUtil::ConvertFromGeodedicToLocalNED(model->LatitudeDegrees(), model->LongitudeDegrees(), model->AltitudeMetersAgl(), 
 		model->InitialXPositionEcef(), model->InitialYPositionEcef(), model->InitialZPositionEcef(),model->EcefToLocalNEDRotationMatrix,
 		localNEDX,localNEDY,localNEDZ);
 		

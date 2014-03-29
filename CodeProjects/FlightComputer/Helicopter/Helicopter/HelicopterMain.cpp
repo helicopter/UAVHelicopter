@@ -21,6 +21,8 @@
 #include "ReadIMUSensorTask.h"
 #include "IMUSensor.h"
 #include "TWIDriver.h"
+#include "NavigationTask.h"
+#include "AHRS.h"
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -33,6 +35,7 @@ using namespace helicopter::model;
 using namespace helicopter::controller;
 using namespace helicopter::util;
 using namespace helicopter::sensors;
+using namespace helicopter::navigation;
 
 void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidController)
 {	
@@ -41,15 +44,15 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	 * These are the setpoints that the helicopter to navigate/orient to.
 	 * This includes the final location that the helicopter should travel to.
 	 */
-	model->ReferenceMagYawDegrees(0.0); //point north
-	model->ReferenceYawVelocityDegreesPerSecond(0.0);
+	model->ReferenceMagYawRads(0.0); //point north
+	model->ReferenceYawVelocityRadsPerSecond(0.0);
 	
 	//Negative values because positive values are 'down' in NED. So we want a negative altitude setpoint.
-	model->ReferenceZNEDBodyFrameFeet(-100);
-	model->ReferenceZVelocityFeetPerSecond(0);
-	model->ReferenceXNEDBodyFrame(0);
+	model->ReferenceZNEDLocalFrameMeters(-30.48);
+	model->ReferenceZVelocityMetersPerSecond(0);
+	model->ReferenceXNEDLocalFrame(0);
 	model->ReferenceXVelocityMetersPerSecond(0);
-	model->ReferenceYNEDBodyFrame(0);
+	model->ReferenceYNEDLocalFrame(0);
 	model->ReferenceYVelocityMetersPerSecond(0);
 	
 	
@@ -102,11 +105,12 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	pidController->setMaxMainRotorServoControlValue(.5d);
 	pidController->setMinMainRotorServoControlValue(0.0d);
 	
-	pidController->setMaxRollSetpointDegrees(5);
-	pidController->setMinRollSetpointDegrees(-5);
+	//5 degrees
+	pidController->setMaxRollSetpointRads(0.0872664626);
+	pidController->setMinRollSetpointRads(-0.0872664626);
 	
-	pidController->setMaxPitchSetpointDegrees(13);
-	pidController->setMinPitchSetpointDegrees(-13);
+	pidController->setMaxPitchSetpointRads(0.226892803);
+	pidController->setMinPitchSetpointRads(-0.226892803);
 }
 
 
@@ -140,11 +144,20 @@ int main(void)
 	FlashLEDTask *flashTask = new FlashLEDTask(2, SCHEDULER_TICK_FREQUENCY_HZ);//starting at tick 2, execute once a second
 		
 		
-	SensorProcessingTask *sensorProcessingTask = new SensorProcessingTask(model, 5, 4);
+//	SensorProcessingTask *sensorProcessingTask = new SensorProcessingTask(model, 5, 4);
 		
 	//execute the pid outer loop at the PID_OUTER_LOOP_PERIOD rate. The division is to convert the period into ticks for the scheduler.
-	PIDOuterLoopTask *pidOuterLoop = new PIDOuterLoopTask(pidController, 3, (SCHEDULER_TICK_FREQUENCY_HZ / (1/PID_OUTER_LOOP_PERIOD)));
-	PIDInnerLoopTask *pidInnerLoop = new PIDInnerLoopTask(pidController, 4, (SCHEDULER_TICK_FREQUENCY_HZ / (1/PID_OUTER_LOOP_PERIOD)));
+	PIDOuterLoopTask *pidOuterLoop = new PIDOuterLoopTask(pidController, 3, (SCHEDULER_TICK_FREQUENCY_HZ  * PID_OUTER_LOOP_PERIOD));
+	PIDInnerLoopTask *pidInnerLoop = new PIDInnerLoopTask(pidController, 4, (SCHEDULER_TICK_FREQUENCY_HZ  * PID_OUTER_LOOP_PERIOD));
+	
+	
+	//AHRS *ahrs = new AHRS(GYRO_SENSOR_READ_PERIOD);
+	AHRS *ahrs = new AHRS(1/20); //for simulator angular velocity reads.
+	
+	NavigationTask *navTask = new NavigationTask(ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz.
+	
+	
+	
 	
 	SPIDriver *spiDriver = new SPIDriver();
 	spiDriver->init();
@@ -169,11 +182,15 @@ int main(void)
 	
 	scheduler->addTask(pidInnerLoop);
 	
-	scheduler->addTask(sensorProcessingTask);
+	scheduler->addTask(navTask);
+	
+//	scheduler->addTask(sensorProcessingTask); //not used since nav task creates localNED stuff.
+	
+
 	
 //	scheduler->addTask(imuSensorTask);
 	
-	
+
 	//Wait until we receive location data before starting the scheduler
 	//TODO rework this
 	bool isInitialized = false;
@@ -186,20 +203,33 @@ int main(void)
 		{
 			isInitialized = true;
 			
-			//ecefReferenceX, ecefReferenceY, ecefReferenceZ,ecefToLocalNEDRotationMatrix,
-			CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(model->LatitudeDegrees(), model->LongitudeDegrees(), model->EcefToLocalNEDRotationMatrix);
-	
-			float initialXPositionEcef = 0;
-			float initialYPositionEcef = 0;
-			float initialZPositionEcef = 0;
-			CoordinateUtil::ConvertFromGeodeticToECEF(model->LatitudeDegrees(), model->LongitudeDegrees(), model->AltitudeFeetAgl(), initialXPositionEcef, initialYPositionEcef, initialZPositionEcef);
+			model->InitialXPositionEcef(model->XEcefCm());
+			model->InitialYPositionEcef(model->YEcefCm());
+			model->InitialZPositionEcef(model->ZEcefCm());
 			
-			model->InitialXPositionEcef(initialXPositionEcef);
-			model->InitialYPositionEcef(initialYPositionEcef);
-			model->InitialZPositionEcef(initialZPositionEcef);
+			
+			////ecefReferenceX, ecefReferenceY, ecefReferenceZ,ecefToLocalNEDRotationMatrix,
+			CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(model->LatitudeDegrees(), model->LongitudeDegrees(), model->EcefToLocalNEDRotationMatrix);
+	//
+			//float initialXPositionEcef = 0;
+			//float initialYPositionEcef = 0;
+			//float initialZPositionEcef = 0;
+			//CoordinateUtil::ConvertFromGeodeticToECEF(model->LatitudeDegrees(), model->LongitudeDegrees(), model->AltitudeMetersAgl(), initialXPositionEcef, initialYPositionEcef, initialZPositionEcef);
+			//
+			//model->InitialXPositionEcef(initialXPositionEcef);
+			//model->InitialYPositionEcef(initialYPositionEcef);
+			//model->InitialZPositionEcef(initialZPositionEcef);
+			
+			//Calculate initial altitude
+			//altitude equation from: http://www.barnardmicrosystems.com/L4E_FMU_sensors.htm#Pressure
+			model->InitialAltitudeMeters((288.15/(6.5/1000.0))*(1-(pow((model->PressureMillibars()/101325.0),(6.5/1000.0)*(287.052/9.78)))));
 		}
 		_delay_ms(100);
 	}
+	
+	
+	
+	
 	
 	
 	//TODO set this to manual by default and have some sort of flag for what build we are making to know if it should be autopilot or not.

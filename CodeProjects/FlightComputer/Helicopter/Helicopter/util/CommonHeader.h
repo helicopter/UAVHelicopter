@@ -60,6 +60,19 @@ enum PRESCALER {NO_PRESCALER=1, PRESCALE_BY_EIGHT=8,
  */
 static const float GRAVITY_MSS = 9.80665;
 
+/**
+ * This is the time interval between barometer readings.
+ * This will need to change if the barometer is read faster/slower.
+ */
+static const float BAROMETER_SENSOR_READ_PERIOD = 1/50.0f;
+
+/**
+ * This represents how long a gyro readings represents.
+ * This is the interval period on the sensor itself, NOT how long
+ * in between the system reading the sensor. 
+ */
+static const float GYRO_SENSOR_READ_PERIOD = 1/98.0f;
+
 	
 	
 /**

@@ -15,14 +15,14 @@ using namespace helicopter::util;
 
 
 const float CoordinateUtil::E = 0.08181919;
-const float CoordinateUtil::Rea = 6378137.0;
+const float CoordinateUtil::REA = 6378137.0;
 
 float CoordinateUtil::DegreesToRad(float valueDegrees)
 {
 	return valueDegrees * (M_PI / 180.0);
 }
 
-void CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(float latitudeDegrees, float longitudeDegrees, float  ecefToLocalNEDRotationMatrix[][3])
+void CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(float latitudeDegrees, float longitudeDegrees, float  (&ecefToLocalNEDRotationMatrix)[3][3])
 {
 	float radLat = DegreesToRad(latitudeDegrees);
 	float radLong = DegreesToRad(longitudeDegrees);
@@ -42,7 +42,7 @@ void CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(float latitudeDegrees
 
 float CoordinateUtil::calculateNe(float E, float latitudeRads)
 {
-	return Rea / sqrt(1 - pow(E, 2) * pow(sin(latitudeRads), 2));
+	return REA / sqrt(1 - pow(E, 2) * pow(sin(latitudeRads), 2));
 }
 
 /**
@@ -82,6 +82,30 @@ void CoordinateUtil::ConvertFromECEFToLocalNED(float ecefReferenceX, float ecefR
 	localNEDY = rotatedMatrix[1];
 	localNEDZ = rotatedMatrix[2];
 }
+
+
+
+void CoordinateUtil::ConvertFromECEFToLocalNED(long ecefReferenceX, long ecefReferenceY, long ecefReferenceZ,
+	long ecefX, long ecefY, long ecefZ, float ecefToLocalNEDRotationMatrix[][3],
+	float &localNEDX, float &localNEDY, float &localNEDZ)
+{
+	//Get the current helicopters position relative to it's starting point in ecef.
+	long differenceXECEF = ecefX - ecefReferenceX;
+	long differenceYECEF = ecefY - ecefReferenceY;
+	long differenceZECEF = ecefZ - ecefReferenceZ;
+	
+	float rotatedMatrix[3] = {};
+	float positionMatrix[3] = {(float)differenceXECEF, (float)differenceYECEF, (float)differenceZECEF};
+	
+	//Rotate the current ecef position from earth centered earth fixed (ECEF) into North-East-Down(NED).
+	//Iterate through the rows of the rotation matrix
+	MatrixUtil::RotateMatrix(ecefToLocalNEDRotationMatrix,positionMatrix,rotatedMatrix);
+	
+	localNEDX = rotatedMatrix[0];
+	localNEDY = rotatedMatrix[1];
+	localNEDZ = rotatedMatrix[2];
+}
+
 
 void CoordinateUtil::ConvertFromGeodedicToLocalNED(
 	float geodedicLatitude, float geodedicLongitude, float altitudeFeetAgl,

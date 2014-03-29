@@ -33,11 +33,11 @@ namespace GroundControlStation.Model
 
         public float ZAltitudeFtAgl { get; set; }
 
-        public float YVelocityNEDFrameMs { get; set; }
+        public float YVelocityFRDBodyFrameMs { get; set; }
 
-        public float ZVelocityNEDFrameMs { get; set; }
+        public float ZVelocityFRDBodyFrameMs { get; set; }
 
-        public float XVelocityNEDFrameMs { get; set; }
+        public float XVelocityFRDBodyFrameMs { get; set; }
 
         /// <summary>
         /// Creates an XPlaneData object from the raw bytes received from xplane.
@@ -85,7 +85,7 @@ namespace GroundControlStation.Model
                 data.LongitudeDegrees = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
 
                 //Skip to the relevant data
-                byteReader.ReadBytes(4);
+                data.ZAltitudeFtMsl = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
                 data.ZAltitudeFtAgl = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
 
                 //Skip to the relevant data
@@ -96,9 +96,9 @@ namespace GroundControlStation.Model
                 //Y is positive pointing up
                 //Z is positive pointing south
                 //So it needs to be converted to North East Down.
-                data.YVelocityNEDFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0); //x value from simulator is NED y value.
-                data.ZVelocityNEDFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0) * -1; //Multiply by -1 to convert to down positive. Y value from simulator *-1 is NED Z
-                data.XVelocityNEDFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0) * -1; //Multiply by -1 to convert to north positive. Z value from simualtor * -1 is NED X
+                data.YVelocityFRDBodyFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0); //x value from simulator is y value.
+                data.ZVelocityFRDBodyFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0) * -1; //Multiply by -1 to convert to down positive. Y value from simulator *-1 is Z
+                data.XVelocityFRDBodyFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0) * -1; //Multiply by -1 to convert to north positive. Z value from simualtor * -1 is X
 
                 /*byteReader.ReadBytes(89);
 
@@ -125,11 +125,13 @@ namespace GroundControlStation.Model
             lstValues.Add(new Tuple<string, string>("X Lat Deg", LatitudeDegrees.ToString()));
             lstValues.Add(new Tuple<string, string>("Y Long Deg", LongitudeDegrees.ToString()));
             lstValues.Add(new Tuple<string, string>("Z Alt Ft Agl", ZAltitudeFtAgl.ToString()));
-            lstValues.Add(new Tuple<string, string>("Y V Ms", YVelocityNEDFrameMs.ToString()));
-            lstValues.Add(new Tuple<string, string>("Z V Ms", ZVelocityNEDFrameMs.ToString()));
-            lstValues.Add(new Tuple<string, string>("X V Ms", XVelocityNEDFrameMs.ToString()));
+            lstValues.Add(new Tuple<string, string>("Y V Ms", YVelocityFRDBodyFrameMs.ToString()));
+            lstValues.Add(new Tuple<string, string>("Z V Ms", ZVelocityFRDBodyFrameMs.ToString()));
+            lstValues.Add(new Tuple<string, string>("X V Ms", XVelocityFRDBodyFrameMs.ToString()));
 
             return lstValues;
         }
+
+        public float ZAltitudeFtMsl { get; set; }
     }
 }

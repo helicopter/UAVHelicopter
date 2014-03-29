@@ -64,7 +64,7 @@ namespace GroundControlStation.Controller
         {
             UpdateView(View.SimHeadingGraph, Model.SimTelm.MagHeadingDegrees);
             UpdateView(View.FcMagYaw, Model.MagYaw);
-            UpdateView(View.YawVelocityDegreesPerSecond, Model.YawVelocityDegreesPerSecond);
+            UpdateView(View.YawVelocityDegreesPerSecond, Model.YawVelocityRadsPerSecond);
             UpdateView(View.YawProportional, Model.YawProportional);
             UpdateView(View.YawIntegral, Model.YawIntegral);
             UpdateView(View.YawDerivative, Model.YawDerivativeError);
@@ -152,7 +152,7 @@ namespace GroundControlStation.Controller
                         FlightComputerTelemetryMessage telem = (FlightComputerTelemetryMessage) msg;
 
                         telem.UpdateModel(Model);
-                        
+
                         UpdateViews();
 
                         //Scale the Yaw Control value to a value usable by xplane.

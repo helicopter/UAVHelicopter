@@ -40,6 +40,8 @@ sensors\IMUSensor.cpp
 
 sensors\MagnetometerSensor.cpp
 
+tasks\NavigationTask.cpp
+
 tasks\PIDInnerLoopTask.cpp
 
 tasks\PIDOuterLoopTask.cpp
