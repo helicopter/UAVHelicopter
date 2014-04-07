@@ -51,7 +51,7 @@ namespace helicopter
 			float referenceXNEDLocalFrame;
 			float longitudeControlBeforeServoLimitsAdjustment;
 			float longitudeControl;
-			float xVelocityMetersPerSecond;
+			float xVelocityFRDCms;
 			float referenceXVelocityMetersPerSecond;
 			float xLongitudeOuterLoopSetpoint;
 			float xProportional;
@@ -67,8 +67,8 @@ namespace helicopter
 			float referenceYNEDLocalFrame;
 			float lateralControlBeforeServoLimitsAdjustment;
 			float lateralControl;
-			float yVelocityMetersPerSecond;
-			float referenceYVelocityMetersPerSecond;
+			float yVelocityFRDCms;
+			float referenceYVelocityMetersPerSecondBodyFrame;
 			float yLateralOuterLoopSetpoint;
 			float yProportional;
 			float yIntegral;
@@ -84,7 +84,7 @@ namespace helicopter
 			float mainRotorControl;
 			float mainRotorControlBeforeServoLimitsAdjustment;
 			float zVelocityMetersPerSecond;
-			float referenceZVelocityMetersPerSecond;
+			float referenceZVelocityCms;
 			float zIntegral;
 			float zProportional;
 			float zDerivativeError;
@@ -114,7 +114,7 @@ namespace helicopter
 			float initialXPositionEcef;
 			float initialYPositionEcef;
 			float initialZPositionEcef;
-			float initialAltitudeMeters;
+			float initialAltitudeCm;
 			
 			
 			float rollRads;
@@ -159,7 +159,7 @@ namespace helicopter
 				referenceXNEDLocalFrame(0),
 				longitudeControlBeforeServoLimitsAdjustment(0),
 				longitudeControl(0),
-				xVelocityMetersPerSecond(0),
+				xVelocityFRDCms(0),
 				referenceXVelocityMetersPerSecond(0),
 				xLongitudeOuterLoopSetpoint(0),
 				xProportional(0),
@@ -171,8 +171,8 @@ namespace helicopter
 				referenceYNEDLocalFrame(0),
 				lateralControlBeforeServoLimitsAdjustment(0),
 				lateralControl(0),
-				yVelocityMetersPerSecond(0),
-				referenceYVelocityMetersPerSecond(0),
+				yVelocityFRDCms(0),
+				referenceYVelocityMetersPerSecondBodyFrame(0),
 				yLateralOuterLoopSetpoint(0),
 				yProportional(0),
 				yIntegral(0),
@@ -186,7 +186,7 @@ namespace helicopter
 				mainRotorControl(0),
 				mainRotorControlBeforeServoLimitsAdjustment(0),
 				zVelocityMetersPerSecond(0),
-				referenceZVelocityMetersPerSecond(0),
+				referenceZVelocityCms(0),
 				zIntegral(0),
 				zProportional(0),
 				zDerivativeError(0),
@@ -256,11 +256,11 @@ namespace helicopter
 		
 		
 		
-			float XNEDLocalFrame() const {return xNEDLocalFrame;}
-			void XNEDLocalFrame(float val) { xNEDLocalFrame = val;}
+			float XNEDLocalFrameCm() const {return xNEDLocalFrame;}
+			void XNEDLocalFrameCm(float val) { xNEDLocalFrame = val;}
 						
-			float ReferenceXNEDLocalFrame() const {return referenceXNEDLocalFrame;}
-			void ReferenceXNEDLocalFrame(float val) { referenceXNEDLocalFrame = val;}
+			float ReferenceXNEDLocalFrameCm() const {return referenceXNEDLocalFrame;}
+			void ReferenceXNEDLocalFrameCm(float val) { referenceXNEDLocalFrame = val;}
 
 			float LongitudeControlBeforeServoLimitsAdjustment() const {return longitudeControlBeforeServoLimitsAdjustment;}
 			void LongitudeControlBeforeServoLimitsAdjustment(float val) { longitudeControlBeforeServoLimitsAdjustment = val;}
@@ -268,11 +268,11 @@ namespace helicopter
 			float LongitudeControl() const {return longitudeControl;}
 			void LongitudeControl(float val) { longitudeControl = val;}
 				
-			float XVelocityMetersPerSecond() const {return xVelocityMetersPerSecond;}
-			void XVelocityMetersPerSecond(float val) { xVelocityMetersPerSecond = val;}
+			float XVelocityFRDCms() const {return xVelocityFRDCms;}
+			void XVelocityFRDCms(float val) { xVelocityFRDCms = val;}
 				
-			float ReferenceXVelocityMetersPerSecond() const {return referenceXVelocityMetersPerSecond;}
-			void ReferenceXVelocityMetersPerSecond(float val) { referenceXVelocityMetersPerSecond = val;}
+			float ReferenceXVelocityCms() const {return referenceXVelocityMetersPerSecond;}
+			void ReferenceXVelocityCms(float val) { referenceXVelocityMetersPerSecond = val;}
 				
 			float XLongitudeOuterLoopSetpoint() const {return xLongitudeOuterLoopSetpoint;}
 			void XLongitudeOuterLoopSetpoint(float val) { xLongitudeOuterLoopSetpoint = val;}
@@ -291,11 +291,11 @@ namespace helicopter
 						
 
 
-			float YNEDLocalFrame() const {return yNEDLocalFrame;}
-			void YNEDLocalFrame(float val) { yNEDLocalFrame = val;}
+			float YNEDLocalFrameCm() const {return yNEDLocalFrame;}
+			void YNEDLocalFrameCm(float val) { yNEDLocalFrame = val;}
 
-			float ReferenceYNEDLocalFrame() const {return referenceYNEDLocalFrame;}
-			void ReferenceYNEDLocalFrame(float val) { referenceYNEDLocalFrame = val;}
+			float ReferenceYNEDLocalFrameCm() const {return referenceYNEDLocalFrame;}
+			void ReferenceYNEDLocalFrameCm(float val) { referenceYNEDLocalFrame = val;}
 
 			float LateralControlBeforeServoLimitsAdjustment() const {return lateralControlBeforeServoLimitsAdjustment;}
 			void LateralControlBeforeServoLimitsAdjustment(float val) { lateralControlBeforeServoLimitsAdjustment = val;}
@@ -303,11 +303,11 @@ namespace helicopter
 			float LateralControl() const {return lateralControl;}
 			void LateralControl(float val) { lateralControl = val;}
 
-			float YVelocityMetersPerSecond() const {return yVelocityMetersPerSecond;}
-			void YVelocityMetersPerSecond(float val) { yVelocityMetersPerSecond = val;}
+			float YVelocityFRDCms() const {return yVelocityFRDCms;}
+			void YVelocityFRDCms(float val) { yVelocityFRDCms = val;}
 
-			float ReferenceYVelocityMetersPerSecond() const {return referenceYVelocityMetersPerSecond;}
-			void ReferenceYVelocityMetersPerSecond(float val) { referenceYVelocityMetersPerSecond = val;}
+			float ReferenceYVelocityCms() const {return referenceYVelocityMetersPerSecondBodyFrame;}
+			void ReferenceYVelocityCms(float val) { referenceYVelocityMetersPerSecondBodyFrame = val;}
 
 			float YLateralOuterLoopSetpoint() const {return yLateralOuterLoopSetpoint;}
 			void YLateralOuterLoopSetpoint(float val) { yLateralOuterLoopSetpoint = val;}
@@ -324,16 +324,17 @@ namespace helicopter
 						
 						
 						
-
+			/*
 			float AltitudeMetersAgl() const { return altitudeMetersAgl; }
 			void AltitudeMetersAgl(float val) { altitudeMetersAgl = val; }
+			*/
 
-			float ZNEDLocalFrame() const { return zNEDLocalFrame; }
-			void ZNEDLocalFrame(float val) { zNEDLocalFrame = val; }
+			float ZNEDLocalFrameCm() const { return zNEDLocalFrame; }
+			void ZNEDLocalFrameCm(float val) { zNEDLocalFrame = val; }
 
 
-			float ReferenceZNEDLocalFrameMeters() const {return referenceAltitudeMeters;}
-			void ReferenceZNEDLocalFrameMeters(float val) { referenceAltitudeMeters = val;}
+			float ReferenceZNEDLocalFrameCm() const {return referenceAltitudeMeters;}
+			void ReferenceZNEDLocalFrameCm(float val) { referenceAltitudeMeters = val;}
 
 
 			float MainRotorCollectiveControl() const {return mainRotorControl;}
@@ -342,11 +343,11 @@ namespace helicopter
 			float MainRotorControlBeforeServoLimitsAdjustment() const {return mainRotorControlBeforeServoLimitsAdjustment;}
 			void MainRotorControlBeforeServoLimitsAdjustment(float val) { mainRotorControlBeforeServoLimitsAdjustment = val;}
 
-			float ZVelocityMetersPerSecond() const {return zVelocityMetersPerSecond;}
-			void ZVelocityMetersPerSecond(float val) { zVelocityMetersPerSecond = val;}
+			float ZVelocityFRDCms() const {return zVelocityMetersPerSecond;}
+			void ZVelocityFRDCms(float val) { zVelocityMetersPerSecond = val;}
 
-			float ReferenceZVelocityMetersPerSecond() const {return referenceZVelocityMetersPerSecond;}
-			void ReferenceZVelocityMetersPerSecond(float val) { referenceZVelocityMetersPerSecond = val;}
+			float ReferenceZVelocityCms() const {return referenceZVelocityCms;}
+			void ReferenceZVelocityCms(float val) { referenceZVelocityCms = val;}
 
 			float ZIntegral() const {return zIntegral;}
 			void ZIntegral(float val) { zIntegral = val;}
@@ -458,8 +459,8 @@ namespace helicopter
 			float PressureMillibars() const {return pressureMillibars;}
 			void PressureMillibars(float val) {pressureMillibars = val;}
 								
-			float InitialAltitudeMeters() const {return initialAltitudeMeters;}
-			void InitialAltitudeMeters(float val) {initialAltitudeMeters = val;}													
+			float InitialAltitudeCm() const {return initialAltitudeCm;}
+			void InitialAltitudeCm(float val) {initialAltitudeCm = val;}													
 													
 		};
 	}

@@ -33,11 +33,13 @@ namespace GroundControlStation.Model
 
         public float ZAltitudeFtAgl { get; set; }
 
+        /*
         public float YVelocityFRDBodyFrameMs { get; set; }
 
         public float ZVelocityFRDBodyFrameMs { get; set; }
 
         public float XVelocityFRDBodyFrameMs { get; set; }
+         */
 
         /// <summary>
         /// Creates an XPlaneData object from the raw bytes received from xplane.
@@ -96,9 +98,19 @@ namespace GroundControlStation.Model
                 //Y is positive pointing up
                 //Z is positive pointing south
                 //So it needs to be converted to North East Down.
-                data.YVelocityFRDBodyFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0); //x value from simulator is y value.
-                data.ZVelocityFRDBodyFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0) * -1; //Multiply by -1 to convert to down positive. Y value from simulator *-1 is Z
-                data.XVelocityFRDBodyFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0) * -1; //Multiply by -1 to convert to north positive. Z value from simualtor * -1 is X
+                float simXVelocityEUSFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
+                float simYVelocityEUSFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
+                float simZVelocityEUSFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0);
+               
+                /**
+                 * Reformat the velocity variables to NED frame.
+                 * Multiply by -1 to convert to down positive. Y value from simulator *-1 is Z
+                 * Multiply by -1 to convert to north positive. Z value from simualtor * -1 is X
+                 */
+                data.XVelocityNEDMs = simZVelocityEUSFrameMs * -1; //multiply by -1 to convert to north positive.
+                data.YVelocityNEDMs = simXVelocityEUSFrameMs;
+                data.ZVelocityNEDMs = simYVelocityEUSFrameMs * -1; //multiply by -1 to convert to down positive.
+
 
                 /*byteReader.ReadBytes(89);
 
@@ -125,13 +137,19 @@ namespace GroundControlStation.Model
             lstValues.Add(new Tuple<string, string>("X Lat Deg", LatitudeDegrees.ToString()));
             lstValues.Add(new Tuple<string, string>("Y Long Deg", LongitudeDegrees.ToString()));
             lstValues.Add(new Tuple<string, string>("Z Alt Ft Agl", ZAltitudeFtAgl.ToString()));
-            lstValues.Add(new Tuple<string, string>("Y V Ms", YVelocityFRDBodyFrameMs.ToString()));
-            lstValues.Add(new Tuple<string, string>("Z V Ms", ZVelocityFRDBodyFrameMs.ToString()));
-            lstValues.Add(new Tuple<string, string>("X V Ms", XVelocityFRDBodyFrameMs.ToString()));
+            lstValues.Add(new Tuple<string, string>("Y V Ms", YVelocityNEDMs.ToString()));
+            lstValues.Add(new Tuple<string, string>("Z V Ms", ZVelocityNEDMs.ToString()));
+            lstValues.Add(new Tuple<string, string>("X V Ms", XVelocityNEDMs.ToString()));
 
             return lstValues;
         }
 
         public float ZAltitudeFtMsl { get; set; }
+
+        public float XVelocityNEDMs { get; set; }
+
+        public float YVelocityNEDMs { get; set; }
+
+        public float ZVelocityNEDMs { get; set; }
     }
 }

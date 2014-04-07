@@ -48,12 +48,15 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	model->ReferenceYawVelocityRadsPerSecond(0.0);
 	
 	//Negative values because positive values are 'down' in NED. So we want a negative altitude setpoint.
-	model->ReferenceZNEDLocalFrameMeters(-30.48);
-	model->ReferenceZVelocityMetersPerSecond(0);
-	model->ReferenceXNEDLocalFrame(0);
-	model->ReferenceXVelocityMetersPerSecond(0);
-	model->ReferenceYNEDLocalFrame(0);
-	model->ReferenceYVelocityMetersPerSecond(0);
+	//model->ReferenceZNEDLocalFrameCm(-3048.0);
+	model->ReferenceZNEDLocalFrameCm(-304.8);
+	model->ReferenceZVelocityCms(0);
+	model->ReferenceXNEDLocalFrameCm(0);
+	//model->ReferenceXNEDLocalFrameCm(15000);
+	
+	model->ReferenceXVelocityCms(0);
+	model->ReferenceYNEDLocalFrameCm(0);
+	model->ReferenceYVelocityCms(0);
 	
 	
 	pidController->setYawProportionalGain(3.0);
@@ -111,6 +114,10 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	
 	pidController->setMaxPitchSetpointRads(0.226892803);
 	pidController->setMinPitchSetpointRads(-0.226892803);
+	
+	//lets try 7 degree max pitch
+	//pidController->setMaxPitchSetpointRads(0.122173048);
+	//pidController->setMinPitchSetpointRads(-0.122173048);
 }
 
 
@@ -154,17 +161,16 @@ int main(void)
 	//execute the pid outer loop at the PID_OUTER_LOOP_PERIOD rate. The division is to convert the period into ticks for the scheduler.
 	PIDOuterLoopTask *pidOuterLoop = new PIDOuterLoopTask(pidController, 3, (SCHEDULER_TICK_FREQUENCY_HZ  * PID_OUTER_LOOP_PERIOD));
 	PIDInnerLoopTask *pidInnerLoop = new PIDInnerLoopTask(pidController, 4, (SCHEDULER_TICK_FREQUENCY_HZ  * PID_OUTER_LOOP_PERIOD));
+//	PIDInnerLoopTask *pidInnerLoop = new PIDInnerLoopTask(pidController, 4, 1);
 	
-	
+	float simulatorSensorReadPeriod = 1/20.0f;
+		
 	//AHRS *ahrs = new AHRS(GYRO_SENSOR_READ_PERIOD);
-	AHRS *ahrs = new AHRS(1/20.0f); //for simulator angular velocity reads.
+	AHRS *ahrs = new AHRS(simulatorSensorReadPeriod); //for simulator angular velocity reads.
 	
-//	NavigationTask *navTask = new NavigationTask(ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz.
+	//NavigationTask *navTask = new NavigationTask(BAROMETER_SENSOR_READ_PERIOD, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. //used for the real helicopter
+	NavigationTask *navTask = new NavigationTask(simulatorSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz.
 
-	//it looks like navtask really needs to run at 200hz.
-	NavigationTask *navTask = new NavigationTask(ahrs, model, 0, 1); //Run at SCHEDULER_TICK_FREQUENCY_HZ hz. (in this case, 200 hz).
-	
-	
 	
 	
 	SPIDriver *spiDriver = new SPIDriver();
@@ -234,7 +240,7 @@ int main(void)
 			//model->InitialAltitudeMeters(((288.15/(6.5/1000.0))*(1-(pow((model->PressureMillibars()/101325.0),(6.5/1000.0)*(287.052/9.78))))) * -1);
 			
 			//https://www.brisbanehotairballooning.com.au/faqs/education/113-pressure-altitude-conversion.html
-			model->InitialAltitudeMeters(((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-6.8755856 * 0.000001)) / 3.28084);
+			model->InitialAltitudeCm((((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-6.8755856 * 0.000001)) / 3.28084) * -100);
 		}
 		_delay_ms(100);
 	}

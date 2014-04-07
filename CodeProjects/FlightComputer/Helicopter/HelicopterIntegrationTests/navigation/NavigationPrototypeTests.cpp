@@ -298,6 +298,36 @@ int prototypefusion_test(TestCase *test)
 
 int fakedata_test(TestCase *test)
 {
+
+float EcefToLocalNEDRotationMatrix[3][3] = {};
+	
+//CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(47.495945, -122.216972, EcefToLocalNEDRotationMatrix);	
+CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(47.495945, -122.216972, EcefToLocalNEDRotationMatrix);	
+	
+	float rotatedVelocityMatrix[3] = {};
+	float velocityBodyFrame[3] = {};
+	
+	float velocityMatrix[3] = {(float)-1047, (float)	-1472, (float)	0};
+	MatrixUtil::RotateMatrix(EcefToLocalNEDRotationMatrix, velocityMatrix, rotatedVelocityMatrix);
+
+	//rotate velocity into body frame
+	float nedToBodyFrameMatrix[3][3] = {};
+	MatrixUtil::CreateRotationMatrixTransposed(-0.00101321645, -0.109547511, 2.80199742, nedToBodyFrameMatrix);
+	MatrixUtil::RotateMatrix(nedToBodyFrameMatrix,rotatedVelocityMatrix, velocityBodyFrame);
+	
+	float vx = velocityBodyFrame[0];
+	float vy = velocityBodyFrame[1];
+	float vz = velocityBodyFrame[2];
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	float gyroscopeSamplingFrequency = 98.0f;
 	
 	

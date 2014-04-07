@@ -35,7 +35,7 @@ namespace GroundControlStation.Messages
 
 
         public float XNEDLocalFrame;
-        public float XVelocityMetersPerSecond;
+        public float XVelocityFRDCms;
         public float PitchRads;
 
         public float XIntegral;
@@ -51,7 +51,7 @@ namespace GroundControlStation.Messages
         public float PitchAngularVelocityGain;
 
         public float YNEDLocalFrame;
-        public float YVelocityMetersPerSecond;
+        public float YVelocityFRDCms;
         public float RollRads;
         public float YIntegral;
         public float YProportional;
@@ -66,7 +66,7 @@ namespace GroundControlStation.Messages
         public float RollAngularVelocityGain;
 
         public float AltitudeMetersAgl;
-        public float ZVelocityMetersPerSecond;
+        public float ZVelocityFRDCms;
         public float YawRads;
         public float ZIntegral;
         public float ZProportional;
@@ -82,22 +82,22 @@ namespace GroundControlStation.Messages
         public float LongitudeDegrees;
 
 
-        float XAccelFrdMss;
-        float YAccelFrdMss;
-        float ZAccelFrdMss;
-        float YawAngularVelocityRadsPerSecond;
-        float PitchAngularVelocityRadsPerSecond;
-        float RollAngularVelocityRadsPerSecond;
-        float XMagFrd;
-        float YMagFrd;
-        float ZMagFrd;
-        int XEcefCm;
-        int YEcefCm;
-        int ZEcefCm;
-        int XVEcefCms;
-        int YVEcefCms;
-        int ZVEcefCms;
-        float PressureMillibars;
+        public float XAccelFrdMss;
+        public float YAccelFrdMss;
+        public float ZAccelFrdMss;
+        public float YawAngularVelocityRadsPerSecond;
+        public float PitchAngularVelocityRadsPerSecond;
+        public float RollAngularVelocityRadsPerSecond;
+        public float XMagFrd;
+        public float YMagFrd;
+        public float ZMagFrd;
+        public int XEcefCm;
+        public int YEcefCm;
+        public int ZEcefCm;
+        public int XVEcefCms;
+        public int YVEcefCms;
+        public int ZVEcefCms;
+        public float PressureMillibars;
 
 
         public int Timeouts;
@@ -226,7 +226,7 @@ namespace GroundControlStation.Messages
 
 
             XNEDLocalFrame = decodeFloat(byteBuffer, ref positionCounter);
-            XVelocityMetersPerSecond = decodeFloat(byteBuffer, ref positionCounter);
+            XVelocityFRDCms = decodeFloat(byteBuffer, ref positionCounter);
             PitchRads = decodeFloat(byteBuffer, ref positionCounter);
             XIntegral = decodeFloat(byteBuffer, ref positionCounter);
             XProportional = decodeFloat(byteBuffer, ref positionCounter);
@@ -241,7 +241,7 @@ namespace GroundControlStation.Messages
             PitchAngularVelocityGain = decodeFloat(byteBuffer, ref positionCounter);
 
             YNEDLocalFrame = decodeFloat(byteBuffer, ref positionCounter);
-            YVelocityMetersPerSecond = decodeFloat(byteBuffer, ref positionCounter);
+            YVelocityFRDCms = decodeFloat(byteBuffer, ref positionCounter);
             RollRads = decodeFloat(byteBuffer, ref positionCounter);
             YIntegral = decodeFloat(byteBuffer, ref positionCounter);
             YProportional = decodeFloat(byteBuffer, ref positionCounter);
@@ -256,7 +256,7 @@ namespace GroundControlStation.Messages
             RollAngularVelocityGain = decodeFloat(byteBuffer, ref positionCounter);
 
             AltitudeMetersAgl = decodeFloat(byteBuffer, ref positionCounter);
-            ZVelocityMetersPerSecond = decodeFloat(byteBuffer, ref positionCounter);
+            ZVelocityFRDCms = decodeFloat(byteBuffer, ref positionCounter);
             YawRads = decodeFloat(byteBuffer, ref positionCounter);
             ZIntegral = decodeFloat(byteBuffer, ref positionCounter);
             ZProportional = decodeFloat(byteBuffer, ref positionCounter);
@@ -323,7 +323,7 @@ namespace GroundControlStation.Messages
 
 
             encode(ref rawMsg, XNEDLocalFrame, ref positionCounter);
-            encode(ref rawMsg, XVelocityMetersPerSecond, ref positionCounter);
+            encode(ref rawMsg, XVelocityFRDCms, ref positionCounter);
             encode(ref rawMsg, PitchRads, ref positionCounter);
             encode(ref rawMsg, XIntegral, ref positionCounter);
             encode(ref rawMsg, XProportional, ref positionCounter);
@@ -338,7 +338,7 @@ namespace GroundControlStation.Messages
             encode(ref rawMsg, PitchAngularVelocityGain, ref positionCounter);
 
             encode(ref rawMsg, YNEDLocalFrame, ref positionCounter);
-            encode(ref rawMsg, YVelocityMetersPerSecond, ref positionCounter);
+            encode(ref rawMsg, YVelocityFRDCms, ref positionCounter);
             encode(ref rawMsg, RollRads, ref positionCounter);
             encode(ref rawMsg, YIntegral, ref positionCounter);
             encode(ref rawMsg, YProportional, ref positionCounter);
@@ -354,7 +354,7 @@ namespace GroundControlStation.Messages
 
 
             encode(ref rawMsg, AltitudeMetersAgl, ref positionCounter);
-            encode(ref rawMsg, ZVelocityMetersPerSecond, ref positionCounter);
+            encode(ref rawMsg, ZVelocityFRDCms, ref positionCounter);
             encode(ref rawMsg, YawRads, ref positionCounter);
             encode(ref rawMsg, ZIntegral, ref positionCounter);
             encode(ref rawMsg, ZProportional, ref positionCounter);
@@ -476,7 +476,7 @@ namespace GroundControlStation.Messages
 
 
             model.XNEDLocalFrame = XNEDLocalFrame;
-            model.XVelocityMetersPerSecond = XVelocityMetersPerSecond;
+            model.XVelocityMetersPerSecond = XVelocityFRDCms;
             model.ThetaPitchDegrees = PitchRads;
             model.XIntegral = XIntegral;
             model.XProportional = XProportional;
@@ -491,7 +491,7 @@ namespace GroundControlStation.Messages
             //model.LongitudeInnerLoopGain = LongitudeInnerLoopGain;
 
             model.YNEDLocalFrame = YNEDLocalFrame;
-            model.YVelocityMetersPerSecond = YVelocityMetersPerSecond;
+            model.YVelocityMetersPerSecond = YVelocityFRDCms;
             model.PhiRollDegrees = RollRads;
             model.YIntegral = YIntegral;
             model.YProportional = YProportional;
@@ -508,7 +508,7 @@ namespace GroundControlStation.Messages
 
 
             model.AltitudeMetersAgl = AltitudeMetersAgl;
-            model.ZVelocityFeetPerSecond = ZVelocityMetersPerSecond;
+            model.ZVelocityFeetPerSecond = ZVelocityFRDCms;
             model.YawRads = YawRads;
             model.ZIntegral = ZIntegral;
             model.ZProportional = ZProportional;
@@ -543,7 +543,8 @@ namespace GroundControlStation.Messages
             model.ZVEcefCms = ZVEcefCms;
             model.PressureMillibars = PressureMillibars;
 
-
+            model.PitchRads = PitchRads;
+            model.RollRads = RollRads;
 
 
             model.Timeouts = Timeouts;
@@ -588,9 +589,34 @@ namespace GroundControlStation.Messages
             msg.LongitudeDegrees = model.SimTelm.LongitudeDegrees;
       //      msg.AltitudeMetersAgl = model.SimTelm.ZAltitudeFtAgl * .3048f; //Removed since it should be calculated from pressure
 
-            msg.XVelocityMetersPerSecond = model.SimTelm.XVelocityFRDBodyFrameMs;
-            msg.YVelocityMetersPerSecond = model.SimTelm.YVelocityFRDBodyFrameMs;
-            msg.ZVelocityMetersPerSecond = model.SimTelm.ZVelocityFRDBodyFrameMs;
+
+            //http://stackoverflow.com/questions/1568568/how-to-convert-euler-angles-to-directional-vector
+            float yawRads = Util.Util.ConvertToRads(model.SimTelm.MagHeadingDegrees);
+            float pitchRads = Util.Util.ConvertToRads(model.SimTelm.PitchDegrees);
+            float rollRads = Util.Util.ConvertToRads(model.SimTelm.RollDegrees);
+
+
+
+            //Multiply by 100 to convert to centimeters.
+            float[] velocitiesNEDCms = { model.SimTelm.XVelocityNEDMs * 100, model.SimTelm.YVelocityNEDMs * 100, model.SimTelm.ZVelocityNEDMs * 100};
+            float[,] nedToFRDRotationMatrix = Util.Util.CreateRotationMatrixTransposed(rollRads, pitchRads, yawRads);
+            float[] velocityFRDBodyFrameCms = Util.Util.RotateMatrix(nedToFRDRotationMatrix, velocitiesNEDCms);
+
+
+            /*
+            data.YVelocityFRDBodyFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0); //x value from simulator is y value.
+            data.ZVelocityFRDBodyFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0) * -1; //Multiply by -1 to convert to down positive. Y value from simulator *-1 is Z
+            data.XVelocityFRDBodyFrameMs = BitConverter.ToSingle(byteReader.ReadBytes(4), 0) * -1; //Multiply by -1 to convert to north positive. Z value from simualtor * -1 is X
+            */
+            //model.SimTelm.XVelocityFRDBodyFrameMs = velocityFRDBodyFrameMs[0]; //x value from simulator is y value.
+            //model.SimTelm.YVelocityFRDBodyFrameMs = velocityFRDBodyFrameMs[1]; //Multiply by -1 to convert to down positive. Y value from simulator *-1 is Z
+            //model.SimTelm.ZVelocityFRDBodyFrameMs = velocityFRDBodyFrameMs[2]; //Multiply by -1 to convert to north positive. Z value from simualtor * -1 is X
+         
+                
+
+            msg.XVelocityFRDCms = velocityFRDBodyFrameCms[0];
+            msg.YVelocityFRDCms = velocityFRDBodyFrameCms[1];
+            msg.ZVelocityFRDCms = velocityFRDBodyFrameCms[2];
 
 
             //****** Remove these since these should be calculated.            
@@ -603,30 +629,65 @@ namespace GroundControlStation.Messages
               */
 
             //Take the yaw, pitch, and roll, to create a gravitational vector
-            //then add lateral acceleration to it
-            //http://stackoverflow.com/questions/1568568/how-to-convert-euler-angles-to-directional-vector
-            float yawRads = Util.Util.ConvertToRads(model.SimTelm.MagHeadingDegrees);
-            float pitchRads = Util.Util.ConvertToRads(model.SimTelm.PitchDegrees);
-            float rollRads = Util.Util.ConvertToRads(model.SimTelm.RollDegrees);
+            //then add linear acceleration to it
 
 
-            float[,] rotationMatrix = Util.Util.CreateRotationMatrixTransposed(rollRads,pitchRads,yawRads);
-            float[] rotatedUnitVector = Util.Util.RotateMatrix(rotationMatrix,new float[3]{0,0,-1});
+            //float[,] rotationMatrix = Util.Util.CreateRotationMatrixTransposed(rollRads,pitchRads,yawRads);
+            float[] rotatedUnitVector = Util.Util.RotateMatrix(nedToFRDRotationMatrix, new float[3] { 0, 0, -1 });
 
             float xGrav = rotatedUnitVector[0] * Util.Util.GRAVITY;
             float yGrav = rotatedUnitVector[1] * Util.Util.GRAVITY;
             float zGrav = rotatedUnitVector[2] * Util.Util.GRAVITY;
 
+            /**
+             * Add linear acceleration to grav vectors
+             */
+            float linearAccelXNEDMss = (velocitiesNEDCms[0]/100f - model.PreviousXVelocityNEDCms/100f) / Util.Util.INTERVAL_BETWEEN_SIM_DATA;
+            float linearAccelYNEDMss = (velocitiesNEDCms[1]/100f - model.PreviousYVelocityNEDCms/100f) / Util.Util.INTERVAL_BETWEEN_SIM_DATA;
+            float linearAccelZNEDMss = (velocitiesNEDCms[2]/100f - model.PreviousZVelocityNEDCms/100f) / Util.Util.INTERVAL_BETWEEN_SIM_DATA;
 
-            xGrav += model.SimTelm.XVelocityFRDBodyFrameMs * (1 / Util.Util.INTERVAL_BETWEEN_SIM_DATA);
-            yGrav += model.SimTelm.YVelocityFRDBodyFrameMs * (1 / Util.Util.INTERVAL_BETWEEN_SIM_DATA);
-            zGrav += model.SimTelm.ZVelocityFRDBodyFrameMs * (1 / Util.Util.INTERVAL_BETWEEN_SIM_DATA);
+
+            
+
+
+            //Rotate linear acceleration from NED into body frame in meters per second per second (because gravity is ms^2
+            float[] linearAccelerationFRDBodyFrameMss = Util.Util.RotateMatrix(nedToFRDRotationMatrix, new float[] { linearAccelXNEDMss, linearAccelYNEDMss, linearAccelZNEDMss });
+/*
+System.Diagnostics.Debug.WriteLine("XLinearAccel: " + linearAccelerationFRDBodyFrameMss[0]);
+System.Diagnostics.Debug.WriteLine("YLinearAccel: " + linearAccelerationFRDBodyFrameMss[1]);
+System.Diagnostics.Debug.WriteLine("ZLinearAccel: " + linearAccelerationFRDBodyFrameMss[2]);
+*/
+            /*
+            xGrav += linearAccelerationFRDBodyFrameMss[0];
+            yGrav -= linearAccelerationFRDBodyFrameMss[1];
+            zGrav += linearAccelerationFRDBodyFrameMss[2];
+            */
+            /*
+            System.Diagnostics.Debug.WriteLine("XLinearAccel: " + xGrav);
+            System.Diagnostics.Debug.WriteLine("YLinearAccel: " + yGrav);
+            System.Diagnostics.Debug.WriteLine("ZLinearAccel: " + zGrav);
+            */
+            System.Diagnostics.Debug.WriteLine("XLinearV: " + msg.XVelocityFRDCms);
+            System.Diagnostics.Debug.WriteLine("YLinearV: " + msg.YVelocityFRDCms);
+            System.Diagnostics.Debug.WriteLine("ZLinearV: " + msg.ZVelocityFRDCms);
+            /*
+            xGrav += (velocitiesNEDCms[0] - model.PreviousXVelocityNEDCms) * (1 / Util.Util.INTERVAL_BETWEEN_SIM_DATA);
+            yGrav += (velocitiesNEDCms[1] - model.PreviousYVelocityNEDCms) * (1 / Util.Util.INTERVAL_BETWEEN_SIM_DATA);
+            zGrav += (velocitiesNEDCms[2] - model.PreviousZVelocityNEDCms) * (1 / Util.Util.INTERVAL_BETWEEN_SIM_DATA);
+             * */
+
+
+            model.PreviousXVelocityNEDCms = velocitiesNEDCms[0];
+            model.PreviousYVelocityNEDCms = velocitiesNEDCms[1];
+            model.PreviousZVelocityNEDCms = velocitiesNEDCms[2];
+
+
 
 
             /**
              * Calculate magnetic vector including the angle of inclination
              */
-            float[,] magFrameRotationMatrix = Util.Util.CreateRotationMatrix(0, Util.Util.ConvertToRads(-70), 0);
+            float[,] magFrameRotationMatrix = Util.Util.CreateRotationMatrix(0, Util.Util.ConvertToRads(70), 0);
             float[] magFrameRotatedUnitVector = Util.Util.RotateMatrix(magFrameRotationMatrix, new float[3] { 1, 0, 0 });
 
             float[,] magRotationMatrix = Util.Util.CreateRotationMatrixTransposed(rollRads, pitchRads, yawRads);
@@ -640,17 +701,29 @@ namespace GroundControlStation.Messages
             float ecefY = 0;
             float ecefZ = 0;
 
-            Util.Util.ConvertFromGeodeticToECEF(model.SimTelm.LatitudeDegrees, model.SimTelm.LongitudeDegrees, model.SimTelm.ZAltitudeFtAgl, out ecefX, out ecefY, out ecefZ);
+            //Convert lat/long to earth centered earth fixed coordinates. Convert altitude to meters.
+            Util.Util.ConvertFromGeodeticToECEF(model.SimTelm.LatitudeDegrees, model.SimTelm.LongitudeDegrees, model.SimTelm.ZAltitudeFtAgl * 0.3048f, out ecefX, out ecefY, out ecefZ);
 
             /**
              * Convert velocity from Body frame to NED to ECEF
              */
-            float[,] rotationMatrixVelocity = Util.Util.CreateRotationMatrixTransposed(rollRads, pitchRads, yawRads);
-            float[] velocityRotatedVectorNED = Util.Util.RotateMatrix(rotationMatrixVelocity, new float[] { model.SimTelm.XVelocityFRDBodyFrameMs, model.SimTelm.YVelocityFRDBodyFrameMs, model.SimTelm.ZVelocityFRDBodyFrameMs});
-
+            //float[,] rotationMatrixVelocity = Util.Util.CreateRotationMatrix(rollRads, pitchRads, yawRads);
+            //float[] velocityRotatedVectorNED = Util.Util.RotateMatrix(rotationMatrixVelocity, new float[] { model.SimTelm.XVelocityFRDBodyFrameMs, model.SimTelm.YVelocityFRDBodyFrameMs, model.SimTelm.ZVelocityFRDBodyFrameMs});
 
             float[,] rotationMatrixVelocityECEF = Util.Util.CalculateECEFToLocalNEDRotationMatrixTransposed(model.SimTelm.LatitudeDegrees, model.SimTelm.LongitudeDegrees);
-            float[] velocityRotatedVectorECEF = Util.Util.RotateMatrix(rotationMatrixVelocityECEF, velocityRotatedVectorNED);
+            float[] velocityRotatedVectorECEFCms = Util.Util.RotateMatrix(rotationMatrixVelocityECEF, velocitiesNEDCms);
+
+/*
+float[] velocityRotatedVectorECEF2 = velocityRotatedVectorECEF;
+float[,] rotationMatrixVelocityNED2 = Util.Util.CalculateECEFToLocalNEDRotationMatrix(model.SimTelm.LatitudeDegrees, model.SimTelm.LongitudeDegrees);
+float[] velocityRotatedVectorNED2 = Util.Util.RotateMatrix(rotationMatrixVelocityNED2, velocityRotatedVectorECEF2);
+float[,] rotationMatrixVelocity2 = Util.Util.CreateRotationMatrixTransposed(rollRads, pitchRads, yawRads);
+float[] velocityRotatedVectorBody = Util.Util.RotateMatrix(rotationMatrixVelocity2, new float[] { velocityRotatedVectorNED2[0], velocityRotatedVectorNED2[1], velocityRotatedVectorNED2[2]});
+
+
+System.Diagnostics.Debug.WriteLine("FRD x from sim: " + model.SimTelm.XVelocityFRDBodyFrameMs);
+System.Diagnostics.Debug.WriteLine("FRD x from sim recalced: " + velocityRotatedVectorBody[0]);
+*/
 
 
             /**
@@ -678,11 +751,10 @@ namespace GroundControlStation.Messages
             msg.XEcefCm = (int) (ecefX * 100.0f);
             msg.YEcefCm = (int) (ecefY * 100.0f);
             msg.ZEcefCm = (int) (ecefZ * 100.0f);
-            msg.XVEcefCms = (int)(velocityRotatedVectorECEF[0] * 100);// * 100 to convert to cm's a second
-            msg.YVEcefCms = (int)(velocityRotatedVectorECEF[1] * 100);// * 100 to convert to cm's a second
-            msg.ZVEcefCms = (int)(velocityRotatedVectorECEF[2] * 100);// * 100 to convert to cm's a second
+            msg.XVEcefCms = (int)(velocityRotatedVectorECEFCms[0]);
+            msg.YVEcefCms = (int)(velocityRotatedVectorECEFCms[1]);
+            msg.ZVEcefCms = (int)(velocityRotatedVectorECEFCms[2]);
             msg.PressureMillibars = pressureMb;
-            
 
 
 

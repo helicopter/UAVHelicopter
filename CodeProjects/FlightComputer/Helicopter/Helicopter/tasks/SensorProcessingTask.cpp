@@ -19,7 +19,7 @@ SensorProcessingTask::SensorProcessingTask (SystemModel *model, int delay, int p
 
 void SensorProcessingTask::runTaskImpl()
 {
-	float localNEDX = 0;
+/*	float localNEDX = 0;
 	float localNEDY = 0;
 	float localNEDZ = 0;
 	
@@ -28,7 +28,8 @@ void SensorProcessingTask::runTaskImpl()
 		localNEDX,localNEDY,localNEDZ);
 		
 		
-	model->XNEDLocalFrame(localNEDX);
-	model->YNEDLocalFrame(localNEDY);
-	model->ZNEDLocalFrame(localNEDZ);
+	model->XNEDLocalFrameCm(localNEDX);
+	model->YNEDLocalFrameCm(localNEDY);
+	model->ZNEDLocalFrameCm(localNEDZ);
+	*/
 }

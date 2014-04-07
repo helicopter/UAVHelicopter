@@ -164,6 +164,10 @@ namespace HelicopterIntegrationTests
                 Assert.IsTrue(model.XNEDLocalFrame == 19.22f);
                 Assert.IsTrue(model.YNEDLocalFrame == 21.33f);
 
+                Assert.IsTrue(model.XVEcefCms == 42);
+                Assert.IsTrue(model.YVEcefCms == 12);
+                Assert.IsTrue(model.ZVEcefCms == 32);
+
                 fcInt.Transmit(telemetry);
 
                 DateTime startTime = DateTime.Now;

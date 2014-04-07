@@ -55,12 +55,12 @@ controlMinValue(0)
 
 PIDController::~PIDController()
 {
-	delete model;
+
 }
 
 float PIDController::calculateProportional(float currentValue, float referenceValue)
 {
-	return currentValue - referenceValue;
+	return currentValue - referenceValue; 
 }
 
 //TODO refactor to make this common for all PID calculations. I'll want to include the specific
@@ -69,47 +69,110 @@ float PIDController::calculateIntegralAntiWindup(float oldControlPreServoAdj, fl
 {
 	float antiWindup = 0;
 	
-	antiWindup = antiWindupGain * (oldControlPreServoAdj - oldControl);
+	//antiWindup = antiWindupGain * (oldControlPreServoAdj - oldControl);
+	antiWindup = antiWindupGain * (oldControl - oldControlPreServoAdj);
 	
 	return antiWindup;
 }
 
 
 /**
- * Anti-windup algorithm provided by Control Systems Design by Karl Johan Astrom 2002. chapter 6
+ * Anti-windup algorithms are discussed in Control Systems Design by Karl Johan Astrom 2002. chapter 6
+ * I'm not directly using their algorithms
  */
 float PIDController::calculateIntegral(float proportional, float oldIntegral, float antiWindup, float integralGain)
 {
 	
 	float workingIntegral = 0;
 	
-	workingIntegral = proportional * intervalPeriodSecs * integralGain;
 	
-	//Integrate (i.e. sum this working value with the current integral value).
-	//Note: I'm going out of order from what is defined in the book referenced above.
-	//I am summing before subtracting the antiwindup value to make it easier.
-	//I also find it odd that the integral 'gain' is being applied before 
-	//accounting for the anti-windup. But this could be to compensate for large errors.
-	workingIntegral = workingIntegral + oldIntegral;
+	workingIntegral = proportional * integralGain + antiWindup;
 	
-	if (antiWindup != 0)
-	{
-		//We want to know if the integral is greater than 0 or less than 0 so that when we subtract
-		//the antiwindup value, we get closer to 0, and don't exceed 0.
-		if (workingIntegral > 0 && antiWindup > workingIntegral)
-		{
-			workingIntegral = 0;
-		}else if (workingIntegral < 0 && antiWindup < workingIntegral)
-		{
-			workingIntegral = 0;
-		}
-		
-		if (workingIntegral != 0)
-		{
-				//Subtract the anti-windup value from the working integral. 
-			workingIntegral = workingIntegral - antiWindup;
-		}
-	}
+	
+	workingIntegral = workingIntegral * intervalPeriodSecs + oldIntegral;
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//float workingIntegral = 0;
+	//
+//
+	//workingIntegral = proportional * intervalPeriodSecs * integralGain;
+	//workingIntegral = workingIntegral + oldIntegral;
+	//
+	///*
+	//if (antiWindup == 0)
+	//{
+		////If the servos haven't been saturated (theres no anti-windup), then calculate the integral as normal.
+		//workingIntegral = proportional * intervalPeriodSecs * integralGain;
+		//workingIntegral = workingIntegral + oldIntegral;
+	//} else*/
+	//if (antiWindup != 0)
+	//{
+		///**
+		 //* Take the absolute values of the working integral and the anti-windup so that the
+		 //* anti windup is always subtracted from the integral. Then convert the integral back to a
+		 //* negative value if it was already a negative value.
+		 //*/
+		//float absWorkingIntegral = abs(workingIntegral);
+		//float absAntiWindup = abs(antiWindup);
+		//
+		////If the anti windup value is greater than the integral, just set the integral to 0, and if the working integral
+		////is already 0, leave it at zero. i.e. don't subtract out the anti-windup value from a nonexistent integral.
+		//if (absAntiWindup > absWorkingIntegral || absWorkingIntegral == 0)
+		//{
+			//workingIntegral = 0;
+		//}else
+		//{
+			//absWorkingIntegral = absWorkingIntegral - absAntiWindup;
+			//
+			//if (workingIntegral < 0)
+			//{
+				//workingIntegral = absWorkingIntegral * -1;
+			//}
+		//}
+		//
+		//
+		//
+		////We want to know if the integral is greater than 0 or less than 0 so that when we subtract
+		////the antiwindup value, we get closer to 0, and don't exceed 0.
+		///*if (workingIntegral > 0 && antiWindup > workingIntegral)
+		//{
+			//workingIntegral = 0;
+		//}else if (workingIntegral < 0 && antiWindup < workingIntegral)
+		//{
+			//workingIntegral = 0;
+		//}
+		//
+		//if (workingIntegral != 0)
+		//{
+			////Subtract the anti-windup value from the working integral. 
+			//workingIntegral = workingIntegral - antiWindup;
+		//}*/
+	//}
 	
 	return workingIntegral;
 }
@@ -126,6 +189,23 @@ float PIDController::calculateOuterLoopControlValue(float proportionalError, flo
 	controlValue = directionFactor * (integral  + proportionalError * proportionalGain + velocityError * derivativeGain);
 	
 	return controlValue;
+	
+	
+	
+	//float workingPid = integral  + proportionalError * proportionalGain;
+	//
+	//float multiplier = workingPid < 0 ? -1.0f : 1.0f;
+	//
+	////Subtract the abs pid from abs velocity. therefore velocity always 'reduces' the pid value.
+	//return directionFactor * (multiplier * (fabs(workingPid) - fabs(velocityError * derivativeGain)));
+	
+	/*
+	float controlValue = 0;
+	
+	controlValue = directionFactor * (integral  + proportionalError * proportionalGain + velocityError * derivativeGain);
+	
+	return controlValue;
+	*/
 }
 
 
@@ -151,6 +231,12 @@ float PIDController::adjustControlForServoLimits( float controlValueToAdjust, fl
 float calculateInnerLoopControlValue( float outerLoopSetpoint, float measuredValue, float gain, float angularVelocity, float angularVelocityGain )
 {
 	return (gain * (outerLoopSetpoint - measuredValue)) - (angularVelocity * angularVelocityGain);
+	
+	//float workingSetpoint = gain * (outerLoopSetpoint - measuredValue);
+	//float multiplier = workingSetpoint < 0 ? -1.0f : 1.0f;
+	//
+	////Subtract the abs values to ensure that one always 'subtracts' from the other.
+	//return multiplier * (fabs(workingSetpoint) - fabs(angularVelocity*angularVelocityGain));
 }
 
 
@@ -200,9 +286,9 @@ void PIDController::outerLoopUpdate()
 	if (model->OperationalState() == SystemModel::AutoPilot)
 	{
 		//Calculate the position error
-		float xErrorNED = calculateProportional(model->XNEDLocalFrame(), model->ReferenceXNEDLocalFrame());
-		float yErrorNED = calculateProportional(model->YNEDLocalFrame(), model->ReferenceYNEDLocalFrame());
-		float zErrorNED = calculateProportional(model->ZNEDLocalFrame(), model->ReferenceZNEDLocalFrameMeters());
+		float xErrorNED = calculateProportional(model->XNEDLocalFrameCm(), model->ReferenceXNEDLocalFrameCm());
+		float yErrorNED = calculateProportional(model->YNEDLocalFrameCm(), model->ReferenceYNEDLocalFrameCm());
+		float zErrorNED = calculateProportional(model->ZNEDLocalFrameCm(), model->ReferenceZNEDLocalFrameCm());
 	
 	
 		//convert position error from NED to FRD Body frame.
@@ -219,6 +305,12 @@ void PIDController::outerLoopUpdate()
 //		this->mainRotorCollectiveOuterLoopUpdate(bodyFrameErrors[2]);	
 		this->mainRotorCollectiveOuterLoopUpdate(zErrorNED);	//Just use regular error NED because altitude doesn't care about orientation.
 		this->tailRotorCollectiveOuterLoopUpdate();
+		
+		/*
+		this->cyclicLongitudeOuterLoopUpdate(xErrorNED);
+		this->cyclicLateralOuterLoopUpdate(yErrorNED);
+		this->mainRotorCollectiveOuterLoopUpdate(zErrorNED);	//Just use regular error NED because altitude doesn't care about orientation.
+		this->tailRotorCollectiveOuterLoopUpdate();*/
 	}
 }
 
@@ -249,7 +341,7 @@ void PIDController::mainRotorCollectiveOuterLoopUpdate(float zProportional)
 	
 	float zIntegralAntiWindup = calculateIntegralAntiWindup(model->MainRotorControlBeforeServoLimitsAdjustment(), model->MainRotorCollectiveControl(), zAntiWindupGain);
 	float weightedZIntegral = calculateIntegral(zProportional, model->ZIntegral(), zIntegralAntiWindup, zIntegralGain);
-	float zDerivativeError = calculateVelocityError(model->ZVelocityMetersPerSecond(), model->ReferenceZVelocityMetersPerSecond());
+	float zDerivativeError = calculateVelocityError(model->ZVelocityFRDCms(), model->ReferenceZVelocityCms());
 	float mainRotorControlBeforeServoLimitsAdjustment = calculateOuterLoopControlValue(zProportional, zDerivativeError, weightedZIntegral, zProportionalGain, zDerivativeGain, 1);
 	float mainRotorControl = adjustControlForServoLimits(mainRotorControlBeforeServoLimitsAdjustment, minMainRotorServoControlValue, maxMainRotorServoControlValue);
 	
@@ -265,8 +357,10 @@ void PIDController::cyclicLongitudeOuterLoopUpdate(float xProportional)
 	//float xProportional = calculateProportional(model->XNEDLocalFrame(), model->ReferenceXNEDLocalFrame());
 	float xIntegralAntiWindup = calculateIntegralAntiWindup(model->LongitudeControlBeforeServoLimitsAdjustment(), model->LongitudeControl(), xAntiWindupGain);
 	float weightedXIntegral = calculateIntegral(xProportional, model->XIntegral(), xIntegralAntiWindup, xIntegralGain);
-	float xDerivativeError = calculateVelocityError(model->XVelocityMetersPerSecond(), model->ReferenceXVelocityMetersPerSecond());
+	float xDerivativeError = calculateVelocityError(model->XVelocityFRDCms(), model->ReferenceXVelocityCms());
 	float xLongitudinalOuterLoopSetpoint = calculateOuterLoopControlValue(xProportional, xDerivativeError, weightedXIntegral, xProportionalGain, xDerivativeGain, 1);
+
+	
 	
 	xLongitudinalOuterLoopSetpoint = adjustForSetpointLimits(xLongitudinalOuterLoopSetpoint, minPitchSetpointRads, maxPitchSetpointRads);
 
@@ -281,7 +375,7 @@ void PIDController::cyclicLateralOuterLoopUpdate(float yProportional)
 	//float yProportional = calculateProportional(model->YNEDLocalFrame(), model->ReferenceYNEDLocalFrame());
 	float yIntegralAntiWindup = calculateIntegralAntiWindup(model->LateralControlBeforeServoLimitsAdjustment(), model->LateralControl(), yAntiWindupGain);
 	float weightedYIntegral = calculateIntegral(yProportional, model->YIntegral(), yIntegralAntiWindup, yIntegralGain);
-	float yDerivativeError = calculateVelocityError(model->YVelocityMetersPerSecond(), model->ReferenceYVelocityMetersPerSecond());
+	float yDerivativeError = calculateVelocityError(model->YVelocityFRDCms(), model->ReferenceYVelocityCms());
 	
 	//we use a -1 direction factor because unlike other controls, if we have a positive proportional error, we actually need a 'negative' desired 
 	//roll setpoint in order for the helicopter to track back towards the desired position. So if the helicopter is directly 'east' of the desired position,
@@ -303,7 +397,7 @@ void PIDController::cyclicLongitudeInnerLoopUpdate()
 	if (model->OperationalState() == SystemModel::AutoPilot)
 	{
 		float xLongitudinalInnerLoopControlBeforeServoLimits = calculateInnerLoopControlValue(model->XLongitudeOuterLoopSetpoint(), model->PitchRads(), longitudeInnerLoopGain, model->PitchAngularVelocityRadsPerSecond(), pitchAngularVelocityGain);
-	
+		
 		float xLongitudinalInnerLoopControl = adjustControlForServoLimits(xLongitudinalInnerLoopControlBeforeServoLimits, minLongitudeServoControlValue, maxLongitudeServoControlValue);
 	
 		model->LongitudeControlBeforeServoLimitsAdjustment(xLongitudinalInnerLoopControlBeforeServoLimits);

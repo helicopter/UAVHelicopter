@@ -9,6 +9,14 @@ namespace GroundControlStation.Model
 {
     public class GroundControlStationModel
     {
+
+        public float PreviousXVelocityNEDCms { get; set; }
+
+        public float PreviousYVelocityNEDCms { get; set; }
+
+        public float PreviousZVelocityNEDCms { get; set; }
+
+
         public float MagYaw { get; set; }
 
         public float YawVelocityRadsPerSecond { get; set; }
@@ -157,6 +165,9 @@ namespace GroundControlStation.Model
 
         public float YawRads { get; set; }
 
+        public float RollRads { get; set; }
+
+        public float PitchRads { get; set; }
         
 
         public SimulatorTelemetry SimTelm { get; set; }
@@ -214,6 +225,8 @@ namespace GroundControlStation.Model
 
             return lstValues;
         }
+
+
 
     }
 }

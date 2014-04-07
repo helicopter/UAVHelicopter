@@ -38,57 +38,57 @@ namespace GroundControlStation.Views
 
         private void setInitialValues()
         {
-            this.tbYawAntiWindupGain.Value = (int)(controller.Model.YawAntiWindupGain * 1000);
-            this.tbYawDerivativeGain.Value = (int)(controller.Model.YawDerivativeGain * 1000);
-            this.tbYawIntegralGain.Value = (int)(controller.Model.YawIntegralGain * 1000);
-            this.tbYawProportionalGain.Value = (int)(controller.Model.YawProportionalGain * 1000);
+            this.tbYawAntiWindupGain.Value = (int)(controller.Model.YawAntiWindupGain * 100000);
+            this.tbYawDerivativeGain.Value = (int)(controller.Model.YawDerivativeGain * 100000);
+            this.tbYawIntegralGain.Value = (int)(controller.Model.YawIntegralGain * 100000);
+            this.tbYawProportionalGain.Value = (int)(controller.Model.YawProportionalGain * 100000);
 
-            this.tbXAntiWindupGain.Value = (int)(controller.Model.XAntiWindupGain * 1000);
-            this.tbXDerivativeGain.Value = (int)(controller.Model.XDerivativeGain * 1000);
-            this.tbXIntegralGain.Value = (int)(controller.Model.XIntegralGain * 1000);
-            this.tbXProportionalGain.Value = (int)(controller.Model.XProportionalGain * 1000);
+            this.tbXAntiWindupGain.Value = (int)(controller.Model.XAntiWindupGain * 100000);
+            this.tbXDerivativeGain.Value = (int)(controller.Model.XDerivativeGain * 100000);
+            this.tbXIntegralGain.Value = (int)(controller.Model.XIntegralGain * 100000);
+            this.tbXProportionalGain.Value = (int)(controller.Model.XProportionalGain * 100000);
 
-            this.tbYAntiWindupGain.Value = (int)(controller.Model.YAntiWindupGain * 1000);
-            this.tbYDerivativeGain.Value = (int)(controller.Model.YDerivativeGain * 1000);
-            this.tbYIntegralGain.Value = (int)(controller.Model.YIntegralGain * 1000);
-            this.tbYProportionalGain.Value = (int)(controller.Model.YProportionalGain * 1000);
+            this.tbYAntiWindupGain.Value = (int)(controller.Model.YAntiWindupGain * 100000);
+            this.tbYDerivativeGain.Value = (int)(controller.Model.YDerivativeGain * 100000);
+            this.tbYIntegralGain.Value = (int)(controller.Model.YIntegralGain * 100000);
+            this.tbYProportionalGain.Value = (int)(controller.Model.YProportionalGain * 100000);
 
-            this.tbZAntiWindupGain.Value = (int)(controller.Model.ZAntiWindupGain * 1000);
-            this.tbZDerivativeGain.Value = (int)(controller.Model.ZDerivativeGain * 1000);
-            this.tbZIntegralGain.Value = (int)(controller.Model.ZIntegralGain * 1000);
-            this.tbZProportionalGain.Value = (int)(controller.Model.ZProportionalGain * 1000);
+            this.tbZAntiWindupGain.Value = (int)(controller.Model.ZAntiWindupGain * 1000000);
+            this.tbZDerivativeGain.Value = (int)(controller.Model.ZDerivativeGain * 1000000);
+            this.tbZIntegralGain.Value = (int)(controller.Model.ZIntegralGain * 1000000);
+            this.tbZProportionalGain.Value = (int)(controller.Model.ZProportionalGain * 1000000);
 
-            this.tbLongitudeControlGain.Value = (int)(controller.Model.LongitudeInnerLoopGain * 1000);
-            this.tbLateralControlGain.Value = (int)(controller.Model.LateralInnerLoopGain * 1000);
+            this.tbLongitudeControlGain.Value = (int)(controller.Model.LongitudeInnerLoopGain * 100000);
+            this.tbLateralControlGain.Value = (int)(controller.Model.LateralInnerLoopGain * 100000);
 
-            this.tbPitchAngularVelocityGain.Value = (int)(controller.Model.PitchAngularVelocityGain * 1000);
-            this.tbRollAngularVelocityGain.Value = (int)(controller.Model.RollAngularVelocityGain * 1000);
+            this.tbPitchAngularVelocityGain.Value = (int)(controller.Model.PitchAngularVelocityGain * 100000);
+            this.tbRollAngularVelocityGain.Value = (int)(controller.Model.RollAngularVelocityGain * 100000);
 
-            txtYawAntiWindupValue.Text = (tbYawAntiWindupGain.Value / 1000).ToString();
-            txtYawDerivativeValue.Text = (tbYawDerivativeGain.Value / 1000).ToString();
-            txtYawIntegralValue.Text = (tbYawIntegralGain.Value / 1000).ToString();
-            txtYawProportionalValue.Text = (tbYawProportionalGain.Value / 1000).ToString();
+            txtYawAntiWindupValue.Text = (tbYawAntiWindupGain.Value / 100000).ToString();
+            txtYawDerivativeValue.Text = (tbYawDerivativeGain.Value / 100000).ToString();
+            txtYawIntegralValue.Text = (tbYawIntegralGain.Value / 100000).ToString();
+            txtYawProportionalValue.Text = (tbYawProportionalGain.Value / 100000).ToString();
 
-            txtXAntiWindupValue.Text = (tbXAntiWindupGain.Value / 1000).ToString();
-            txtXDerivativeValue.Text = (tbXDerivativeGain.Value / 1000).ToString();
-            txtXIntegralValue.Text = (tbXIntegralGain.Value / 1000).ToString();
-            txtXProportionalValue.Text = (tbXProportionalGain.Value / 1000).ToString();
+            txtXAntiWindupValue.Text = (tbXAntiWindupGain.Value / 100000).ToString();
+            txtXDerivativeValue.Text = (tbXDerivativeGain.Value / 100000).ToString();
+            txtXIntegralValue.Text = (tbXIntegralGain.Value / 100000).ToString();
+            txtXProportionalValue.Text = (tbXProportionalGain.Value / 100000).ToString();
 
-            txtYAntiWindupValue.Text = (tbYAntiWindupGain.Value / 1000).ToString();
-            txtYDerivativeValue.Text = (tbYDerivativeGain.Value / 1000).ToString();
-            txtYIntegralValue.Text = (tbYIntegralGain.Value / 1000).ToString();
-            txtYProportionalValue.Text = (tbYProportionalGain.Value / 1000).ToString();
+            txtYAntiWindupValue.Text = (tbYAntiWindupGain.Value / 100000).ToString();
+            txtYDerivativeValue.Text = (tbYDerivativeGain.Value / 100000).ToString();
+            txtYIntegralValue.Text = (tbYIntegralGain.Value / 100000).ToString();
+            txtYProportionalValue.Text = (tbYProportionalGain.Value / 100000).ToString();
 
-            txtZAntiWindupValue.Text = (tbZAntiWindupGain.Value / 1000).ToString();
-            txtZDerivativeValue.Text = (tbZDerivativeGain.Value / 1000).ToString();
-            txtZIntegralValue.Text = (tbZIntegralGain.Value / 1000).ToString();
-            txtZProportionalValue.Text = (tbZProportionalGain.Value / 1000).ToString();
+            txtZAntiWindupValue.Text = (tbZAntiWindupGain.Value / 1000000.0).ToString();
+            txtZDerivativeValue.Text = (tbZDerivativeGain.Value / 1000000).ToString();
+            txtZIntegralValue.Text = (tbZIntegralGain.Value / 1000000).ToString();
+            txtZProportionalValue.Text = (tbZProportionalGain.Value / 1000000).ToString();
 
-            txtLongitudeControlGainValue.Text = (tbLongitudeControlGain.Value / 1000).ToString();
-            txtLateralControlGainValue.Text = (tbLateralControlGain.Value / 1000).ToString();
+            txtLongitudeControlGainValue.Text = (tbLongitudeControlGain.Value / 100000).ToString();
+            txtLateralControlGainValue.Text = (tbLateralControlGain.Value / 100000).ToString();
 
-            txtPitchAngularVelocityValue.Text = (tbPitchAngularVelocityGain.Value / 1000).ToString();
-            txtRollAngularVelocityValue.Text = (tbRollAngularVelocityGain.Value / 1000).ToString(); 
+            txtPitchAngularVelocityValue.Text = (tbPitchAngularVelocityGain.Value / 100000).ToString();
+            txtRollAngularVelocityValue.Text = (tbRollAngularVelocityGain.Value / 100000).ToString(); 
         }
 
         private void addListeners()
@@ -192,56 +192,57 @@ namespace GroundControlStation.Views
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
-            Controller.Model.YawDerivativeGain = (float) tbYawDerivativeGain.Value / 1000;
-            Controller.Model.YawIntegralGain = (float)tbYawIntegralGain.Value / 1000;
-            Controller.Model.YawProportionalGain = (float)tbYawProportionalGain.Value / 1000;
-            Controller.Model.YawAntiWindupGain = (float)tbYawAntiWindupGain.Value / 1000;
+            Controller.Model.YawDerivativeGain = (float) tbYawDerivativeGain.Value / 100000;
+            Controller.Model.YawIntegralGain = (float)tbYawIntegralGain.Value / 100000;
+            Controller.Model.YawProportionalGain = (float)tbYawProportionalGain.Value / 100000;
+            Controller.Model.YawAntiWindupGain = (float)tbYawAntiWindupGain.Value / 100000;
 
-            txtYawAntiWindupValue.Text = (tbYawAntiWindupGain.Value / 1000.0).ToString();
-            txtYawDerivativeValue.Text = (tbYawDerivativeGain.Value / 1000.0).ToString();
-            txtYawIntegralValue.Text = (tbYawIntegralGain.Value / 1000.0).ToString();
-            txtYawProportionalValue.Text = (tbYawProportionalGain.Value / 1000.0).ToString();
+            txtYawAntiWindupValue.Text = (tbYawAntiWindupGain.Value / 100000.0).ToString();
+            txtYawDerivativeValue.Text = (tbYawDerivativeGain.Value / 100000.0).ToString();
+            txtYawIntegralValue.Text = (tbYawIntegralGain.Value / 100000.0).ToString();
+            txtYawProportionalValue.Text = (tbYawProportionalGain.Value / 100000.0).ToString();
 
-            Controller.Model.XDerivativeGain = (float)tbXDerivativeGain.Value / 1000;
-            Controller.Model.XIntegralGain = (float)tbXIntegralGain.Value / 1000;
-            Controller.Model.XProportionalGain = (float)tbXProportionalGain.Value / 1000;
-            Controller.Model.XAntiWindupGain = (float)tbXAntiWindupGain.Value / 1000;
+            Controller.Model.XDerivativeGain = (float)tbXDerivativeGain.Value / 100000;
+            Controller.Model.XIntegralGain = (float)tbXIntegralGain.Value / 100000;
+            Controller.Model.XProportionalGain = (float)tbXProportionalGain.Value / 100000;
+            Controller.Model.XAntiWindupGain = (float)tbXAntiWindupGain.Value / 100000;
 
-            txtXAntiWindupValue.Text = (tbXAntiWindupGain.Value / 1000.0).ToString();
-            txtXDerivativeValue.Text = (tbXDerivativeGain.Value / 1000.0).ToString();
-            txtXIntegralValue.Text = (tbXIntegralGain.Value / 1000.0).ToString();
-            txtXProportionalValue.Text = (tbXProportionalGain.Value / 1000.0).ToString();
+            txtXAntiWindupValue.Text = (tbXAntiWindupGain.Value / 100000.0).ToString();
+            txtXDerivativeValue.Text = (tbXDerivativeGain.Value / 100000.0).ToString();
+            txtXIntegralValue.Text = (tbXIntegralGain.Value / 100000.0).ToString();
+            txtXProportionalValue.Text = (tbXProportionalGain.Value / 100000.0).ToString();
 
 
-            Controller.Model.YDerivativeGain = (float)tbYDerivativeGain.Value / 1000;
-            Controller.Model.YIntegralGain = (float)tbYIntegralGain.Value / 1000;
-            Controller.Model.YProportionalGain = (float)tbYProportionalGain.Value / 1000;
-            Controller.Model.YAntiWindupGain = (float)tbYAntiWindupGain.Value / 1000;
+            Controller.Model.YDerivativeGain = (float)tbYDerivativeGain.Value / 100000;
+            Controller.Model.YIntegralGain = (float)tbYIntegralGain.Value / 100000;
+            Controller.Model.YProportionalGain = (float)tbYProportionalGain.Value / 100000;
+            Controller.Model.YAntiWindupGain = (float)tbYAntiWindupGain.Value / 100000;
 
-            txtYAntiWindupValue.Text = (tbYAntiWindupGain.Value / 1000.0).ToString();
-            txtYDerivativeValue.Text = (tbYDerivativeGain.Value / 1000.0).ToString();
-            txtYIntegralValue.Text = (tbYIntegralGain.Value / 1000.0).ToString();
-            txtYProportionalValue.Text = (tbYProportionalGain.Value / 1000.0).ToString();
+            txtYAntiWindupValue.Text = (tbYAntiWindupGain.Value / 100000.0).ToString();
+            txtYDerivativeValue.Text = (tbYDerivativeGain.Value / 100000.0).ToString();
+            txtYIntegralValue.Text = (tbYIntegralGain.Value / 100000.0).ToString();
+            txtYProportionalValue.Text = (tbYProportionalGain.Value / 100000.0).ToString();
 
-            Controller.Model.ZDerivativeGain = (float)tbZDerivativeGain.Value / 1000;
-            Controller.Model.ZIntegralGain = (float)tbZIntegralGain.Value / 1000;
-            Controller.Model.ZProportionalGain = (float)tbZProportionalGain.Value / 1000;
-            Controller.Model.ZAntiWindupGain = (float)tbZAntiWindupGain.Value / 1000;
+            Controller.Model.ZDerivativeGain = (float)tbZDerivativeGain.Value / 1000000;
+            Controller.Model.ZIntegralGain = (float)tbZIntegralGain.Value / 1000000;
+            Controller.Model.ZProportionalGain = (float)tbZProportionalGain.Value / 1000000;
+            Controller.Model.ZAntiWindupGain = (float)tbZAntiWindupGain.Value / 1000000;
+         //   Controller.Model.ZAntiWindupGain = (float).000000001;
 
-            txtZAntiWindupValue.Text = (tbZAntiWindupGain.Value / 1000.0).ToString();
-            txtZDerivativeValue.Text = (tbZDerivativeGain.Value / 1000.0).ToString();
-            txtZIntegralValue.Text = (tbZIntegralGain.Value / 1000.0).ToString();
-            txtZProportionalValue.Text = (tbZProportionalGain.Value / 1000.0).ToString();
+            txtZAntiWindupValue.Text = (tbZAntiWindupGain.Value / 1000000.0).ToString("0.#########");
+            txtZDerivativeValue.Text = (tbZDerivativeGain.Value / 1000000.0).ToString();
+            txtZIntegralValue.Text = (tbZIntegralGain.Value / 1000000.0).ToString();
+            txtZProportionalValue.Text = (tbZProportionalGain.Value / 1000000.0).ToString();
 
-            txtLongitudeControlGainValue.Text = (tbLongitudeControlGain.Value / 1000.0).ToString();
-            txtLateralControlGainValue.Text = (tbLateralControlGain.Value / 1000.0).ToString();
-            txtPitchAngularVelocityValue.Text = (tbPitchAngularVelocityGain.Value / 1000.0).ToString();
-            txtRollAngularVelocityValue.Text = (tbRollAngularVelocityGain.Value / 1000.0).ToString();
+            txtLongitudeControlGainValue.Text = (tbLongitudeControlGain.Value / 100000.0).ToString();
+            txtLateralControlGainValue.Text = (tbLateralControlGain.Value / 100000.0).ToString();
+            txtPitchAngularVelocityValue.Text = (tbPitchAngularVelocityGain.Value / 100000.0).ToString();
+            txtRollAngularVelocityValue.Text = (tbRollAngularVelocityGain.Value / 100000.0).ToString();
 
-            Controller.Model.LongitudeInnerLoopGain = (float)tbLongitudeControlGain.Value / 1000;
-            Controller.Model.LateralInnerLoopGain = (float)tbLateralControlGain.Value / 1000;
-            Controller.Model.PitchAngularVelocityGain = (float)tbPitchAngularVelocityGain.Value / 1000;
-            Controller.Model.RollAngularVelocityGain = (float)tbRollAngularVelocityGain.Value / 1000;
+            Controller.Model.LongitudeInnerLoopGain = (float)tbLongitudeControlGain.Value / 100000;
+            Controller.Model.LateralInnerLoopGain = (float)tbLateralControlGain.Value / 100000;
+            Controller.Model.PitchAngularVelocityGain = (float)tbPitchAngularVelocityGain.Value / 100000;
+            Controller.Model.RollAngularVelocityGain = (float)tbRollAngularVelocityGain.Value / 100000;
         }
     }
 }

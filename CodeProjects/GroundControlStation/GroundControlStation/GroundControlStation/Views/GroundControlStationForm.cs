@@ -47,6 +47,16 @@ namespace GroundControlStation.Views
 
         public IGraphingView ZNED { get; set; }
 
+        public IGraphingView Pitch { get; set; }
+
+        public IGraphingView Roll { get; set; }
+
+        public IGraphingView ZProportional { get; set; }
+
+        public IGraphingView ZDerivative { get; set; }
+
+        public IGraphingView ZIntegral { get; set; }
+
         public GroundControlStationForm(GroundControlStationController controller)
         {
             InitializeComponent();
@@ -83,6 +93,18 @@ namespace GroundControlStation.Views
             YControl = new GraphForm();
 
             ZNED = new GraphForm();
+
+            ZProportional = new GraphForm();
+
+            ZDerivative = new GraphForm();
+
+            ZIntegral = new GraphForm();
+
+            Pitch = new GraphForm();
+
+            Roll = new GraphForm();
+
+
 
             GainAdjustmentsForm gainAdjustments = new GainAdjustmentsForm();
             gainAdjustments.Controller = controller;
@@ -212,6 +234,29 @@ namespace GroundControlStation.Views
         private void button6_Click(object sender, EventArgs e)
         {
             ToggleGraph(ZNED);
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(Pitch);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(Roll);
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(ZProportional);
+        }
+        private void button10_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(ZDerivative);
+        }
+        private void button11_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(ZIntegral);
         }
 
     }

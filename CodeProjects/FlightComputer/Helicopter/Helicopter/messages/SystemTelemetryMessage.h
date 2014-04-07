@@ -38,7 +38,7 @@ namespace helicopter
 				
 				
 				float XNEDLocalFrame;
-				float XVelocityMetersPerSecond;
+				float XVelocityFRDCms;
 				float PitchRads;
 				float XIntegral;
 				float XProportional;
@@ -53,7 +53,7 @@ namespace helicopter
 				float PitchAngularVelocityGain;
 				
 				float YNEDLocalFrame;
-				float YVelocityMetersPerSecond;
+				float YVelocityFRDCms;
 				float RollRads;
 				float YIntegral;
 				float YProportional;
@@ -71,7 +71,7 @@ namespace helicopter
 
 
 				float AltitudeMetersAgl;
-				float ZVelocityMetersPerSecond;
+				float ZVelocityFRDCms;
 				float YawRads;
 				float ZIntegral;
 				float ZProportional;
@@ -142,7 +142,7 @@ namespace helicopter
 				
 				
 				sizeof(XNEDLocalFrame) +
-				sizeof(XVelocityMetersPerSecond) +
+				sizeof(XVelocityFRDCms) +
 				sizeof(PitchRads) +
 				sizeof(XIntegral) +
 				sizeof(XProportional) +
@@ -158,7 +158,7 @@ namespace helicopter
 				
 				
 				sizeof(YNEDLocalFrame) +
-				sizeof(YVelocityMetersPerSecond) +
+				sizeof(YVelocityFRDCms) +
 				sizeof(RollRads) +
 				sizeof(YIntegral) +
 				sizeof(YProportional) +
@@ -173,7 +173,7 @@ namespace helicopter
 				sizeof(RollAngularVelocityGain) +
 								
 				sizeof(AltitudeMetersAgl) +
-				sizeof(ZVelocityMetersPerSecond) +
+				sizeof(ZVelocityFRDCms) +
 				sizeof(YawRads) +
 				sizeof(ZIntegral) +
 				sizeof(ZProportional) +
@@ -228,7 +228,7 @@ namespace helicopter
 					
 					
 					XNEDLocalFrame(0),
-					XVelocityMetersPerSecond(0),
+					XVelocityFRDCms(0),
 					PitchRads(0),
 					XIntegral(0),
 					XProportional(0),
@@ -243,7 +243,7 @@ namespace helicopter
 					PitchAngularVelocityGain(0),
 					
 					YNEDLocalFrame(0),
-					YVelocityMetersPerSecond(0),
+					YVelocityFRDCms(0),
 					RollRads(0),
 					YIntegral(0),
 					YProportional(0),
@@ -258,7 +258,7 @@ namespace helicopter
 					RollAngularVelocityGain(0),
 					
 					AltitudeMetersAgl(0),
-					ZVelocityMetersPerSecond(0),
+					ZVelocityFRDCms(0),
 					YawRads(0),
 					ZIntegral(0),
 					ZProportional(0),

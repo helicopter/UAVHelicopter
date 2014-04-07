@@ -58,6 +58,28 @@ namespace GroundControlStation.Util
         }
 
 
+        internal static float[,] CalculateECEFToLocalNEDRotationMatrix(float latitudeDegrees, float longitudeDegrees)
+        {
+            float[,] rotationMatrix = new float[3, 3];
+
+            float radLat = ConvertToRads(latitudeDegrees);
+            float radLong = ConvertToRads(longitudeDegrees);
+
+            //Create a rotation matrix for rotating earth-centered-earth-fixed coordinates
+            //into Local North-East-Down coordinates.
+            rotationMatrix[0, 0] = -1 * (float)Math.Sin(radLat) * (float)Math.Cos(radLong);
+            rotationMatrix[0, 1] = -1 * (float)Math.Sin(radLat) * (float)Math.Sin(radLong);
+            rotationMatrix[0, 2] = (float)Math.Cos(radLat);
+            rotationMatrix[1, 0] = -1 * (float)Math.Sin(radLong);
+            rotationMatrix[1, 1] = (float)Math.Cos(radLong);
+            rotationMatrix[1, 2] = 0;
+            rotationMatrix[2, 0] = -1 * (float)Math.Cos(radLat) * (float)Math.Cos(radLong);
+            rotationMatrix[2, 1] = -1 * (float)Math.Cos(radLat) * (float)Math.Sin(radLong);
+            rotationMatrix[2, 2] = -1 * (float)Math.Sin(radLat);
+
+            return rotationMatrix;
+        }
+
         public static float[,] CalculateECEFToLocalNEDRotationMatrixTransposed(float latitudeDegrees, float longitudeDegrees)
         {
             float[,] rotationMatrix = new float[3, 3];
@@ -94,7 +116,7 @@ namespace GroundControlStation.Util
 		        //iterate through the columns of the rotation matrix
 		        for (int column = 0; column < 3; column++)
 		        {
-			        //technically the rotatedMatrix[row] is writing to a 'column' in the matrix, and valuesToRotate is actually the 'row'.
+			        //technically the rotatedMatrix[row] is writing to a 'column' in the matrix, and velocitiesNEDCms is actually the 'row'.
 			        rotatedValues[row] += rotationMatrix[row,column] * valuesToRotate[column];
 		        }
 	        }

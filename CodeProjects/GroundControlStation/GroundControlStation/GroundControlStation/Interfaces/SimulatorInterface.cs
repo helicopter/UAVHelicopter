@@ -166,6 +166,7 @@ namespace GroundControlStation.Interfaces
             populateMessage(xplaneBytes, PROPELLER_CYCLIC_MSG_INDEX, ref index, 4);
 
 
+
             //Set the cyclic pitch (elevator)
             populateMessage(xplaneBytes, model.LongitudeControl, ref index, 4);
 

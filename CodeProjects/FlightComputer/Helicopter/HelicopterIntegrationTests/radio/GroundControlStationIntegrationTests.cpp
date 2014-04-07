@@ -185,7 +185,7 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	model->YawAngularVelocityRadsPerSecond(2.22);
 	
 	
-	model->AltitudeMetersAgl(4.46);
+	//model->AltitudeMetersAgl(4.46);
 	model->LateralControl(2.22);
 	model->LateralControlBeforeServoLimitsAdjustment(2.22);
 	model->LongitudeControl(2.22);
@@ -196,9 +196,12 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	model->YProportional(1.22f);
 	model->ZProportional(6.22f);
 	model->ZIntegral(8.22f);
-	model->ZNEDLocalFrame(9.22f);
-	model->XNEDLocalFrame(19.22f);
-	model->YNEDLocalFrame(21.33f);
+	model->ZNEDLocalFrameCm(9.22f);
+	model->XNEDLocalFrameCm(19.22f);
+	model->YNEDLocalFrameCm(21.33f);
+	model->XVEcefCms(42);
+	model->YVEcefCms(12);
+	model->ZVEcefCms(32);
 	
 	SystemTelemetryMessage *transmitMessage = SystemTelemetryMessage::buildMessageFromModel(model);
 	
@@ -231,7 +234,10 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	AssertTrue(model2->YawProportional() == 2.22);
 	AssertTrue(model2->YawAngularVelocityRadsPerSecond() == 2.22);
 	
-	
+	AssertTrue(model2->XVEcefCms() == 42);
+	AssertTrue(model2->YVEcefCms() == 12);
+	AssertTrue(model2->ZVEcefCms() == 32);
+
 	/* Can't test these values because I don't convert them.
 	AssertTrue(model2->YawControl() == 3.22f);
 	AssertTrue(model2->XProportional() == 4.22f);

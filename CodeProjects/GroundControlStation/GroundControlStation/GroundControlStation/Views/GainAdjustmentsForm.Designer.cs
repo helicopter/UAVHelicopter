@@ -129,8 +129,8 @@
             // tbYawProportionalGain
             // 
             this.tbYawProportionalGain.Location = new System.Drawing.Point(12, 344);
-            this.tbYawProportionalGain.Maximum = 9000;
-            this.tbYawProportionalGain.Minimum = -9000;
+            this.tbYawProportionalGain.Maximum = 900000;
+            this.tbYawProportionalGain.Minimum = -900000;
             this.tbYawProportionalGain.Name = "tbYawProportionalGain";
             this.tbYawProportionalGain.Size = new System.Drawing.Size(648, 45);
             this.tbYawProportionalGain.TabIndex = 6;
@@ -139,8 +139,8 @@
             // tbYawIntegralGain
             // 
             this.tbYawIntegralGain.Location = new System.Drawing.Point(12, 38);
-            this.tbYawIntegralGain.Maximum = 9000;
-            this.tbYawIntegralGain.Minimum = -9000;
+            this.tbYawIntegralGain.Maximum = 900000;
+            this.tbYawIntegralGain.Minimum = -900000;
             this.tbYawIntegralGain.Name = "tbYawIntegralGain";
             this.tbYawIntegralGain.Size = new System.Drawing.Size(648, 45);
             this.tbYawIntegralGain.TabIndex = 0;
@@ -183,8 +183,8 @@
             // tbYawAntiWindupGain
             // 
             this.tbYawAntiWindupGain.Location = new System.Drawing.Point(12, 237);
-            this.tbYawAntiWindupGain.Maximum = 9000;
-            this.tbYawAntiWindupGain.Minimum = -9000;
+            this.tbYawAntiWindupGain.Maximum = 900000;
+            this.tbYawAntiWindupGain.Minimum = -900000;
             this.tbYawAntiWindupGain.Name = "tbYawAntiWindupGain";
             this.tbYawAntiWindupGain.Size = new System.Drawing.Size(648, 45);
             this.tbYawAntiWindupGain.TabIndex = 4;
@@ -218,8 +218,8 @@
             // tbYawDerivativeGain
             // 
             this.tbYawDerivativeGain.Location = new System.Drawing.Point(12, 132);
-            this.tbYawDerivativeGain.Maximum = 9000;
-            this.tbYawDerivativeGain.Minimum = -9000;
+            this.tbYawDerivativeGain.Maximum = 900000;
+            this.tbYawDerivativeGain.Minimum = -900000;
             this.tbYawDerivativeGain.Name = "tbYawDerivativeGain";
             this.tbYawDerivativeGain.Size = new System.Drawing.Size(648, 45);
             this.tbYawDerivativeGain.TabIndex = 2;
@@ -342,8 +342,8 @@
             // tbXProportionalGain
             // 
             this.tbXProportionalGain.Location = new System.Drawing.Point(687, 344);
-            this.tbXProportionalGain.Maximum = 9000;
-            this.tbXProportionalGain.Minimum = -9000;
+            this.tbXProportionalGain.Maximum = 900000;
+            this.tbXProportionalGain.Minimum = -900000;
             this.tbXProportionalGain.Name = "tbXProportionalGain";
             this.tbXProportionalGain.Size = new System.Drawing.Size(648, 45);
             this.tbXProportionalGain.TabIndex = 22;
@@ -360,8 +360,8 @@
             // tbXAntiWindupGain
             // 
             this.tbXAntiWindupGain.Location = new System.Drawing.Point(687, 237);
-            this.tbXAntiWindupGain.Maximum = 9000;
-            this.tbXAntiWindupGain.Minimum = -9000;
+            this.tbXAntiWindupGain.Maximum = 900000;
+            this.tbXAntiWindupGain.Minimum = -900000;
             this.tbXAntiWindupGain.Name = "tbXAntiWindupGain";
             this.tbXAntiWindupGain.Size = new System.Drawing.Size(648, 45);
             this.tbXAntiWindupGain.TabIndex = 20;
@@ -378,8 +378,8 @@
             // tbXDerivativeGain
             // 
             this.tbXDerivativeGain.Location = new System.Drawing.Point(687, 132);
-            this.tbXDerivativeGain.Maximum = 9000;
-            this.tbXDerivativeGain.Minimum = -9000;
+            this.tbXDerivativeGain.Maximum = 900000;
+            this.tbXDerivativeGain.Minimum = -900000;
             this.tbXDerivativeGain.Name = "tbXDerivativeGain";
             this.tbXDerivativeGain.Size = new System.Drawing.Size(648, 45);
             this.tbXDerivativeGain.TabIndex = 18;
@@ -396,8 +396,8 @@
             // tbXIntegralGain
             // 
             this.tbXIntegralGain.Location = new System.Drawing.Point(687, 38);
-            this.tbXIntegralGain.Maximum = 9000;
-            this.tbXIntegralGain.Minimum = -9000;
+            this.tbXIntegralGain.Maximum = 900000;
+            this.tbXIntegralGain.Minimum = -900000;
             this.tbXIntegralGain.Name = "tbXIntegralGain";
             this.tbXIntegralGain.Size = new System.Drawing.Size(648, 45);
             this.tbXIntegralGain.TabIndex = 16;
@@ -478,8 +478,8 @@
             // tbZProportionalGain
             // 
             this.tbZProportionalGain.Location = new System.Drawing.Point(12, 765);
-            this.tbZProportionalGain.Maximum = 9000;
-            this.tbZProportionalGain.Minimum = -9000;
+            this.tbZProportionalGain.Maximum = 900000;
+            this.tbZProportionalGain.Minimum = -900000;
             this.tbZProportionalGain.Name = "tbZProportionalGain";
             this.tbZProportionalGain.Size = new System.Drawing.Size(648, 45);
             this.tbZProportionalGain.TabIndex = 38;
@@ -496,8 +496,8 @@
             // tbZAntiWindupGain
             // 
             this.tbZAntiWindupGain.Location = new System.Drawing.Point(12, 658);
-            this.tbZAntiWindupGain.Maximum = 9000;
-            this.tbZAntiWindupGain.Minimum = -9000;
+            this.tbZAntiWindupGain.Maximum = 900000;
+            this.tbZAntiWindupGain.Minimum = -900000;
             this.tbZAntiWindupGain.Name = "tbZAntiWindupGain";
             this.tbZAntiWindupGain.Size = new System.Drawing.Size(648, 45);
             this.tbZAntiWindupGain.TabIndex = 36;
@@ -514,8 +514,8 @@
             // tbZDerivativeGain
             // 
             this.tbZDerivativeGain.Location = new System.Drawing.Point(12, 553);
-            this.tbZDerivativeGain.Maximum = 9000;
-            this.tbZDerivativeGain.Minimum = -9000;
+            this.tbZDerivativeGain.Maximum = 900000;
+            this.tbZDerivativeGain.Minimum = -900000;
             this.tbZDerivativeGain.Name = "tbZDerivativeGain";
             this.tbZDerivativeGain.Size = new System.Drawing.Size(648, 45);
             this.tbZDerivativeGain.TabIndex = 34;
@@ -532,8 +532,8 @@
             // tbZIntegralGain
             // 
             this.tbZIntegralGain.Location = new System.Drawing.Point(12, 459);
-            this.tbZIntegralGain.Maximum = 9000;
-            this.tbZIntegralGain.Minimum = -9000;
+            this.tbZIntegralGain.Maximum = 900000;
+            this.tbZIntegralGain.Minimum = -900000;
             this.tbZIntegralGain.Name = "tbZIntegralGain";
             this.tbZIntegralGain.Size = new System.Drawing.Size(648, 45);
             this.tbZIntegralGain.TabIndex = 32;
@@ -614,8 +614,8 @@
             // tbYProportionalGain
             // 
             this.tbYProportionalGain.Location = new System.Drawing.Point(687, 765);
-            this.tbYProportionalGain.Maximum = 9000;
-            this.tbYProportionalGain.Minimum = -9000;
+            this.tbYProportionalGain.Maximum = 900000;
+            this.tbYProportionalGain.Minimum = -900000;
             this.tbYProportionalGain.Name = "tbYProportionalGain";
             this.tbYProportionalGain.Size = new System.Drawing.Size(648, 45);
             this.tbYProportionalGain.TabIndex = 54;
@@ -632,8 +632,8 @@
             // tbYAntiWindupGain
             // 
             this.tbYAntiWindupGain.Location = new System.Drawing.Point(687, 658);
-            this.tbYAntiWindupGain.Maximum = 9000;
-            this.tbYAntiWindupGain.Minimum = -9000;
+            this.tbYAntiWindupGain.Maximum = 900000;
+            this.tbYAntiWindupGain.Minimum = -900000;
             this.tbYAntiWindupGain.Name = "tbYAntiWindupGain";
             this.tbYAntiWindupGain.Size = new System.Drawing.Size(648, 45);
             this.tbYAntiWindupGain.TabIndex = 52;
@@ -650,8 +650,8 @@
             // tbYDerivativeGain
             // 
             this.tbYDerivativeGain.Location = new System.Drawing.Point(687, 553);
-            this.tbYDerivativeGain.Maximum = 9000;
-            this.tbYDerivativeGain.Minimum = -9000;
+            this.tbYDerivativeGain.Maximum = 900000;
+            this.tbYDerivativeGain.Minimum = -900000;
             this.tbYDerivativeGain.Name = "tbYDerivativeGain";
             this.tbYDerivativeGain.Size = new System.Drawing.Size(648, 45);
             this.tbYDerivativeGain.TabIndex = 50;
@@ -668,8 +668,8 @@
             // tbYIntegralGain
             // 
             this.tbYIntegralGain.Location = new System.Drawing.Point(687, 459);
-            this.tbYIntegralGain.Maximum = 9000;
-            this.tbYIntegralGain.Minimum = -9000;
+            this.tbYIntegralGain.Maximum = 900000;
+            this.tbYIntegralGain.Minimum = -900000;
             this.tbYIntegralGain.Name = "tbYIntegralGain";
             this.tbYIntegralGain.Size = new System.Drawing.Size(648, 45);
             this.tbYIntegralGain.TabIndex = 48;
@@ -700,8 +700,8 @@
             // tbLateralControlGain
             // 
             this.tbLateralControlGain.Location = new System.Drawing.Point(687, 966);
-            this.tbLateralControlGain.Maximum = 9000;
-            this.tbLateralControlGain.Minimum = -9000;
+            this.tbLateralControlGain.Maximum = 900000;
+            this.tbLateralControlGain.Minimum = -900000;
             this.tbLateralControlGain.Name = "tbLateralControlGain";
             this.tbLateralControlGain.Size = new System.Drawing.Size(648, 45);
             this.tbLateralControlGain.TabIndex = 66;
@@ -718,8 +718,8 @@
             // tbLongitudeControlGain
             // 
             this.tbLongitudeControlGain.Location = new System.Drawing.Point(687, 859);
-            this.tbLongitudeControlGain.Maximum = 9000;
-            this.tbLongitudeControlGain.Minimum = -9000;
+            this.tbLongitudeControlGain.Maximum = 900000;
+            this.tbLongitudeControlGain.Minimum = -900000;
             this.tbLongitudeControlGain.Name = "tbLongitudeControlGain";
             this.tbLongitudeControlGain.Size = new System.Drawing.Size(648, 45);
             this.tbLongitudeControlGain.TabIndex = 64;
@@ -750,8 +750,8 @@
             // tbRollAngularVelocityGain
             // 
             this.tbRollAngularVelocityGain.Location = new System.Drawing.Point(12, 966);
-            this.tbRollAngularVelocityGain.Maximum = 9000;
-            this.tbRollAngularVelocityGain.Minimum = -9000;
+            this.tbRollAngularVelocityGain.Maximum = 900000;
+            this.tbRollAngularVelocityGain.Minimum = -900000;
             this.tbRollAngularVelocityGain.Name = "tbRollAngularVelocityGain";
             this.tbRollAngularVelocityGain.Size = new System.Drawing.Size(648, 45);
             this.tbRollAngularVelocityGain.TabIndex = 72;
@@ -768,8 +768,8 @@
             // tbPitchAngularVelocityGain
             // 
             this.tbPitchAngularVelocityGain.Location = new System.Drawing.Point(12, 859);
-            this.tbPitchAngularVelocityGain.Maximum = 9000;
-            this.tbPitchAngularVelocityGain.Minimum = -9000;
+            this.tbPitchAngularVelocityGain.Maximum = 900000;
+            this.tbPitchAngularVelocityGain.Minimum = -900000;
             this.tbPitchAngularVelocityGain.Name = "tbPitchAngularVelocityGain";
             this.tbPitchAngularVelocityGain.Size = new System.Drawing.Size(648, 45);
             this.tbPitchAngularVelocityGain.TabIndex = 70;

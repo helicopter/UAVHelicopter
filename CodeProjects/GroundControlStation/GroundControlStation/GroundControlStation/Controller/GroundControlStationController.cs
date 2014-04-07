@@ -82,8 +82,13 @@ namespace GroundControlStation.Controller
 
 
 
-            //UpdateView(View.ZNED, Model.ZNEDLocalFrame);
-            UpdateView(View.ZNED, Model.ZNEDLocalFrame * 3.28084);
+            UpdateView(View.ZNED, Model.ZNEDLocalFrame);
+            UpdateView(View.ZProportional, Model.ZProportional);
+            UpdateView(View.ZDerivative, Model.ZDerivativeError);
+            UpdateView(View.ZIntegral, Model.ZIntegral);
+
+            UpdateView(View.Pitch, Model.PitchRads * (180/Math.PI));
+            UpdateView(View.Roll, Model.RollRads * (180 / Math.PI));
 
             UpdateLatestValues();
         }
@@ -141,6 +146,7 @@ namespace GroundControlStation.Controller
             }
         }
 
+
         //Receives data from the flight computer.
         private void BeginFlightComputerPolling()
         {
@@ -155,6 +161,7 @@ namespace GroundControlStation.Controller
                     {
                         //Receive model data from FC
                         FlightComputerTelemetryMessage telem = (FlightComputerTelemetryMessage) msg;
+
 
                         telem.UpdateModel(Model);
 
@@ -173,8 +180,14 @@ namespace GroundControlStation.Controller
                         if (Model.LongitudeControl > .8) Model.LongitudeControl = .8f;
                         if (Model.LongitudeControl < -.8) Model.LongitudeControl = -.8f;
 
+//System.Diagnostics.Debug.WriteLine("pitch error" + (telem.PitchRads * (180 / Math.PI) - Model.SimTelm.PitchDegrees));
+//System.Diagnostics.Debug.WriteLine("roll error" + (telem.RollRads * (180 / Math.PI) - Model.SimTelm.RollDegrees));
+
+System.Diagnostics.Debug.WriteLine("FC pitch " + (telem.PitchRads * (180 / Math.PI)) + ", sim pitch " + Model.SimTelm.PitchDegrees + ", Error " + (telem.PitchRads * (180 / Math.PI) - Model.SimTelm.PitchDegrees));
+System.Diagnostics.Debug.WriteLine("FC roll " + (telem.RollRads * (180 / Math.PI)) + ", sim roll " + Model.SimTelm.RollDegrees + ", Error " + (telem.RollRads * (180 / Math.PI) - Model.SimTelm.RollDegrees));
+
                         //Transmit data to simulator
-                        xplaneInterface.Transmit(Model);
+//                        xplaneInterface.Transmit(Model);
 
                         flightComputerFileLogger.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + ", " + LoggingUtil.ToCsv(",", telem));
                     }
@@ -182,6 +195,9 @@ namespace GroundControlStation.Controller
                     {
                         //Send sim model data to FC. 
                         FlightComputerTelemetryMessage data = FlightComputerTelemetryMessage.CreateFromModel(Model);
+
+
+
 
                         fcInterface.Transmit(data);
                     }

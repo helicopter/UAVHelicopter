@@ -29,12 +29,17 @@ namespace helicopter
 		{
 			private:
 				static const float WEIGHT;
+				
+				//The time in seconds (fractions of seconds) between the barometer reads.
+				float barometerSensorReadPeriod;
+				
 				AHRS *ahrs;
+				
 				SystemModel *model;
 				
 			public:
 
-				NavigationTask (AHRS *ahrs, SystemModel *model, int delay, int period);
+				NavigationTask (float barometerSensorReadPeriod, AHRS *ahrs, SystemModel *model, int delay, int period);
 
 				void runTaskImpl();
 		};
