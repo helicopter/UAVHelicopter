@@ -20622,7 +20622,7 @@ void SystemTelemetryMessage::updateModelFromMessageFromSimulator (SystemModel *m
     8e1a:	08 95       	ret
 
 00008e1c <_ZN10helicopter10navigation4AHRS14scaleAndAdjustEPfS2_fRA3_f>:
-const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .05f;
+const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .10f;
 const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .17f;
 
 
@@ -21378,7 +21378,7 @@ void AHRS::update(float frdAccXMss, float frdAccYMss, float frdAccZMss,
 												(1 + ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT + MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT);
     9376:	2d ec       	ldi	r18, 0xCD	; 205
     9378:	3c ec       	ldi	r19, 0xCC	; 204
-    937a:	4c e4       	ldi	r20, 0x4C	; 76
+    937a:	4c ec       	ldi	r20, 0xCC	; 204
     937c:	5d e3       	ldi	r21, 0x3D	; 61
     937e:	bc 01       	movw	r22, r24
     9380:	cd 01       	movw	r24, r26
@@ -21459,9 +21459,9 @@ void AHRS::update(float frdAccXMss, float frdAccYMss, float frdAccZMss,
     93fc:	0e 94 b3 67 	call	0xcf66	; 0xcf66 <__addsf3>
     9400:	dc 01       	movw	r26, r24
     9402:	cb 01       	movw	r24, r22
-    9404:	25 ef       	ldi	r18, 0xF5	; 245
-    9406:	38 e2       	ldi	r19, 0x28	; 40
-    9408:	4c e9       	ldi	r20, 0x9C	; 156
+    9404:	2c e5       	ldi	r18, 0x5C	; 92
+    9406:	3f e8       	ldi	r19, 0x8F	; 143
+    9408:	42 ea       	ldi	r20, 0xA2	; 162
     940a:	5f e3       	ldi	r21, 0x3F	; 63
     940c:	bc 01       	movw	r22, r24
     940e:	cd 01       	movw	r24, r26

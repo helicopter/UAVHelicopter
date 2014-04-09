@@ -183,11 +183,11 @@ namespace GroundControlStation.Controller
 //System.Diagnostics.Debug.WriteLine("pitch error" + (telem.PitchRads * (180 / Math.PI) - Model.SimTelm.PitchDegrees));
 //System.Diagnostics.Debug.WriteLine("roll error" + (telem.RollRads * (180 / Math.PI) - Model.SimTelm.RollDegrees));
 
-System.Diagnostics.Debug.WriteLine("FC pitch " + (telem.PitchRads * (180 / Math.PI)) + ", sim pitch " + Model.SimTelm.PitchDegrees + ", Error " + (telem.PitchRads * (180 / Math.PI) - Model.SimTelm.PitchDegrees));
-System.Diagnostics.Debug.WriteLine("FC roll " + (telem.RollRads * (180 / Math.PI)) + ", sim roll " + Model.SimTelm.RollDegrees + ", Error " + (telem.RollRads * (180 / Math.PI) - Model.SimTelm.RollDegrees));
+//System.Diagnostics.Debug.WriteLine("FC pitch " + (telem.PitchRads * (180 / Math.PI)) + ", sim pitch " + Model.SimTelm.PitchDegrees + ", Error " + (telem.PitchRads * (180 / Math.PI) - Model.SimTelm.PitchDegrees));
+//System.Diagnostics.Debug.WriteLine("FC roll " + (telem.RollRads * (180 / Math.PI)) + ", sim roll " + Model.SimTelm.RollDegrees + ", Error " + (telem.RollRads * (180 / Math.PI) - Model.SimTelm.RollDegrees));
 
                         //Transmit data to simulator
-//                        xplaneInterface.Transmit(Model);
+                        xplaneInterface.Transmit(Model);
 
                         flightComputerFileLogger.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + ", " + LoggingUtil.ToCsv(",", telem));
                     }

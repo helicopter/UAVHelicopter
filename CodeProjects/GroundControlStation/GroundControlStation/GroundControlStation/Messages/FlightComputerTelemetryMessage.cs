@@ -657,19 +657,19 @@ System.Diagnostics.Debug.WriteLine("XLinearAccel: " + linearAccelerationFRDBodyF
 System.Diagnostics.Debug.WriteLine("YLinearAccel: " + linearAccelerationFRDBodyFrameMss[1]);
 System.Diagnostics.Debug.WriteLine("ZLinearAccel: " + linearAccelerationFRDBodyFrameMss[2]);
 */
-            /*
-            xGrav += linearAccelerationFRDBodyFrameMss[0];
-            yGrav -= linearAccelerationFRDBodyFrameMss[1];
-            zGrav += linearAccelerationFRDBodyFrameMss[2];
-            */
+System.Diagnostics.Debug.WriteLine("ygrav before: " + yGrav + ", adjustment " + linearAccelerationFRDBodyFrameMss[1]);            
+/*            xGrav += linearAccelerationFRDBodyFrameMss[0];
+            yGrav += linearAccelerationFRDBodyFrameMss[1];
+            zGrav += linearAccelerationFRDBodyFrameMss[2];*/
+            
             /*
             System.Diagnostics.Debug.WriteLine("XLinearAccel: " + xGrav);
             System.Diagnostics.Debug.WriteLine("YLinearAccel: " + yGrav);
             System.Diagnostics.Debug.WriteLine("ZLinearAccel: " + zGrav);
             */
-            System.Diagnostics.Debug.WriteLine("XLinearV: " + msg.XVelocityFRDCms);
+            /*System.Diagnostics.Debug.WriteLine("XLinearV: " + msg.XVelocityFRDCms);
             System.Diagnostics.Debug.WriteLine("YLinearV: " + msg.YVelocityFRDCms);
-            System.Diagnostics.Debug.WriteLine("ZLinearV: " + msg.ZVelocityFRDCms);
+            System.Diagnostics.Debug.WriteLine("ZLinearV: " + msg.ZVelocityFRDCms);*/
             /*
             xGrav += (velocitiesNEDCms[0] - model.PreviousXVelocityNEDCms) * (1 / Util.Util.INTERVAL_BETWEEN_SIM_DATA);
             yGrav += (velocitiesNEDCms[1] - model.PreviousYVelocityNEDCms) * (1 / Util.Util.INTERVAL_BETWEEN_SIM_DATA);
