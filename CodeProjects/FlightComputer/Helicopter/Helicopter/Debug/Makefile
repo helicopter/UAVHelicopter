@@ -69,7 +69,10 @@ C_SRCS +=  \
 ../tasks/NavigationTask.cpp \
 ../tasks/PIDInnerLoopTask.cpp \
 ../tasks/PIDOuterLoopTask.cpp \
+../tasks/ReadBarometerSensorTask.cpp \
+../tasks/ReadGPSSensorTask.cpp \
 ../tasks/ReadIMUSensorTask.cpp \
+../tasks/ReadMagnetometerSensorTask.cpp \
 ../tasks/SensorProcessingTask.cpp \
 ../tasks/SimTelemetryTask.cpp \
 ../tasks/Task.cpp \
@@ -109,7 +112,10 @@ sensors/MagnetometerSensor.o \
 tasks/NavigationTask.o \
 tasks/PIDInnerLoopTask.o \
 tasks/PIDOuterLoopTask.o \
+tasks/ReadBarometerSensorTask.o \
+tasks/ReadGPSSensorTask.o \
 tasks/ReadIMUSensorTask.o \
+tasks/ReadMagnetometerSensorTask.o \
 tasks/SensorProcessingTask.o \
 tasks/SimTelemetryTask.o \
 tasks/Task.o \
@@ -142,7 +148,10 @@ sensors/MagnetometerSensor.o \
 tasks/NavigationTask.o \
 tasks/PIDInnerLoopTask.o \
 tasks/PIDOuterLoopTask.o \
+tasks/ReadBarometerSensorTask.o \
+tasks/ReadGPSSensorTask.o \
 tasks/ReadIMUSensorTask.o \
+tasks/ReadMagnetometerSensorTask.o \
 tasks/SensorProcessingTask.o \
 tasks/SimTelemetryTask.o \
 tasks/Task.o \
@@ -175,7 +184,10 @@ sensors/MagnetometerSensor.d \
 tasks/NavigationTask.d \
 tasks/PIDInnerLoopTask.d \
 tasks/PIDOuterLoopTask.d \
+tasks/ReadBarometerSensorTask.d \
+tasks/ReadGPSSensorTask.d \
 tasks/ReadIMUSensorTask.d \
+tasks/ReadMagnetometerSensorTask.d \
 tasks/SensorProcessingTask.d \
 tasks/SimTelemetryTask.d \
 tasks/Task.d \
@@ -208,7 +220,10 @@ sensors/MagnetometerSensor.d \
 tasks/NavigationTask.d \
 tasks/PIDInnerLoopTask.d \
 tasks/PIDOuterLoopTask.d \
+tasks/ReadBarometerSensorTask.d \
+tasks/ReadGPSSensorTask.d \
 tasks/ReadIMUSensorTask.d \
+tasks/ReadMagnetometerSensorTask.d \
 tasks/SensorProcessingTask.d \
 tasks/SimTelemetryTask.d \
 tasks/Task.d \
@@ -229,6 +244,12 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
+
+
+
+
+
+
 
 
 

@@ -146,6 +146,9 @@ namespace GroundControlStation.Controller
             }
         }
 
+        DateTime startTime = DateTime.Now;
+        int counter = 0;
+
 
         //Receives data from the flight computer.
         private void BeginFlightComputerPolling()
@@ -197,8 +200,7 @@ namespace GroundControlStation.Controller
                         FlightComputerTelemetryMessage data = FlightComputerTelemetryMessage.CreateFromModel(Model);
 
 
-
-
+                        
                         fcInterface.Transmit(data);
                     }
                 }

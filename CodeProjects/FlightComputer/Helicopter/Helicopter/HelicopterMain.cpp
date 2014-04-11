@@ -23,6 +23,11 @@
 #include "TWIDriver.h"
 #include "NavigationTask.h"
 #include "AHRS.h"
+#include "ReadGPSSensorTask.h"
+#include "BarometerSensor.h"
+#include "ReadBarometerSensorTask.h"
+#include "MagnetometerSensor.h"
+#include "ReadMagnetometerSensorTask.h"
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -132,11 +137,21 @@ int main(void)
 	//Timer *timer = new Timer(F_CPU,PRESCALE_BY_TENTWENTYFOUR,75); //Good timeout when using the radio
 	Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100); //Good timeout when using the USB
 	
+	Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 250);
+	
+	SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, gpsTimer);
+	gpsSerialDriver->init();
+		
+		
+	
 	//Create a driver for communicating with the Ground Control Station (GCS).
 	//SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, timer, true, true);  
 	//SerialDriver *serialDriver = new SerialDriver(76800, SerialDriver::Zero, true);  
 	SerialDriver *serialDriver = new SerialDriver(250000, SerialDriver::Zero, true, timer);  
 	serialDriver->init();
+	
+	TWIDriver *twiDriver = new TWIDriver();
+	
 	
 	GroundControlStationInterface *gcsInterface = new GroundControlStationInterface(serialDriver);
 	
@@ -148,9 +163,15 @@ int main(void)
 /*	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,0, 4);//starting at tick 0, execute 50 times a second
 	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, 1, 4);//starting at tick 1, execute 50 times a second
 	*/
+
+
 	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
 	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
 	
+/*
+SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,0, SCHEDULER_TICK_FREQUENCY_HZ);//execute 1 hz
+TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, 0, SCHEDULER_TICK_FREQUENCY_HZ);
+*/
 	
 	
 	FlashLEDTask *flashTask = new FlashLEDTask(2, SCHEDULER_TICK_FREQUENCY_HZ);//starting at tick 2, execute once a second
@@ -159,8 +180,11 @@ int main(void)
 //	SensorProcessingTask *sensorProcessingTask = new SensorProcessingTask(model, 5, 4);
 		
 	//execute the pid outer loop at the PID_OUTER_LOOP_PERIOD rate. The division is to convert the period into ticks for the scheduler.
+
 	PIDOuterLoopTask *pidOuterLoop = new PIDOuterLoopTask(pidController, 3, (SCHEDULER_TICK_FREQUENCY_HZ  * PID_OUTER_LOOP_PERIOD));
 	PIDInnerLoopTask *pidInnerLoop = new PIDInnerLoopTask(pidController, 4, (SCHEDULER_TICK_FREQUENCY_HZ  * PID_OUTER_LOOP_PERIOD));
+	
+	
 //	PIDInnerLoopTask *pidInnerLoop = new PIDInnerLoopTask(pidController, 4, 1);
 	
 	float simulatorSensorReadPeriod = 1/20.0f;
@@ -169,15 +193,35 @@ int main(void)
 	AHRS *ahrs = new AHRS(simulatorSensorReadPeriod); //for simulator angular velocity reads.
 	
 	//NavigationTask *navTask = new NavigationTask(BAROMETER_SENSOR_READ_PERIOD, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. //used for the real helicopter
-	NavigationTask *navTask = new NavigationTask(simulatorSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz.
+	NavigationTask *navTask = new NavigationTask(simulatorSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. most recent 4/9/2014
+//	NavigationTask *navTask = new NavigationTask(simulatorSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .01)); //run at 100 hz.
 
 	
 	
 	SPIDriver *spiDriver = new SPIDriver();
 	spiDriver->init();
 	
+	SPIDriver *baroSpiDriver = new SPIDriver(SPIDriver::SS_G);
+	baroSpiDriver->init();
+	
 	IMUSensor *imuSensor = new IMUSensor(spiDriver);
 	imuSensor->init();
+	
+	GPSSensor *gpsSensor = new GPSSensor(gpsSerialDriver);
+	gpsSensor->init();
+	
+	BarometerSensor *baroSensor = new BarometerSensor(baroSpiDriver);
+	baroSensor->init();
+	
+	MagnetometerSensor *magSensor = new MagnetometerSensor(twiDriver);
+	magSensor->init();
+	
+	
+	ReadGPSSensorTask *gpsSensorTask = new ReadGPSSensorTask(model, gpsSensor, 7, SCHEDULER_TICK_FREQUENCY_HZ * .25); //run at 4 hz
+	ReadIMUSensorTask *imuSensorTask = new ReadIMUSensorTask(model, imuSensor, 8,  (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz.
+	ReadBarometerSensorTask *barometerSensorTask = new ReadBarometerSensorTask(model, baroSensor, 9, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. (*** this will probably cause huge timeouts since it takes like 8ms to complete.
+	ReadMagnetometerSensorTask *magSensorTask = new ReadMagnetometerSensorTask(model, magSensor, 10, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz, although the sensor is reading at 75 hz.
+	
 
 	RadioControllerInterface *rcInterface = RadioControllerInterface::getRadioControllerInterface();
 	
@@ -185,6 +229,14 @@ int main(void)
 
 
 	Scheduler *scheduler = Scheduler::getScheduler();
+	
+	/*
+	scheduler->addTask(gpsSensorTask);
+	scheduler->addTask(imuSensorTask);
+	scheduler->addTask(barometerSensorTask);
+	scheduler->addTask(magSensorTask);
+	*/
+	
 	
 	scheduler->addTask(flashTask);
 	

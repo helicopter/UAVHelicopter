@@ -321,10 +321,28 @@
     <Compile Include="tasks\PIDOuterLoopTask.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="tasks\ReadBarometerSensorTask.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tasks\ReadBarometerSensorTask.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tasks\ReadGPSSensorTask.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tasks\ReadGPSSensorTask.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="tasks\ReadIMUSensorTask.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="tasks\ReadIMUSensorTask.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tasks\ReadMagnetometerSensorTask.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="tasks\ReadMagnetometerSensorTask.cpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="tasks\SensorProcessingTask.cpp">

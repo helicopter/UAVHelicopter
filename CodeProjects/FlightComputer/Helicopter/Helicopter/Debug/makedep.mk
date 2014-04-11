@@ -46,7 +46,13 @@ tasks\PIDInnerLoopTask.cpp
 
 tasks\PIDOuterLoopTask.cpp
 
+tasks\ReadBarometerSensorTask.cpp
+
+tasks\ReadGPSSensorTask.cpp
+
 tasks\ReadIMUSensorTask.cpp
+
+tasks\ReadMagnetometerSensorTask.cpp
 
 tasks\SensorProcessingTask.cpp
 

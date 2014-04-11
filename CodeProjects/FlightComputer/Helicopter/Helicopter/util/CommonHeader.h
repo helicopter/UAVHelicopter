@@ -82,8 +82,11 @@ static const float GYRO_SENSOR_READ_PERIOD = 1/98.0f;
 //static const int SCHEDULER_TICK_FREQUENCY_HZ = 120; 
 //static const int SCHEDULER_TICK_FREQUENCY_HZ = 70; //original - was this 3/29/2014
 static const int SCHEDULER_TICK_FREQUENCY_HZ = 200;
+
 //static const int SCHEDULER_TICK_FREQUENCY_HZ = 100; //good when not transmitting to GCS
 
-static const double PID_OUTER_LOOP_PERIOD = .05;
+static const double PID_OUTER_LOOP_PERIOD = .05; //most recent 4/9/2014
+
+//static const double PID_OUTER_LOOP_PERIOD = .02;
 
 #endif /* COMMONHEADER_H_ */

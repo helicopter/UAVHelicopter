@@ -555,6 +555,22 @@ namespace GroundControlStation.Messages
         }
 
 
+
+
+
+
+
+        static int xvel = 0;
+        static int yvel = 0;
+        static int zvel = 0;
+        static int xecef = 0;
+        static int yecef = 0;
+        static int zecef = 0;
+        static int counter = 0;
+
+        static DateTime startTime = DateTime.Now;
+        static int counter2 = 0;
+
         public static FlightComputerTelemetryMessage CreateFromModel(GroundControlStationModel model)
         {
             FlightComputerTelemetryMessage msg = new FlightComputerTelemetryMessage();
@@ -657,16 +673,16 @@ System.Diagnostics.Debug.WriteLine("XLinearAccel: " + linearAccelerationFRDBodyF
 System.Diagnostics.Debug.WriteLine("YLinearAccel: " + linearAccelerationFRDBodyFrameMss[1]);
 System.Diagnostics.Debug.WriteLine("ZLinearAccel: " + linearAccelerationFRDBodyFrameMss[2]);
 */
-System.Diagnostics.Debug.WriteLine("ygrav before: " + yGrav + ", adjustment " + linearAccelerationFRDBodyFrameMss[1]);            
+//System.Diagnostics.Debug.WriteLine("ygrav before: " + yGrav + ", adjustment " + linearAccelerationFRDBodyFrameMss[1]);            
 /*            xGrav += linearAccelerationFRDBodyFrameMss[0];
             yGrav += linearAccelerationFRDBodyFrameMss[1];
             zGrav += linearAccelerationFRDBodyFrameMss[2];*/
             
-            /*
+/*            
             System.Diagnostics.Debug.WriteLine("XLinearAccel: " + xGrav);
             System.Diagnostics.Debug.WriteLine("YLinearAccel: " + yGrav);
             System.Diagnostics.Debug.WriteLine("ZLinearAccel: " + zGrav);
-            */
+*/            
             /*System.Diagnostics.Debug.WriteLine("XLinearV: " + msg.XVelocityFRDCms);
             System.Diagnostics.Debug.WriteLine("YLinearV: " + msg.YVelocityFRDCms);
             System.Diagnostics.Debug.WriteLine("ZLinearV: " + msg.ZVelocityFRDCms);*/
@@ -748,13 +764,55 @@ System.Diagnostics.Debug.WriteLine("FRD x from sim recalced: " + velocityRotated
             msg.XMagFrd = magRotatedUnitVector[0];
             msg.YMagFrd = magRotatedUnitVector[1];
             msg.ZMagFrd = magRotatedUnitVector[2];
-            msg.XEcefCm = (int) (ecefX * 100.0f);
-            msg.YEcefCm = (int) (ecefY * 100.0f);
-            msg.ZEcefCm = (int) (ecefZ * 100.0f);
-            msg.XVEcefCms = (int)(velocityRotatedVectorECEFCms[0]);
-            msg.YVEcefCms = (int)(velocityRotatedVectorECEFCms[1]);
-            msg.ZVEcefCms = (int)(velocityRotatedVectorECEFCms[2]);
+                                    
+                /*
+                msg.XEcefCm = (int)(ecefX * 100.0f);
+                msg.YEcefCm = (int)(ecefY * 100.0f);
+                msg.ZEcefCm = (int)(ecefZ * 100.0f);
+                msg.XVEcefCms = (int)(velocityRotatedVectorECEFCms[0]);
+                msg.YVEcefCms = (int)(velocityRotatedVectorECEFCms[1]);
+                msg.ZVEcefCms = (int)(velocityRotatedVectorECEFCms[2]);
+                 */
             msg.PressureMillibars = pressureMb;
+
+            //four times a second, fully update the position and velocity values.
+            //techincally this is based on how frequently the FC reads data, so if that changes, intervalbetweensimdata would need to change to something other than that constant. but for now, they are the same.
+            if (counter == 0)
+            {
+                xvel = (int)(velocityRotatedVectorECEFCms[0]);
+                yvel = (int)(velocityRotatedVectorECEFCms[1]);
+                zvel = (int)(velocityRotatedVectorECEFCms[2]);
+                xecef = (int)(ecefX * 100.0f);
+                yecef = (int)(ecefY * 100.0f);
+                zecef = (int)(ecefZ * 100.0f);
+
+                counter++;
+                counter2++;
+            }
+            else if (counter > ((1 / Util.Util.INTERVAL_BETWEEN_SIM_DATA) / 4))
+            {
+                counter = 0;
+            }
+            else
+            {
+                counter++;
+            }
+
+            TimeSpan seconds = DateTime.Now.Subtract(startTime);
+
+            if (seconds.Seconds >= 1)
+            {
+                System.Diagnostics.Debug.WriteLine("counter2 : " + counter2 + " Seconds, " + seconds.Seconds);
+                counter2 = 0;
+                startTime = DateTime.Now;
+            }
+
+            msg.XEcefCm = xecef;
+            msg.YEcefCm = yecef;
+            msg.ZEcefCm = zecef;
+            msg.XVEcefCms = xvel;
+            msg.YVEcefCms = yvel;
+            msg.ZVEcefCms = zvel;
 
 
 

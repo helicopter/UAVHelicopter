@@ -47,7 +47,7 @@ namespace helicopter
 						
 			
 				//TODO: Remove this and just use the heap.
-				static const int MAXNUMOFTASKS = 10;
+				static const int MAXNUMOFTASKS = 25;
 			
 				Task *tasks [MAXNUMOFTASKS];
 				
