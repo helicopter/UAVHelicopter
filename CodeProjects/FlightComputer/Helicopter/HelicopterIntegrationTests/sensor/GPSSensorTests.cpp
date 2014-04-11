@@ -379,7 +379,13 @@ int nedGps_test(TestCase *test)
 		
 		//Read the sensor data
 		//int status = gpsSensor->readSensorECEF();
-		int status = gpsSensor->readSensorSolution();
+		//int status = gpsSensor->readSensorSolution();
+		
+		
+		
+		int status = gpsSensor->readSensorSolutionSendCommand();
+		_delay_ms(100);
+		status = gpsSensor->readSensorSolutionReadData();
 		
 		if(status == -1)errorCount1++;
 		if(status == -2)errorCount2++;

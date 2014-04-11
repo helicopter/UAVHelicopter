@@ -230,8 +230,8 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 
 	Scheduler *scheduler = Scheduler::getScheduler();
 	
-	/*
-	scheduler->addTask(gpsSensorTask);
+	
+	/*scheduler->addTask(gpsSensorTask);
 	scheduler->addTask(imuSensorTask);
 	scheduler->addTask(barometerSensorTask);
 	scheduler->addTask(magSensorTask);

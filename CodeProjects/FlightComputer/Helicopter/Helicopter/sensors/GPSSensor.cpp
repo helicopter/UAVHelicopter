@@ -116,6 +116,66 @@ int GPSSensor::readSensor(byte *pollMsg, int pollMsgSize, byte *msgData, int msg
 }
 
 
+int GPSSensor::readSensorSolutionSendCommand()
+{
+	int status = 0;
+	
+
+	//Start timer
+	serialDriver->startTimer();
+	
+	//Send poll command
+	status = serialDriver->transmit((const char*)NAV_SOL_POLLMSG, sizeof(NAV_SOL_POLLMSG));
+	
+	//Stop timer
+	serialDriver->stopTimer();
+	
+	return status;
+}
+
+
+int GPSSensor::readSensorSolutionReadData()
+{
+	int status = 0;
+	
+	byte navSolMsg[60] = {0};
+	
+
+	/**
+	* The message that is being sent will have the same header and ID fields of the message
+	* that should be received. So convert the header and ID field into a long to be compared
+	* against the incoming header and ID field.
+	*/
+	unsigned long desiredHeaderID = (unsigned long) NAV_SOL_POLLMSG[0] << 24 | 
+									(unsigned long) NAV_SOL_POLLMSG[1] << 16 | 
+									(unsigned long) NAV_SOL_POLLMSG[2] << 8 | 
+									(unsigned long) NAV_SOL_POLLMSG[3];
+										
+	status = receiveGpsData(desiredHeaderID, navSolMsg, sizeof(navSolMsg));
+	
+	if (status == 0)
+	{
+		//Parse status info
+		positionFixStatus =  navSolMsg[16] >= 3 ? VALID : INVALID;
+		
+		//Parse position info
+		xEcefCm =  ((long)navSolMsg[21] << 24) | ((long)navSolMsg[20] << 16) | ((long)navSolMsg[19] << 8) | (long) navSolMsg[18];
+		yEcefCm =  ((long)navSolMsg[25] << 24) | ((long)navSolMsg[24] << 16) | ((long)navSolMsg[23] << 8) | (long) navSolMsg[22];
+		zEcefCm =  ((long)navSolMsg[29] << 24) | ((long)navSolMsg[28] << 16) | ((long)navSolMsg[27] << 8) | (long) navSolMsg[26];
+		positionAccuracyEstimateEcefCm =  ((long)navSolMsg[33] << 24) | ((long)navSolMsg[32] << 16) | ((long)navSolMsg[31] << 8) | (long) navSolMsg[30];
+		
+		//Parse velocity info
+		xVEcefCms =  ((long)navSolMsg[37] << 24) | ((long)navSolMsg[36] << 16) | ((long)navSolMsg[35] << 8) | (long) navSolMsg[34];
+		yVEcefCms =  ((long)navSolMsg[41] << 24) | ((long)navSolMsg[40] << 16) | ((long)navSolMsg[39] << 8) | (long) navSolMsg[38];
+		zVEcefCms =  ((long)navSolMsg[45] << 24) | ((long)navSolMsg[44] << 16) | ((long)navSolMsg[43] << 8) | (long) navSolMsg[42];
+		velocityAccuracyEstimateEcefCms =  ((long)navSolMsg[49] << 24) | ((long)navSolMsg[48] << 16) | ((long)navSolMsg[47] << 8) | (long) navSolMsg[46];
+		
+	}
+
+	return status;
+}
+
+
 int GPSSensor::readSensorSolution()
 {
 	int status = 0;

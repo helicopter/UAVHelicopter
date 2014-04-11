@@ -111,6 +111,9 @@ namespace helicopter
 				 */
 				int readSensorSolution();
 				
+				int readSensorSolutionSendCommand();
+				int readSensorSolutionReadData();
+				
 				/**
 				 * Configures and initializes the GPS
 				 */

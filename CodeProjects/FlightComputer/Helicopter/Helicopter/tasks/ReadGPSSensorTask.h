@@ -31,6 +31,8 @@ namespace helicopter
 				SystemModel *model;
 				GPSSensor *gpsSensor;
 				
+				bool sendReadCommand;
+				
 			public:
 
 				ReadGPSSensorTask (SystemModel *model, GPSSensor *gpsSensor, int delay, int period);
