@@ -20,7 +20,11 @@ interfaces\GroundControlStationInterface.cpp
 
 interfaces\RadioControllerInterface.cpp
 
+messages\ControlMessage.cpp
+
 messages\Message.cpp
+
+messages\SensorDataMessage.cpp
 
 messages\SyncMessage.cpp
 

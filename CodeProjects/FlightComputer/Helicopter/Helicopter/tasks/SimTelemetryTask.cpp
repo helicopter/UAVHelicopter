@@ -7,15 +7,17 @@
 #include "SimTelemetryTask.h"
 #include "SystemTelemetryMessage.h"
 #include "SyncMessage.h"
+#include "SensorDataMessage.h"
 
 using namespace helicopter::tasks;
 using namespace helicopter::messages;
 
-SimTelemetryTask::SimTelemetryTask(GroundControlStationInterface *radioInterface, SystemModel *model, PIDController *pidController, int delay, int period) :
+SimTelemetryTask::SimTelemetryTask(GroundControlStationInterface *radioInterface, SystemModel *model, PIDController *pidController,  DATATORECEIVE dataToReceive, int delay, int period) :
 	Task(delay, period),
 	radioInterface(radioInterface),
 	model(model),
-	pidController(pidController)
+	pidController(pidController),
+	dataToReceive(dataToReceive)
 {
 	
 }
@@ -26,7 +28,7 @@ void SimTelemetryTask::runTaskImpl()
 	//Send sync message to indicate to the ground control station that we are ready to receive data.
 	//Without this sync message, the GCS could send data while the FC is asleep, which would cause the data
 	//to overflow the usart buffer.
-	SyncMessage syncMsg;
+	SyncMessage syncMsg(dataToReceive);
 	
 	int status = radioInterface->transmit(&syncMsg);
 	
@@ -40,35 +42,58 @@ void SimTelemetryTask::runTaskImpl()
 	
 		if (status == 0 && message != NULL)
 		{
-			SystemTelemetryMessage *telemMsg = (SystemTelemetryMessage*) message;
+			if (message->getType() == SystemTelemetryMessage::MessageType)
+			{
+				SystemTelemetryMessage *telemMsg = (SystemTelemetryMessage*) message;
 			
-			//Update the model using the new data received from the simulator.
-			telemMsg->updateModelFromMessageFromSimulator(model);
+				//Update the model using the new data received from the simulator.
+				telemMsg->updateModelFromMessageFromSimulator(model);
 			
-			pidController->setYawIntegralGain(telemMsg->YawIntegralGain);
-			pidController->setYawDerivativeGain(telemMsg->YawDerivativeGain);
-			pidController->setYawProportionalGain(telemMsg->YawProportionalGain);
-			pidController->setYawAntiWindupGain(telemMsg->YawAntiWindupGain);
+				pidController->setYawIntegralGain(telemMsg->YawIntegralGain);
+				pidController->setYawDerivativeGain(telemMsg->YawDerivativeGain);
+				pidController->setYawProportionalGain(telemMsg->YawProportionalGain);
+				pidController->setYawAntiWindupGain(telemMsg->YawAntiWindupGain);
 		
-			pidController->setXIntegralGain(telemMsg->XIntegralGain);
-			pidController->setXDerivativeGain(telemMsg->XDerivativeGain);
-			pidController->setXProportionalGain(telemMsg->XProportionalGain);
-			pidController->setXAntiWindupGain(telemMsg->XAntiWindupGain);
-			pidController->setLongitudeInnerLoopGain(telemMsg->LongitudeInnerLoopGain);
-			pidController->setPitchAngularVelocityGain(telemMsg->PitchAngularVelocityGain);
+				pidController->setXIntegralGain(telemMsg->XIntegralGain);
+				pidController->setXDerivativeGain(telemMsg->XDerivativeGain);
+				pidController->setXProportionalGain(telemMsg->XProportionalGain);
+				pidController->setXAntiWindupGain(telemMsg->XAntiWindupGain);
+				pidController->setLongitudeInnerLoopGain(telemMsg->LongitudeInnerLoopGain);
+				pidController->setPitchAngularVelocityGain(telemMsg->PitchAngularVelocityGain);
 				
-			pidController->setYIntegralGain(telemMsg->YIntegralGain);
-			pidController->setYDerivativeGain(telemMsg->YDerivativeGain);
-			pidController->setYProportionalGain(telemMsg->YProportionalGain);
-			pidController->setYAntiWindupGain(telemMsg->YAntiWindupGain);
-			pidController->setLateralInnerLoopGain(telemMsg->LateralInnerLoopGain);
-			pidController->setRollAngularVelocityGain(telemMsg->RollAngularVelocityGain);
+				pidController->setYIntegralGain(telemMsg->YIntegralGain);
+				pidController->setYDerivativeGain(telemMsg->YDerivativeGain);
+				pidController->setYProportionalGain(telemMsg->YProportionalGain);
+				pidController->setYAntiWindupGain(telemMsg->YAntiWindupGain);
+				pidController->setLateralInnerLoopGain(telemMsg->LateralInnerLoopGain);
+				pidController->setRollAngularVelocityGain(telemMsg->RollAngularVelocityGain);
 			
-			pidController->setZIntegralGain(telemMsg->ZIntegralGain);
-			pidController->setZDerivativeGain(telemMsg->ZDerivativeGain);
-			pidController->setZProportionalGain(telemMsg->ZProportionalGain);
-			pidController->setZAntiWindupGain(telemMsg->ZAntiWindupGain);															
-		
+				pidController->setZIntegralGain(telemMsg->ZIntegralGain);
+				pidController->setZDerivativeGain(telemMsg->ZDerivativeGain);
+				pidController->setZProportionalGain(telemMsg->ZProportionalGain);
+				pidController->setZAntiWindupGain(telemMsg->ZAntiWindupGain);																	
+			}else if (message->getType() == SensorDataMessage::MessageType)
+			{
+				SensorDataMessage *sensorMsg = (SensorDataMessage*) message;
+				model->XAccelFrdMss(sensorMsg->XAccelFrdMss);
+				model->YAccelFrdMss(sensorMsg->YAccelFrdMss);
+				model->ZAccelFrdMss(sensorMsg->ZAccelFrdMss);
+				model->YawAngularVelocityRadsPerSecond(sensorMsg->YawAngularVelocityRadsPerSecond);
+				model->PitchAngularVelocityRadsPerSecond(sensorMsg->PitchAngularVelocityRadsPerSecond);
+				model->RollAngularVelocityRadsPerSecond(sensorMsg->RollAngularVelocityRadsPerSecond);
+				model->XMagFrd(sensorMsg->XMagFrd);
+				model->YMagFrd(sensorMsg->YMagFrd);
+				model->ZMagFrd(sensorMsg->ZMagFrd);
+				model->XEcefCm(sensorMsg->XEcefCm);
+				model->YEcefCm(sensorMsg->YEcefCm);
+				model->ZEcefCm(sensorMsg->ZEcefCm);
+				model->XVEcefCms(sensorMsg->XVEcefCms);
+				model->YVEcefCms(sensorMsg->YVEcefCms);
+				model->ZVEcefCms(sensorMsg->ZVEcefCms);
+				model->PressureMillibars(sensorMsg->PressureMillibars);
+				
+			}
+			
 			delete message;
 		}
 	}

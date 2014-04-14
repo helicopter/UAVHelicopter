@@ -407,66 +407,6 @@ namespace GroundControlStation.Messages
             return rawMsg;
         }
 
-        private float decodeFloat(byte[] byteBuffer, ref int positionCounter)
-        {
-            float val = BitConverter.ToSingle(byteBuffer, positionCounter);
-            positionCounter += sizeof(float);
-            return val;
-        }
-
-
-        private uint decodeUInt(byte[] byteBuffer, ref int positionCounter)
-        {
-            uint val = (uint) BitConverter.ToInt32(byteBuffer, positionCounter);
-            positionCounter += sizeof(uint);
-            return val;
-        }
-
-        private int decodeInt(byte[] byteBuffer, ref int positionCounter)
-        {
-            int val = BitConverter.ToInt32(byteBuffer, positionCounter);
-            positionCounter += sizeof(int);
-            return val;
-        }
-
-        private byte decodeByte(byte[] byteBuffer, ref int positionCounter)
-        {
-            byte val = byteBuffer[positionCounter];
-            positionCounter += sizeof(byte);
-            return val;
-        }
-
-        private void encode(ref byte[] rawMsg, byte data, ref int positionCounter)
-        {
-            rawMsg[positionCounter++] = data;
-        }
-
-        private void encode(ref byte[] rawMsg, float data, ref int positionCounter)
-        {
-            byte[] temp = BitConverter.GetBytes(data);
-
-            rawMsg[positionCounter++] = temp[0];
-            rawMsg[positionCounter++] = temp[1];
-            rawMsg[positionCounter++] = temp[2];
-            rawMsg[positionCounter++] = temp[3];
-        }
-
-        private void encode(ref byte[] rawMsg, int data, ref int positionCounter)
-        {
-            byte[] temp = BitConverter.GetBytes(data);
-
-            rawMsg[positionCounter++] = temp[0];
-            rawMsg[positionCounter++] = temp[1];
-            rawMsg[positionCounter++] = temp[2];
-            rawMsg[positionCounter++] = temp[3];
-        }
-
-
-        private void encode(ref byte[] rawMsg, uint data, ref int positionCounter)
-        {
-            encode(ref rawMsg, (int)data, ref positionCounter);
-        }
-
         public void UpdateModel(GroundControlStationModel model)
         {
             model.YawIntegral = YawIntegral;
@@ -668,21 +608,23 @@ namespace GroundControlStation.Messages
 
             //Rotate linear acceleration from NED into body frame in meters per second per second (because gravity is ms^2
             float[] linearAccelerationFRDBodyFrameMss = Util.Util.RotateMatrix(nedToFRDRotationMatrix, new float[] { linearAccelXNEDMss, linearAccelYNEDMss, linearAccelZNEDMss });
+
+            float[] bodyFrameVelocities = Util.Util.RotateMatrix(nedToFRDRotationMatrix, velocitiesNEDCms);
 /*
 System.Diagnostics.Debug.WriteLine("XLinearAccel: " + linearAccelerationFRDBodyFrameMss[0]);
 System.Diagnostics.Debug.WriteLine("YLinearAccel: " + linearAccelerationFRDBodyFrameMss[1]);
 System.Diagnostics.Debug.WriteLine("ZLinearAccel: " + linearAccelerationFRDBodyFrameMss[2]);
 */
 //System.Diagnostics.Debug.WriteLine("ygrav before: " + yGrav + ", adjustment " + linearAccelerationFRDBodyFrameMss[1]);            
-/*            xGrav += linearAccelerationFRDBodyFrameMss[0];
+            xGrav += linearAccelerationFRDBodyFrameMss[0];
             yGrav += linearAccelerationFRDBodyFrameMss[1];
-            zGrav += linearAccelerationFRDBodyFrameMss[2];*/
+            zGrav += linearAccelerationFRDBodyFrameMss[2];
             
-/*            
-            System.Diagnostics.Debug.WriteLine("XLinearAccel: " + xGrav);
-            System.Diagnostics.Debug.WriteLine("YLinearAccel: " + yGrav);
-            System.Diagnostics.Debug.WriteLine("ZLinearAccel: " + zGrav);
-*/            
+            
+            //System.Diagnostics.Debug.WriteLine("XLinearAccel: " + xGrav + ", YLinearAccel: " + yGrav + ", ZLinearAccel: " + zGrav + ", Xvel " + bodyFrameVelocities[0] + ", yvel " + bodyFrameVelocities[1] + ", zvel " + bodyFrameVelocities[2]);
+            //System.Diagnostics.Debug.WriteLine("YLinearAccel: " + yGrav);
+            //System.Diagnostics.Debug.WriteLine("ZLinearAccel: " + zGrav);
+           
             /*System.Diagnostics.Debug.WriteLine("XLinearV: " + msg.XVelocityFRDCms);
             System.Diagnostics.Debug.WriteLine("YLinearV: " + msg.YVelocityFRDCms);
             System.Diagnostics.Debug.WriteLine("ZLinearV: " + msg.ZVelocityFRDCms);*/
@@ -788,8 +730,10 @@ System.Diagnostics.Debug.WriteLine("FRD x from sim recalced: " + velocityRotated
 
                 counter++;
                 counter2++;
+                //System.Diagnostics.Debug.WriteLine("here :");
             }
-            else if (counter > ((1 / Util.Util.INTERVAL_BETWEEN_SIM_DATA) / 4))
+            //else if (counter > ((1 / Util.Util.INTERVAL_BETWEEN_SIM_DATA) / 4))
+            else if (counter > 5)
             {
                 counter = 0;
             }
@@ -802,7 +746,7 @@ System.Diagnostics.Debug.WriteLine("FRD x from sim recalced: " + velocityRotated
 
             if (seconds.Seconds >= 1)
             {
-                System.Diagnostics.Debug.WriteLine("counter2 : " + counter2 + " Seconds, " + seconds.Seconds);
+                System.Diagnostics.Debug.WriteLine("counter2 : " + counter2 + " Seconds, " + seconds.TotalMilliseconds);
                 counter2 = 0;
                 startTime = DateTime.Now;
             }

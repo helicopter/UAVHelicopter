@@ -25,13 +25,17 @@ namespace helicopter
 		 */
 		class TransmitTelemetryTask : public Task
 		{
+			public:
+			enum DATATOSEND {ALLDATA, CONTROLDATA};
+				
 			private:
 				GroundControlStationInterface *radioInterface;
 				SystemModel *model;
+				DATATOSEND dataToSend;
 				
 			public:
 
-				TransmitTelemetryTask (GroundControlStationInterface *radioInterface, SystemModel *model, int delay, int period);
+				TransmitTelemetryTask (GroundControlStationInterface *radioInterface, SystemModel *model, DATATOSEND dataToSend, int delay, int period);
 
 				void runTaskImpl();
 		};

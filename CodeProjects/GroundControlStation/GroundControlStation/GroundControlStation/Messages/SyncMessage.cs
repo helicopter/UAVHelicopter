@@ -10,15 +10,16 @@ namespace GroundControlStation.Messages
     {
         public const byte MessageType = 3;
 
+        public byte RequestedMessage;
+
         /// <summary>
         /// This represents the number of bytes in this message including the message type.
         /// </summary>
-        public const int NumOfBytesInMsg = sizeof(byte);
+        public const int NumOfBytesInMsg = sizeof(byte) + sizeof(byte);
 
         public SyncMessage() 
             : base(MessageType, NumOfBytesInMsg)
         {
-            MsgType = MessageType;
         }
 
         public static SyncMessage BuildMessageSt(byte[] byteBuffer)
@@ -32,6 +33,7 @@ namespace GroundControlStation.Messages
         public override void BuildMessage(byte[] byteBuffer)
         {
             this.MsgType = byteBuffer[0];
+            this.RequestedMessage = byteBuffer[1];
         }
 
         public override byte[] GetRawBytes()
@@ -39,6 +41,7 @@ namespace GroundControlStation.Messages
             byte[] rawMsg = new byte[NumOfBytesInMsg];
 
             rawMsg[0] = MsgType;
+            rawMsg[1] = RequestedMessage;
 
             return rawMsg;
         }

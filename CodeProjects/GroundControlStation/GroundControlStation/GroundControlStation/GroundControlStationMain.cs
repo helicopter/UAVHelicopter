@@ -76,6 +76,7 @@ namespace GroundControlStation
 
             model.YawIntegralGain = .806f;
             model.YawProportionalGain = 1.116f;
+            //model.YawDerivativeGain = .391f;
             model.YawDerivativeGain = .391f;
             model.YawAntiWindupGain = 0.135f;
 
@@ -94,11 +95,13 @@ namespace GroundControlStation
             model.YProportionalGain = .04577f;
             //model.YDerivativeGain = 1.116f;
             //model.YDerivativeGain = .02869f;
-            model.YDerivativeGain = .00268f;
+            //model.YDerivativeGain = .00268f;//mostrecent 4/12/2014
+            model.YDerivativeGain = .13043f;
             model.YAntiWindupGain = 0.0f;
             //model.LateralInnerLoopGain = 1.696f;
             //model.LateralInnerLoopGain = .53623f;
-            model.LateralInnerLoopGain = .38271f;
+            //model.LateralInnerLoopGain = .38271f;//mostrecent 4/12
+            model.LateralInnerLoopGain = .36102f;
             //model.RollAngularVelocityGain = .241f;
             model.RollAngularVelocityGain = .04348f;
 
@@ -249,7 +252,7 @@ namespace GroundControlStation
              
 
             GroundControlStationController gcsController =
-                new GroundControlStationController(xInterface, fcInterface);
+                new GroundControlStationController(xInterface, fcInterface, GroundControlStationController.DATATOSEND.SENSORDATA);
 
             gcsController.Model = model;
 

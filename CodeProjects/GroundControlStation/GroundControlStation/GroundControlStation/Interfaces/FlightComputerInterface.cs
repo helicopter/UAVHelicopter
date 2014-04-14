@@ -111,6 +111,14 @@ namespace GroundControlStation.Interfaces
                         {
                             messageSize = SyncMessage.NumOfBytesInMsg;
                         }
+                        else if (messageType == SensorDataMessage.MessageType)
+                        {
+                            messageSize = SensorDataMessage.NumOfBytesInMsg;
+                        }
+                        else if (messageType == ControlMessage.MessageType)
+                        {
+                            messageSize = ControlMessage.NumOfBytesInMsg;
+                        }
                         else
                         {
                             Debug.WriteLine("Invalid msgType");
@@ -149,6 +157,14 @@ namespace GroundControlStation.Interfaces
                             {
                                 data = SyncMessage.BuildMessageSt(messagePayload);
                             }
+                            else if (messageType == SensorDataMessage.MessageType)
+                            {
+                                data = SensorDataMessage.BuildMessageSt(messagePayload);
+                            }
+                            else if (messageType == ControlMessage.MessageType)
+                            {
+                                data = ControlMessage.BuildMessageSt(messagePayload);
+                            }
                         }
                         else
                         {
@@ -175,7 +191,7 @@ namespace GroundControlStation.Interfaces
         /// Transmit the telemetry message and append appropriate sync and checksum bytes.
         /// </summary>
         /// <param name="telemetry"></param>
-        public virtual void Transmit(FlightComputerTelemetryMessage telemetry)
+        public virtual void Transmit(Message telemetry)
         {
             byte[] msgPayload = telemetry.GetRawBytes();
 

@@ -56,7 +56,9 @@ C_SRCS +=  \
 ../HelicopterMain.cpp \
 ../interfaces/GroundControlStationInterface.cpp \
 ../interfaces/RadioControllerInterface.cpp \
+../messages/ControlMessage.cpp \
 ../messages/Message.cpp \
+../messages/SensorDataMessage.cpp \
 ../messages/SyncMessage.cpp \
 ../messages/SystemTelemetryMessage.cpp \
 ../model/SystemModel.cpp \
@@ -99,7 +101,9 @@ drivers/TWIDriver.o \
 HelicopterMain.o \
 interfaces/GroundControlStationInterface.o \
 interfaces/RadioControllerInterface.o \
+messages/ControlMessage.o \
 messages/Message.o \
+messages/SensorDataMessage.o \
 messages/SyncMessage.o \
 messages/SystemTelemetryMessage.o \
 model/SystemModel.o \
@@ -135,7 +139,9 @@ drivers/TWIDriver.o \
 HelicopterMain.o \
 interfaces/GroundControlStationInterface.o \
 interfaces/RadioControllerInterface.o \
+messages/ControlMessage.o \
 messages/Message.o \
+messages/SensorDataMessage.o \
 messages/SyncMessage.o \
 messages/SystemTelemetryMessage.o \
 model/SystemModel.o \
@@ -171,7 +177,9 @@ drivers/TWIDriver.d \
 HelicopterMain.d \
 interfaces/GroundControlStationInterface.d \
 interfaces/RadioControllerInterface.d \
+messages/ControlMessage.d \
 messages/Message.d \
+messages/SensorDataMessage.d \
 messages/SyncMessage.d \
 messages/SystemTelemetryMessage.d \
 model/SystemModel.d \
@@ -207,7 +215,9 @@ drivers/TWIDriver.d \
 HelicopterMain.d \
 interfaces/GroundControlStationInterface.d \
 interfaces/RadioControllerInterface.d \
+messages/ControlMessage.d \
 messages/Message.d \
+messages/SensorDataMessage.d \
 messages/SyncMessage.d \
 messages/SystemTelemetryMessage.d \
 model/SystemModel.d \
@@ -244,6 +254,10 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
+
+
+
+
 
 
 

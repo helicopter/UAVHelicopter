@@ -26,11 +26,13 @@ namespace helicopter
 		{
 			public: 
 				static const byte MessageType = 3;
+				
+				byte RequestedMessage;
 							
 				static const byte MessageSize =
-					sizeof(msgType);
+					sizeof(msgType) + sizeof(RequestedMessage);
 							
-				SyncMessage(): Message(MessageType,MessageSize)
+				SyncMessage(byte requestedMessage): Message(MessageType,MessageSize), RequestedMessage(requestedMessage)
 				{
 								
 				}

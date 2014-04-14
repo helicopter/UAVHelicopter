@@ -19,11 +19,11 @@ Task::Task(int delay, int period)
 void Task::runTask()
 {
 	//Disable interrupts 
-	cli();
+	//cli(); //removed because gps serial driver will miss a lot of bytes notifications if a task runs for a long time.
 	
 	//run task
 	this->runTaskImpl();
 	
 	//Re-enable interrupts
-	sei();
+	//sei();
 }

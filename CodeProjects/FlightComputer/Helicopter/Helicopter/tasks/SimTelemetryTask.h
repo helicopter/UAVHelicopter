@@ -28,14 +28,18 @@ namespace helicopter
 		 */
 		class SimTelemetryTask : public Task
 		{
+			public:
+				enum DATATORECEIVE {ALLDATA, SENSORDATA};
+				
 			private:
 				GroundControlStationInterface *radioInterface;
 				SystemModel *model;
 				PIDController *pidController;
+				DATATORECEIVE dataToReceive;
 				
 			public:
 
-				SimTelemetryTask (GroundControlStationInterface *radioInterface, SystemModel *model, PIDController *pidController, int delay, int period);
+				SimTelemetryTask (GroundControlStationInterface *radioInterface, SystemModel *model, PIDController *pidController, DATATORECEIVE dataToReceive, int delay, int period);
 			
 				void runTaskImpl();
 		};

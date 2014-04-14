@@ -12,6 +12,7 @@ namespace GroundControlStation.Util
         public const float GRAVITY = 9.80665f;
 
         public const float INTERVAL_BETWEEN_SIM_DATA = .05f;
+        //public const float INTERVAL_BETWEEN_SIM_DATA = .02f;
 
 
         public static double ConvertToDegPerSec(float radsPerSecValue)

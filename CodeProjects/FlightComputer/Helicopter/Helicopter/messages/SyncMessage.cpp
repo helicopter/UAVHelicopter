@@ -17,6 +17,7 @@ byte *SyncMessage::getBytes()
 	byte *msg = new byte[MessageSize];
 	byte *msgPtr = msg;
 	msgPtr[0] = this->msgType;
+	msgPtr[1] = this->RequestedMessage;
 	
 	return msg;
 }
@@ -26,12 +27,13 @@ void SyncMessage::buildMessage(byte *message)
 	if (message != NULL)
 	{
 		msgType = message[0];
+		RequestedMessage = message[1];
 	}
 }
 
 SyncMessage* SyncMessage::buildMessageSt(byte *message)
 {
-	SyncMessage *msg = new SyncMessage();
+	SyncMessage *msg = new SyncMessage(0);
 	msg->buildMessage(message);
 	
 	return msg;

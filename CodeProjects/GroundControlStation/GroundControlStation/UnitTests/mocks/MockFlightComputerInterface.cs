@@ -43,7 +43,7 @@ namespace UnitTests.mocks
             return data;
         }
 
-        public override void Transmit(FlightComputerTelemetryMessage telemetry)
+        public override void Transmit(Message telemetry)
         {
             
         }

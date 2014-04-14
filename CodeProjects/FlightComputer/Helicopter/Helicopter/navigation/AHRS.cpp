@@ -25,8 +25,10 @@ const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .1f;
 
 //const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .17f;
 //const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .10f;//latest
-const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .06f;
-const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .17f;
+//const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .0175;//.00975;//.0001f;//.0175f;
+//const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .23f;
+const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .00975;
+const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .75f;
 
 
 void AHRS::scaleAndAdjust(float vectorToAdjust[3], float vectorToScale[3], float scalerValue, float (&outputVector)[3])
@@ -106,9 +108,15 @@ void AHRS::update(float frdAccXMss, float frdAccYMss, float frdAccZMss,
 	float westFacingVector[3] = {0};
 	float correctedMagnetometerVector[3] = {0};
 		
+	
 	MatrixUtil::CrossProduct(dcm[2], magnetometerVector, westFacingVector);	
-	MatrixUtil::CrossProduct(westFacingVector, dcm[2], correctedMagnetometerVector);	
-		
+	MatrixUtil::CrossProduct(westFacingVector, dcm[2], correctedMagnetometerVector);
+	
+	/*
+	MatrixUtil::CrossProduct(accelerometerVector, magnetometerVector, westFacingVector);
+	MatrixUtil::CrossProduct(westFacingVector, accelerometerVector, correctedMagnetometerVector);	
+	*/	
+	MatrixUtil::Normalize(correctedMagnetometerVector);
 
 
 	//Calculate the cross product between the accelerometer data, and the

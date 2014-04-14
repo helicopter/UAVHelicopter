@@ -27,6 +27,14 @@ namespace helicopter
 			public: 
 				enum FixStatus {INVALID = 1, VALID = 2};
 					
+				static const int navSolBufferSize = 60;
+					
+				static byte navSolMsgBuffer[navSolBufferSize];	
+				
+				static int navSolBufferCounter;
+				
+				static bool navSolMsgReceived;
+					
 			private:
 				
 				/**
@@ -42,7 +50,14 @@ namespace helicopter
 
 				static const byte CFG_PRT[];
 
-				static const byte CFG_RATE[];				
+				static const byte CFG_RATE[];	
+				
+				static const byte CFG_RST[];
+				
+				/**
+				 * MSG to configure gps to periodically send NAV_SOL messages.
+				 */
+				static const byte CFG_MSG_CONFIG_PERIODIC_SOL[];			
 				
 				SerialDriver *serialDriver;
 				
@@ -70,6 +85,9 @@ namespace helicopter
 				 * Reads data from the GPS.
 				 */
 				int receiveGpsData(unsigned long desiredHeaderID, byte *msgData, int msgDataSize); 
+				
+				
+				
 				
 			public:
 				GPSSensor(SerialDriver *serialDriver): 
@@ -120,6 +138,12 @@ namespace helicopter
 				int init();
 				
 				bool isGpsReady();
+				
+				/**
+				 * If a new gps nav solution message has been completely received, then
+				 * parse the message and set the appropriate gps variables.
+				 */
+				void processSensorSolution();
 				
 				/**
 				 * Latitude in degrees X 10^7

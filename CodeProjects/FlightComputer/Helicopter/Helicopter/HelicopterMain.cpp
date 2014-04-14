@@ -49,7 +49,8 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	 * These are the setpoints that the helicopter to navigate/orient to.
 	 * This includes the final location that the helicopter should travel to.
 	 */
-	model->ReferenceMagYawRads(0.0); //point north
+	//model->ReferenceMagYawRads(0.0); //point north
+	model->ReferenceMagYawRads(1.9722); //113* south east
 	model->ReferenceYawVelocityRadsPerSecond(0.0);
 	
 	//Negative values because positive values are 'down' in NED. So we want a negative altitude setpoint.
@@ -64,24 +65,29 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	model->ReferenceYVelocityCms(0);
 	
 	
-	pidController->setYawProportionalGain(3.0);
-	pidController->setYawIntegralGain(.008);
-	pidController->setYawDerivativeGain(.85);
-	pidController->setYawAntiWindupGain(.1);
+	pidController->setYawProportionalGain(1.116);
+	pidController->setYawIntegralGain(.806);
+	pidController->setYawDerivativeGain(.391);
+	pidController->setYawAntiWindupGain(0.135);
 	
-	pidController->setXProportionalGain(.289);
+	pidController->setXProportionalGain(.00019);
 	pidController->setXIntegralGain(0);
-	pidController->setXDerivativeGain(1.859);
+	pidController->setXDerivativeGain(.00153);
 	pidController->setXAntiWindupGain(0);
-	pidController->setLongitudeInnerLoopGain(.031);
-	pidController->setPitchAngularVelocityGain(.03);
+	pidController->setLongitudeInnerLoopGain(1.7081);
+	pidController->setPitchAngularVelocityGain(1.77509);
 	
-	pidController->setYProportionalGain(1.437);
+	pidController->setYProportionalGain(.04577);
 	pidController->setYIntegralGain(0);
-	pidController->setYDerivativeGain(2.8363);
+	pidController->setYDerivativeGain(.13043);
 	pidController->setYAntiWindupGain(0);
-	pidController->setLateralInnerLoopGain(.092);	
-	pidController->setRollAngularVelocityGain(.048);
+	pidController->setLateralInnerLoopGain(.36102);	
+	pidController->setRollAngularVelocityGain(.04348);
+	
+	pidController->setZProportionalGain(0.00445);
+	pidController->setZIntegralGain(.000874);
+	pidController->setZDerivativeGain(.430435);
+	pidController->setZAntiWindupGain(.000874);	
 	
 	//TODO: Don't forget that there is a difference between how often the sensors
 	//are read and how often the control algorithm runs. 
@@ -137,8 +143,10 @@ int main(void)
 	//Timer *timer = new Timer(F_CPU,PRESCALE_BY_TENTWENTYFOUR,75); //Good timeout when using the radio
 	Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100); //Good timeout when using the USB
 	
-	Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 250);
+	//Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 250);
+	Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100);
 	
+	//SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, gpsTimer);
 	SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, gpsTimer);
 	gpsSerialDriver->init();
 		
@@ -165,8 +173,9 @@ int main(void)
 	*/
 
 
-	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
-	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
+	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::ALLDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
+//	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .02));//execute 50 hz
+	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::ALLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
 	
 /*
 SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,0, SCHEDULER_TICK_FREQUENCY_HZ);//execute 1 hz
@@ -188,6 +197,7 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 //	PIDInnerLoopTask *pidInnerLoop = new PIDInnerLoopTask(pidController, 4, 1);
 	
 	float simulatorSensorReadPeriod = 1/20.0f;
+	//float simulatorSensorReadPeriod = 1/50.0f;
 		
 	//AHRS *ahrs = new AHRS(GYRO_SENSOR_READ_PERIOD);
 	AHRS *ahrs = new AHRS(simulatorSensorReadPeriod); //for simulator angular velocity reads.
@@ -217,7 +227,8 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	magSensor->init();
 	
 	
-	ReadGPSSensorTask *gpsSensorTask = new ReadGPSSensorTask(model, gpsSensor, 7, SCHEDULER_TICK_FREQUENCY_HZ * .25); //run at 4 hz
+	//ReadGPSSensorTask *gpsSensorTask = new ReadGPSSensorTask(model, gpsSensor, 7, SCHEDULER_TICK_FREQUENCY_HZ * .25); //run at 4 hz
+	ReadGPSSensorTask *gpsSensorTask = new ReadGPSSensorTask(model, gpsSensor, 7, SCHEDULER_TICK_FREQUENCY_HZ * .1); //run at 10 hz
 	ReadIMUSensorTask *imuSensorTask = new ReadIMUSensorTask(model, imuSensor, 8,  (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz.
 	ReadBarometerSensorTask *barometerSensorTask = new ReadBarometerSensorTask(model, baroSensor, 9, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. (*** this will probably cause huge timeouts since it takes like 8ms to complete.
 	ReadMagnetometerSensorTask *magSensorTask = new ReadMagnetometerSensorTask(model, magSensor, 10, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz, although the sensor is reading at 75 hz.
@@ -231,16 +242,16 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	Scheduler *scheduler = Scheduler::getScheduler();
 	
 	
-	/*scheduler->addTask(gpsSensorTask);
+	scheduler->addTask(gpsSensorTask);
 	scheduler->addTask(imuSensorTask);
-	scheduler->addTask(barometerSensorTask);
+	//scheduler->addTask(barometerSensorTask);
 	scheduler->addTask(magSensorTask);
-	*/
+	
 	
 	
 	scheduler->addTask(flashTask);
 	
-	scheduler->addTask(simTelemTask);
+//	scheduler->addTask(simTelemTask);
 	
 	scheduler->addTask(transTelemTask);
 	
@@ -261,9 +272,14 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	//TODO rework this
 	bool isInitialized = false;
 	
+	SimTelemetryTask *initSimTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::ALLDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
+	
+	
+	
+/*	
 	while (!isInitialized)
 	{
-		simTelemTask->runTaskImpl();
+		initSimTelemTask->runTaskImpl();
 		
 		if (model->LatitudeDegrees() != 0 && model->LongitudeDegrees() != 0)
 		{
@@ -296,7 +312,7 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 		}
 		_delay_ms(100);
 	}
-	
+*/	
 	
 	
 	

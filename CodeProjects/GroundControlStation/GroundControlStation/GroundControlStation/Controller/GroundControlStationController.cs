@@ -39,8 +39,11 @@ namespace GroundControlStation.Controller
 
         public GroundControlStationForm View { get; set; }
 
+        public enum DATATOSEND { ALL, SENSORDATA };
 
-        public GroundControlStationController(SimulatorInterface xplaneInterface, FlightComputerInterface fcInterface)
+        public DATATOSEND dataToSend;
+
+        public GroundControlStationController(SimulatorInterface xplaneInterface, FlightComputerInterface fcInterface, DATATOSEND dataToSend)
         {
             this.xplaneInterface = xplaneInterface;
             this.fcInterface = fcInterface;
@@ -54,6 +57,8 @@ namespace GroundControlStation.Controller
 
             simulatorFileLogger = new StreamWriter(Path.Combine(LogFilePath, "SimulatorLog" + DateTime.Now.ToString("_MM_dd_yyyy_hhmmss") + ".csv"));
             simulatorFileLogger.WriteLine("DateTime," + LoggingUtil.ToCsvHeader(",", new SimulatorTelemetry()));
+
+            this.dataToSend = dataToSend;
         }
 
 
@@ -147,7 +152,7 @@ namespace GroundControlStation.Controller
         }
 
         DateTime startTime = DateTime.Now;
-        int counter = 0;
+        //int counter = 0;
 
 
         //Receives data from the flight computer.
@@ -190,18 +195,71 @@ namespace GroundControlStation.Controller
 //System.Diagnostics.Debug.WriteLine("FC roll " + (telem.RollRads * (180 / Math.PI)) + ", sim roll " + Model.SimTelm.RollDegrees + ", Error " + (telem.RollRads * (180 / Math.PI) - Model.SimTelm.RollDegrees));
 
                         //Transmit data to simulator
-                        xplaneInterface.Transmit(Model);
+//                        xplaneInterface.Transmit(Model);
 
                         flightComputerFileLogger.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + ", " + LoggingUtil.ToCsv(",", telem));
                     }
+                    else if (msg.MsgType == ControlMessage.MessageType)
+                    {
+                        //Receive model data from FC
+                        ControlMessage telem = (ControlMessage)msg;
+                        Model.MainRotorCollectiveControl = telem.MainRotorCollectiveControl;
+                        Model.YawControl = telem.YawControl;
+                        Model.LongitudeControl = telem.LongitudeControl;
+                        Model.LateralControl = telem.LateralControl;
+
+                        UpdateViews();
+
+                        //Scale the Yaw Control value to a value usable by xplane.
+                        /**
+                         * Rescale yaw control to appropriate values. 
+                         * from -1/1 to -10/10
+                         * new_v = (new_max - new_min) / (old_max - old_min) * (v - old_min) + new_min
+                         */
+                        Model.YawControl = (10 - -10) / (1 - -1) * (Model.YawControl - -1) + -10;
+                        Model.MainRotorCollectiveControl = (10 - -10) / (1 - -1) * (Model.MainRotorCollectiveControl - -1) + -10;
+                        if (Model.LateralControl > .8) Model.LateralControl = .8f;
+                        if (Model.LateralControl < -.8) Model.LateralControl = -.8f;
+                        if (Model.LongitudeControl > .8) Model.LongitudeControl = .8f;
+                        if (Model.LongitudeControl < -.8) Model.LongitudeControl = -.8f;
+
+ //                       xplaneInterface.Transmit(Model);
+                    }
                     else if (msg.MsgType == SyncMessage.MessageType)
                     {
-                        //Send sim model data to FC. 
+                        SyncMessage syncMsg = (SyncMessage)msg;
+
                         FlightComputerTelemetryMessage data = FlightComputerTelemetryMessage.CreateFromModel(Model);
 
+                        if (syncMsg.RequestedMessage == (byte)DATATOSEND.ALL)
+                        {
 
-                        
-                        fcInterface.Transmit(data);
+                            //Send sim model data to FC. 
+                        //    fcInterface.Transmit(data);
+                        }
+                        else if (syncMsg.RequestedMessage == (byte)DATATOSEND.SENSORDATA)
+                        {
+                            SensorDataMessage sensorData = new SensorDataMessage();
+                            sensorData.PitchAngularVelocityRadsPerSecond = data.PitchAngularVelocityRadsPerSecond;
+                            sensorData.PressureMillibars = data.PressureMillibars;
+                            sensorData.RollAngularVelocityRadsPerSecond = data.RollAngularVelocityRadsPerSecond;
+                            sensorData.XAccelFrdMss = data.XAccelFrdMss;
+                            sensorData.XEcefCm = data.XEcefCm;
+                            sensorData.XMagFrd = data.XMagFrd;
+                            sensorData.XVEcefCms = data.XVEcefCms;
+                            sensorData.YAccelFrdMss = data.YAccelFrdMss;
+                            sensorData.YawAngularVelocityRadsPerSecond = data.YawAngularVelocityRadsPerSecond;
+                            sensorData.YEcefCm = data.YEcefCm;
+                            sensorData.YMagFrd = data.YMagFrd;
+                            sensorData.YVEcefCms = data.YVEcefCms;
+                            sensorData.ZAccelFrdMss = data.ZAccelFrdMss;
+                            sensorData.ZEcefCm = data.ZEcefCm;
+                            sensorData.ZMagFrd = data.ZMagFrd;
+                            sensorData.ZVEcefCms = data.ZVEcefCms;
+
+
+                            fcInterface.Transmit(sensorData);
+                        }
                     }
                 }
             }

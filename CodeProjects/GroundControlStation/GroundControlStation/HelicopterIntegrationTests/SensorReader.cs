@@ -210,7 +210,7 @@ namespace HelicopterIntegrationTests
 
                 short errorCount1 = portInterface.ReadShort();
                 short errorCount2 = portInterface.ReadShort();
-                int b = 0;
+                //int b = 0;
                 System.Diagnostics.Debug.WriteLine("error count1 " + errorCount1 + ", error count2 " + errorCount2 + ", vx " + vx + ", vy " + vy + ", vz " + vz + ", intx " + initialx + ", inty " + initialy + ", xned " + xNedCm + ", yned " + yNedCm);
 
 
