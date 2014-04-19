@@ -374,7 +374,8 @@ int GPSSensor::init()
 	* Hack to setup the serial driver to interrupt when data is received.
 	*/
 	UCSR1B |= (1<<RXCIE1);
-	//sei();
+	
+//	sei();
 	
 	/**
 	* Setup gps for polling navigation solution.

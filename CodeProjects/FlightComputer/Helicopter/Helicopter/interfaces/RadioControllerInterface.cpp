@@ -8,6 +8,27 @@ using namespace helicopter::interfaces;
 RadioControllerInterface* RadioControllerInterface::radioControllerInterface = NULL;
 
 
+float RadioControllerInterface::calculatePWMCompareMatchFromControlValue(float controlValue)
+{
+	//Equation for scaling a value: new_v = (new_max - new_min) / (old_max - old_min) * (v - old_min) + new_min
+	float scaledValue = (PWM_COMPAREMATCH_MAX_TICKS - PWM_COMPAREMATCH_MIN_TICKS) / (1.0f - -1.0f) * (controlValue - -1.0f) + PWM_COMPAREMATCH_MIN_TICKS;
+	
+	if (scaledValue > PWM_COMPAREMATCH_MIN_TICKS)
+	{
+		scaledValue = PWM_COMPAREMATCH_MIN_TICKS;
+	}else if (scaledValue < PWM_COMPAREMATCH_MAX_TICKS)
+	{
+		scaledValue = PWM_COMPAREMATCH_MAX_TICKS;
+	}
+	
+	return scaledValue;	
+	
+}
+
+
+/**
+ * Equation for scaling values new_v = (new_max - new_min) / (old_max - old_min) * (v - old_min) + new_min
+ */
 float ScaleValue(int servoChannelPulseWidth) 
 {
 	float scaledValue = (1.0f - -1.0f) / (4000.0f - 2000.0f) * (servoChannelPulseWidth - 2000.0f) + -1.0f;
@@ -88,7 +109,6 @@ ISR(TIMER5_CAPT_vect)
 				//Scale the servo channel pulse widths to between
 				//-1, and 1 which is what the system uses for servo control.
 				//-1 is 1.0 milliseconds, and 1 is 2.0 milliseconds (0 is 1.5 milliseconds)
-				//new_v = (new_max - new_min) / (old_max - old_min) * (v - old_min) + new_min
 				float servoControlValue = ScaleValue(servoChannelPulseWidth);
 
 				rcInterface->SetServoChannelValue(servoChannelIndex, servoControlValue);
@@ -156,6 +176,62 @@ RadioControllerInterface* RadioControllerInterface::getRadioControllerInterface(
  */
 void RadioControllerInterface::init()
 {
+	/**
+	 * Setup code for converting control values to pulse width modulation values for the
+	 * servos.
+	 * Output:
+	 * Port Pin | on compare counter | output type					| Output pin on Board
+	 * PB6      | OC1C               | Aileron (roll)				| 1
+	 * PB5      | OC1A               | Elevator (pitch)				| 2
+	 * PH5      | OC4C               | Throttle (collective)		| 3
+	 * PH4      | OC4B               | Rudder (yaw)					| 4
+	 * PH3      | OC4A               | N/A (aux on the input side)	| 5
+	 * PE5      | OC3C               | N/A							| 6
+	 * PE4      | OC3B               | N/A							| 7
+	 * PE3      | OC3A               | N/A							| 8
+	 */
+	
+	//Setup pins for output.
+	DDRB |= (1<<PB6) | (1<<PB5);
+	DDRH |= (1<<PH5) | (1<<PH4);
+	
+	/**
+	 * Setup timers for phase correct pwm.
+	 * wgmn3, wgmn2, wgmn1, wgmn0 = 1,0,1,0 (page 148)
+	 */
+	TCCR1A |= (1<<WGM11);
+	TCCR1B |= (1<<WGM13);
+	TCCR4A |= (1<<WGM41);
+	TCCR4B |= (1<<WGM43);
+	
+	/**
+	 * Setup OC1A,B,C compare match when counting up on compare, clear compare match on compare when counting down.
+	 */
+	TCCR1A |= (1<<COM1C1) | (1<<COM1C0);
+	TCCR4A |= (1<<COM4C1) | (1<<COM4C0);
+	
+	
+	
+	//TODO: Set default values to '0' before initialized so that things don't power up.
+	/**
+	 * Set the compare value so that the servos are set to a neutral position
+	 */
+	OCR1C = calculatePWMCompareMatchFromControlValue(0);
+	OCR1A = calculatePWMCompareMatchFromControlValue(0);
+	OCR4C = calculatePWMCompareMatchFromControlValue(0);
+	OCR4B = calculatePWMCompareMatchFromControlValue(0);
+	
+	ICR1 = TIMERTOP;
+	ICR4 = TIMERTOP;
+	
+	
+
+
+	
+	/**
+	 * Setup code for receiving pulse position modulation (PPM) information and converting
+	 * it to control values
+	 */
 	//set PL1 pin to input. This will receive the
 	//pulse position modulation signal from the pwm-ppm encoder
 	DDRL &= ~(1<<PL1);
@@ -187,4 +263,7 @@ void RadioControllerInterface::start()
 {
 	//Set the timer prescaler to 8. (CS = Clock Select) which starts the timer.
 	TCCR5B |= (1<<CS51);	
+
+	TCCR1B |= (1<<CS11);
+	TCCR4B |= (1<<CS41);
 }

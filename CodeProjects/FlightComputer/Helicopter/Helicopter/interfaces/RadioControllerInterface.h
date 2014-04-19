@@ -81,19 +81,48 @@ namespace helicopter
 				static const float MANUAL_MODE_THRESHOLD = 0.0;
 				
 				
+				
 				/*
 				* This value represents the maximum value that the ppm timer will reach before restarting
-				* This value is somewhat arbitrarily chosen based on an arbetrary frequency.
+				* This value is somewhat arbitrarily chosen based on an arbitrary frequency.
 				* The value is calculated by:
 				*  (CPU_Speed / PreScaler) / DesiredFrequency
 				* So in this case, the desired frequency for the timer to reset is 50 times a second E.g.
 				* (16,000,000 / 8) / 50 = 40,000
 				*/
 				static const long MAX_PPM_TIMER_VALUE = 40000;
+				//static const long MAX_PPM_TIMER_VALUE = (F_CPU / PRESCALEVALUE) / PWMFREQUENCY;
 				
+				/**
+				 * This represents the highest value that the timer will reach before counting down again.
+				 */
+				//static const int TIMERTOP = 20000;				
+				static const int TIMERTOP = MAX_PPM_TIMER_VALUE / 2;				
+				
+				/**
+				 * 'Width' in processor ticks of the maximum pulse that we would want to send or receive 
+				 * to the servos. The max servo pulse width is 2 ms, so this is 2 ms in timer ticks.
+				 * This is calculated by (Desired pulse width in ms / max ppm timer value in ms) * max ppm timer value in ticks = desired pulse width in ticks
+				 * e.g. (2ms / 20 ms (which is 1/50hz)) * 40000 = 4000
+				 * A few ticks are added and removed to allow for noise.
+				 */
 				static const long MAX_USEABLE_PULSE_WIDTH = 4010;
 				
 				static const long MIN_USEABLE_PULSE_WIDTH = 1990;
+				
+				
+				/**
+				 * This represents the compare match value for the timer for the minimum usable value for pwm.
+				 * I.e. this is the point in ticks where the timer will hit in order to create a pulse width of 1 ms.
+				 * the equation is:
+				 * (MAX_PPM_TIMER_VALUE - min pulse width ticks) / 2
+				 * e.g. (40,000 - 2000) / 2 = 19000
+				 */
+				static const long PWM_COMPAREMATCH_MIN_TICKS = 19000;
+				
+
+				static const long PWM_COMPAREMATCH_MAX_TICKS = 18000;
+				
 				
 				/**
 				 * This number represents the minimum time interval between PPM
@@ -121,6 +150,9 @@ namespace helicopter
 				
 			
 			private:
+			
+
+			
 				long previousInputCaptureRegisterValue;
 				
 				int servoChannelIndex;
@@ -150,6 +182,11 @@ namespace helicopter
 				{
 				}
 				
+				/**
+				 * Calculates the pwm compare match value for the On Compare Match Register
+				 * given a control signal value between -1.0 and 1.0
+				 */
+				float calculatePWMCompareMatchFromControlValue(float controlValue);
 
 			public: 
 

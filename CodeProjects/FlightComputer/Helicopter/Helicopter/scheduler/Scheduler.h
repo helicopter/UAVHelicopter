@@ -40,10 +40,10 @@ namespace helicopter
 			
 			    //TODO Switch this to an ENUM.
 				static const int NoPrescaling = 1;
-				static const int PrescaleByEight = (1 << CS11);
-				static const int PrescaleBySixtyFour = (1 << CS10) | (1 << CS11);
-				static const int PrescaleByTwofiftysix = (1 << CS12);
-				static const int PrescaleByTentwentyfour = (1 << CS12) | (1 << CS10);
+				static const int PrescaleByEight = (1 << CS01);
+				static const int PrescaleBySixtyFour = (1 << CS00) | (1 << CS01);
+				static const int PrescaleByTwofiftysix = (1 << CS02);
+				static const int PrescaleByTentwentyfour = (1 << CS02) | (1 << CS00);
 						
 			
 				//TODO: Remove this and just use the heap.
@@ -88,6 +88,8 @@ namespace helicopter
 				 * Target Timer Count = (((Input Frequency / Prescaler) / Target Frequency)
 				 * (((16000000 / 64) / 200)) = 1250
 				 * (((1000000 / 8) / 200)) = 625
+				 *
+				 * Because this is now using an 8 bit timer, the scheduler tick freq cant be less than 70.
 				*/
 				Scheduler(unsigned long cpuSpeed, PRESCALER prescaler, int schedulerTickFrequencyHz);
 				~Scheduler();

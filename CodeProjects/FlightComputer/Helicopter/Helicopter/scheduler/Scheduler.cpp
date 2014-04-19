@@ -19,7 +19,9 @@ Scheduler* Scheduler::getScheduler()
 {
 	if (scheduler == NULL)
 	{
-		scheduler = new Scheduler(F_CPU, PRESCALE_BY_SIXTYFOUR, SCHEDULER_TICK_FREQUENCY_HZ);
+		//scheduler = new Scheduler(F_CPU, PRESCALE_BY_SIXTYFOUR, SCHEDULER_TICK_FREQUENCY_HZ);
+		//scheduler = new Scheduler(F_CPU, PRESCALE_BY_TENTWENTYFOUR, SCHEDULER_TICK_FREQUENCY_HZ);
+		scheduler = new Scheduler(F_CPU, PRESCALE_BY_TENTWENTYFOUR, SCHEDULER_TICK_FREQUENCY_HZ);
 	}
 
 	return scheduler;
@@ -28,6 +30,10 @@ Scheduler* Scheduler::getScheduler()
 Scheduler::Scheduler(unsigned long cpuSpeed, PRESCALER prescaler, int schedulerTickFrequencyHz)
 {
 	targetTimerCount =  ((cpuSpeed / prescaler) / schedulerTickFrequencyHz);
+//	targetTimerCount =  (cpuSpeed / (2.0f * prescaler * schedulerTickFrequencyHz)) - 1;
+//	targetTimerCount =  78;
+//	targetTimerCount =  156;
+//	targetTimerCount =  5;
 	
 	//Calculate the timer value to achieve the desired frequency. 
 	this->targetTimerCount = targetTimerCount;
@@ -73,11 +79,13 @@ void Scheduler::init()
 	}
 	
 	//setup timer
-	OCR1A = targetTimerCount; //Set Clear Timer on Compare (auto reset) (CTC)
+	OCR0A = targetTimerCount; //Set Clear Timer on Compare (auto reset) (CTC)
+//OCR0A=1;
 		
-	TCCR1B |= (1 << WGM12); //Configure timer 1 for ctc mode
+//	TCCR0B |= (1 << WGM02); //Configure timer 1 for ctc mode
+	TCCR0A |= (1 << WGM01); //Configure timer 0 for ctc mode
 		
-	TIMSK1 |= (1 << OCIE1A); //enable ctc interrupt
+	TIMSK0 |= (1 << OCIE0A); //enable ctc interrupt for OCR0A
 		
 	sei(); //Enable global interrupts
 }
@@ -117,33 +125,38 @@ void Scheduler::dispatch()
 
 void Scheduler::start()
 {
+	
 	//Setting TCCR to a prescaler will start the timer.
 	switch(this->prescaler)
 	{
 		case 1:
-			TCCR1B |= NoPrescaling;
+			TCCR0B |= NoPrescaling;
 			break;
 		case 8:
-			TCCR1B |= PrescaleByEight;
+			TCCR0B |= PrescaleByEight;
 			break;
 		case 64:
-			TCCR1B |= PrescaleBySixtyFour;
+			TCCR0B |= PrescaleBySixtyFour;
 			break;
 		case 256:
-			TCCR1B |= PrescaleByTwofiftysix;
+			TCCR0B |= PrescaleByTwofiftysix;
 			break;
 		case 1024:
-			TCCR1B |= PrescaleByTentwentyfour;
+			TCCR0B |= PrescaleByTentwentyfour;
 			break;
 		default:
-			TCCR1B |= NoPrescaling;	
+			TCCR0B |= NoPrescaling;	
 	}
+//TCCR0B |= (1 << CS02);
+//TCCR0B &= ~((1 << CS01) | (1 << CS00));
+	
+	//TCCR0B = (1 << CS02) | (1 << CS00);
 }
 
 /**
  * Interrupt service routine for determining when tasks are ready to execute.
  */
-ISR(TIMER1_COMPA_vect)
+ISR(TIMER0_COMPA_vect)
 {
 	//TODO do we want to stop interrupts in this method?
 	Scheduler *scheduler = Scheduler::getScheduler();

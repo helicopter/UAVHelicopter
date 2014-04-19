@@ -21,6 +21,13 @@ namespace helicopter
 	{
 		class BarometerSensor
 		{
+			public:
+				/**
+				 * According to page 10 of MS5611-01Ba03.PDF, it takes 8.22 ms to do the
+				 * ADC conversion for OSR of 4096.
+				 */
+				static const int ADC_PROCESSING_TIME_MS = 10;
+				
 			private:
 			
 				static const byte ADC_READ_COMMAND = 0x00;
@@ -46,11 +53,7 @@ namespace helicopter
 				static const byte CONVERT_D2_TEMPERATURE_OSR_4096 = 0x58;
 
 				
-				/**
-				 * According to page 10 of MS5611-01Ba03.PDF, it takes 8.22 ms to do the
-				 * ADC conversion for OSR of 4096.
-				 */
-				static const int ADC_PROCESSING_TIME_MS = 10;
+
 				
 				//According to the documentation (page 10), it's only a 2.8ms delay, but delay for 5ms just in case.
 				static const int RESET_PROCESSING_TIME_MS = 5;								
@@ -116,6 +119,16 @@ namespace helicopter
 				 * usable temperature and pressure formats.
 				 */
 				void readSensor();
+				
+				void processBaroData();
+				
+				void readD2Data();
+				
+				void sendD2Command();
+				
+				void readD1Data();
+				
+				void sendD1Command();
 				
 				/**
 				 * Initializes the sensor

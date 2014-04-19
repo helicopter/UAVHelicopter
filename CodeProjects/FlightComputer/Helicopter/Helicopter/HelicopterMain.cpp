@@ -15,7 +15,6 @@
 #include "PIDController.h"
 #include "PIDOuterLoopTask.h"
 #include "PIDInnerLoopTask.h"
-#include "SensorProcessingTask.h"
 #include "CoordinateUtil.h"
 #include "RadioControllerInterface.h"
 #include "ReadIMUSensorTask.h"
@@ -28,6 +27,7 @@
 #include "ReadBarometerSensorTask.h"
 #include "MagnetometerSensor.h"
 #include "ReadMagnetometerSensorTask.h"
+#include "ServoControlTask.h"
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -109,9 +109,10 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	pidController->setMinYawServoControl (-.96d);
 	pidController->setMaxYawServoControl (.96d);
 	
+	//due to bad design, if these servo control values change, so does the
+	//radiocontrollerinterface method for converting control values to control signals.
 	pidController->setMaxLongitudeServoControlValue(1.0d);
 	pidController->setMinLongitudeServoControlValue(-1.0d);
-	
 	pidController->setMaxLateralServoControlValue(1.0d);
 	pidController->setMinLateralServoControlValue(-1.0d);
 	
@@ -134,14 +135,63 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 
 int main(void)
 {	
+
+	bool sendControlToServos = false;
+	
+	Scheduler *scheduler = Scheduler::getScheduler();
+	
 	SystemModel *model = new SystemModel();
+	
+	
+	model->FlightMode(SystemModel::SimulatedFlight);
+	//model->FlightMode(SystemModel::RealFlight);
+	
+	if (model->FlightMode() == SystemModel::SimulatedFlight)
+	{
+		model->SensorInput(SystemModel::SimulatedSensors);
+		model->CommunicationMethod(SystemModel::USB);
+		
+		sendControlToServos = false;
+		
+	}else if (model->FlightMode() == SystemModel::RealFlight)
+	{
+		model->SensorInput(SystemModel::RealSensors);
+		model->CommunicationMethod(SystemModel::Radio);
+//		model->CommunicationMethod(SystemModel::USB);
+		
+		sendControlToServos = true;
+	}
+	
+	
+	
 	
 	PIDController *pidController = new PIDController(model);
 	
 	setupDefaultsandReferencePosition(model, pidController);
 	
-	//Timer *timer = new Timer(F_CPU,PRESCALE_BY_TENTWENTYFOUR,75); //Good timeout when using the radio
-	Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100); //Good timeout when using the USB
+	//Create a driver for communicating with the Ground Control Station (GCS).
+	//SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, timer, true, true);
+	//SerialDriver *serialDriver = new SerialDriver(76800, SerialDriver::Zero, true);
+	SerialDriver *serialDriver = NULL;
+	Timer *timer = NULL;
+		
+	if (model->CommunicationMethod() == SystemModel::USB)
+	{
+		//Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100); //Good timeout when using the USB
+		timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100); //Good timeout when using the USB
+		serialDriver = new SerialDriver(250000, SerialDriver::Zero, true, timer);
+		//serialDriver = new SerialDriver(250000, SerialDriver::Zero, true, NULL);
+	}else if (model->CommunicationMethod() == SystemModel::Radio)
+	{
+		timer = new Timer(F_CPU,PRESCALE_BY_TENTWENTYFOUR,75); //Good timeout when using the radio
+			
+		//Use a slower baud rate because the real helicopter uses the radio for communication
+		//which is slower than USB.
+		serialDriver = new SerialDriver(57600, SerialDriver::Zero, true, timer);
+	}
+	
+	serialDriver->init();
+	
 	
 	//Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 250);
 	Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100);
@@ -152,11 +202,10 @@ int main(void)
 		
 		
 	
-	//Create a driver for communicating with the Ground Control Station (GCS).
-	//SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, timer, true, true);  
-	//SerialDriver *serialDriver = new SerialDriver(76800, SerialDriver::Zero, true);  
-	SerialDriver *serialDriver = new SerialDriver(250000, SerialDriver::Zero, true, timer);  
-	serialDriver->init();
+
+	
+	
+	
 	
 	TWIDriver *twiDriver = new TWIDriver();
 	
@@ -172,10 +221,10 @@ int main(void)
 	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, 1, 4);//starting at tick 1, execute 50 times a second
 	*/
 
-
 	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::ALLDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
-//	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .02));//execute 50 hz
+	//	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .02));//execute 50 hz
 	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::ALLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
+
 	
 /*
 SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,0, SCHEDULER_TICK_FREQUENCY_HZ);//execute 1 hz
@@ -184,7 +233,7 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 	
 	FlashLEDTask *flashTask = new FlashLEDTask(2, SCHEDULER_TICK_FREQUENCY_HZ);//starting at tick 2, execute once a second
-		
+	//flashTask->init();
 		
 //	SensorProcessingTask *sensorProcessingTask = new SensorProcessingTask(model, 5, 4);
 		
@@ -196,18 +245,17 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 //	PIDInnerLoopTask *pidInnerLoop = new PIDInnerLoopTask(pidController, 4, 1);
 	
-	float simulatorSensorReadPeriod = 1/20.0f;
-	//float simulatorSensorReadPeriod = 1/50.0f;
+	float barometerSensorReadPeriod = 1/20.0f; //will be 1/50 for production (or will it? because the ahrs uses this too.
+	float simulatorSensorReadPeriod = barometerSensorReadPeriod;
 		
 	//AHRS *ahrs = new AHRS(GYRO_SENSOR_READ_PERIOD);
 	AHRS *ahrs = new AHRS(simulatorSensorReadPeriod); //for simulator angular velocity reads.
 	
 	//NavigationTask *navTask = new NavigationTask(BAROMETER_SENSOR_READ_PERIOD, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. //used for the real helicopter
-	NavigationTask *navTask = new NavigationTask(simulatorSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. most recent 4/9/2014
+	NavigationTask *navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. most recent 4/9/2014
 //	NavigationTask *navTask = new NavigationTask(simulatorSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .01)); //run at 100 hz.
 
-	
-	
+
 	SPIDriver *spiDriver = new SPIDriver();
 	spiDriver->init();
 	
@@ -225,33 +273,40 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 	MagnetometerSensor *magSensor = new MagnetometerSensor(twiDriver);
 	magSensor->init();
-	
+
+
+
 	
 	//ReadGPSSensorTask *gpsSensorTask = new ReadGPSSensorTask(model, gpsSensor, 7, SCHEDULER_TICK_FREQUENCY_HZ * .25); //run at 4 hz
 	ReadGPSSensorTask *gpsSensorTask = new ReadGPSSensorTask(model, gpsSensor, 7, SCHEDULER_TICK_FREQUENCY_HZ * .1); //run at 10 hz
 	ReadIMUSensorTask *imuSensorTask = new ReadIMUSensorTask(model, imuSensor, 8,  (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz.
-	ReadBarometerSensorTask *barometerSensorTask = new ReadBarometerSensorTask(model, baroSensor, 9, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. (*** this will probably cause huge timeouts since it takes like 8ms to complete.
+	ReadBarometerSensorTask *barometerSensorTask = new ReadBarometerSensorTask(model, baroSensor, 9, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. needs to run so that at least 10 ms is between each operation. since it's a 3 step process, this is really only executes hz/3 for a complete cycle (*** this will probably cause huge timeouts since it takes like 8ms to complete.)
 	ReadMagnetometerSensorTask *magSensorTask = new ReadMagnetometerSensorTask(model, magSensor, 10, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz, although the sensor is reading at 75 hz.
 	
 
-	RadioControllerInterface *rcInterface = RadioControllerInterface::getRadioControllerInterface();
+//	RadioControllerInterface *rcInterface = RadioControllerInterface::getRadioControllerInterface();
 	
-	rcInterface->SetSystemModel(model);
+//	rcInterface->SetSystemModel(model);
 
-
-	Scheduler *scheduler = Scheduler::getScheduler();
+//	ServoControlTask *servoControlTask = new ServoControlTask(model, rcInterface, 11,  (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz.
+	
 	
 	
 	scheduler->addTask(gpsSensorTask);
 	scheduler->addTask(imuSensorTask);
-	//scheduler->addTask(barometerSensorTask);
+	scheduler->addTask(barometerSensorTask);
 	scheduler->addTask(magSensorTask);
 	
 	
 	
 	scheduler->addTask(flashTask);
 	
-//	scheduler->addTask(simTelemTask);
+	
+	if (model->SensorInput() == SystemModel::SimulatedSensors)
+	{
+		//Add a task to read simulator data if setup to receive sensor data from the simulator.
+		scheduler->addTask(simTelemTask);
+	}
 	
 	scheduler->addTask(transTelemTask);
 	
@@ -261,73 +316,177 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 	scheduler->addTask(navTask);
 	
-//	scheduler->addTask(sensorProcessingTask); //not used since nav task creates localNED stuff.
+	if (sendControlToServos)
+	{
+//		scheduler->addTask(servoControlTask);
+	}
 	
 
+
+
+
+	if (sendControlToServos)
+	{
+		//If you are sending controls to the servos, then manual control has to be enabled by default so the helicopter
+		//doesn't take off by itself.
+		model->OperationalState(SystemModel::ManualControl);
 	
-//	scheduler->addTask(imuSensorTask);
+		//schedule servo control task
+	}else
+	{
+		model->OperationalState(SystemModel::AutoPilot);
+	}
 	
+	
+	
+	
+	//Set the red led to 'on' to indicate the system is initializing. I have this down here because there is a bug which might lock up the system when the GPS initializes, so
+	//we turn on the red led after that bug can take place so we know we past that point in the init sequence. 
+	DDRA |= (1<<PA5);
+	PORTA &= ~(1<<PA5);
+		
+		
+		
 
 	//Wait until we receive location data before starting the scheduler
 	//TODO rework this
 	bool isInitialized = false;
 	
-	SimTelemetryTask *initSimTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::ALLDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
 	
-	
-	
-/*	
-	while (!isInitialized)
-	{
-		initSimTelemTask->runTaskImpl();
-		
-		if (model->LatitudeDegrees() != 0 && model->LongitudeDegrees() != 0)
+	/**
+	 * Set initial position.
+	 */
+	if (model->SensorInput() == SystemModel::RealSensors)
+	{		
+		//Initialize GPS readings and position
+		while (!gpsSensor->isGpsReady() && gpsSensor->getPositionAccuracyEstimateEcefCm() < 300)
 		{
-			isInitialized = true;
+			gpsSensor->processSensorSolution();
 			
-			model->InitialXPositionEcef(model->XEcefCm());
-			model->InitialYPositionEcef(model->YEcefCm());
-			model->InitialZPositionEcef(model->ZEcefCm());
+			//Wait until new data is received from the GPS
+			_delay_ms(250);
 			
 			
-			////ecefReferenceX, ecefReferenceY, ecefReferenceZ,ecefToLocalNEDRotationMatrix,
-			CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(model->LatitudeDegrees(), model->LongitudeDegrees(), model->EcefToLocalNEDRotationMatrix);
-	//
-			//float initialXPositionEcef = 0;
-			//float initialYPositionEcef = 0;
-			//float initialZPositionEcef = 0;
-			//CoordinateUtil::ConvertFromGeodeticToECEF(model->LatitudeDegrees(), model->LongitudeDegrees(), model->AltitudeMetersAgl(), initialXPositionEcef, initialYPositionEcef, initialZPositionEcef);
-			//
-			//model->InitialXPositionEcef(initialXPositionEcef);
-			//model->InitialYPositionEcef(initialYPositionEcef);
-			//model->InitialZPositionEcef(initialZPositionEcef);
-			
-			//Calculate initial altitude
-			//altitude equation from: http://www.barnardmicrosystems.com/L4E_FMU_sensors.htm#Pressure
-			//multiply by -1 because in NED/FRD frame, down is positive. 
-			//model->InitialAltitudeMeters(((288.15/(6.5/1000.0))*(1-(pow((model->PressureMillibars()/101325.0),(6.5/1000.0)*(287.052/9.78))))) * -1);
-			
-			//https://www.brisbanehotairballooning.com.au/faqs/education/113-pressure-altitude-conversion.html
-			model->InitialAltitudeCm((((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-6.8755856 * 0.000001)) / 3.28084) * -100);
 		}
-		_delay_ms(100);
+		
+		//Turn off interrupts so that the gps sensor doesn't auto receive gps data which would
+		//mess up the manual read.
+		cli();
+		
+		while(gpsSensor->getLatitudeDegE7() == 0 || gpsSensor->getLongitudeDegE7() == 0)
+		{
+			gpsSensor->readSensorLLH();
+		}
+		
+		//turn interrupts back on.
+		sei();
+		
+		//set initial position			
+		model->InitialXPositionEcef(gpsSensor->getXEcefCm());
+		model->InitialYPositionEcef(gpsSensor->getYEcefCm());
+		model->InitialZPositionEcef(gpsSensor->getZEcefCm());
+		
+		//generate ecef to ned rotation matrix based on current lat/long			
+		CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(model->LatitudeDegrees(), model->LongitudeDegrees(), model->EcefToLocalNEDRotationMatrix);
+		
+		//Delay half a second to allow the gps to read more position information. When the interrupts were disabled, it could have
+		//messed up the gps data. This gives it time to clear back up.
+		_delay_ms(500);
+		
+		//Initialize barometer readings. The barometer needs lots of time to stabilize. 
+		for (int i = 0; i < 1000; i++)
+		{
+			//baro task is a 3 step process, so run 3 times.
+			for (int i = 0; i < 3; i++)
+			{
+				barometerSensorTask->runTaskImpl();
+				_delay_ms(BarometerSensor::ADC_PROCESSING_TIME_MS);
+			}
+		}
+		
+		//set the initial altitude based on sensor readings.
+		model->InitialAltitudeCm((((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-6.8755856 * 0.000001)) / 3.28084) * -100);
+		
+		//execute all the senor tasks a bunch of times to initialize the ahrs and nav systems.
+		for (int i = 0; i < 500; i++)
+		{
+			magSensorTask->runTaskImpl();
+			gpsSensorTask->runTaskImpl();
+			
+			//baro task is a 3 step process, so run 3 times.
+			for (int i = 0; i < 3; i++)
+			{
+				barometerSensorTask->runTaskImpl();
+				_delay_ms(BarometerSensor::ADC_PROCESSING_TIME_MS);
+			}
+			
+			imuSensorTask->runTaskImpl();
+			
+			navTask->runTaskImpl();
+			
+			_delay_ms(10);
+		}
+
+		isInitialized = true;
+	}else
+	{
+
+		SimTelemetryTask *initSimTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::ALLDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
+	
+		while (!isInitialized)
+		{
+			initSimTelemTask->runTaskImpl();
+		
+			if (model->LatitudeDegrees() != 0 && model->LongitudeDegrees() != 0)
+			{
+				isInitialized = true;
+			
+				model->InitialXPositionEcef(model->XEcefCm());
+				model->InitialYPositionEcef(model->YEcefCm());
+				model->InitialZPositionEcef(model->ZEcefCm());
+			
+			
+				////ecefReferenceX, ecefReferenceY, ecefReferenceZ,ecefToLocalNEDRotationMatrix,
+				CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(model->LatitudeDegrees(), model->LongitudeDegrees(), model->EcefToLocalNEDRotationMatrix);
+		//
+				//float initialXPositionEcef = 0;
+				//float initialYPositionEcef = 0;
+				//float initialZPositionEcef = 0;
+				//CoordinateUtil::ConvertFromGeodeticToECEF(model->LatitudeDegrees(), model->LongitudeDegrees(), model->AltitudeMetersAgl(), initialXPositionEcef, initialYPositionEcef, initialZPositionEcef);
+				//
+				//model->InitialXPositionEcef(initialXPositionEcef);
+				//model->InitialYPositionEcef(initialYPositionEcef);
+				//model->InitialZPositionEcef(initialZPositionEcef);
+			
+				//Calculate initial altitude
+				//altitude equation from: http://www.barnardmicrosystems.com/L4E_FMU_sensors.htm#Pressure
+				//multiply by -1 because in NED/FRD frame, down is positive. 
+				//model->InitialAltitudeMeters(((288.15/(6.5/1000.0))*(1-(pow((model->PressureMillibars()/101325.0),(6.5/1000.0)*(287.052/9.78))))) * -1);
+			
+				//https://www.brisbanehotairballooning.com.au/faqs/education/113-pressure-altitude-conversion.html
+				model->InitialAltitudeCm((((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-6.8755856 * 0.000001)) / 3.28084) * -100);
+			}
+			_delay_ms(100);
+		}
+		
+		delete initSimTelemTask;
 	}
-*/	
 	
 	
+	if (isInitialized)
+	{
+		//turn red LED off to indicate initialized.
+		PORTA |= (1<<PA5);
+	}
 	
-	
-	
-	//TODO set this to manual by default and have some sort of flag for what build we are making to know if it should be autopilot or not.
-	model->OperationalState(SystemModel::AutoPilot);
 	
 	scheduler->init(); //Sets up the timer registers, inits all tasks,
 	
 	scheduler->start();
 	
-	rcInterface->init();
+//	rcInterface->init();
 	
-	rcInterface->start();
+//	rcInterface->start();
 	
 	
 	while(1)

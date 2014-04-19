@@ -16,13 +16,14 @@ void ReadIMUSensorTask::runTaskImpl()
 	//Read the sensor values from the IMU Sensor.
 	imuSensor->readSensor();
 	
-	/*
-	model->XAccelFrdMss(imuSensor->getFRDAccXMss());
-	model->YAccelFrdMss(imuSensor->getFRDAccYMss());
-	model->ZAccelFrdMss(imuSensor->getFRDAccZMss());
-	
-	model->RollAngularVelocityRadsPerSecond(imuSensor->getFRDGyroXRs());
-	model->PitchAngularVelocityRadsPerSecond(imuSensor->getFRDGyroYRs());
-	model->YawAngularVelocityRadsPerSecond(imuSensor->getFRDGyroZRs());
-	*/
+	if(model->SensorInput() == SystemModel::RealSensors)
+	{
+		model->XAccelFrdMss(imuSensor->getFRDAccXMss());
+		model->YAccelFrdMss(imuSensor->getFRDAccYMss());
+		model->ZAccelFrdMss(imuSensor->getFRDAccZMss());
+		
+		model->RollAngularVelocityRadsPerSecond(imuSensor->getFRDGyroXRs());
+		model->PitchAngularVelocityRadsPerSecond(imuSensor->getFRDGyroYRs());
+		model->YawAngularVelocityRadsPerSecond(imuSensor->getFRDGyroZRs());		
+	}
 }

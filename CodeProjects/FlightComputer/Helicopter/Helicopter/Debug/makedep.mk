@@ -58,7 +58,7 @@ tasks\ReadIMUSensorTask.cpp
 
 tasks\ReadMagnetometerSensorTask.cpp
 
-tasks\SensorProcessingTask.cpp
+tasks\ServoControlTask.cpp
 
 tasks\SimTelemetryTask.cpp
 

@@ -23,15 +23,16 @@ void ReadGPSSensorTask::runTaskImpl()
 	
 	gpsSensor->processSensorSolution();
 	
-	
-	model->XEcefCm(gpsSensor->getXEcefCm());
-	model->YEcefCm(gpsSensor->getYEcefCm());
-	model->ZEcefCm(gpsSensor->getZEcefCm());
-	
-	model->XVEcefCms(gpsSensor->getXVEcefCms());
-	model->YVEcefCms(gpsSensor->getYVEcefCms());
-	model->ZVEcefCms(gpsSensor->getZVEcefCms());
-	
+	if(model->SensorInput() == SystemModel::RealSensors)
+	{
+		model->XEcefCm(gpsSensor->getXEcefCm());
+		model->YEcefCm(gpsSensor->getYEcefCm());
+		model->ZEcefCm(gpsSensor->getZEcefCm());
+		
+		model->XVEcefCms(gpsSensor->getXVEcefCms());
+		model->YVEcefCms(gpsSensor->getYVEcefCms());
+		model->ZVEcefCms(gpsSensor->getZVEcefCms());
+	}
 	
 	
 	

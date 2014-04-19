@@ -27,10 +27,19 @@ namespace helicopter
 			 * Enum representing whether the helicopter is being controlled
 			 * by a radio transmitter (ManualControl) or by the PID algorithm (AutoPilot).
 			 */
-			enum OperatingState {ManualControl, AutoPilot};
+			enum OperatingStates {ManualControl, AutoPilot};
+				
+			enum FlightModes {SimulatedFlight, RealFlight};
+				
+			enum SensorInputs {SimulatedSensors, RealSensors};
+				
+			enum CommunicationMethods {USB, Radio};
 				
 			private:
-			OperatingState operationalState;
+			OperatingStates operationalState;
+			FlightModes flightMode;
+			SensorInputs sensorInput;
+			CommunicationMethods communicationMethod;
 			
 			/**
 			 * These variables are used for controlling Yaw action (tail rotor)
@@ -147,6 +156,9 @@ namespace helicopter
 			
 			SystemModel():
 				operationalState(ManualControl),
+				flightMode(SimulatedFlight),
+				sensorInput(SimulatedSensors),
+				communicationMethod(USB),
 				referenceMagYawRads(0),
 				yawControl(0),
 				yawControlBeforeServoLimitsAdjustment(0),
@@ -393,11 +405,17 @@ namespace helicopter
 			float **  EcefToLocalNEDRotationMatrix() const {return ecefToLocalNEDRotationMatrix;}
 			void EcefToLocalNEDRotationMatrix( long val ) { ecefToLocalNEDRotationMatrix = val;}*/
 				
-			OperatingState  OperationalState() const {return operationalState;}
-			void OperationalState( OperatingState val ) { operationalState = val;}
+			OperatingStates  OperationalState() const {return operationalState;}
+			void OperationalState( OperatingStates val ) { operationalState = val;}
+
+			FlightModes  FlightMode() const {return flightMode;}
+			void FlightMode( FlightModes val ) { flightMode = val;}
 				
+			SensorInputs  SensorInput() const {return sensorInput;}
+			void SensorInput( SensorInputs val ) { sensorInput = val;}								
 				
-				
+			CommunicationMethods  CommunicationMethod() const {return communicationMethod;}
+			void CommunicationMethod( CommunicationMethods val ) { communicationMethod = val;}				
 				
 				
 				

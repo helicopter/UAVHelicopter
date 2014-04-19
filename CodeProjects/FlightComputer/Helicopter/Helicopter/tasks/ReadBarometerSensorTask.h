@@ -33,6 +33,8 @@ namespace helicopter
 				SystemModel *model;
 				BarometerSensor *barometerSensor;
 				
+				int step;
+				
 			public:
 
 				ReadBarometerSensorTask (SystemModel *model, BarometerSensor *barometerSensor, int delay, int period);

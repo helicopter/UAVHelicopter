@@ -315,10 +315,11 @@ CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(47.495945, -122.216972, Ec
 	MatrixUtil::CreateRotationMatrixTransposed(-0.00101321645, -0.109547511, 2.80199742, nedToBodyFrameMatrix);
 	MatrixUtil::RotateMatrix(nedToBodyFrameMatrix,rotatedVelocityMatrix, velocityBodyFrame);
 	
+	/*
 	float vx = velocityBodyFrame[0];
 	float vy = velocityBodyFrame[1];
 	float vz = velocityBodyFrame[2];
-		
+	*/
 	
 	
 	

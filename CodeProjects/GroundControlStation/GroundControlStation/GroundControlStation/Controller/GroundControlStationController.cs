@@ -195,7 +195,7 @@ namespace GroundControlStation.Controller
 //System.Diagnostics.Debug.WriteLine("FC roll " + (telem.RollRads * (180 / Math.PI)) + ", sim roll " + Model.SimTelm.RollDegrees + ", Error " + (telem.RollRads * (180 / Math.PI) - Model.SimTelm.RollDegrees));
 
                         //Transmit data to simulator
-//                        xplaneInterface.Transmit(Model);
+                        xplaneInterface.Transmit(Model);
 
                         flightComputerFileLogger.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + ", " + LoggingUtil.ToCsv(",", telem));
                     }
@@ -223,7 +223,7 @@ namespace GroundControlStation.Controller
                         if (Model.LongitudeControl > .8) Model.LongitudeControl = .8f;
                         if (Model.LongitudeControl < -.8) Model.LongitudeControl = -.8f;
 
- //                       xplaneInterface.Transmit(Model);
+                        xplaneInterface.Transmit(Model);
                     }
                     else if (msg.MsgType == SyncMessage.MessageType)
                     {
@@ -235,7 +235,7 @@ namespace GroundControlStation.Controller
                         {
 
                             //Send sim model data to FC. 
-                        //    fcInterface.Transmit(data);
+                            fcInterface.Transmit(data);
                         }
                         else if (syncMsg.RequestedMessage == (byte)DATATOSEND.SENSORDATA)
                         {

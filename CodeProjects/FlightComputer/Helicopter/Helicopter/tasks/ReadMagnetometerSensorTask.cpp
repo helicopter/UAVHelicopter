@@ -20,10 +20,13 @@ magnetometerSensor(magnetometerSensor)
 void ReadMagnetometerSensorTask::runTaskImpl()
 {
 	magnetometerSensor->readSensor();
-	/*
-	model->XMagFrd(magnetometerSensor->getFRDX());
-	model->YMagFrd(magnetometerSensor->getFRDY());
-	model->ZMagFrd(magnetometerSensor->getFRDZ());
-	*/
+	
+	if(model->SensorInput() == SystemModel::RealSensors)
+	{
+		model->XMagFrd(magnetometerSensor->getFRDX());
+		model->YMagFrd(magnetometerSensor->getFRDY());
+		model->ZMagFrd(magnetometerSensor->getFRDZ());
+	}
+	
 }
 
