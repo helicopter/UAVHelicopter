@@ -20,12 +20,15 @@ radioControllerInterface(radioControllerInterface)
 void ServoControlTask::runTaskImpl()
 {
 
-	if (model->OperationalState() == SystemModel::AutoPilot)
+	radioControllerInterface->controlServos(model->LateralControl(), model->LongitudeControl(), model->MainRotorCollectiveControl(), model->YawControl(), model->AuxChannelValue());
+	
+	
+	/*if (model->OperationalState() == SystemModel::AutoPilot)
 	{
 		//Take the control values and set the servos to those control values. 
 		
 		
 		
 		
-	}
+	}*/
 }

@@ -6,6 +6,7 @@
  */ 
 #include <math.h>
 #include <string.h>
+#include <avr/io.h>
 
 #include "MagnetometerSensor.h"
 #include "MatrixUtil.h"
@@ -34,7 +35,7 @@ MagnetometerSensor::MagnetometerSensor(TWIDriver *driver):
 
 bool MagnetometerSensor::init()
 {
-
+//driver->stop();
 	/**
 	* Configure the output rate of the sensor, and number of samples that are averaged
 	* per measurement output
@@ -103,6 +104,8 @@ bool MagnetometerSensor::init()
 
 int MagnetometerSensor::readSensor()
 {
+//driver->stop();
+		
 	/**
 	* Setup device to start reading mag data
 	*/
@@ -110,7 +113,7 @@ int MagnetometerSensor::readSensor()
 	{
 		return -1;
 	}
-		
+	
 	/**
 		* Send a command to the sensor indicating that the next value
 		* is a write operation. I.e. we will tell the sensor what internal address
@@ -120,6 +123,9 @@ int MagnetometerSensor::readSensor()
 	{
 		return -1;
 	}		
+	
+	
+
 		
 	/**
 		* Send the address of the magnetic X register to the sensor
@@ -138,8 +144,7 @@ int MagnetometerSensor::readSensor()
 	{
 		return -1;
 	}
-
-		
+	
 	/**
 		* Tell the sensor to read data from the address given above, and send it
 		* to us.
@@ -180,6 +185,7 @@ int MagnetometerSensor::readSensor()
 	frdMagX = rotatedValues[0];
 	frdMagY = rotatedValues[1];
 	frdMagZ = rotatedValues[2];	
+	
 		
 	return 0;
 }

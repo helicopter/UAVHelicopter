@@ -135,6 +135,11 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 
 int main(void)
 {	
+	
+
+		
+		
+		
 
 	bool sendControlToServos = false;
 	
@@ -149,13 +154,20 @@ int main(void)
 	if (model->FlightMode() == SystemModel::SimulatedFlight)
 	{
 		model->SensorInput(SystemModel::SimulatedSensors);
-		model->CommunicationMethod(SystemModel::USB);
+		//model->SensorInput(SystemModel::RealSensors);
 		
-		sendControlToServos = false;
+		model->CommunicationMethod(SystemModel::USB);
+		//model->CommunicationMethod(SystemModel::Radio);
+		
+		//sendControlToServos = false;
+		sendControlToServos = true;
 		
 	}else if (model->FlightMode() == SystemModel::RealFlight)
 	{
 		model->SensorInput(SystemModel::RealSensors);
+		//model->SensorInput(SystemModel::SimulatedSensors);
+		
+		
 		model->CommunicationMethod(SystemModel::Radio);
 //		model->CommunicationMethod(SystemModel::USB);
 		
@@ -174,30 +186,40 @@ int main(void)
 	//SerialDriver *serialDriver = new SerialDriver(76800, SerialDriver::Zero, true);
 	SerialDriver *serialDriver = NULL;
 	Timer *timer = NULL;
+	
+	unsigned long serialDriverBaudRate = 0;
+	
 		
 	if (model->CommunicationMethod() == SystemModel::USB)
 	{
+		serialDriverBaudRate = 250000;
+		
 		//Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100); //Good timeout when using the USB
-		timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100); //Good timeout when using the USB
-		serialDriver = new SerialDriver(250000, SerialDriver::Zero, true, timer);
+		timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 50); //Good timeout when using the USB
+		//serialDriver = new SerialDriver(250000, SerialDriver::Zero, true, timer);//MOSTRECENT
+		serialDriver = new SerialDriver(serialDriverBaudRate, SerialDriver::Zero, false, timer);
 		//serialDriver = new SerialDriver(250000, SerialDriver::Zero, true, NULL);
 	}else if (model->CommunicationMethod() == SystemModel::Radio)
 	{
-		timer = new Timer(F_CPU,PRESCALE_BY_TENTWENTYFOUR,75); //Good timeout when using the radio
+		serialDriverBaudRate = 57600;
+		//timer = new Timer(F_CPU,PRESCALE_BY_TENTWENTYFOUR,75); //Good timeout when using the radio
+		
+		timer = new Timer(F_CPU,PRESCALE_BY_TENTWENTYFOUR,200);//unfortunately for radio, the initial setup is a huge amount of data which takes a long time.
 			
 		//Use a slower baud rate because the real helicopter uses the radio for communication
 		//which is slower than USB.
-		serialDriver = new SerialDriver(57600, SerialDriver::Zero, true, timer);
+		serialDriver = new SerialDriver(serialDriverBaudRate, SerialDriver::Zero, true, timer);
 	}
 	
 	serialDriver->init();
 	
 	
-	//Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 250);
-	Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100);
+	Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 400);
+	//Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100);
 	
-	//SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, gpsTimer);
+	//SerialDriver *gpsSerialDriver = new SerialDriver(38400, SerialDriver::One, false, gpsTimer);
 	SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, gpsTimer);
+	//SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, false, gpsTimer);
 	gpsSerialDriver->init();
 		
 		
@@ -208,6 +230,8 @@ int main(void)
 	
 	
 	TWIDriver *twiDriver = new TWIDriver();
+	twiDriver->init();
+
 	
 	
 	GroundControlStationInterface *gcsInterface = new GroundControlStationInterface(serialDriver);
@@ -220,10 +244,27 @@ int main(void)
 /*	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,0, 4);//starting at tick 0, execute 50 times a second
 	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, 1, 4);//starting at tick 1, execute 50 times a second
 	*/
+//	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .02));//execute 50 hz
+	
+	
+	//SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::ALLDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
+	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
+	//TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::ALLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
+	//TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
 
-	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::ALLDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
-	//	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .02));//execute 50 hz
-	TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::ALLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
+	TransmitTelemetryTask *transTelemTask = NULL;
+
+	if (model->FlightMode() == SystemModel::RealFlight)
+	{
+		transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
+	}else
+	{
+		transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::ALLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
+		//transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::CONTROLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
+	}
+
+	//SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
+	//TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::CONTROLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
 
 	
 /*
@@ -273,8 +314,12 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 	MagnetometerSensor *magSensor = new MagnetometerSensor(twiDriver);
 	magSensor->init();
-
-
+	
+	/*
+	_delay_ms(200);
+	magSensor->init();
+	_delay_ms(200);
+	*/
 
 	
 	//ReadGPSSensorTask *gpsSensorTask = new ReadGPSSensorTask(model, gpsSensor, 7, SCHEDULER_TICK_FREQUENCY_HZ * .25); //run at 4 hz
@@ -284,24 +329,20 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	ReadMagnetometerSensorTask *magSensorTask = new ReadMagnetometerSensorTask(model, magSensor, 10, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz, although the sensor is reading at 75 hz.
 	
 
-//	RadioControllerInterface *rcInterface = RadioControllerInterface::getRadioControllerInterface();
+	RadioControllerInterface *rcInterface = RadioControllerInterface::getRadioControllerInterface();
 	
-//	rcInterface->SetSystemModel(model);
+	rcInterface->SetSystemModel(model);
 
-//	ServoControlTask *servoControlTask = new ServoControlTask(model, rcInterface, 11,  (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz.
+	ServoControlTask *servoControlTask = new ServoControlTask(model, rcInterface, 11,  (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz.
 	
 	
-	
+	scheduler->addTask(flashTask);
 	scheduler->addTask(gpsSensorTask);
 	scheduler->addTask(imuSensorTask);
 	scheduler->addTask(barometerSensorTask);
 	scheduler->addTask(magSensorTask);
-	
-	
-	
-	scheduler->addTask(flashTask);
-	
-	
+
+
 	if (model->SensorInput() == SystemModel::SimulatedSensors)
 	{
 		//Add a task to read simulator data if setup to receive sensor data from the simulator.
@@ -318,7 +359,7 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 	if (sendControlToServos)
 	{
-//		scheduler->addTask(servoControlTask);
+		scheduler->addTask(servoControlTask);
 	}
 	
 
@@ -359,27 +400,50 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	if (model->SensorInput() == SystemModel::RealSensors)
 	{		
 		//Initialize GPS readings and position
-		while (!gpsSensor->isGpsReady() && gpsSensor->getPositionAccuracyEstimateEcefCm() < 300)
+		while (!gpsSensor->isGpsReady() || gpsSensor->getPositionAccuracyEstimateEcefCm() > 400)
 		{
-			gpsSensor->processSensorSolution();
+			//gpsSensor->processSensorSolution();
+			gpsSensor->readSensorLLH();
+			gpsSensor->readSensorNavStatus();
+			long status = gpsSensor->readSensorSolution();
+			
+					/*gpsSensor->readSensorECEF();
+					gpsSensor->readSensorLLH();
+					//long status = gpsSensor->readSensorNavStatus();
+					long status = gpsSensor->readSensorSolution();*/
 			
 			//Wait until new data is received from the GPS
 			_delay_ms(250);
-			
+			serialDriver->transmit((byte) 'T');
+					//serialDriver->transmit(gpsSensor->getLatitudeDegE7());
+					serialDriver->transmit(status);
+					serialDriver->transmit(gpsSensor->getLongitudeDegE7());
+					serialDriver->transmit(gpsSensor->getPositionAccuracyEstimateEcefCm());
+					serialDriver->transmit(gpsSensor->getPositionFixStatus());
+					serialDriver->transmit(gpsSensor->getXEcefCm());
+					serialDriver->transmit(gpsSensor->getYEcefCm());
+					serialDriver->transmit(gpsSensor->getZEcefCm());
 			
 		}
+
+
+
+
+
 		
 		//Turn off interrupts so that the gps sensor doesn't auto receive gps data which would
 		//mess up the manual read.
-		cli();
+		//cli();
 		
 		while(gpsSensor->getLatitudeDegE7() == 0 || gpsSensor->getLongitudeDegE7() == 0)
 		{
 			gpsSensor->readSensorLLH();
+			_delay_ms(250);
 		}
 		
 		//turn interrupts back on.
-		sei();
+		//sei();
+		
 		
 		//set initial position			
 		model->InitialXPositionEcef(gpsSensor->getXEcefCm());
@@ -431,7 +495,9 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	}else
 	{
 
-		SimTelemetryTask *initSimTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::ALLDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
+		SerialDriver *initSerialDriver = new SerialDriver(serialDriverBaudRate, SerialDriver::Zero, true, NULL);
+		GroundControlStationInterface *initGcsInterface = new GroundControlStationInterface(initSerialDriver);
+		SimTelemetryTask *initSimTelemTask = new SimTelemetryTask(initGcsInterface, model, pidController,SimTelemetryTask::ALLDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
 	
 		while (!isInitialized)
 		{
@@ -470,6 +536,8 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 		}
 		
 		delete initSimTelemTask;
+		delete initGcsInterface;
+		delete initSerialDriver;
 	}
 	
 	
@@ -479,14 +547,15 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 		PORTA |= (1<<PA5);
 	}
 	
+	gpsSensor->start();
 	
 	scheduler->init(); //Sets up the timer registers, inits all tasks,
 	
 	scheduler->start();
 	
-//	rcInterface->init();
+	rcInterface->init();
 	
-//	rcInterface->start();
+	rcInterface->start();
 	
 	
 	while(1)

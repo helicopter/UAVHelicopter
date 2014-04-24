@@ -79,13 +79,13 @@ void Scheduler::init()
 	}
 	
 	//setup timer
-	OCR0A = targetTimerCount; //Set Clear Timer on Compare (auto reset) (CTC)
+	OCR2A = targetTimerCount; //Set Clear Timer on Compare (auto reset) (CTC)
 //OCR0A=1;
 		
 //	TCCR0B |= (1 << WGM02); //Configure timer 1 for ctc mode
-	TCCR0A |= (1 << WGM01); //Configure timer 0 for ctc mode
+	TCCR2A |= (1 << WGM21); //Configure timer 2 for ctc mode
 		
-	TIMSK0 |= (1 << OCIE0A); //enable ctc interrupt for OCR0A
+	TIMSK2 |= (1 << OCIE2A); //enable ctc interrupt for OCR0A
 		
 	sei(); //Enable global interrupts
 }
@@ -130,22 +130,22 @@ void Scheduler::start()
 	switch(this->prescaler)
 	{
 		case 1:
-			TCCR0B |= NoPrescaling;
+			TCCR2B |= NoPrescaling;
 			break;
 		case 8:
-			TCCR0B |= PrescaleByEight;
+			TCCR2B |= PrescaleByEight;
 			break;
 		case 64:
-			TCCR0B |= PrescaleBySixtyFour;
+			TCCR2B |= PrescaleBySixtyFour;
 			break;
 		case 256:
-			TCCR0B |= PrescaleByTwofiftysix;
+			TCCR2B |= PrescaleByTwofiftysix;
 			break;
 		case 1024:
-			TCCR0B |= PrescaleByTentwentyfour;
+			TCCR2B |= PrescaleByTentwentyfour;
 			break;
 		default:
-			TCCR0B |= NoPrescaling;	
+			TCCR2B |= NoPrescaling;	
 	}
 //TCCR0B |= (1 << CS02);
 //TCCR0B &= ~((1 << CS01) | (1 << CS00));
@@ -156,7 +156,7 @@ void Scheduler::start()
 /**
  * Interrupt service routine for determining when tasks are ready to execute.
  */
-ISR(TIMER0_COMPA_vect)
+ISR(TIMER2_COMPA_vect)
 {
 	//TODO do we want to stop interrupts in this method?
 	Scheduler *scheduler = Scheduler::getScheduler();

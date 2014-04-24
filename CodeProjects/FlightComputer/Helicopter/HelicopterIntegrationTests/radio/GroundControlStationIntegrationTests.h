@@ -22,6 +22,8 @@ using namespace helicoptertestscommon::util::testframework;
  */
 //int radiotransmitandreceive_test(TestCase *test);
 
+int radiocontrollerservooutput_test(TestCase *test);
+
 int systemtelemetrytransmitandreceive_test(TestCase *test);
 
 int newmsgformat_test(TestCase *test);

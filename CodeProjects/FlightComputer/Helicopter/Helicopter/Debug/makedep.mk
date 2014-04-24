@@ -26,6 +26,8 @@ messages\Message.cpp
 
 messages\SensorDataMessage.cpp
 
+messages\SimpleTelemetryMessage.cpp
+
 messages\SyncMessage.cpp
 
 messages\SystemTelemetryMessage.cpp

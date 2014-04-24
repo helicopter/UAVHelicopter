@@ -12,12 +12,73 @@
 #include "MockSerialDriver.h"
 #include "SystemTelemetryMessage.h"
 #include "SensorDataMessage.h"
+#include "RadioControllerInterface.h"
+#include "ServoControlTask.h"
 
 #include <string.h>
+#include <util/delay.h>
 
 using namespace helicopter::drivers;
 using namespace helicopter::interfaces;
 using namespace helicopter::messages;
+
+
+int radiocontrollerservooutput_test(TestCase *test)
+{
+	SystemModel *model = new SystemModel();
+	RadioControllerInterface *rcInterface = RadioControllerInterface::getRadioControllerInterface();
+	
+	rcInterface->SetSystemModel(model);
+	
+	rcInterface->init();
+	rcInterface->start();
+	
+	
+	model->LateralControl(-1);
+	model->LongitudeControl(-1);
+	model->MainRotorCollectiveControl(-1);
+	model->YawControl(-1);
+							
+	ServoControlTask *servoctask = new ServoControlTask(model, rcInterface,0,0);
+	servoctask->init();
+	
+	int counter = 0;
+	
+	while(true)
+	{
+		//I'LL WANT TO RUN THIS AGAIN WITH DIFFERENT VALUES FOR EACH SERVO TO MAKE SURE EACH INDIVIDUAL SERVO IS RECEIVING THE CORRECT VALUE. 
+		switch(counter++)
+		{
+			case 0:
+				model->LateralControl(0);
+				model->LongitudeControl(0);
+				model->MainRotorCollectiveControl(0);
+				model->YawControl(0);
+				break;
+			case 1:
+				model->LateralControl(1);
+				model->LongitudeControl(1);
+				model->MainRotorCollectiveControl(1);
+				model->YawControl(1);
+				break;
+			case 2:
+				model->LateralControl(-1);
+				model->LongitudeControl(-1);
+				model->MainRotorCollectiveControl(-1);
+				model->YawControl(-1);
+				counter = 0;
+				break;
+			default:
+				counter = 0;
+		}
+		
+		servoctask->runTaskImpl();
+		
+		_delay_ms(5000);	
+	}
+	
+	return 0;
+}
 ////
 ////class YawMessage : public Message
 ////{

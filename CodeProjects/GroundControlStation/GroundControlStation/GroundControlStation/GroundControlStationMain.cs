@@ -14,6 +14,8 @@ namespace GroundControlStation
 {
     static class GroundControlStationMain
     {
+        enum FlightModes { SimulatedFlight, RealFlight };
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -24,10 +26,25 @@ namespace GroundControlStation
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One);
+            //FlightModes flightMode = FlightModes.RealFlight;
+            FlightModes flightMode = FlightModes.SimulatedFlight;
+
+            //SerialPort port = new SerialPort("COM7", 76800, Parity.None, 8, StopBits.One);
+            //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One); //MOST RECENT
             //SerialPort port = new SerialPort("COM7", 76800, Parity.None, 8, StopBits.One);
            // SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
-            //SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
+
+            SerialPort port = null;
+            if (flightMode == FlightModes.RealFlight)
+            {
+                port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
+            }
+            else
+            {
+                port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One);
+            }
+     //SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
+            //SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
             
  //           port.ReadTimeout = 500;
 

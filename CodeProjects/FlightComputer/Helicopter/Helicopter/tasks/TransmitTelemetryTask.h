@@ -26,7 +26,7 @@ namespace helicopter
 		class TransmitTelemetryTask : public Task
 		{
 			public:
-			enum DATATOSEND {ALLDATA, CONTROLDATA};
+			enum DATATOSEND {ALLDATA, CONTROLDATA, SIMPLEDATA};
 				
 			private:
 				GroundControlStationInterface *radioInterface;

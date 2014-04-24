@@ -33,7 +33,7 @@ void SPIDriver::init()
 	//hold onto the SPI line). This turns the line 'off' to 'end' any current transactions. These lines
 	//default to low (active) so they have to be pulled high in order to free up the SS lines so a device
 	//can communicate on the line.
-	//Note: Slave Select for the IMU (acclerometer, etc) is PB0, while slave select for the barometer is PG1.
+	//Note: Slave Select for the IMU (accelerometer, etc) is PB0, while slave select for the barometer is PG1.
 	PORTB |= (1<<PB0);
 	PORTG |= (1<<PG1);
 

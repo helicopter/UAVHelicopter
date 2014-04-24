@@ -5,6 +5,7 @@
  *  Author: HP User
  */ 
 #include "ReadMagnetometerSensorTask.h"
+#include <avr/io.h>
 
 using namespace helicopter::tasks;
 
@@ -19,7 +20,13 @@ magnetometerSensor(magnetometerSensor)
 
 void ReadMagnetometerSensorTask::runTaskImpl()
 {
-	magnetometerSensor->readSensor();
+
+
+	if (magnetometerSensor->readSensor() != 0)
+	{
+				DDRA |= (1<<PA4);
+				PORTA &= ~(1<<PA4);
+	}
 	
 	if(model->SensorInput() == SystemModel::RealSensors)
 	{

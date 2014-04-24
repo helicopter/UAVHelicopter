@@ -50,6 +50,7 @@
     <Compile Include="Interfaces\SerialPortInterface.cs" />
     <Compile Include="Interfaces\SimulatorInterface.cs" />
     <Compile Include="Messages\ControlMessage.cs" />
+    <Compile Include="Messages\SimpleTelemetryMessage.cs" />
     <Compile Include="Messages\FlightComputerTelemetryMessage.cs" />
     <Compile Include="Messages\SensorDataMessage.cs" />
     <Compile Include="Model\GroundControlStationModel.cs" />

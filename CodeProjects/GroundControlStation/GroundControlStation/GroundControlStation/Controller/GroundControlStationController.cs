@@ -225,6 +225,53 @@ namespace GroundControlStation.Controller
 
                         xplaneInterface.Transmit(Model);
                     }
+                    else if (msg.MsgType == SimpleTelemetryMessage.MessageType)
+                    {
+
+                        SimpleTelemetryMessage telem = (SimpleTelemetryMessage)msg;
+
+                        Model.XNEDLocalFrame = telem.XNEDLocalFrame;
+                        Model.XVelocityMetersPerSecond = telem.XVelocityFRDCms;
+
+
+                        Model.YNEDLocalFrame = telem.YNEDLocalFrame;
+                        Model.YVelocityMetersPerSecond = telem.YVelocityFRDCms;
+
+
+
+                        Model.ZVelocityFeetPerSecond = telem.ZVelocityFRDCms;
+                        Model.YawRads = telem.YawRads;
+                        Model.ZNEDLocalFrame = telem.ZNEDLocalFrame;
+
+
+                        Model.XAccelFrdMss = telem.XAccelFrdMss;
+                        Model.YAccelFrdMss = telem.YAccelFrdMss;
+                        Model.ZAccelFrdMss = telem.ZAccelFrdMss;
+                        Model.YawVelocityRadsPerSecond = telem.YawAngularVelocityRadsPerSecond;
+                        Model.PitchAngularVelocityRadsPerSecond = telem.PitchAngularVelocityRadsPerSecond;
+                        Model.RollAngularVelocityRadsPerSecond = telem.RollAngularVelocityRadsPerSecond;
+                        Model.XMagFrd = telem.XMagFrd;
+                        Model.YMagFrd = telem.YMagFrd;
+                        Model.ZMagFrd = telem.ZMagFrd;
+                        Model.XEcefCm = telem.XEcefCm;
+                        Model.YEcefCm = telem.YEcefCm;
+                        Model.ZEcefCm = telem.ZEcefCm;
+                        Model.XVEcefCms = telem.XVEcefCms;
+                        Model.YVEcefCms = telem.YVEcefCms;
+                        Model.ZVEcefCms = telem.ZVEcefCms;
+                        Model.PressureMillibars = telem.PressureMillibars;
+
+                        Model.PitchRads = telem.PitchRads;
+                        Model.RollRads = telem.RollRads;
+
+
+                        Model.Timeouts = telem.Timeouts;
+                        Model.UnrecognizedMsgTypes = telem.UnrecognizedMsgTypes;
+                        Model.ChecksumErrors = telem.ChecksumErrors;
+                        Model.NumOfBlownFrames = telem.NumOfBlownFrames;
+                        Model.SerialCommunicationBufferOverruns = telem.SerialCommunicationBufferOverruns;
+                        UpdateViews();
+                    }
                     else if (msg.MsgType == SyncMessage.MessageType)
                     {
                         SyncMessage syncMsg = (SyncMessage)msg;

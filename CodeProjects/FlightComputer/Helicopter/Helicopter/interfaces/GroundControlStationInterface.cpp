@@ -10,6 +10,7 @@
 #include "GroundControlStationInterface.h"
 #include "SystemTelemetryMessage.h"
 #include "SensorDataMessage.h"
+#include "SimpleTelemetryMessage.h"
 
 using namespace helicopter::util;
 using namespace helicopter::interfaces;
@@ -94,6 +95,7 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 	//Read until the sync bytes are received or we time out.
 	//Throw away any 'garbage' bytes.
 	while(!(firstSyncByte == SyncByte1 && secondSyncByte == SyncByte2 && thirdSyncByte == SyncByte3) && status == 0)
+	//while(!(firstSyncByte == SyncByte1 && secondSyncByte == SyncByte2 && thirdSyncByte == SyncByte3) && status != -1) //!= -1 because for -2, we want to ignore timeouts.
 	{
 		firstSyncByte = secondSyncByte;
 		secondSyncByte = thirdSyncByte;
@@ -119,6 +121,9 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 				case SensorDataMessage::MessageType:
 					msgSize = SensorDataMessage::MessageSize;
 					break;
+				case SimpleTelemetryMessage::MessageType:
+					msgSize = SimpleTelemetryMessage::MessageSize;
+					break;					
 				default:
 					//unrecognized message type.
 					status = -3;
@@ -164,6 +169,9 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 							case SensorDataMessage::MessageType:
 								receivedMessage = SensorDataMessage::buildMessageSt(messagePayload);
 							break;
+							case SimpleTelemetryMessage::MessageType:
+								receivedMessage = SimpleTelemetryMessage::buildMessageSt(messagePayload);
+							break;							
 							default:
 								//unrecognized message type.
 								status = -3;

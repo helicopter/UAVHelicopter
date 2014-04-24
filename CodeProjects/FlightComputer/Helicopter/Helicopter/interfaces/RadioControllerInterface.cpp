@@ -7,6 +7,9 @@ using namespace helicopter::interfaces;
 
 RadioControllerInterface* RadioControllerInterface::radioControllerInterface = NULL;
 
+//const float RadioControllerInterface::MANUAL_MODE_THRESHOLD = 0.0;
+const float RadioControllerInterface::MANUAL_MODE_THRESHOLD = 0.1;
+
 
 float RadioControllerInterface::calculatePWMCompareMatchFromControlValue(float controlValue)
 {
@@ -64,13 +67,13 @@ ISR(TIMER5_CAPT_vect)
 	
 	//Disable interrupts while reading a 16 bit register to avoid
 	//an interrupt happening inbetween reading the two bytes. 
-	cli(); 
+	//cli(); //not necessary because intterupts are already disabled within an ISR.
 	
 	//The Input Capture Register is set to the value of the timer when the
 	//input signal was received.
 	long currentInputCaptureRegisterValue = ICR5;
 	
-	sei();
+	//sei();
 	
 	long servoChannelPulseWidth = 0;
 	
@@ -121,17 +124,21 @@ ISR(TIMER5_CAPT_vect)
 				 * existing servo value. This could cause a servo control value
 				 * to get sent to the wrong servo. 
 				 */
-				if (servoChannelIndex >= RadioControllerInterface::MIN_RECEIVED_CHANNELS)
+				//if (servoChannelIndex >= RadioControllerInterface::MIN_RECEIVED_CHANNELS)
+				if (servoChannelIndex == RadioControllerInterface::MIN_RECEIVED_CHANNELS)
 				{
 					//Manual mode
-					if (rcInterface->GetServoChannelValue(RadioControllerInterface::FLIGHT_MODE_AUX_CHANNEL)
-						 < RadioControllerInterface::MANUAL_MODE_THRESHOLD)
+					float auxChannelValue = rcInterface->GetServoChannelValue(RadioControllerInterface::FLIGHT_MODE_AUX_CHANNEL);
+					if (auxChannelValue
+						 <= RadioControllerInterface::MANUAL_MODE_THRESHOLD)
 					{
 						model->OperationalState(SystemModel::ManualControl);
 					}else
 					{
 						model->OperationalState(SystemModel::AutoPilot);
 					}
+					
+					model->AuxChannelValue(auxChannelValue);
 
 					//If in Manual Control, set the servo control values.
 					if (model->OperationalState() == SystemModel::ManualControl)
@@ -142,7 +149,7 @@ ISR(TIMER5_CAPT_vect)
 						model->YawControl(rcInterface->GetServoChannelValue(RadioControllerInterface::RUDDER_CHANNEL));
 					}
 					
-					rcInterface->ServoChannelIndex(0);
+					//rcInterface->ServoChannelIndex(0);
 				}			
 			}
 		}
@@ -181,11 +188,11 @@ void RadioControllerInterface::init()
 	 * servos.
 	 * Output:
 	 * Port Pin | on compare counter | output type					| Output pin on Board
-	 * PB6      | OC1C               | Aileron (roll)				| 1
+	 * PB6      | OC1B               | Aileron (roll)				| 1
 	 * PB5      | OC1A               | Elevator (pitch)				| 2
 	 * PH5      | OC4C               | Throttle (collective)		| 3
 	 * PH4      | OC4B               | Rudder (yaw)					| 4
-	 * PH3      | OC4A               | N/A (aux on the input side)	| 5
+	 * PH3      | OC4A               | Aux (aux on the input side)	| 5
 	 * PE5      | OC3C               | N/A							| 6
 	 * PE4      | OC3B               | N/A							| 7
 	 * PE3      | OC3A               | N/A							| 8
@@ -193,7 +200,7 @@ void RadioControllerInterface::init()
 	
 	//Setup pins for output.
 	DDRB |= (1<<PB6) | (1<<PB5);
-	DDRH |= (1<<PH5) | (1<<PH4);
+	DDRH |= (1<<PH5) | (1<<PH4) | (1<<PH3);
 	
 	/**
 	 * Setup timers for phase correct pwm.
@@ -205,10 +212,10 @@ void RadioControllerInterface::init()
 	TCCR4B |= (1<<WGM43);
 	
 	/**
-	 * Setup OC1A,B,C compare match when counting up on compare, clear compare match on compare when counting down.
+	 * Setup OC1A,B compare match when counting up on compare, clear compare match on compare when counting down.
 	 */
-	TCCR1A |= (1<<COM1C1) | (1<<COM1C0);
-	TCCR4A |= (1<<COM4C1) | (1<<COM4C0);
+	TCCR1A |= (1<<COM1B1) | (1<<COM1B0) | (1<<COM1A1) | (1<<COM1A0);
+	TCCR4A |= (1<<COM4C1) | (1<<COM4C0) | (1<<COM4B1) | (1<<COM4B0) | (1<<COM4A1) | (1<<COM4A0);
 	
 	
 	
@@ -216,10 +223,11 @@ void RadioControllerInterface::init()
 	/**
 	 * Set the compare value so that the servos are set to a neutral position
 	 */
-	OCR1C = calculatePWMCompareMatchFromControlValue(0);
+	OCR1B = calculatePWMCompareMatchFromControlValue(0);
 	OCR1A = calculatePWMCompareMatchFromControlValue(0);
 	OCR4C = calculatePWMCompareMatchFromControlValue(0);
 	OCR4B = calculatePWMCompareMatchFromControlValue(0);
+	OCR4A = calculatePWMCompareMatchFromControlValue(0);
 	
 	ICR1 = TIMERTOP;
 	ICR4 = TIMERTOP;
@@ -262,8 +270,19 @@ void RadioControllerInterface::init()
 void RadioControllerInterface::start()
 {
 	//Set the timer prescaler to 8. (CS = Clock Select) which starts the timer.
+	//Starts the PPM input timer
 	TCCR5B |= (1<<CS51);	
 
+	//Starts the PWM output timers
 	TCCR1B |= (1<<CS11);
 	TCCR4B |= (1<<CS41);
+}
+
+void RadioControllerInterface::controlServos( float lateralControl, float longitudeControl, float mainRotorControl, float yawControl, float auxChannelValue )
+{
+	OCR1B = calculatePWMCompareMatchFromControlValue(lateralControl);
+	OCR1A = calculatePWMCompareMatchFromControlValue(longitudeControl);
+	OCR4C = calculatePWMCompareMatchFromControlValue(mainRotorControl);
+	OCR4B = calculatePWMCompareMatchFromControlValue(yawControl);
+	OCR4A = calculatePWMCompareMatchFromControlValue(auxChannelValue);
 }

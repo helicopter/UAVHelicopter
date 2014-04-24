@@ -39,11 +39,21 @@ namespace helicopter
 				//static Scheduler *scheduler;
 			
 			    //TODO Switch this to an ENUM.
+				
+				
+				//Prescalers for different timers are different
 				static const int NoPrescaling = 1;
-				static const int PrescaleByEight = (1 << CS01);
-				static const int PrescaleBySixtyFour = (1 << CS00) | (1 << CS01);
-				static const int PrescaleByTwofiftysix = (1 << CS02);
-				static const int PrescaleByTentwentyfour = (1 << CS02) | (1 << CS00);
+				static const int PrescaleByEight = (1 << CS21);
+				static const int PrescaleBySixtyFour = (1 << CS22);
+				static const int PrescaleByTwofiftysix = (1 << CS22) | (1 << CS21);
+				static const int PrescaleByTentwentyfour = (1 << CS22) | (1<< CS21) | (1 << CS20);
+				
+				/*static const int NoPrescaling = 1;
+				static const int PrescaleByEight = (1 << CS21);
+				static const int PrescaleBySixtyFour = (1 << CS20) | (1 << CS21);
+				static const int PrescaleByTwofiftysix = (1 << CS22);
+				static const int PrescaleByTentwentyfour = (1 << CS22) | (1 << CS20);*/
+				
 						
 			
 				//TODO: Remove this and just use the heap.

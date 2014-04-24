@@ -150,6 +150,8 @@ namespace helicopter
 			long zVEcefCms;
 			float pressureMillibars;
 			
+			float auxChannelValue;
+			
 			public:
 			
 			float EcefToLocalNEDRotationMatrix[3][3];
@@ -230,7 +232,8 @@ namespace helicopter
 				xVEcefCms(0),
 				yVEcefCms(0),
 				zVEcefCms(0),
-				pressureMillibars(0)						
+				pressureMillibars(0),
+				auxChannelValue(0)					
 			{
 				EcefToLocalNEDRotationMatrix[0][0] = 0;
 				EcefToLocalNEDRotationMatrix[0][1] = 0;
@@ -478,7 +481,10 @@ namespace helicopter
 			void PressureMillibars(float val) {pressureMillibars = val;}
 								
 			float InitialAltitudeCm() const {return initialAltitudeCm;}
-			void InitialAltitudeCm(float val) {initialAltitudeCm = val;}													
+			void InitialAltitudeCm(float val) {initialAltitudeCm = val;}		
+															
+			float AuxChannelValue() const {return auxChannelValue;}
+			void AuxChannelValue(float val) {auxChannelValue = val;}
 													
 		};
 	}

@@ -94,7 +94,12 @@ void SimTelemetryTask::runTaskImpl()
 				
 			}
 			
+		}
+		
+		if (message != NULL)
+		{
 			delete message;
+			message = NULL;
 		}
 	}
 	

@@ -54,6 +54,8 @@ namespace helicopter
 				
 				static const byte CFG_RST[];
 				
+				
+				
 				/**
 				 * MSG to configure gps to periodically send NAV_SOL messages.
 				 */
@@ -86,7 +88,12 @@ namespace helicopter
 				 */
 				int receiveGpsData(unsigned long desiredHeaderID, byte *msgData, int msgDataSize); 
 				
-				
+				/**
+				 * Receives an ack/nack from the gps.
+				 * returns 0 if an ack was received, 1 if a nack was received
+				 * <0 on error.
+				 */
+				int receiveAckNack();
 				
 				
 			public:
@@ -136,6 +143,12 @@ namespace helicopter
 				 * Configures and initializes the GPS
 				 */
 				int init();
+				
+				/**
+				 * Sends a command to the GPS to start periodically pushing gps SOLUTION (NAV_SOL) data 
+				 * and sets up an interrupt service routine to process the data.
+				 */
+				int start();
 				
 				bool isGpsReady();
 				

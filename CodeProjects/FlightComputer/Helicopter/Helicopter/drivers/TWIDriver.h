@@ -95,6 +95,8 @@ namespace helicopter
 				 * the NACK is sent. 
 				 */
 				byte readByte(bool acknowledge);
+				
+				void init();
 		};
 	}
 }

@@ -48,6 +48,76 @@ const byte GPSSensor::CFG_RATE[] = {0xB5, 0x62, 0x06, 0x08, 0x06, 0x00, 0xC8, 0x
  */
 const byte GPSSensor::CFG_RST[] = {0xB5, 0x62, 0x06, 0x04, 0x04, 0x00, 0x00, 0x00, 0x04, 0x00, 0x12, 0x6C};
 	
+	
+
+
+
+int GPSSensor::receiveAckNack() 
+{
+	int status = 0;
+	byte b = 0;
+	
+	unsigned long currentFourBytes = 0;
+	
+	byte ackNackData[10] = {0x00};	
+
+	unsigned long ackHeaderID = (unsigned long) 0xB5 << 24 |
+	(unsigned long) 0x62 << 16 |
+	(unsigned long) 0x05 << 8 |
+	(unsigned long) 0x01;
+	
+
+	unsigned long nackHeaderID = (unsigned long) 0xB5 << 24 |
+	(unsigned long) 0x62 << 16 |
+	(unsigned long) 0x05 << 8 |
+	(unsigned long) 0x00;
+	
+	/*
+	* loop until the header/id is found, or a timeout occurs. 
+	* This prevents synchronization issues where if a message transmission to the
+	* GPS was canceled half way, the next message send would result in
+	* an nack half way through the next message transmission, so you have
+	* to ensure that the message that is being read, is the desired message.
+	* Ignore status = -2 because if you get one byte overrun, you might not ever 'catch up' to receive new data.
+	*/
+	while (status == 0 && currentFourBytes != ackHeaderID && currentFourBytes != nackHeaderID)
+	{
+		status = serialDriver->receive(b);
+		currentFourBytes = currentFourBytes << 8 | b;
+	}
+	
+	if (status == 0)
+	{
+		/**
+		* Populate the message array with the first four bytes.
+		*/
+		ackNackData[0] = 0xFF & (currentFourBytes >> 24);
+		ackNackData[1] = 0xFF & (currentFourBytes >> 16);
+		ackNackData[2] = 0xFF & (currentFourBytes >> 8);
+		ackNackData[3] = 0xFF & currentFourBytes;
+		
+		
+	
+		//while loop for reading data if status == 0
+		for (unsigned int i = 4; i < sizeof(ackNackData) && status == 0; i++)
+		{
+			status = serialDriver->receive(b);
+		
+			ackNackData[i] = b;
+		}
+	}	
+	
+	if (status == 0 && currentFourBytes == ackHeaderID)
+	{
+		return 0;
+	}else if (status == 0 && currentFourBytes == nackHeaderID)
+	{
+		return 1;
+	}
+		
+	return status;
+}
+
 
 int GPSSensor::receiveGpsData(unsigned long desiredHeaderID, byte * msgData, int msgDataSize ) 
 {
@@ -62,6 +132,7 @@ int GPSSensor::receiveGpsData(unsigned long desiredHeaderID, byte * msgData, int
 	* GPS was canceled half way, the next message send would result in
 	* an nack half way through the next message transmission, so you have
 	* to ensure that the message that is being read, is the desired message.
+	* Ignore status = -2 because if you get one byte overrun, you might not ever 'catch up' to receive new data.
 	*/
 	while (status == 0 && currentFourBytes != desiredHeaderID)
 	{
@@ -318,11 +389,12 @@ int GPSSensor::readSensorLLH()
 
 int GPSSensor::init()
 {
+//	byte ACK[] = {0xB5, 0x62, 0x05, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};	
+		
 	/**
 	 * The status field gets all out of wack during gps init. The hard
 	 */
 	int status = 0;
-	byte ack[10] = {0xB5, 0x62, 0x05, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 		
 	
 	
@@ -333,18 +405,26 @@ int GPSSensor::init()
 	serialDriver->clearBuffer();
 	serialDriver->transmit((const char*)CFG_RST, sizeof(CFG_RST));
 	
-	unsigned long desiredHeaderID = (unsigned long) ack[0] << 24 |
-	(unsigned long) ack[1] << 16 |
-	(unsigned long) ack[2] << 8 |
-	(unsigned long) ack[3];
+/*	unsigned long desiredHeaderID = (unsigned long) ACK[0] << 24 |
+	(unsigned long) ACK[1] << 16 |
+	(unsigned long) ACK[2] << 8 |
+	(unsigned long) ACK[3];*/
 		
 	/**
 	 * There might have been old overflowed data on the buffer so keep reading
 	 * until we receive the ack.
 	 */
-	while(receiveGpsData(desiredHeaderID, ack, sizeof(ack)) != 0)
+	//while(receiveGpsData(desiredHeaderID, ACK, sizeof(ACK)) != 0)
+	status = receiveAckNack();
+	while(status != 0)
 	{
-		
+		//Nack received, so resend command
+		if (status == 1)
+		{
+			serialDriver->transmit((const char*)CFG_RST, sizeof(CFG_RST));
+			
+		}
+		status = receiveAckNack();
 	}
 	
 	_delay_ms(750); //wait for reset
@@ -362,28 +442,63 @@ int GPSSensor::init()
 	 * unless all bytes of the ack message are received. 
 	 * might fail to receive ack if there was a previous buffer overrun.
 	 */
-	while(receiveGpsData(desiredHeaderID, ack, sizeof(ack)) != 0)
+	status = receiveAckNack();
+	while(status != 0)
 	{
-		
+		//Nack received, so resend command
+		if (status == 1)
+		{
+			serialDriver->transmit((const char*)CFG_PRT, sizeof(CFG_PRT));
+			
+		}
+		status = receiveAckNack();
 	}
 	
 	serialDriver->transmit((const char*)CFG_RATE, sizeof(CFG_RATE));
-	status = receiveGpsData(desiredHeaderID, ack, sizeof(ack)); 
+	status = receiveAckNack();
+	while(status != 0)
+	{
+		//Nack received, so resend command
+		if (status == 1)
+		{
+			serialDriver->transmit((const char*)CFG_RATE, sizeof(CFG_RATE));
+			
+		}
+		status = receiveAckNack();
+	}
 
+
+	return status;
+}
+
+
+int GPSSensor::start()
+{
 	/**
 	* Hack to setup the serial driver to interrupt when data is received.
 	*/
 	UCSR1B |= (1<<RXCIE1);
 	
-//	sei();
-	
+
 	/**
 	* Setup gps for polling navigation solution.
 	*/
 	serialDriver->transmit((const char*)CFG_MSG_CONFIG_PERIODIC_SOL, sizeof(CFG_MSG_CONFIG_PERIODIC_SOL));
 		
-	status |= receiveGpsData(desiredHeaderID, ack, sizeof(ack));
+	int status = receiveAckNack();
+	while(status != 0)
+	{
+		//Nack received, so resend command
+		if (status == 1)
+		{
+			serialDriver->transmit((const char*)CFG_MSG_CONFIG_PERIODIC_SOL, sizeof(CFG_MSG_CONFIG_PERIODIC_SOL));
+			
+		}
+		status = receiveAckNack();
+	}
 
+	sei();	
+	
 	return status;
 }
 				

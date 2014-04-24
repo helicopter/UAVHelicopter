@@ -78,7 +78,7 @@ namespace helicopter
 				 * below in order for the system to be in 'manual mode'.
 				 * The servo values go from -1, to 1, so 0 is in the 'middle'.
 				 */
-				static const float MANUAL_MODE_THRESHOLD = 0.0;
+				static const float MANUAL_MODE_THRESHOLD;
 				
 				
 				
@@ -207,7 +207,11 @@ namespace helicopter
 				void ServoChannelIndex(int val) { servoChannelIndex = val; }
 					
 				SystemModel * GetSystemModel() const { return systemModel; }
-				void SetSystemModel(SystemModel *val) { systemModel = val; }		
+				void SetSystemModel(SystemModel *val) { systemModel = val; }
+					
+				void controlServos( float lateralControl, float longitudeControl, float mainRotorControl, float yawControl, float auxChannelValue );
+				
+						
 					
 				void SetServoChannelValue(int index, float value) 
 				{ 
@@ -231,6 +235,7 @@ namespace helicopter
 				void init();
 
 				void start();
+				
 		};
 	}
 }

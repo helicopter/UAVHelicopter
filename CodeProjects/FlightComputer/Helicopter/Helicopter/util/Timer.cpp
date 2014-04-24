@@ -28,10 +28,12 @@ void Timer::startTimer()
 	//it indicates that the timer has timed out.
 	OCR3A = ((cpuSpeed /  timerPrescaler) / frequency); 
 		
-	//TCCR3B |= (1 << WGM32); //Configure timer 1 for Clear on Timer Compare (CTC) mode so that if there is a match, the TCNT goes back to 0.
+	//Configure timer 1 for Clear on Timer Compare (CTC) mode so that if there is a match, the TCNT goes back to 0.
+	//note, this is different than the 8 bit timer which sets wgmn1 on tccrna to set CTC.
+	TCCR3B |= (1 << WGM32); 
 		
 		
-	TCCR3A |= (1 << WGM31);	//Configure timer 1 for Clear on Timer Compare (CTC) mode so that if there is a match, the TCNT goes back to 0.
+	//TCCR3A |= (1 << WGM31);	//Configure timer 1 for Clear on Timer Compare (CTC) mode so that if there is a match, the TCNT goes back to 0.
 		
 	//Set the Timer Counter Control Register (TCCR) with the appropriate prescaller
 	//which causes the timer counter to start (i.e. the timer starts).

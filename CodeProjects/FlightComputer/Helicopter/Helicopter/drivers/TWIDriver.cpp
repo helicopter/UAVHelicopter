@@ -12,12 +12,33 @@
 
 using namespace helicopter::drivers;
 
+void TWIDriver::init()
+{
+	//From this code located here: https://github.com/diydrones/ardupilot/blob/8f4665c4c7e36714cc35eaf9dfe764a788fcf4c1/libraries/AP_HAL_AVR/I2CDriver.cpp
+	
+	/**
+	 * Apparently the twi driver needs to be initialized with a TWI Bit Rate (TWBR - twi bit rate register)
+	 * because if you run it in conjunction with the servo radio controller, it'll cause the wait for twint to wait forever
+	 * if you don't set up the bit rate.
+	 */	
+	
+	//Set the data line and clock line to output. 
+	DDRD |= (1<<PD0);
+	DDRD |= (1<<PD1);
+
+	//Set the prescaler for twi to 1
+	TWSR &= ~(1<<TWPS0);
+	TWSR &= ~(1<<TWPS1);
+
+	//set the bit rate (page 248 of atmega2560 data sheet)
+	TWBR = ((16000000UL / 400000UL) - 16UL) / 2UL;
+}
 
 bool TWIDriver::start()
 {
 	//Send the Start condition
 	TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
-	
+
 	//wait for twint flag to be set.
 	//This indicates that the start condition was sent.
 	while (!(TWCR & (1<<TWINT)))
@@ -53,10 +74,16 @@ bool TWIDriver::write( byte data, byte acknowledgeValue)
 	//Setting TWEN free's up the pin so that the clock can take control of it for managing clock cycles between the two devices. 
 	TWCR = (1<<TWINT) | (1<<TWEN); 
 	
+	
+
+	
 	//Wait for TWINT flag to be set. This indicates that the data has been transmitted
 	//and the ack/nack has been received.  
 	while (!(TWCR & (1<<TWINT)))
 	;
+
+
+
 	
 	//If an acknowledgment value was given,
 	//check to ensure that the ack value received from TW matched
@@ -85,6 +112,8 @@ byte TWIDriver::readByte(bool acknowledge)
 	
 	//Wait for the interrupt to be reset, indicating that we received the data
 	while (!(TWCR & (1<<TWINT))) ;
+	
+
 	
 	//Read the data.
 	byte receivedValue = TWDR;

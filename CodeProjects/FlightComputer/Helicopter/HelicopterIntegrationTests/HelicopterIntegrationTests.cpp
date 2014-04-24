@@ -35,10 +35,11 @@ int main(void)
 	//helicopterTests.addTest(readgps_test, 6);
 	//helicopterTests.addTest(readSensor_test, 6);
 	//helicopterTests.addTest(calcXY_test, 6);
-	//helicopterTests.addTest(readRealSensor_test, 6);
+	helicopterTests.addTest(readRealSensor_test, 6);
 	//helicopterTests.addTest(readSensor_test, 6);
 	//helicopterTests.addTest(nedGps_test, 6);
-	helicopterTests.addTest(newmsgformat_test, 6);
+//	helicopterTests.addTest(newmsgformat_test, 6);
+//	helicopterTests.addTest(radiocontrollerservooutput_test, 6);
 	
 	//helicopterTests.addTest(partialTransmit_test, 6);
 	//helicopterTests.addTest(gpsPartialReceive_test, 6);
