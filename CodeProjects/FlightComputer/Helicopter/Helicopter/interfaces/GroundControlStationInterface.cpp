@@ -94,8 +94,8 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 
 	//Read until the sync bytes are received or we time out.
 	//Throw away any 'garbage' bytes.
-	while(!(firstSyncByte == SyncByte1 && secondSyncByte == SyncByte2 && thirdSyncByte == SyncByte3) && status == 0)
-	//while(!(firstSyncByte == SyncByte1 && secondSyncByte == SyncByte2 && thirdSyncByte == SyncByte3) && status != -1) //!= -1 because for -2, we want to ignore timeouts.
+	//while(!(firstSyncByte == SyncByte1 && secondSyncByte == SyncByte2 && thirdSyncByte == SyncByte3) && status == 0)
+	while(!(firstSyncByte == SyncByte1 && secondSyncByte == SyncByte2 && thirdSyncByte == SyncByte3) && status != -1) //!= -1 because for -2, we want to ignore timeouts.
 	{
 		firstSyncByte = secondSyncByte;
 		secondSyncByte = thirdSyncByte;

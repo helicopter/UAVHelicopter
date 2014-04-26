@@ -29,7 +29,7 @@ namespace helicopter
 			 */
 			enum OperatingStates {ManualControl, AutoPilot};
 				
-			enum FlightModes {SimulatedFlight, RealFlight};
+			enum FlightModes {SimulatedFlight, RealFlight, HardwareInLoopSimulatedFlight};
 				
 			enum SensorInputs {SimulatedSensors, RealSensors};
 				

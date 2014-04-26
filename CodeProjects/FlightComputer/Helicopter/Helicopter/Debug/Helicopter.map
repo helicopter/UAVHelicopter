@@ -750,7 +750,7 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0xbe70
+.text           0x00000000     0xbf5a
  *(.vectors)
  .vectors       0x00000000       0xe4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6/crtm2560.o
                 0x00000000                __vector_default
@@ -1031,628 +1031,628 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .text._Z33setupDefaultsandReferencePositionPN10helicopter5model11SystemModelEPNS_10controller13PIDControllerE
                 0x00001d02      0x2e6 HelicopterMain.o
                 0x00001d02                _Z33setupDefaultsandReferencePositionPN10helicopter5model11SystemModelEPNS_10controller13PIDControllerE
- .text.main     0x00001fe8     0x10e6 HelicopterMain.o
+ .text.main     0x00001fe8     0x116a HelicopterMain.o
                 0x00001fe8                main
  .text._ZN10helicopter10interfaces29GroundControlStationInterface17calculateChecksumEPhiRhS3_
-                0x000030ce       0x38 interfaces/GroundControlStationInterface.o
-                0x000030ce                _ZN10helicopter10interfaces29GroundControlStationInterface17calculateChecksumEPhiRhS3_
+                0x00003152       0x38 interfaces/GroundControlStationInterface.o
+                0x00003152                _ZN10helicopter10interfaces29GroundControlStationInterface17calculateChecksumEPhiRhS3_
  .text._ZN10helicopter10interfaces29GroundControlStationInterface8transmitEPNS_8messages7MessageE
-                0x00003106      0x198 interfaces/GroundControlStationInterface.o
-                0x00003106                _ZN10helicopter10interfaces29GroundControlStationInterface8transmitEPNS_8messages7MessageE
+                0x0000318a      0x198 interfaces/GroundControlStationInterface.o
+                0x0000318a                _ZN10helicopter10interfaces29GroundControlStationInterface8transmitEPNS_8messages7MessageE
  .text._ZN10helicopter10interfaces29GroundControlStationInterface7receiveERPNS_8messages7MessageE
-                0x0000329e      0x2a2 interfaces/GroundControlStationInterface.o
-                0x0000329e                _ZN10helicopter10interfaces29GroundControlStationInterface7receiveERPNS_8messages7MessageE
+                0x00003322      0x2a4 interfaces/GroundControlStationInterface.o
+                0x00003322                _ZN10helicopter10interfaces29GroundControlStationInterface7receiveERPNS_8messages7MessageE
  .text._ZN10helicopter10interfaces24RadioControllerInterface40calculatePWMCompareMatchFromControlValueEf
-                0x00003540       0xc2 interfaces/RadioControllerInterface.o
-                0x00003540                _ZN10helicopter10interfaces24RadioControllerInterface40calculatePWMCompareMatchFromControlValueEf
+                0x000035c6       0xc2 interfaces/RadioControllerInterface.o
+                0x000035c6                _ZN10helicopter10interfaces24RadioControllerInterface40calculatePWMCompareMatchFromControlValueEf
  .text._Z10ScaleValuei
-                0x00003602       0xbc interfaces/RadioControllerInterface.o
-                0x00003602                _Z10ScaleValuei
+                0x00003688       0xbc interfaces/RadioControllerInterface.o
+                0x00003688                _Z10ScaleValuei
  .text._ZN10helicopter10interfaces24RadioControllerInterface27getRadioControllerInterfaceEv
-                0x000036be       0x50 interfaces/RadioControllerInterface.o
-                0x000036be                _ZN10helicopter10interfaces24RadioControllerInterface27getRadioControllerInterfaceEv
+                0x00003744       0x50 interfaces/RadioControllerInterface.o
+                0x00003744                _ZN10helicopter10interfaces24RadioControllerInterface27getRadioControllerInterfaceEv
  .text.__vector_46
-                0x0000370e      0x190 interfaces/RadioControllerInterface.o
-                0x0000370e                __vector_46
+                0x00003794      0x1b4 interfaces/RadioControllerInterface.o
+                0x00003794                __vector_46
  .text._ZN10helicopter10interfaces24RadioControllerInterface4initEv
-                0x0000389e       0xc6 interfaces/RadioControllerInterface.o
-                0x0000389e                _ZN10helicopter10interfaces24RadioControllerInterface4initEv
+                0x00003948       0xce interfaces/RadioControllerInterface.o
+                0x00003948                _ZN10helicopter10interfaces24RadioControllerInterface4initEv
  .text._ZN10helicopter10interfaces24RadioControllerInterface5startEv
-                0x00003964       0x20 interfaces/RadioControllerInterface.o
-                0x00003964                _ZN10helicopter10interfaces24RadioControllerInterface5startEv
- .text._ZN10helicopter10interfaces24RadioControllerInterface13controlServosEffff
-                0x00003984       0xa6 interfaces/RadioControllerInterface.o
-                0x00003984                _ZN10helicopter10interfaces24RadioControllerInterface13controlServosEffff
+                0x00003a16       0x20 interfaces/RadioControllerInterface.o
+                0x00003a16                _ZN10helicopter10interfaces24RadioControllerInterface5startEv
+ .text._ZN10helicopter10interfaces24RadioControllerInterface13controlServosEfffff
+                0x00003a36       0xc0 interfaces/RadioControllerInterface.o
+                0x00003a36                _ZN10helicopter10interfaces24RadioControllerInterface13controlServosEfffff
  .text._ZN10helicopter8messages14ControlMessageD2Ev
-                0x00003a2a        0xc messages/ControlMessage.o
-                0x00003a2a                _ZN10helicopter8messages14ControlMessageD1Ev
-                0x00003a2a                _ZN10helicopter8messages14ControlMessageD2Ev
+                0x00003af6        0xc messages/ControlMessage.o
+                0x00003af6                _ZN10helicopter8messages14ControlMessageD1Ev
+                0x00003af6                _ZN10helicopter8messages14ControlMessageD2Ev
  .text._ZN10helicopter8messages14ControlMessageD0Ev
-                0x00003a36       0x10 messages/ControlMessage.o
-                0x00003a36                _ZN10helicopter8messages14ControlMessageD0Ev
+                0x00003b02       0x10 messages/ControlMessage.o
+                0x00003b02                _ZN10helicopter8messages14ControlMessageD0Ev
  .text._ZN10helicopter8messages14ControlMessage8getBytesEv
-                0x00003a46       0x5e messages/ControlMessage.o
-                0x00003a46                _ZN10helicopter8messages14ControlMessage8getBytesEv
+                0x00003b12       0x5e messages/ControlMessage.o
+                0x00003b12                _ZN10helicopter8messages14ControlMessage8getBytesEv
  .text._ZN10helicopter8messages14ControlMessage12buildMessageEPh
-                0x00003aa4       0x56 messages/ControlMessage.o
-                0x00003aa4                _ZN10helicopter8messages14ControlMessage12buildMessageEPh
+                0x00003b70       0x56 messages/ControlMessage.o
+                0x00003b70                _ZN10helicopter8messages14ControlMessage12buildMessageEPh
  .text._ZN10helicopter8messages7MessageD2Ev
-                0x00003afa        0xc messages/Message.o
-                0x00003afa                _ZN10helicopter8messages7MessageD1Ev
-                0x00003afa                _ZN10helicopter8messages7MessageD2Ev
+                0x00003bc6        0xc messages/Message.o
+                0x00003bc6                _ZN10helicopter8messages7MessageD1Ev
+                0x00003bc6                _ZN10helicopter8messages7MessageD2Ev
  .text._ZN10helicopter8messages7Message8getBytesEv
-                0x00003b06        0x6 messages/Message.o
-                0x00003b06                _ZN10helicopter8messages7Message8getBytesEv
+                0x00003bd2        0x6 messages/Message.o
+                0x00003bd2                _ZN10helicopter8messages7Message8getBytesEv
  .text._ZN10helicopter8messages7Message12buildMessageEPh
-                0x00003b0c        0x2 messages/Message.o
-                0x00003b0c                _ZN10helicopter8messages7Message12buildMessageEPh
+                0x00003bd8        0x2 messages/Message.o
+                0x00003bd8                _ZN10helicopter8messages7Message12buildMessageEPh
  .text._ZN10helicopter8messages7MessageD0Ev
-                0x00003b0e       0x10 messages/Message.o
-                0x00003b0e                _ZN10helicopter8messages7MessageD0Ev
+                0x00003bda       0x10 messages/Message.o
+                0x00003bda                _ZN10helicopter8messages7MessageD0Ev
  .text._ZN10helicopter8messages7Message14getMessageSizeEv
-                0x00003b1e        0x8 messages/Message.o
-                0x00003b1e                _ZN10helicopter8messages7Message14getMessageSizeEv
+                0x00003bea        0x8 messages/Message.o
+                0x00003bea                _ZN10helicopter8messages7Message14getMessageSizeEv
  .text._ZN10helicopter8messages17SensorDataMessageD2Ev
-                0x00003b26        0xc messages/SensorDataMessage.o
-                0x00003b26                _ZN10helicopter8messages17SensorDataMessageD1Ev
-                0x00003b26                _ZN10helicopter8messages17SensorDataMessageD2Ev
+                0x00003bf2        0xc messages/SensorDataMessage.o
+                0x00003bf2                _ZN10helicopter8messages17SensorDataMessageD1Ev
+                0x00003bf2                _ZN10helicopter8messages17SensorDataMessageD2Ev
  .text._ZN10helicopter8messages17SensorDataMessageD0Ev
-                0x00003b32       0x10 messages/SensorDataMessage.o
-                0x00003b32                _ZN10helicopter8messages17SensorDataMessageD0Ev
+                0x00003bfe       0x10 messages/SensorDataMessage.o
+                0x00003bfe                _ZN10helicopter8messages17SensorDataMessageD0Ev
  .text._ZN10helicopter8messages17SensorDataMessage8getBytesEv
-                0x00003b42      0x12c messages/SensorDataMessage.o
-                0x00003b42                _ZN10helicopter8messages17SensorDataMessage8getBytesEv
+                0x00003c0e      0x12c messages/SensorDataMessage.o
+                0x00003c0e                _ZN10helicopter8messages17SensorDataMessage8getBytesEv
  .text._ZN10helicopter8messages17SensorDataMessage12buildMessageEPh
-                0x00003c6e      0x15e messages/SensorDataMessage.o
-                0x00003c6e                _ZN10helicopter8messages17SensorDataMessage12buildMessageEPh
+                0x00003d3a      0x15e messages/SensorDataMessage.o
+                0x00003d3a                _ZN10helicopter8messages17SensorDataMessage12buildMessageEPh
  .text._ZN10helicopter8messages17SensorDataMessage14buildMessageStEPh
-                0x00003dcc       0xc8 messages/SensorDataMessage.o
-                0x00003dcc                _ZN10helicopter8messages17SensorDataMessage14buildMessageStEPh
+                0x00003e98       0xc8 messages/SensorDataMessage.o
+                0x00003e98                _ZN10helicopter8messages17SensorDataMessage14buildMessageStEPh
  .text._ZN10helicopter8messages22SimpleTelemetryMessageD2Ev
-                0x00003e94        0xc messages/SimpleTelemetryMessage.o
-                0x00003e94                _ZN10helicopter8messages22SimpleTelemetryMessageD2Ev
-                0x00003e94                _ZN10helicopter8messages22SimpleTelemetryMessageD1Ev
+                0x00003f60        0xc messages/SimpleTelemetryMessage.o
+                0x00003f60                _ZN10helicopter8messages22SimpleTelemetryMessageD2Ev
+                0x00003f60                _ZN10helicopter8messages22SimpleTelemetryMessageD1Ev
  .text._ZN10helicopter8messages22SimpleTelemetryMessageD0Ev
-                0x00003ea0       0x10 messages/SimpleTelemetryMessage.o
-                0x00003ea0                _ZN10helicopter8messages22SimpleTelemetryMessageD0Ev
+                0x00003f6c       0x10 messages/SimpleTelemetryMessage.o
+                0x00003f6c                _ZN10helicopter8messages22SimpleTelemetryMessageD0Ev
  .text._ZN10helicopter8messages22SimpleTelemetryMessage8getBytesEv
-                0x00003eb0      0x2f4 messages/SimpleTelemetryMessage.o
-                0x00003eb0                _ZN10helicopter8messages22SimpleTelemetryMessage8getBytesEv
+                0x00003f7c      0x2f4 messages/SimpleTelemetryMessage.o
+                0x00003f7c                _ZN10helicopter8messages22SimpleTelemetryMessage8getBytesEv
  .text._ZN10helicopter8messages22SimpleTelemetryMessage12buildMessageEPh
-                0x000041a4      0x31e messages/SimpleTelemetryMessage.o
-                0x000041a4                _ZN10helicopter8messages22SimpleTelemetryMessage12buildMessageEPh
+                0x00004270      0x31e messages/SimpleTelemetryMessage.o
+                0x00004270                _ZN10helicopter8messages22SimpleTelemetryMessage12buildMessageEPh
  .text._ZN10helicopter8messages22SimpleTelemetryMessage14buildMessageStEPh
-                0x000044c2      0x18c messages/SimpleTelemetryMessage.o
-                0x000044c2                _ZN10helicopter8messages22SimpleTelemetryMessage14buildMessageStEPh
+                0x0000458e      0x18c messages/SimpleTelemetryMessage.o
+                0x0000458e                _ZN10helicopter8messages22SimpleTelemetryMessage14buildMessageStEPh
  .text._ZN10helicopter8messages11SyncMessageD2Ev
-                0x0000464e        0xc messages/SyncMessage.o
-                0x0000464e                _ZN10helicopter8messages11SyncMessageD2Ev
-                0x0000464e                _ZN10helicopter8messages11SyncMessageD1Ev
+                0x0000471a        0xc messages/SyncMessage.o
+                0x0000471a                _ZN10helicopter8messages11SyncMessageD2Ev
+                0x0000471a                _ZN10helicopter8messages11SyncMessageD1Ev
  .text._ZN10helicopter8messages11SyncMessage12buildMessageEPh
-                0x0000465a       0x18 messages/SyncMessage.o
-                0x0000465a                _ZN10helicopter8messages11SyncMessage12buildMessageEPh
+                0x00004726       0x18 messages/SyncMessage.o
+                0x00004726                _ZN10helicopter8messages11SyncMessage12buildMessageEPh
  .text._ZN10helicopter8messages11SyncMessage8getBytesEv
-                0x00004672       0x22 messages/SyncMessage.o
-                0x00004672                _ZN10helicopter8messages11SyncMessage8getBytesEv
+                0x0000473e       0x22 messages/SyncMessage.o
+                0x0000473e                _ZN10helicopter8messages11SyncMessage8getBytesEv
  .text._ZN10helicopter8messages11SyncMessageD0Ev
-                0x00004694       0x10 messages/SyncMessage.o
-                0x00004694                _ZN10helicopter8messages11SyncMessageD0Ev
+                0x00004760       0x10 messages/SyncMessage.o
+                0x00004760                _ZN10helicopter8messages11SyncMessageD0Ev
  .text._ZN10helicopter8messages22SystemTelemetryMessageD2Ev
-                0x000046a4        0xc messages/SystemTelemetryMessage.o
-                0x000046a4                _ZN10helicopter8messages22SystemTelemetryMessageD2Ev
-                0x000046a4                _ZN10helicopter8messages22SystemTelemetryMessageD1Ev
+                0x00004770        0xc messages/SystemTelemetryMessage.o
+                0x00004770                _ZN10helicopter8messages22SystemTelemetryMessageD2Ev
+                0x00004770                _ZN10helicopter8messages22SystemTelemetryMessageD1Ev
  .text._ZN10helicopter8messages22SystemTelemetryMessageD0Ev
-                0x000046b0       0x10 messages/SystemTelemetryMessage.o
-                0x000046b0                _ZN10helicopter8messages22SystemTelemetryMessageD0Ev
+                0x0000477c       0x10 messages/SystemTelemetryMessage.o
+                0x0000477c                _ZN10helicopter8messages22SystemTelemetryMessageD0Ev
  .text._ZN10helicopter8messages22SystemTelemetryMessage8getBytesEv
-                0x000046c0      0x814 messages/SystemTelemetryMessage.o
-                0x000046c0                _ZN10helicopter8messages22SystemTelemetryMessage8getBytesEv
+                0x0000478c      0x814 messages/SystemTelemetryMessage.o
+                0x0000478c                _ZN10helicopter8messages22SystemTelemetryMessage8getBytesEv
  .text._ZN10helicopter8messages22SystemTelemetryMessage12buildMessageEPh
-                0x00004ed4      0x83e messages/SystemTelemetryMessage.o
-                0x00004ed4                _ZN10helicopter8messages22SystemTelemetryMessage12buildMessageEPh
+                0x00004fa0      0x83e messages/SystemTelemetryMessage.o
+                0x00004fa0                _ZN10helicopter8messages22SystemTelemetryMessage12buildMessageEPh
  .text._ZN10helicopter8messages22SystemTelemetryMessage14buildMessageStEPh
-                0x00005712      0x3ca messages/SystemTelemetryMessage.o
-                0x00005712                _ZN10helicopter8messages22SystemTelemetryMessage14buildMessageStEPh
+                0x000057de      0x3ca messages/SystemTelemetryMessage.o
+                0x000057de                _ZN10helicopter8messages22SystemTelemetryMessage14buildMessageStEPh
  .text._ZN10helicopter8messages22SystemTelemetryMessage21buildMessageFromModelEPNS_5model11SystemModelE
-                0x00005adc      0xb4c messages/SystemTelemetryMessage.o
-                0x00005adc                _ZN10helicopter8messages22SystemTelemetryMessage21buildMessageFromModelEPNS_5model11SystemModelE
+                0x00005ba8      0xb4c messages/SystemTelemetryMessage.o
+                0x00005ba8                _ZN10helicopter8messages22SystemTelemetryMessage21buildMessageFromModelEPNS_5model11SystemModelE
  .text._ZN10helicopter8messages22SystemTelemetryMessage35updateModelFromMessageFromSimulatorEPNS_5model11SystemModelE
-                0x00006628      0x1fa messages/SystemTelemetryMessage.o
-                0x00006628                _ZN10helicopter8messages22SystemTelemetryMessage35updateModelFromMessageFromSimulatorEPNS_5model11SystemModelE
+                0x000066f4      0x1fa messages/SystemTelemetryMessage.o
+                0x000066f4                _ZN10helicopter8messages22SystemTelemetryMessage35updateModelFromMessageFromSimulatorEPNS_5model11SystemModelE
  .text._ZN10helicopter10navigation4AHRS14scaleAndAdjustEPfS2_fRA3_f
-                0x00006822       0xbe navigation/AHRS.o
-                0x00006822                _ZN10helicopter10navigation4AHRS14scaleAndAdjustEPfS2_fRA3_f
+                0x000068ee       0xbe navigation/AHRS.o
+                0x000068ee                _ZN10helicopter10navigation4AHRS14scaleAndAdjustEPfS2_fRA3_f
  .text._ZN10helicopter10navigation4AHRS17orthonormalizeDcmEv
-                0x000068e0       0xae navigation/AHRS.o
-                0x000068e0                _ZN10helicopter10navigation4AHRS17orthonormalizeDcmEv
+                0x000069ac       0xae navigation/AHRS.o
+                0x000069ac                _ZN10helicopter10navigation4AHRS17orthonormalizeDcmEv
  .text._ZN10helicopter10navigation4AHRS6updateEfffffffff
-                0x0000698e      0x4e6 navigation/AHRS.o
-                0x0000698e                _ZN10helicopter10navigation4AHRS6updateEfffffffff
+                0x00006a5a      0x4e6 navigation/AHRS.o
+                0x00006a5a                _ZN10helicopter10navigation4AHRS6updateEfffffffff
  .text._ZN10helicopter10navigation4AHRS10getYawRadsEv
-                0x00006e74       0x14 navigation/AHRS.o
-                0x00006e74                _ZN10helicopter10navigation4AHRS10getYawRadsEv
+                0x00006f40       0x14 navigation/AHRS.o
+                0x00006f40                _ZN10helicopter10navigation4AHRS10getYawRadsEv
  .text._ZN10helicopter10navigation4AHRS12getPitchRadsEv
-                0x00006e88       0x14 navigation/AHRS.o
-                0x00006e88                _ZN10helicopter10navigation4AHRS12getPitchRadsEv
+                0x00006f54       0x14 navigation/AHRS.o
+                0x00006f54                _ZN10helicopter10navigation4AHRS12getPitchRadsEv
  .text._ZN10helicopter10navigation4AHRS11getRollRadsEv
-                0x00006e9c       0x14 navigation/AHRS.o
-                0x00006e9c                _ZN10helicopter10navigation4AHRS11getRollRadsEv
+                0x00006f68       0x14 navigation/AHRS.o
+                0x00006f68                _ZN10helicopter10navigation4AHRS11getRollRadsEv
  .text._ZN10helicopter9scheduler9SchedulerC2Em9PRESCALERi
-                0x00006eb0       0x66 scheduler/Scheduler.o
-                0x00006eb0                _ZN10helicopter9scheduler9SchedulerC2Em9PRESCALERi
-                0x00006eb0                _ZN10helicopter9scheduler9SchedulerC1Em9PRESCALERi
+                0x00006f7c       0x66 scheduler/Scheduler.o
+                0x00006f7c                _ZN10helicopter9scheduler9SchedulerC2Em9PRESCALERi
+                0x00006f7c                _ZN10helicopter9scheduler9SchedulerC1Em9PRESCALERi
  .text._ZN10helicopter9scheduler9Scheduler12getSchedulerEv
-                0x00006f16       0x4c scheduler/Scheduler.o
-                0x00006f16                _ZN10helicopter9scheduler9Scheduler12getSchedulerEv
+                0x00006fe2       0x4c scheduler/Scheduler.o
+                0x00006fe2                _ZN10helicopter9scheduler9Scheduler12getSchedulerEv
  .text._ZN10helicopter9scheduler9Scheduler7addTaskEPNS_5tasks4TaskE
-                0x00006f62       0x34 scheduler/Scheduler.o
-                0x00006f62                _ZN10helicopter9scheduler9Scheduler7addTaskEPNS_5tasks4TaskE
+                0x0000702e       0x34 scheduler/Scheduler.o
+                0x0000702e                _ZN10helicopter9scheduler9Scheduler7addTaskEPNS_5tasks4TaskE
  .text._ZN10helicopter9scheduler9Scheduler4initEv
-                0x00006f96       0x76 scheduler/Scheduler.o
-                0x00006f96                _ZN10helicopter9scheduler9Scheduler4initEv
+                0x00007062       0x76 scheduler/Scheduler.o
+                0x00007062                _ZN10helicopter9scheduler9Scheduler4initEv
  .text._ZN10helicopter9scheduler9Scheduler8dispatchEv
-                0x0000700c       0x82 scheduler/Scheduler.o
-                0x0000700c                _ZN10helicopter9scheduler9Scheduler8dispatchEv
+                0x000070d8       0x82 scheduler/Scheduler.o
+                0x000070d8                _ZN10helicopter9scheduler9Scheduler8dispatchEv
  .text._ZN10helicopter9scheduler9Scheduler5startEv
-                0x0000708e       0x72 scheduler/Scheduler.o
-                0x0000708e                _ZN10helicopter9scheduler9Scheduler5startEv
+                0x0000715a       0x72 scheduler/Scheduler.o
+                0x0000715a                _ZN10helicopter9scheduler9Scheduler5startEv
  .text.__vector_13
-                0x00007100       0xa6 scheduler/Scheduler.o
-                0x00007100                __vector_13
+                0x000071cc       0xa6 scheduler/Scheduler.o
+                0x000071cc                __vector_13
  .text._ZN10helicopter7sensors15BarometerSensor4initEv
-                0x000071a6      0x166 sensors/BarometerSensor.o
-                0x000071a6                _ZN10helicopter7sensors15BarometerSensor4initEv
+                0x00007272      0x166 sensors/BarometerSensor.o
+                0x00007272                _ZN10helicopter7sensors15BarometerSensor4initEv
  .text._ZN10helicopter7sensors15BarometerSensor13sendD1CommandEv
-                0x0000730c        0xe sensors/BarometerSensor.o
-                0x0000730c                _ZN10helicopter7sensors15BarometerSensor13sendD1CommandEv
+                0x000073d8        0xe sensors/BarometerSensor.o
+                0x000073d8                _ZN10helicopter7sensors15BarometerSensor13sendD1CommandEv
  .text._ZN10helicopter7sensors15BarometerSensor10readD1DataEv
-                0x0000731a       0x82 sensors/BarometerSensor.o
-                0x0000731a                _ZN10helicopter7sensors15BarometerSensor10readD1DataEv
+                0x000073e6       0x82 sensors/BarometerSensor.o
+                0x000073e6                _ZN10helicopter7sensors15BarometerSensor10readD1DataEv
  .text._ZN10helicopter7sensors15BarometerSensor13sendD2CommandEv
-                0x0000739c        0xe sensors/BarometerSensor.o
-                0x0000739c                _ZN10helicopter7sensors15BarometerSensor13sendD2CommandEv
+                0x00007468        0xe sensors/BarometerSensor.o
+                0x00007468                _ZN10helicopter7sensors15BarometerSensor13sendD2CommandEv
  .text._ZN10helicopter7sensors15BarometerSensor10readD2DataEv
-                0x000073aa       0x82 sensors/BarometerSensor.o
-                0x000073aa                _ZN10helicopter7sensors15BarometerSensor10readD2DataEv
+                0x00007476       0x82 sensors/BarometerSensor.o
+                0x00007476                _ZN10helicopter7sensors15BarometerSensor10readD2DataEv
  .text._ZN10helicopter7sensors15BarometerSensor15processBaroDataEv
-                0x0000742c      0x67e sensors/BarometerSensor.o
-                0x0000742c                _ZN10helicopter7sensors15BarometerSensor15processBaroDataEv
+                0x000074f8      0x67e sensors/BarometerSensor.o
+                0x000074f8                _ZN10helicopter7sensors15BarometerSensor15processBaroDataEv
  .text._ZN10helicopter7sensors9GPSSensor14receiveAckNackEv
-                0x00007aaa       0xfa sensors/GPSSensor.o
-                0x00007aaa                _ZN10helicopter7sensors9GPSSensor14receiveAckNackEv
+                0x00007b76       0xfa sensors/GPSSensor.o
+                0x00007b76                _ZN10helicopter7sensors9GPSSensor14receiveAckNackEv
  .text._ZN10helicopter7sensors9GPSSensor14receiveGpsDataEmPhi
-                0x00007ba4       0xf2 sensors/GPSSensor.o
-                0x00007ba4                _ZN10helicopter7sensors9GPSSensor14receiveGpsDataEmPhi
+                0x00007c70       0xf2 sensors/GPSSensor.o
+                0x00007c70                _ZN10helicopter7sensors9GPSSensor14receiveGpsDataEmPhi
  .text._ZN10helicopter7sensors9GPSSensor10readSensorEPhiS2_i
-                0x00007c96       0x7e sensors/GPSSensor.o
-                0x00007c96                _ZN10helicopter7sensors9GPSSensor10readSensorEPhiS2_i
+                0x00007d62       0x7e sensors/GPSSensor.o
+                0x00007d62                _ZN10helicopter7sensors9GPSSensor10readSensorEPhiS2_i
  .text._ZN10helicopter7sensors9GPSSensor21processSensorSolutionEv
-                0x00007d14      0x20e sensors/GPSSensor.o
-                0x00007d14                _ZN10helicopter7sensors9GPSSensor21processSensorSolutionEv
+                0x00007de0      0x20e sensors/GPSSensor.o
+                0x00007de0                _ZN10helicopter7sensors9GPSSensor21processSensorSolutionEv
  .text._ZN10helicopter7sensors9GPSSensor18readSensorSolutionEv
-                0x00007f22      0x186 sensors/GPSSensor.o
-                0x00007f22                _ZN10helicopter7sensors9GPSSensor18readSensorSolutionEv
+                0x00007fee      0x186 sensors/GPSSensor.o
+                0x00007fee                _ZN10helicopter7sensors9GPSSensor18readSensorSolutionEv
  .text._ZN10helicopter7sensors9GPSSensor19readSensorNavStatusEv
-                0x000080a8       0x74 sensors/GPSSensor.o
-                0x000080a8                _ZN10helicopter7sensors9GPSSensor19readSensorNavStatusEv
+                0x00008174       0x74 sensors/GPSSensor.o
+                0x00008174                _ZN10helicopter7sensors9GPSSensor19readSensorNavStatusEv
  .text._ZN10helicopter7sensors9GPSSensor13readSensorLLHEv
-                0x0000811c       0xaa sensors/GPSSensor.o
-                0x0000811c                _ZN10helicopter7sensors9GPSSensor13readSensorLLHEv
+                0x000081e8       0xaa sensors/GPSSensor.o
+                0x000081e8                _ZN10helicopter7sensors9GPSSensor13readSensorLLHEv
  .text._ZN10helicopter7sensors9GPSSensor4initEv
-                0x000081c6       0xd8 sensors/GPSSensor.o
-                0x000081c6                _ZN10helicopter7sensors9GPSSensor4initEv
+                0x00008292       0xd8 sensors/GPSSensor.o
+                0x00008292                _ZN10helicopter7sensors9GPSSensor4initEv
  .text._ZN10helicopter7sensors9GPSSensor5startEv
-                0x0000829e       0x5a sensors/GPSSensor.o
-                0x0000829e                _ZN10helicopter7sensors9GPSSensor5startEv
+                0x0000836a       0x5a sensors/GPSSensor.o
+                0x0000836a                _ZN10helicopter7sensors9GPSSensor5startEv
  .text._ZN10helicopter7sensors9GPSSensor10isGpsReadyEv
-                0x000082f8       0x10 sensors/GPSSensor.o
-                0x000082f8                _ZN10helicopter7sensors9GPSSensor10isGpsReadyEv
+                0x000083c4       0x10 sensors/GPSSensor.o
+                0x000083c4                _ZN10helicopter7sensors9GPSSensor10isGpsReadyEv
  .text.__vector_36
-                0x00008308       0xc6 sensors/GPSSensor.o
-                0x00008308                __vector_36
+                0x000083d4       0xc6 sensors/GPSSensor.o
+                0x000083d4                __vector_36
  .text._ZN10helicopter7sensors9IMUSensor4initEv
-                0x000083ce       0x84 sensors/IMUSensor.o
-                0x000083ce                _ZN10helicopter7sensors9IMUSensor4initEv
+                0x0000849a       0x84 sensors/IMUSensor.o
+                0x0000849a                _ZN10helicopter7sensors9IMUSensor4initEv
  .text._ZN10helicopter7sensors9IMUSensor10readSensorEv
-                0x00008452      0x1f2 sensors/IMUSensor.o
-                0x00008452                _ZN10helicopter7sensors9IMUSensor10readSensorEv
+                0x0000851e      0x1f2 sensors/IMUSensor.o
+                0x0000851e                _ZN10helicopter7sensors9IMUSensor10readSensorEv
  .text._ZN10helicopter7sensors18MagnetometerSensorC2EPNS_7drivers9TWIDriverE
-                0x00008644       0x74 sensors/MagnetometerSensor.o
-                0x00008644                _ZN10helicopter7sensors18MagnetometerSensorC1EPNS_7drivers9TWIDriverE
-                0x00008644                _ZN10helicopter7sensors18MagnetometerSensorC2EPNS_7drivers9TWIDriverE
+                0x00008710       0x74 sensors/MagnetometerSensor.o
+                0x00008710                _ZN10helicopter7sensors18MagnetometerSensorC1EPNS_7drivers9TWIDriverE
+                0x00008710                _ZN10helicopter7sensors18MagnetometerSensorC2EPNS_7drivers9TWIDriverE
  .text._ZN10helicopter7sensors18MagnetometerSensor4initEv
-                0x000086b8       0xb8 sensors/MagnetometerSensor.o
-                0x000086b8                _ZN10helicopter7sensors18MagnetometerSensor4initEv
+                0x00008784       0xb8 sensors/MagnetometerSensor.o
+                0x00008784                _ZN10helicopter7sensors18MagnetometerSensor4initEv
  .text._ZN10helicopter7sensors18MagnetometerSensor10readSensorEv
-                0x00008770      0x196 sensors/MagnetometerSensor.o
-                0x00008770                _ZN10helicopter7sensors18MagnetometerSensor10readSensorEv
+                0x0000883c      0x196 sensors/MagnetometerSensor.o
+                0x0000883c                _ZN10helicopter7sensors18MagnetometerSensor10readSensorEv
  .text._ZN10helicopter5tasks4Task4initEv
-                0x00008906        0x2 tasks/NavigationTask.o
-                0x00008906                _ZN10helicopter5tasks4Task4initEv
+                0x000089d2        0x2 tasks/NavigationTask.o
+                0x000089d2                _ZN10helicopter5tasks4Task4initEv
  .text._ZN10helicopter5tasks14NavigationTaskD2Ev
-                0x00008908        0xc tasks/NavigationTask.o
-                0x00008908                _ZN10helicopter5tasks14NavigationTaskD1Ev
-                0x00008908                _ZN10helicopter5tasks14NavigationTaskD2Ev
+                0x000089d4        0xc tasks/NavigationTask.o
+                0x000089d4                _ZN10helicopter5tasks14NavigationTaskD1Ev
+                0x000089d4                _ZN10helicopter5tasks14NavigationTaskD2Ev
  .text._ZN10helicopter5tasks14NavigationTaskD0Ev
-                0x00008914       0x10 tasks/NavigationTask.o
-                0x00008914                _ZN10helicopter5tasks14NavigationTaskD0Ev
+                0x000089e0       0x10 tasks/NavigationTask.o
+                0x000089e0                _ZN10helicopter5tasks14NavigationTaskD0Ev
  .text._ZN10helicopter5tasks14NavigationTask11runTaskImplEv
-                0x00008924      0x530 tasks/NavigationTask.o
-                0x00008924                _ZN10helicopter5tasks14NavigationTask11runTaskImplEv
+                0x000089f0      0x530 tasks/NavigationTask.o
+                0x000089f0                _ZN10helicopter5tasks14NavigationTask11runTaskImplEv
  .text._ZN10helicopter5tasks14NavigationTaskC2EfPNS_10navigation4AHRSEPNS_5model11SystemModelEii
-                0x00008e54       0x62 tasks/NavigationTask.o
-                0x00008e54                _ZN10helicopter5tasks14NavigationTaskC2EfPNS_10navigation4AHRSEPNS_5model11SystemModelEii
-                0x00008e54                _ZN10helicopter5tasks14NavigationTaskC1EfPNS_10navigation4AHRSEPNS_5model11SystemModelEii
+                0x00008f20       0x62 tasks/NavigationTask.o
+                0x00008f20                _ZN10helicopter5tasks14NavigationTaskC2EfPNS_10navigation4AHRSEPNS_5model11SystemModelEii
+                0x00008f20                _ZN10helicopter5tasks14NavigationTaskC1EfPNS_10navigation4AHRSEPNS_5model11SystemModelEii
  .text._ZN10helicopter5tasks16PIDInnerLoopTaskD2Ev
-                0x00008eb6        0xc tasks/PIDInnerLoopTask.o
-                0x00008eb6                _ZN10helicopter5tasks16PIDInnerLoopTaskD1Ev
-                0x00008eb6                _ZN10helicopter5tasks16PIDInnerLoopTaskD2Ev
+                0x00008f82        0xc tasks/PIDInnerLoopTask.o
+                0x00008f82                _ZN10helicopter5tasks16PIDInnerLoopTaskD1Ev
+                0x00008f82                _ZN10helicopter5tasks16PIDInnerLoopTaskD2Ev
  .text._ZN10helicopter5tasks16PIDInnerLoopTaskD0Ev
-                0x00008ec2       0x10 tasks/PIDInnerLoopTask.o
-                0x00008ec2                _ZN10helicopter5tasks16PIDInnerLoopTaskD0Ev
+                0x00008f8e       0x10 tasks/PIDInnerLoopTask.o
+                0x00008f8e                _ZN10helicopter5tasks16PIDInnerLoopTaskD0Ev
  .text._ZN10helicopter5tasks16PIDInnerLoopTask11runTaskImplEv
-                0x00008ed2       0x1c tasks/PIDInnerLoopTask.o
-                0x00008ed2                _ZN10helicopter5tasks16PIDInnerLoopTask11runTaskImplEv
+                0x00008f9e       0x1c tasks/PIDInnerLoopTask.o
+                0x00008f9e                _ZN10helicopter5tasks16PIDInnerLoopTask11runTaskImplEv
  .text._ZN10helicopter5tasks16PIDInnerLoopTaskC2EPNS_10controller13PIDControllerEii
-                0x00008eee       0x2a tasks/PIDInnerLoopTask.o
-                0x00008eee                _ZN10helicopter5tasks16PIDInnerLoopTaskC2EPNS_10controller13PIDControllerEii
-                0x00008eee                _ZN10helicopter5tasks16PIDInnerLoopTaskC1EPNS_10controller13PIDControllerEii
+                0x00008fba       0x2a tasks/PIDInnerLoopTask.o
+                0x00008fba                _ZN10helicopter5tasks16PIDInnerLoopTaskC2EPNS_10controller13PIDControllerEii
+                0x00008fba                _ZN10helicopter5tasks16PIDInnerLoopTaskC1EPNS_10controller13PIDControllerEii
  .text._ZN10helicopter5tasks16PIDOuterLoopTaskD2Ev
-                0x00008f18        0xc tasks/PIDOuterLoopTask.o
-                0x00008f18                _ZN10helicopter5tasks16PIDOuterLoopTaskD1Ev
-                0x00008f18                _ZN10helicopter5tasks16PIDOuterLoopTaskD2Ev
+                0x00008fe4        0xc tasks/PIDOuterLoopTask.o
+                0x00008fe4                _ZN10helicopter5tasks16PIDOuterLoopTaskD1Ev
+                0x00008fe4                _ZN10helicopter5tasks16PIDOuterLoopTaskD2Ev
  .text._ZN10helicopter5tasks16PIDOuterLoopTaskD0Ev
-                0x00008f24       0x10 tasks/PIDOuterLoopTask.o
-                0x00008f24                _ZN10helicopter5tasks16PIDOuterLoopTaskD0Ev
+                0x00008ff0       0x10 tasks/PIDOuterLoopTask.o
+                0x00008ff0                _ZN10helicopter5tasks16PIDOuterLoopTaskD0Ev
  .text._ZN10helicopter5tasks16PIDOuterLoopTask11runTaskImplEv
-                0x00008f34        0xc tasks/PIDOuterLoopTask.o
-                0x00008f34                _ZN10helicopter5tasks16PIDOuterLoopTask11runTaskImplEv
+                0x00009000        0xc tasks/PIDOuterLoopTask.o
+                0x00009000                _ZN10helicopter5tasks16PIDOuterLoopTask11runTaskImplEv
  .text._ZN10helicopter5tasks16PIDOuterLoopTaskC2EPNS_10controller13PIDControllerEii
-                0x00008f40       0x2a tasks/PIDOuterLoopTask.o
-                0x00008f40                _ZN10helicopter5tasks16PIDOuterLoopTaskC1EPNS_10controller13PIDControllerEii
-                0x00008f40                _ZN10helicopter5tasks16PIDOuterLoopTaskC2EPNS_10controller13PIDControllerEii
+                0x0000900c       0x2a tasks/PIDOuterLoopTask.o
+                0x0000900c                _ZN10helicopter5tasks16PIDOuterLoopTaskC1EPNS_10controller13PIDControllerEii
+                0x0000900c                _ZN10helicopter5tasks16PIDOuterLoopTaskC2EPNS_10controller13PIDControllerEii
  .text._ZN10helicopter5tasks23ReadBarometerSensorTaskD2Ev
-                0x00008f6a        0xc tasks/ReadBarometerSensorTask.o
-                0x00008f6a                _ZN10helicopter5tasks23ReadBarometerSensorTaskD1Ev
-                0x00008f6a                _ZN10helicopter5tasks23ReadBarometerSensorTaskD2Ev
+                0x00009036        0xc tasks/ReadBarometerSensorTask.o
+                0x00009036                _ZN10helicopter5tasks23ReadBarometerSensorTaskD1Ev
+                0x00009036                _ZN10helicopter5tasks23ReadBarometerSensorTaskD2Ev
  .text._ZN10helicopter5tasks23ReadBarometerSensorTaskD0Ev
-                0x00008f76       0x10 tasks/ReadBarometerSensorTask.o
-                0x00008f76                _ZN10helicopter5tasks23ReadBarometerSensorTaskD0Ev
+                0x00009042       0x10 tasks/ReadBarometerSensorTask.o
+                0x00009042                _ZN10helicopter5tasks23ReadBarometerSensorTaskD0Ev
  .text._ZN10helicopter5tasks23ReadBarometerSensorTask11runTaskImplEv
-                0x00008f86       0x9e tasks/ReadBarometerSensorTask.o
-                0x00008f86                _ZN10helicopter5tasks23ReadBarometerSensorTask11runTaskImplEv
+                0x00009052       0x9e tasks/ReadBarometerSensorTask.o
+                0x00009052                _ZN10helicopter5tasks23ReadBarometerSensorTask11runTaskImplEv
  .text._ZN10helicopter5tasks23ReadBarometerSensorTaskC2EPNS_5model11SystemModelEPNS_7sensors15BarometerSensorEii
-                0x00009024       0x44 tasks/ReadBarometerSensorTask.o
-                0x00009024                _ZN10helicopter5tasks23ReadBarometerSensorTaskC2EPNS_5model11SystemModelEPNS_7sensors15BarometerSensorEii
-                0x00009024                _ZN10helicopter5tasks23ReadBarometerSensorTaskC1EPNS_5model11SystemModelEPNS_7sensors15BarometerSensorEii
+                0x000090f0       0x44 tasks/ReadBarometerSensorTask.o
+                0x000090f0                _ZN10helicopter5tasks23ReadBarometerSensorTaskC2EPNS_5model11SystemModelEPNS_7sensors15BarometerSensorEii
+                0x000090f0                _ZN10helicopter5tasks23ReadBarometerSensorTaskC1EPNS_5model11SystemModelEPNS_7sensors15BarometerSensorEii
  .text._ZN10helicopter5tasks17ReadGPSSensorTaskD2Ev
-                0x00009068        0xc tasks/ReadGPSSensorTask.o
-                0x00009068                _ZN10helicopter5tasks17ReadGPSSensorTaskD2Ev
-                0x00009068                _ZN10helicopter5tasks17ReadGPSSensorTaskD1Ev
+                0x00009134        0xc tasks/ReadGPSSensorTask.o
+                0x00009134                _ZN10helicopter5tasks17ReadGPSSensorTaskD2Ev
+                0x00009134                _ZN10helicopter5tasks17ReadGPSSensorTaskD1Ev
  .text._ZN10helicopter5tasks17ReadGPSSensorTaskD0Ev
-                0x00009074       0x10 tasks/ReadGPSSensorTask.o
-                0x00009074                _ZN10helicopter5tasks17ReadGPSSensorTaskD0Ev
+                0x00009140       0x10 tasks/ReadGPSSensorTask.o
+                0x00009140                _ZN10helicopter5tasks17ReadGPSSensorTaskD0Ev
  .text._ZN10helicopter5tasks17ReadGPSSensorTask11runTaskImplEv
-                0x00009084       0xc6 tasks/ReadGPSSensorTask.o
-                0x00009084                _ZN10helicopter5tasks17ReadGPSSensorTask11runTaskImplEv
+                0x00009150       0xc6 tasks/ReadGPSSensorTask.o
+                0x00009150                _ZN10helicopter5tasks17ReadGPSSensorTask11runTaskImplEv
  .text._ZN10helicopter5tasks17ReadGPSSensorTaskC2EPNS_5model11SystemModelEPNS_7sensors9GPSSensorEii
-                0x0000914a       0x44 tasks/ReadGPSSensorTask.o
-                0x0000914a                _ZN10helicopter5tasks17ReadGPSSensorTaskC2EPNS_5model11SystemModelEPNS_7sensors9GPSSensorEii
-                0x0000914a                _ZN10helicopter5tasks17ReadGPSSensorTaskC1EPNS_5model11SystemModelEPNS_7sensors9GPSSensorEii
+                0x00009216       0x44 tasks/ReadGPSSensorTask.o
+                0x00009216                _ZN10helicopter5tasks17ReadGPSSensorTaskC2EPNS_5model11SystemModelEPNS_7sensors9GPSSensorEii
+                0x00009216                _ZN10helicopter5tasks17ReadGPSSensorTaskC1EPNS_5model11SystemModelEPNS_7sensors9GPSSensorEii
  .text._ZN10helicopter5tasks17ReadIMUSensorTaskD2Ev
-                0x0000918e        0xc tasks/ReadIMUSensorTask.o
-                0x0000918e                _ZN10helicopter5tasks17ReadIMUSensorTaskD2Ev
-                0x0000918e                _ZN10helicopter5tasks17ReadIMUSensorTaskD1Ev
+                0x0000925a        0xc tasks/ReadIMUSensorTask.o
+                0x0000925a                _ZN10helicopter5tasks17ReadIMUSensorTaskD2Ev
+                0x0000925a                _ZN10helicopter5tasks17ReadIMUSensorTaskD1Ev
  .text._ZN10helicopter5tasks17ReadIMUSensorTaskD0Ev
-                0x0000919a       0x10 tasks/ReadIMUSensorTask.o
-                0x0000919a                _ZN10helicopter5tasks17ReadIMUSensorTaskD0Ev
+                0x00009266       0x10 tasks/ReadIMUSensorTask.o
+                0x00009266                _ZN10helicopter5tasks17ReadIMUSensorTaskD0Ev
  .text._ZN10helicopter5tasks17ReadIMUSensorTask11runTaskImplEv
-                0x000091aa       0xd2 tasks/ReadIMUSensorTask.o
-                0x000091aa                _ZN10helicopter5tasks17ReadIMUSensorTask11runTaskImplEv
+                0x00009276       0xd2 tasks/ReadIMUSensorTask.o
+                0x00009276                _ZN10helicopter5tasks17ReadIMUSensorTask11runTaskImplEv
  .text._ZN10helicopter5tasks17ReadIMUSensorTaskC2EPNS_5model11SystemModelEPNS_7sensors9IMUSensorEii
-                0x0000927c       0x40 tasks/ReadIMUSensorTask.o
-                0x0000927c                _ZN10helicopter5tasks17ReadIMUSensorTaskC1EPNS_5model11SystemModelEPNS_7sensors9IMUSensorEii
-                0x0000927c                _ZN10helicopter5tasks17ReadIMUSensorTaskC2EPNS_5model11SystemModelEPNS_7sensors9IMUSensorEii
+                0x00009348       0x40 tasks/ReadIMUSensorTask.o
+                0x00009348                _ZN10helicopter5tasks17ReadIMUSensorTaskC1EPNS_5model11SystemModelEPNS_7sensors9IMUSensorEii
+                0x00009348                _ZN10helicopter5tasks17ReadIMUSensorTaskC2EPNS_5model11SystemModelEPNS_7sensors9IMUSensorEii
  .text._ZN10helicopter5tasks26ReadMagnetometerSensorTaskD2Ev
-                0x000092bc        0xc tasks/ReadMagnetometerSensorTask.o
-                0x000092bc                _ZN10helicopter5tasks26ReadMagnetometerSensorTaskD2Ev
-                0x000092bc                _ZN10helicopter5tasks26ReadMagnetometerSensorTaskD1Ev
+                0x00009388        0xc tasks/ReadMagnetometerSensorTask.o
+                0x00009388                _ZN10helicopter5tasks26ReadMagnetometerSensorTaskD2Ev
+                0x00009388                _ZN10helicopter5tasks26ReadMagnetometerSensorTaskD1Ev
  .text._ZN10helicopter5tasks26ReadMagnetometerSensorTaskD0Ev
-                0x000092c8       0x10 tasks/ReadMagnetometerSensorTask.o
-                0x000092c8                _ZN10helicopter5tasks26ReadMagnetometerSensorTaskD0Ev
+                0x00009394       0x10 tasks/ReadMagnetometerSensorTask.o
+                0x00009394                _ZN10helicopter5tasks26ReadMagnetometerSensorTaskD0Ev
  .text._ZN10helicopter5tasks26ReadMagnetometerSensorTask11runTaskImplEv
-                0x000092d8       0x7a tasks/ReadMagnetometerSensorTask.o
-                0x000092d8                _ZN10helicopter5tasks26ReadMagnetometerSensorTask11runTaskImplEv
+                0x000093a4       0x7a tasks/ReadMagnetometerSensorTask.o
+                0x000093a4                _ZN10helicopter5tasks26ReadMagnetometerSensorTask11runTaskImplEv
  .text._ZN10helicopter5tasks26ReadMagnetometerSensorTaskC2EPNS_5model11SystemModelEPNS_7sensors18MagnetometerSensorEii
-                0x00009352       0x40 tasks/ReadMagnetometerSensorTask.o
-                0x00009352                _ZN10helicopter5tasks26ReadMagnetometerSensorTaskC1EPNS_5model11SystemModelEPNS_7sensors18MagnetometerSensorEii
-                0x00009352                _ZN10helicopter5tasks26ReadMagnetometerSensorTaskC2EPNS_5model11SystemModelEPNS_7sensors18MagnetometerSensorEii
+                0x0000941e       0x40 tasks/ReadMagnetometerSensorTask.o
+                0x0000941e                _ZN10helicopter5tasks26ReadMagnetometerSensorTaskC1EPNS_5model11SystemModelEPNS_7sensors18MagnetometerSensorEii
+                0x0000941e                _ZN10helicopter5tasks26ReadMagnetometerSensorTaskC2EPNS_5model11SystemModelEPNS_7sensors18MagnetometerSensorEii
  .text._ZN10helicopter5tasks16ServoControlTaskD2Ev
-                0x00009392        0xc tasks/ServoControlTask.o
-                0x00009392                _ZN10helicopter5tasks16ServoControlTaskD1Ev
-                0x00009392                _ZN10helicopter5tasks16ServoControlTaskD2Ev
+                0x0000945e        0xc tasks/ServoControlTask.o
+                0x0000945e                _ZN10helicopter5tasks16ServoControlTaskD1Ev
+                0x0000945e                _ZN10helicopter5tasks16ServoControlTaskD2Ev
  .text._ZN10helicopter5tasks16ServoControlTaskD0Ev
-                0x0000939e       0x10 tasks/ServoControlTask.o
-                0x0000939e                _ZN10helicopter5tasks16ServoControlTaskD0Ev
+                0x0000946a       0x10 tasks/ServoControlTask.o
+                0x0000946a                _ZN10helicopter5tasks16ServoControlTaskD0Ev
  .text._ZN10helicopter5tasks16ServoControlTask11runTaskImplEv
-                0x000093ae       0x68 tasks/ServoControlTask.o
-                0x000093ae                _ZN10helicopter5tasks16ServoControlTask11runTaskImplEv
+                0x0000947a       0x86 tasks/ServoControlTask.o
+                0x0000947a                _ZN10helicopter5tasks16ServoControlTask11runTaskImplEv
  .text._ZN10helicopter5tasks16ServoControlTaskC2EPNS_5model11SystemModelEPNS_10interfaces24RadioControllerInterfaceEii
-                0x00009416       0x40 tasks/ServoControlTask.o
-                0x00009416                _ZN10helicopter5tasks16ServoControlTaskC2EPNS_5model11SystemModelEPNS_10interfaces24RadioControllerInterfaceEii
-                0x00009416                _ZN10helicopter5tasks16ServoControlTaskC1EPNS_5model11SystemModelEPNS_10interfaces24RadioControllerInterfaceEii
+                0x00009500       0x40 tasks/ServoControlTask.o
+                0x00009500                _ZN10helicopter5tasks16ServoControlTaskC2EPNS_5model11SystemModelEPNS_10interfaces24RadioControllerInterfaceEii
+                0x00009500                _ZN10helicopter5tasks16ServoControlTaskC1EPNS_5model11SystemModelEPNS_10interfaces24RadioControllerInterfaceEii
  .text._ZN10helicopter5tasks16SimTelemetryTaskD2Ev
-                0x00009456        0xc tasks/SimTelemetryTask.o
-                0x00009456                _ZN10helicopter5tasks16SimTelemetryTaskD1Ev
-                0x00009456                _ZN10helicopter5tasks16SimTelemetryTaskD2Ev
+                0x00009540        0xc tasks/SimTelemetryTask.o
+                0x00009540                _ZN10helicopter5tasks16SimTelemetryTaskD1Ev
+                0x00009540                _ZN10helicopter5tasks16SimTelemetryTaskD2Ev
  .text._ZN10helicopter5tasks16SimTelemetryTaskD0Ev
-                0x00009462       0x10 tasks/SimTelemetryTask.o
-                0x00009462                _ZN10helicopter5tasks16SimTelemetryTaskD0Ev
+                0x0000954c       0x10 tasks/SimTelemetryTask.o
+                0x0000954c                _ZN10helicopter5tasks16SimTelemetryTaskD0Ev
  .text._ZN10helicopter5tasks16SimTelemetryTask11runTaskImplEv
-                0x00009472      0x5e4 tasks/SimTelemetryTask.o
-                0x00009472                _ZN10helicopter5tasks16SimTelemetryTask11runTaskImplEv
+                0x0000955c      0x5e4 tasks/SimTelemetryTask.o
+                0x0000955c                _ZN10helicopter5tasks16SimTelemetryTask11runTaskImplEv
  .text._ZN10helicopter5tasks16SimTelemetryTaskC2EPNS_10interfaces29GroundControlStationInterfaceEPNS_5model11SystemModelEPNS_10controller13PIDControllerENS1_13DATATORECEIVEEii
-                0x00009a56       0x5c tasks/SimTelemetryTask.o
-                0x00009a56                _ZN10helicopter5tasks16SimTelemetryTaskC1EPNS_10interfaces29GroundControlStationInterfaceEPNS_5model11SystemModelEPNS_10controller13PIDControllerENS1_13DATATORECEIVEEii
-                0x00009a56                _ZN10helicopter5tasks16SimTelemetryTaskC2EPNS_10interfaces29GroundControlStationInterfaceEPNS_5model11SystemModelEPNS_10controller13PIDControllerENS1_13DATATORECEIVEEii
+                0x00009b40       0x5c tasks/SimTelemetryTask.o
+                0x00009b40                _ZN10helicopter5tasks16SimTelemetryTaskC1EPNS_10interfaces29GroundControlStationInterfaceEPNS_5model11SystemModelEPNS_10controller13PIDControllerENS1_13DATATORECEIVEEii
+                0x00009b40                _ZN10helicopter5tasks16SimTelemetryTaskC2EPNS_10interfaces29GroundControlStationInterfaceEPNS_5model11SystemModelEPNS_10controller13PIDControllerENS1_13DATATORECEIVEEii
  .text._ZN10helicopter5tasks4Task11runTaskImplEv
-                0x00009ab2        0x2 tasks/Task.o
-                0x00009ab2                _ZN10helicopter5tasks4Task11runTaskImplEv
+                0x00009b9c        0x2 tasks/Task.o
+                0x00009b9c                _ZN10helicopter5tasks4Task11runTaskImplEv
  .text._ZN10helicopter5tasks4TaskD2Ev
-                0x00009ab4        0xc tasks/Task.o
-                0x00009ab4                _ZN10helicopter5tasks4TaskD2Ev
-                0x00009ab4                _ZN10helicopter5tasks4TaskD1Ev
+                0x00009b9e        0xc tasks/Task.o
+                0x00009b9e                _ZN10helicopter5tasks4TaskD2Ev
+                0x00009b9e                _ZN10helicopter5tasks4TaskD1Ev
  .text._ZN10helicopter5tasks4Task7runTaskEv
-                0x00009ac0       0x10 tasks/Task.o
-                0x00009ac0                _ZN10helicopter5tasks4Task7runTaskEv
+                0x00009baa       0x10 tasks/Task.o
+                0x00009baa                _ZN10helicopter5tasks4Task7runTaskEv
  .text._ZN10helicopter5tasks4TaskD0Ev
-                0x00009ad0       0x10 tasks/Task.o
-                0x00009ad0                _ZN10helicopter5tasks4TaskD0Ev
+                0x00009bba       0x10 tasks/Task.o
+                0x00009bba                _ZN10helicopter5tasks4TaskD0Ev
  .text._ZN10helicopter5tasks4TaskC2Eii
-                0x00009ae0       0x16 tasks/Task.o
-                0x00009ae0                _ZN10helicopter5tasks4TaskC2Eii
-                0x00009ae0                _ZN10helicopter5tasks4TaskC1Eii
+                0x00009bca       0x16 tasks/Task.o
+                0x00009bca                _ZN10helicopter5tasks4TaskC2Eii
+                0x00009bca                _ZN10helicopter5tasks4TaskC1Eii
  .text._ZN10helicopter5tasks21TransmitTelemetryTaskD2Ev
-                0x00009af6        0xc tasks/TransmitTelemetryTask.o
-                0x00009af6                _ZN10helicopter5tasks21TransmitTelemetryTaskD1Ev
-                0x00009af6                _ZN10helicopter5tasks21TransmitTelemetryTaskD2Ev
+                0x00009be0        0xc tasks/TransmitTelemetryTask.o
+                0x00009be0                _ZN10helicopter5tasks21TransmitTelemetryTaskD1Ev
+                0x00009be0                _ZN10helicopter5tasks21TransmitTelemetryTaskD2Ev
  .text._ZN10helicopter5tasks21TransmitTelemetryTaskD0Ev
-                0x00009b02       0x10 tasks/TransmitTelemetryTask.o
-                0x00009b02                _ZN10helicopter5tasks21TransmitTelemetryTaskD0Ev
+                0x00009bec       0x10 tasks/TransmitTelemetryTask.o
+                0x00009bec                _ZN10helicopter5tasks21TransmitTelemetryTaskD0Ev
  .text._ZN10helicopter5tasks21TransmitTelemetryTask11runTaskImplEv
-                0x00009b12      0x772 tasks/TransmitTelemetryTask.o
-                0x00009b12                _ZN10helicopter5tasks21TransmitTelemetryTask11runTaskImplEv
+                0x00009bfc      0x772 tasks/TransmitTelemetryTask.o
+                0x00009bfc                _ZN10helicopter5tasks21TransmitTelemetryTask11runTaskImplEv
  .text._ZN10helicopter5tasks21TransmitTelemetryTaskC2EPNS_10interfaces29GroundControlStationInterfaceEPNS_5model11SystemModelENS1_10DATATOSENDEii
-                0x0000a284       0x50 tasks/TransmitTelemetryTask.o
-                0x0000a284                _ZN10helicopter5tasks21TransmitTelemetryTaskC2EPNS_10interfaces29GroundControlStationInterfaceEPNS_5model11SystemModelENS1_10DATATOSENDEii
-                0x0000a284                _ZN10helicopter5tasks21TransmitTelemetryTaskC1EPNS_10interfaces29GroundControlStationInterfaceEPNS_5model11SystemModelENS1_10DATATOSENDEii
- .text._Znwj    0x0000a2d4        0x6 util/CommonHeader.o
-                0x0000a2d4                _Znwj
- .text._ZdlPv   0x0000a2da        0xa util/CommonHeader.o
-                0x0000a2da                _ZdlPv
- .text._Znaj    0x0000a2e4        0x6 util/CommonHeader.o
-                0x0000a2e4                _Znaj
- .text._ZdaPv   0x0000a2ea        0xa util/CommonHeader.o
-                0x0000a2ea                _ZdaPv
+                0x0000a36e       0x50 tasks/TransmitTelemetryTask.o
+                0x0000a36e                _ZN10helicopter5tasks21TransmitTelemetryTaskC2EPNS_10interfaces29GroundControlStationInterfaceEPNS_5model11SystemModelENS1_10DATATOSENDEii
+                0x0000a36e                _ZN10helicopter5tasks21TransmitTelemetryTaskC1EPNS_10interfaces29GroundControlStationInterfaceEPNS_5model11SystemModelENS1_10DATATOSENDEii
+ .text._Znwj    0x0000a3be        0x6 util/CommonHeader.o
+                0x0000a3be                _Znwj
+ .text._ZdlPv   0x0000a3c4        0xa util/CommonHeader.o
+                0x0000a3c4                _ZdlPv
+ .text._Znaj    0x0000a3ce        0x6 util/CommonHeader.o
+                0x0000a3ce                _Znaj
+ .text._ZdaPv   0x0000a3d4        0xa util/CommonHeader.o
+                0x0000a3d4                _ZdaPv
  .text._ZN10helicopter4util14CoordinateUtil12DegreesToRadEf
-                0x0000a2f4        0xe util/CoordinateUtil.o
-                0x0000a2f4                _ZN10helicopter4util14CoordinateUtil12DegreesToRadEf
+                0x0000a3de        0xe util/CoordinateUtil.o
+                0x0000a3de                _ZN10helicopter4util14CoordinateUtil12DegreesToRadEf
  .text._ZN10helicopter4util14CoordinateUtil37CalculateECEFToLocalNEDRotationMatrixEffRA3_A3_f
-                0x0000a302      0x15a util/CoordinateUtil.o
-                0x0000a302                _ZN10helicopter4util14CoordinateUtil37CalculateECEFToLocalNEDRotationMatrixEffRA3_A3_f
+                0x0000a3ec      0x15a util/CoordinateUtil.o
+                0x0000a3ec                _ZN10helicopter4util14CoordinateUtil37CalculateECEFToLocalNEDRotationMatrixEffRA3_A3_f
  .text._ZN10helicopter4util14CoordinateUtil25ConvertFromECEFToLocalNEDEllllllPA3_fRfS4_S4_
-                0x0000a45c      0x122 util/CoordinateUtil.o
-                0x0000a45c                _ZN10helicopter4util14CoordinateUtil25ConvertFromECEFToLocalNEDEllllllPA3_fRfS4_S4_
+                0x0000a546      0x122 util/CoordinateUtil.o
+                0x0000a546                _ZN10helicopter4util14CoordinateUtil25ConvertFromECEFToLocalNEDEllllllPA3_fRfS4_S4_
  .text._ZN10helicopter4util10MatrixUtil12CrossProductEPfS2_RA3_f
-                0x0000a57e      0x108 util/MatrixUtil.o
-                0x0000a57e                _ZN10helicopter4util10MatrixUtil12CrossProductEPfS2_RA3_f
+                0x0000a668      0x108 util/MatrixUtil.o
+                0x0000a668                _ZN10helicopter4util10MatrixUtil12CrossProductEPfS2_RA3_f
  .text._ZN10helicopter4util10MatrixUtil9NormalizeERA3_f
-                0x0000a686      0x12c util/MatrixUtil.o
-                0x0000a686                _ZN10helicopter4util10MatrixUtil9NormalizeERA3_f
+                0x0000a770      0x12c util/MatrixUtil.o
+                0x0000a770                _ZN10helicopter4util10MatrixUtil9NormalizeERA3_f
  .text._ZN10helicopter4util10MatrixUtil20CreateRotationMatrixEfffRA3_A3_f
-                0x0000a7b2      0x296 util/MatrixUtil.o
-                0x0000a7b2                _ZN10helicopter4util10MatrixUtil20CreateRotationMatrixEfffRA3_A3_f
+                0x0000a89c      0x296 util/MatrixUtil.o
+                0x0000a89c                _ZN10helicopter4util10MatrixUtil20CreateRotationMatrixEfffRA3_A3_f
  .text._ZN10helicopter4util10MatrixUtil30CreateRotationMatrixTransposedEfffRA3_A3_f
-                0x0000aa48      0x28e util/MatrixUtil.o
-                0x0000aa48                _ZN10helicopter4util10MatrixUtil30CreateRotationMatrixTransposedEfffRA3_A3_f
+                0x0000ab32      0x28e util/MatrixUtil.o
+                0x0000ab32                _ZN10helicopter4util10MatrixUtil30CreateRotationMatrixTransposedEfffRA3_A3_f
  .text._ZN10helicopter4util10MatrixUtil12RotateMatrixEPA3_fPiRS2_
-                0x0000acd6       0xfe util/MatrixUtil.o
-                0x0000acd6                _ZN10helicopter4util10MatrixUtil12RotateMatrixEPA3_fPiRS2_
+                0x0000adc0       0xfe util/MatrixUtil.o
+                0x0000adc0                _ZN10helicopter4util10MatrixUtil12RotateMatrixEPA3_fPiRS2_
  .text._ZN10helicopter4util10MatrixUtil12RotateMatrixEPA3_fPfRS2_
-                0x0000add4       0xca util/MatrixUtil.o
-                0x0000add4                _ZN10helicopter4util10MatrixUtil12RotateMatrixEPA3_fPfRS2_
+                0x0000aebe       0xca util/MatrixUtil.o
+                0x0000aebe                _ZN10helicopter4util10MatrixUtil12RotateMatrixEPA3_fPfRS2_
  .text._ZN10helicopter4util10MatrixUtil10DotProductEPfS2_
-                0x0000ae9e       0x88 util/MatrixUtil.o
-                0x0000ae9e                _ZN10helicopter4util10MatrixUtil10DotProductEPfS2_
+                0x0000af88       0x88 util/MatrixUtil.o
+                0x0000af88                _ZN10helicopter4util10MatrixUtil10DotProductEPfS2_
  .text._ZN10helicopter4util5Timer11hasTimedoutEv
-                0x0000af26        0x8 util/Timer.o
-                0x0000af26                _ZN10helicopter4util5Timer11hasTimedoutEv
+                0x0000b010        0x8 util/Timer.o
+                0x0000b010                _ZN10helicopter4util5Timer11hasTimedoutEv
  .text._ZN10helicopter4util5Timer9stopTimerEv
-                0x0000af2e       0x10 util/Timer.o
-                0x0000af2e                _ZN10helicopter4util5Timer9stopTimerEv
+                0x0000b018       0x10 util/Timer.o
+                0x0000b018                _ZN10helicopter4util5Timer9stopTimerEv
  .text._ZN10helicopter4util5Timer10startTimerEv
-                0x0000af3e       0xf2 util/Timer.o
-                0x0000af3e                _ZN10helicopter4util5Timer10startTimerEv
+                0x0000b028       0xf2 util/Timer.o
+                0x0000b028                _ZN10helicopter4util5Timer10startTimerEv
  .text.avr-libc.fplib
-                0x0000b030        0xa c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(addsf3.o)
-                0x0000b030                __subsf3
-                0x0000b032                __addsf3
+                0x0000b11a        0xa c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(addsf3.o)
+                0x0000b11a                __subsf3
+                0x0000b11c                __addsf3
  .text.avr-libc.fplib
-                0x0000b03a       0xc0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(addsf3x.o)
-                0x0000b054                __addsf3x
+                0x0000b124       0xc0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(addsf3x.o)
+                0x0000b13e                __addsf3x
  .text.avr-libc.fplib
-                0x0000b0fa       0x2e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(asin.o)
-                0x0000b0fa                asin
+                0x0000b1e4       0x2e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(asin.o)
+                0x0000b1e4                asin
  .text.avr-libc.fplib
-                0x0000b128       0x74 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(atan2.o)
-                0x0000b146                atan2
+                0x0000b212       0x74 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(atan2.o)
+                0x0000b230                atan2
  .text.avr-libc.fplib
-                0x0000b19c       0x50 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(atan.o)
-                0x0000b19c                atan
+                0x0000b286       0x50 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(atan.o)
+                0x0000b286                atan
  .text.avr-libc.fplib
-                0x0000b1ec        0x8 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(cmpsf2.o)
-                0x0000b1ec                __nesf2
-                0x0000b1ec                __eqsf2
-                0x0000b1ec                __cmpsf2
-                0x0000b1ec                __ltsf2
-                0x0000b1ec                __lesf2
+                0x0000b2d6        0x8 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(cmpsf2.o)
+                0x0000b2d6                __nesf2
+                0x0000b2d6                __eqsf2
+                0x0000b2d6                __cmpsf2
+                0x0000b2d6                __ltsf2
+                0x0000b2d6                __lesf2
  .text.avr-libc.fplib
-                0x0000b1f4        0x6 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(cos.o)
-                0x0000b1f4                cos
+                0x0000b2de        0x6 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(cos.o)
+                0x0000b2de                cos
  .text.avr-libc.fplib
-                0x0000b1fa        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(divsf3.o)
-                0x0000b1fa                __divsf3
+                0x0000b2e4        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(divsf3.o)
+                0x0000b2e4                __divsf3
  .text.avr-libc.fplib
-                0x0000b1fe       0xcc c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(divsf3x.o)
-                0x0000b214                __divsf3x
-                0x0000b218                __divsf3_pse
+                0x0000b2e8       0xcc c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(divsf3x.o)
+                0x0000b2fe                __divsf3x
+                0x0000b302                __divsf3_pse
  .text.avr-libc.fplib
-                0x0000b2ca        0xa c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fixsfsi.o)
-                0x0000b2ca                __fixsfsi
+                0x0000b3b4        0xa c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fixsfsi.o)
+                0x0000b3b4                __fixsfsi
  .text.avr-libc.fplib
-                0x0000b2d4       0x58 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fixunssfsi.o)
-                0x0000b2d4                __fixunssfsi
+                0x0000b3be       0x58 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fixunssfsi.o)
+                0x0000b3be                __fixunssfsi
  .text.avr-libc.fplib
-                0x0000b32c       0x7a c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(floatsisf.o)
-                0x0000b32c                __floatunsisf
-                0x0000b330                __floatsisf
+                0x0000b416       0x7a c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(floatsisf.o)
+                0x0000b416                __floatunsisf
+                0x0000b41a                __floatsisf
  .text.avr-libc.fplib
-                0x0000b3a6       0x26 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(floor.o)
-                0x0000b3a6                floor
+                0x0000b490       0x26 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(floor.o)
+                0x0000b490                floor
  .text.avr-libc.fplib
-                0x0000b3cc       0x36 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_arccos.o)
-                0x0000b3cc                __fp_arccos
+                0x0000b4b6       0x36 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_arccos.o)
+                0x0000b4b6                __fp_arccos
  .text.avr-libc.fplib
-                0x0000b402       0x48 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_cmp.o)
-                0x0000b402                __fp_cmp
+                0x0000b4ec       0x48 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_cmp.o)
+                0x0000b4ec                __fp_cmp
  .text.avr-libc.fplib
-                0x0000b44a        0xc c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_inf.o)
-                0x0000b44a                __fp_inf
+                0x0000b534        0xc c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_inf.o)
+                0x0000b534                __fp_inf
  .text.avr-libc.fplib
-                0x0000b456       0x36 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_mintl.o)
-                0x0000b456                __fp_mintl
+                0x0000b540       0x36 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_mintl.o)
+                0x0000b540                __fp_mintl
  .text.avr-libc.fplib
-                0x0000b48c       0x1c c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_mpack.o)
-                0x0000b48c                __fp_mpack
-                0x0000b490                __fp_mpack_finite
+                0x0000b576       0x1c c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_mpack.o)
+                0x0000b576                __fp_mpack
+                0x0000b57a                __fp_mpack_finite
  .text.avr-libc.fplib
-                0x0000b4a8        0x6 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_nan.o)
-                0x0000b4a8                __fp_nan
+                0x0000b592        0x6 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_nan.o)
+                0x0000b592                __fp_nan
  .text.avr-libc.fplib
-                0x0000b4ae       0x4a c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_powser.o)
-                0x0000b4ae                __fp_powser
+                0x0000b598       0x4a c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_powser.o)
+                0x0000b598                __fp_powser
  .text.avr-libc.fplib
-                0x0000b4f8       0x22 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_powsodd.o)
-                0x0000b4f8                __fp_powsodd
+                0x0000b5e2       0x22 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_powsodd.o)
+                0x0000b5e2                __fp_powsodd
  .text.avr-libc.fplib
-                0x0000b51a        0xe c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_pscA.o)
-                0x0000b51a                __fp_pscA
+                0x0000b604        0xe c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_pscA.o)
+                0x0000b604                __fp_pscA
  .text.avr-libc.fplib
-                0x0000b528        0xe c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_pscB.o)
-                0x0000b528                __fp_pscB
+                0x0000b612        0xe c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_pscB.o)
+                0x0000b612                __fp_pscB
  .text.avr-libc.fplib
-                0x0000b536       0x50 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_rempio2.o)
-                0x0000b538                __fp_rempio2
+                0x0000b620       0x50 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_rempio2.o)
+                0x0000b622                __fp_rempio2
  .text.avr-libc.fplib
-                0x0000b586       0x22 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_round.o)
-                0x0000b586                __fp_round
+                0x0000b670       0x22 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_round.o)
+                0x0000b670                __fp_round
  .text.avr-libc.fplib
-                0x0000b5a8       0x22 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_sinus.o)
-                0x0000b5a8                __fp_sinus
+                0x0000b692       0x22 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_sinus.o)
+                0x0000b692                __fp_sinus
  .text.avr-libc.fplib
-                0x0000b5ca       0x44 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_split3.o)
-                0x0000b5ca                __fp_split3
-                0x0000b5da                __fp_splitA
+                0x0000b6b4       0x44 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_split3.o)
+                0x0000b6b4                __fp_split3
+                0x0000b6c4                __fp_splitA
  .text.avr-libc.fplib
-                0x0000b60e       0x2e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_trunc.o)
-                0x0000b60e                __fp_trunc
+                0x0000b6f8       0x2e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_trunc.o)
+                0x0000b6f8                __fp_trunc
  .text.avr-libc.fplib
-                0x0000b63c        0xe c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_zero.o)
-                0x0000b63c                __fp_zero
-                0x0000b63e                __fp_szero
+                0x0000b726        0xe c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_zero.o)
+                0x0000b726                __fp_zero
+                0x0000b728                __fp_szero
  .text.avr-libc.fplib
-                0x0000b64a        0x8 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(gesf2.o)
-                0x0000b64a                __gesf2
-                0x0000b64a                __gtsf2
+                0x0000b734        0x8 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(gesf2.o)
+                0x0000b734                __gesf2
+                0x0000b734                __gtsf2
  .text.avr-libc.fplib
-                0x0000b652        0xe c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(inverse.o)
-                0x0000b652                inverse
+                0x0000b73c        0xe c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(inverse.o)
+                0x0000b73c                inverse
  .text.avr-libc.fplib
-                0x0000b660        0xc c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(log10.o)
-                0x0000b660                log10
+                0x0000b74a        0xc c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(log10.o)
+                0x0000b74a                log10
  .text.avr-libc.fplib
-                0x0000b66c       0x8a c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(log.o)
-                0x0000b676                log
+                0x0000b756       0x8a c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(log.o)
+                0x0000b760                log
  .text.avr-libc.fplib
-                0x0000b6f6        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(mulsf3.o)
-                0x0000b6f6                __mulsf3
+                0x0000b7e0        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(mulsf3.o)
+                0x0000b7e0                __mulsf3
  .text.avr-libc.fplib
-                0x0000b6fa       0xc2 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(mulsf3x.o)
-                0x0000b70e                __mulsf3x
-                0x0000b712                __mulsf3_pse
+                0x0000b7e4       0xc2 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(mulsf3x.o)
+                0x0000b7f8                __mulsf3x
+                0x0000b7fc                __mulsf3_pse
  .text.avr-libc.fplib
-                0x0000b7bc       0x98 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(pow.o)
-                0x0000b7bc                pow
+                0x0000b8a6       0x98 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(pow.o)
+                0x0000b8a6                pow
  .text.avr-libc.fplib
-                0x0000b854        0xc c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(sin.o)
-                0x0000b854                sin
+                0x0000b93e        0xc c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(sin.o)
+                0x0000b93e                sin
  .text.avr-libc.fplib
-                0x0000b860       0x84 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(sqrt.o)
-                0x0000b868                sqrt
+                0x0000b94a       0x84 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(sqrt.o)
+                0x0000b952                sqrt
  .text.avr-libc.fplib
-                0x0000b8e4        0x6 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(square.o)
-                0x0000b8e4                square
+                0x0000b9ce        0x6 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(square.o)
+                0x0000b9ce                square
  .text.avr-libc.fplib
-                0x0000b8ea       0x62 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(exp.o)
-                0x0000b8f4                exp
+                0x0000b9d4       0x62 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(exp.o)
+                0x0000b9de                exp
  .text.avr-libc.fplib
-                0x0000b94c        0xe c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_norm2.o)
-                0x0000b94c                __fp_norm2
+                0x0000ba36        0xe c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(fp_norm2.o)
+                0x0000ba36                __fp_norm2
  .text.avr-libc.fplib
-                0x0000b95a       0x6c c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(ldexp.o)
-                0x0000b95e                ldexp
+                0x0000ba44       0x6c c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(ldexp.o)
+                0x0000ba48                ldexp
  .text.avr-libc.fplib
-                0x0000b9c6       0x66 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(modf.o)
-                0x0000b9c6                modf
-                0x0000b9c6                modff
+                0x0000bab0       0x66 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libm.a(modf.o)
+                0x0000bab0                modf
+                0x0000bab0                modff
  .text.libgcc.div
-                0x0000ba2c       0x28 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_divmodhi4.o)
-                0x0000ba2c                _div
-                0x0000ba2c                __divmodhi4
+                0x0000bb16       0x28 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_divmodhi4.o)
+                0x0000bb16                _div
+                0x0000bb16                __divmodhi4
  .text.libgcc.div
-                0x0000ba54       0x44 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_udivmodsi4.o)
-                0x0000ba54                __udivmodsi4
+                0x0000bb3e       0x44 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_udivmodsi4.o)
+                0x0000bb3e                __udivmodsi4
  .text.libgcc.mul
-                0x0000ba98       0xae c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_muldi3.o)
-                0x0000ba98                __muldi3
+                0x0000bb82       0xae c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_muldi3.o)
+                0x0000bb82                __muldi3
  .text.libgcc.builtins
-                0x0000bb46       0x1e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_ashldi3.o)
-                0x0000bb46                __ashldi3
+                0x0000bc30       0x1e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_ashldi3.o)
+                0x0000bc30                __ashldi3
  .text.libgcc.builtins
-                0x0000bb64       0x1e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_ashrdi3.o)
-                0x0000bb64                __ashrdi3
- .text.libgcc   0x0000bb82       0x12 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_adddi3.o)
-                0x0000bb82                __adddi3
- .text.libgcc   0x0000bb94       0x12 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_subdi3.o)
-                0x0000bb94                __subdi3
+                0x0000bc4e       0x1e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_ashrdi3.o)
+                0x0000bc4e                __ashrdi3
+ .text.libgcc   0x0000bc6c       0x12 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_adddi3.o)
+                0x0000bc6c                __adddi3
+ .text.libgcc   0x0000bc7e       0x12 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_subdi3.o)
+                0x0000bc7e                __subdi3
  .text.libgcc.div
-                0x0000bba6       0x28 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_udivmodhi4.o)
-                0x0000bba6                __udivmodhi4
+                0x0000bc90       0x28 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_udivmodhi4.o)
+                0x0000bc90                __udivmodhi4
  .text.libgcc.mul
-                0x0000bbce       0x18 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_umulhisi3.o)
-                0x0000bbce                __umulhisi3
+                0x0000bcb8       0x18 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_umulhisi3.o)
+                0x0000bcb8                __umulhisi3
  .text.avr-libc
-                0x0000bbe6      0x274 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
-                0x0000bbe6                malloc
-                0x0000bd1c                free
+                0x0000bcd0      0x274 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+                0x0000bcd0                malloc
+                0x0000be06                free
  .text.avr-libc
-                0x0000be5a       0x12 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(memcpy.o)
-                0x0000be5a                memcpy
-                0x0000be6c                . = ALIGN (0x2)
+                0x0000bf44       0x12 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(memcpy.o)
+                0x0000bf44                memcpy
+                0x0000bf56                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000be6c        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_exit.o)
-                0x0000be6c                _exit
-                0x0000be6c                exit
+ .fini9         0x0000bf56        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_exit.o)
+                0x0000bf56                _exit
+                0x0000bf56                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -1671,11 +1671,11 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000be6c        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_exit.o)
+ .fini0         0x0000bf56        0x4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/avr6\libgcc.a(_exit.o)
  *(.fini0)
-                0x0000be70                _etext = .
+                0x0000bf5a                _etext = .
 
-.data           0x00800200      0x16c load address 0x0000be70
+.data           0x00800200      0x16c load address 0x0000bf5a
                 0x00800200                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800200        0x0 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6/crtm2560.o
@@ -1886,8 +1886,8 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
                 0x008003af                __brkval
                 0x008003b1                __flp
                 0x008003b3                PROVIDE (__bss_end, .)
-                0x0000be70                __data_load_start = LOADADDR (.data)
-                0x0000bfdc                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0000bf5a                __data_load_start = LOADADDR (.data)
+                0x0000c0c6                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x008003b3        0x0
                 0x008003b3                PROVIDE (__noinit_start, .)
@@ -2159,49 +2159,49 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000    0x3699c
+.debug_info     0x00000000    0x37144
  *(.debug_info)
  .debug_info    0x00000000      0x606 buffer/Buffer.o
  .debug_info    0x00000606      0x5b2 buffer/Record.o
- .debug_info    0x00000bb8     0x3f7c controller/PIDController.o
- .debug_info    0x00004b34      0xe44 drivers/SerialDriver.o
- .debug_info    0x00005978      0x640 drivers/SPIDriver.o
- .debug_info    0x00005fb8      0x33c drivers/TWIDriver.o
- .debug_info    0x000062f4     0x6e78 HelicopterMain.o
- .debug_info    0x0000d16c      0x9d7 interfaces/GroundControlStationInterface.o
- .debug_info    0x0000db43     0x2336 interfaces/RadioControllerInterface.o
- .debug_info    0x0000fe79      0x919 messages/ControlMessage.o
- .debug_info    0x00010792      0x4cf messages/Message.o
- .debug_info    0x00010c61      0xf15 messages/SensorDataMessage.o
- .debug_info    0x00011b76     0x1527 messages/SimpleTelemetryMessage.o
- .debug_info    0x0001309d      0x583 messages/SyncMessage.o
- .debug_info    0x00013620     0x5389 messages/SystemTelemetryMessage.o
- .debug_info    0x000189a9       0x4d model/SystemModel.o
- .debug_info    0x000189f6      0xa62 navigation/AHRS.o
- .debug_info    0x00019458      0x99c scheduler/Scheduler.o
- .debug_info    0x00019df4      0xbc2 sensors/BarometerSensor.o
- .debug_info    0x0001a9b6     0x121f sensors/GPSSensor.o
- .debug_info    0x0001bbd5      0x9c4 sensors/IMUSensor.o
- .debug_info    0x0001c599      0x7f8 sensors/MagnetometerSensor.o
- .debug_info    0x0001cd91     0x290f tasks/NavigationTask.o
- .debug_info    0x0001f6a0     0x24b0 tasks/PIDInnerLoopTask.o
- .debug_info    0x00021b50     0x24a7 tasks/PIDOuterLoopTask.o
- .debug_info    0x00023ff7     0x2159 tasks/ReadBarometerSensorTask.o
- .debug_info    0x00026150     0x24d9 tasks/ReadGPSSensorTask.o
- .debug_info    0x00028629     0x2495 tasks/ReadIMUSensorTask.o
- .debug_info    0x0002aabe     0x20f4 tasks/ReadMagnetometerSensorTask.o
- .debug_info    0x0002cbb2     0x1f94 tasks/ServoControlTask.o
- .debug_info    0x0002eb46     0x3790 tasks/SimTelemetryTask.o
- .debug_info    0x000322d6      0x450 tasks/Task.o
- .debug_info    0x00032726     0x2975 tasks/TransmitTelemetryTask.o
- .debug_info    0x0003509b      0x214 util/CommonHeader.o
- .debug_info    0x000352af      0xa24 util/CoordinateUtil.o
- .debug_info    0x00035cd3      0x7b8 util/MatrixUtil.o
- .debug_info    0x0003648b      0x2d4 util/Timer.o
- .debug_info    0x0003675f      0x23d c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_info    0x00000bb8     0x3fd8 controller/PIDController.o
+ .debug_info    0x00004b90      0xe44 drivers/SerialDriver.o
+ .debug_info    0x000059d4      0x640 drivers/SPIDriver.o
+ .debug_info    0x00006014      0x33c drivers/TWIDriver.o
+ .debug_info    0x00006350     0x7071 HelicopterMain.o
+ .debug_info    0x0000d3c1      0x9d7 interfaces/GroundControlStationInterface.o
+ .debug_info    0x0000dd98     0x2465 interfaces/RadioControllerInterface.o
+ .debug_info    0x000101fd      0x919 messages/ControlMessage.o
+ .debug_info    0x00010b16      0x4cf messages/Message.o
+ .debug_info    0x00010fe5      0xf15 messages/SensorDataMessage.o
+ .debug_info    0x00011efa     0x1527 messages/SimpleTelemetryMessage.o
+ .debug_info    0x00013421      0x583 messages/SyncMessage.o
+ .debug_info    0x000139a4     0x53e4 messages/SystemTelemetryMessage.o
+ .debug_info    0x00018d88       0x4d model/SystemModel.o
+ .debug_info    0x00018dd5      0xa62 navigation/AHRS.o
+ .debug_info    0x00019837      0x99c scheduler/Scheduler.o
+ .debug_info    0x0001a1d3      0xbc2 sensors/BarometerSensor.o
+ .debug_info    0x0001ad95     0x121f sensors/GPSSensor.o
+ .debug_info    0x0001bfb4      0x9c4 sensors/IMUSensor.o
+ .debug_info    0x0001c978      0x7f8 sensors/MagnetometerSensor.o
+ .debug_info    0x0001d170     0x296a tasks/NavigationTask.o
+ .debug_info    0x0001fada     0x250b tasks/PIDInnerLoopTask.o
+ .debug_info    0x00021fe5     0x2502 tasks/PIDOuterLoopTask.o
+ .debug_info    0x000244e7     0x21b4 tasks/ReadBarometerSensorTask.o
+ .debug_info    0x0002669b     0x2534 tasks/ReadGPSSensorTask.o
+ .debug_info    0x00028bcf     0x24f0 tasks/ReadIMUSensorTask.o
+ .debug_info    0x0002b0bf     0x214f tasks/ReadMagnetometerSensorTask.o
+ .debug_info    0x0002d20e     0x202a tasks/ServoControlTask.o
+ .debug_info    0x0002f238     0x37eb tasks/SimTelemetryTask.o
+ .debug_info    0x00032a23      0x450 tasks/Task.o
+ .debug_info    0x00032e73     0x29d0 tasks/TransmitTelemetryTask.o
+ .debug_info    0x00035843      0x214 util/CommonHeader.o
+ .debug_info    0x00035a57      0xa24 util/CoordinateUtil.o
+ .debug_info    0x0003647b      0x7b8 util/MatrixUtil.o
+ .debug_info    0x00036c33      0x2d4 util/Timer.o
+ .debug_info    0x00036f07      0x23d c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev   0x00000000     0x709c
+.debug_abbrev   0x00000000     0x70a9
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x27c buffer/Buffer.o
  .debug_abbrev  0x0000027c      0x284 buffer/Record.o
@@ -2209,81 +2209,81 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .debug_abbrev  0x00000880      0x386 drivers/SerialDriver.o
  .debug_abbrev  0x00000c06      0x1cb drivers/SPIDriver.o
  .debug_abbrev  0x00000dd1      0x172 drivers/TWIDriver.o
- .debug_abbrev  0x00000f43      0x695 HelicopterMain.o
- .debug_abbrev  0x000015d8      0x322 interfaces/GroundControlStationInterface.o
- .debug_abbrev  0x000018fa      0x3a7 interfaces/RadioControllerInterface.o
- .debug_abbrev  0x00001ca1      0x2ee messages/ControlMessage.o
- .debug_abbrev  0x00001f8f      0x23c messages/Message.o
- .debug_abbrev  0x000021cb      0x2ee messages/SensorDataMessage.o
- .debug_abbrev  0x000024b9      0x2f0 messages/SimpleTelemetryMessage.o
- .debug_abbrev  0x000027a9      0x2eb messages/SyncMessage.o
- .debug_abbrev  0x00002a94      0x43a messages/SystemTelemetryMessage.o
- .debug_abbrev  0x00002ece       0x3e model/SystemModel.o
- .debug_abbrev  0x00002f0c      0x287 navigation/AHRS.o
- .debug_abbrev  0x00003193      0x373 scheduler/Scheduler.o
- .debug_abbrev  0x00003506      0x28a sensors/BarometerSensor.o
- .debug_abbrev  0x00003790      0x3b4 sensors/GPSSensor.o
- .debug_abbrev  0x00003b44      0x295 sensors/IMUSensor.o
- .debug_abbrev  0x00003dd9      0x265 sensors/MagnetometerSensor.o
- .debug_abbrev  0x0000403e      0x45c tasks/NavigationTask.o
- .debug_abbrev  0x0000449a      0x34e tasks/PIDInnerLoopTask.o
- .debug_abbrev  0x000047e8      0x33a tasks/PIDOuterLoopTask.o
- .debug_abbrev  0x00004b22      0x3bc tasks/ReadBarometerSensorTask.o
- .debug_abbrev  0x00004ede      0x3ed tasks/ReadGPSSensorTask.o
- .debug_abbrev  0x000052cb      0x3b6 tasks/ReadIMUSensorTask.o
- .debug_abbrev  0x00005681      0x3bf tasks/ReadMagnetometerSensorTask.o
- .debug_abbrev  0x00005a40      0x3b6 tasks/ServoControlTask.o
- .debug_abbrev  0x00005df6      0x4a0 tasks/SimTelemetryTask.o
- .debug_abbrev  0x00006296      0x23d tasks/Task.o
- .debug_abbrev  0x000064d3      0x45b tasks/TransmitTelemetryTask.o
- .debug_abbrev  0x0000692e       0xfb util/CommonHeader.o
- .debug_abbrev  0x00006a29      0x219 util/CoordinateUtil.o
- .debug_abbrev  0x00006c42      0x1bb util/MatrixUtil.o
- .debug_abbrev  0x00006dfd      0x1a6 util/Timer.o
- .debug_abbrev  0x00006fa3       0xf9 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_abbrev  0x00000f43      0x684 HelicopterMain.o
+ .debug_abbrev  0x000015c7      0x322 interfaces/GroundControlStationInterface.o
+ .debug_abbrev  0x000018e9      0x3c5 interfaces/RadioControllerInterface.o
+ .debug_abbrev  0x00001cae      0x2ee messages/ControlMessage.o
+ .debug_abbrev  0x00001f9c      0x23c messages/Message.o
+ .debug_abbrev  0x000021d8      0x2ee messages/SensorDataMessage.o
+ .debug_abbrev  0x000024c6      0x2f0 messages/SimpleTelemetryMessage.o
+ .debug_abbrev  0x000027b6      0x2eb messages/SyncMessage.o
+ .debug_abbrev  0x00002aa1      0x43a messages/SystemTelemetryMessage.o
+ .debug_abbrev  0x00002edb       0x3e model/SystemModel.o
+ .debug_abbrev  0x00002f19      0x287 navigation/AHRS.o
+ .debug_abbrev  0x000031a0      0x373 scheduler/Scheduler.o
+ .debug_abbrev  0x00003513      0x28a sensors/BarometerSensor.o
+ .debug_abbrev  0x0000379d      0x3b4 sensors/GPSSensor.o
+ .debug_abbrev  0x00003b51      0x295 sensors/IMUSensor.o
+ .debug_abbrev  0x00003de6      0x265 sensors/MagnetometerSensor.o
+ .debug_abbrev  0x0000404b      0x45c tasks/NavigationTask.o
+ .debug_abbrev  0x000044a7      0x34e tasks/PIDInnerLoopTask.o
+ .debug_abbrev  0x000047f5      0x33a tasks/PIDOuterLoopTask.o
+ .debug_abbrev  0x00004b2f      0x3bc tasks/ReadBarometerSensorTask.o
+ .debug_abbrev  0x00004eeb      0x3ed tasks/ReadGPSSensorTask.o
+ .debug_abbrev  0x000052d8      0x3b6 tasks/ReadIMUSensorTask.o
+ .debug_abbrev  0x0000568e      0x3bf tasks/ReadMagnetometerSensorTask.o
+ .debug_abbrev  0x00005a4d      0x3b6 tasks/ServoControlTask.o
+ .debug_abbrev  0x00005e03      0x4a0 tasks/SimTelemetryTask.o
+ .debug_abbrev  0x000062a3      0x23d tasks/Task.o
+ .debug_abbrev  0x000064e0      0x45b tasks/TransmitTelemetryTask.o
+ .debug_abbrev  0x0000693b       0xfb util/CommonHeader.o
+ .debug_abbrev  0x00006a36      0x219 util/CoordinateUtil.o
+ .debug_abbrev  0x00006c4f      0x1bb util/MatrixUtil.o
+ .debug_abbrev  0x00006e0a      0x1a6 util/Timer.o
+ .debug_abbrev  0x00006fb0       0xf9 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
 
-.debug_line     0x00000000     0x53fc
+.debug_line     0x00000000     0x543c
  *(.debug_line)
  .debug_line    0x00000000       0xd9 buffer/Buffer.o
  .debug_line    0x000000d9      0x146 buffer/Record.o
- .debug_line    0x0000021f      0x422 controller/PIDController.o
- .debug_line    0x00000641      0x323 drivers/SerialDriver.o
- .debug_line    0x00000964      0x12f drivers/SPIDriver.o
- .debug_line    0x00000a93       0xec drivers/TWIDriver.o
- .debug_line    0x00000b7f      0x874 HelicopterMain.o
- .debug_line    0x000013f3      0x226 interfaces/GroundControlStationInterface.o
- .debug_line    0x00001619      0x1c4 interfaces/RadioControllerInterface.o
- .debug_line    0x000017dd      0x1a9 messages/ControlMessage.o
- .debug_line    0x00001986       0xb4 messages/Message.o
- .debug_line    0x00001a3a      0x1c0 messages/SensorDataMessage.o
- .debug_line    0x00001bfa      0x1db messages/SimpleTelemetryMessage.o
- .debug_line    0x00001dd5      0x16f messages/SyncMessage.o
- .debug_line    0x00001f44      0x5e2 messages/SystemTelemetryMessage.o
- .debug_line    0x00002526       0x47 model/SystemModel.o
- .debug_line    0x0000256d      0x213 navigation/AHRS.o
- .debug_line    0x00002780      0x2a3 scheduler/Scheduler.o
- .debug_line    0x00002a23      0x2e0 sensors/BarometerSensor.o
- .debug_line    0x00002d03      0x462 sensors/GPSSensor.o
- .debug_line    0x00003165      0x214 sensors/IMUSensor.o
- .debug_line    0x00003379      0x1ab sensors/MagnetometerSensor.o
- .debug_line    0x00003524      0x337 tasks/NavigationTask.o
- .debug_line    0x0000385b       0xfd tasks/PIDInnerLoopTask.o
- .debug_line    0x00003958       0xfb tasks/PIDOuterLoopTask.o
- .debug_line    0x00003a53      0x1ff tasks/ReadBarometerSensorTask.o
- .debug_line    0x00003c52      0x23d tasks/ReadGPSSensorTask.o
- .debug_line    0x00003e8f      0x1a5 tasks/ReadIMUSensorTask.o
- .debug_line    0x00004034      0x216 tasks/ReadMagnetometerSensorTask.o
- .debug_line    0x0000424a      0x121 tasks/ServoControlTask.o
- .debug_line    0x0000436b      0x404 tasks/SimTelemetryTask.o
- .debug_line    0x0000476f       0x9e tasks/Task.o
- .debug_line    0x0000480d      0x418 tasks/TransmitTelemetryTask.o
- .debug_line    0x00004c25      0x1ac util/CommonHeader.o
- .debug_line    0x00004dd1      0x1a5 util/CoordinateUtil.o
- .debug_line    0x00004f76      0x1e2 util/MatrixUtil.o
- .debug_line    0x00005158       0x96 util/Timer.o
- .debug_line    0x000051ee      0x20e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_line    0x0000021f      0x424 controller/PIDController.o
+ .debug_line    0x00000643      0x323 drivers/SerialDriver.o
+ .debug_line    0x00000966      0x12f drivers/SPIDriver.o
+ .debug_line    0x00000a95       0xec drivers/TWIDriver.o
+ .debug_line    0x00000b81      0x894 HelicopterMain.o
+ .debug_line    0x00001415      0x226 interfaces/GroundControlStationInterface.o
+ .debug_line    0x0000163b      0x1d5 interfaces/RadioControllerInterface.o
+ .debug_line    0x00001810      0x1a9 messages/ControlMessage.o
+ .debug_line    0x000019b9       0xb4 messages/Message.o
+ .debug_line    0x00001a6d      0x1c0 messages/SensorDataMessage.o
+ .debug_line    0x00001c2d      0x1db messages/SimpleTelemetryMessage.o
+ .debug_line    0x00001e08      0x16f messages/SyncMessage.o
+ .debug_line    0x00001f77      0x5e3 messages/SystemTelemetryMessage.o
+ .debug_line    0x0000255a       0x47 model/SystemModel.o
+ .debug_line    0x000025a1      0x213 navigation/AHRS.o
+ .debug_line    0x000027b4      0x2a3 scheduler/Scheduler.o
+ .debug_line    0x00002a57      0x2e0 sensors/BarometerSensor.o
+ .debug_line    0x00002d37      0x462 sensors/GPSSensor.o
+ .debug_line    0x00003199      0x214 sensors/IMUSensor.o
+ .debug_line    0x000033ad      0x1ab sensors/MagnetometerSensor.o
+ .debug_line    0x00003558      0x337 tasks/NavigationTask.o
+ .debug_line    0x0000388f       0xfd tasks/PIDInnerLoopTask.o
+ .debug_line    0x0000398c       0xfb tasks/PIDOuterLoopTask.o
+ .debug_line    0x00003a87      0x1ff tasks/ReadBarometerSensorTask.o
+ .debug_line    0x00003c86      0x23d tasks/ReadGPSSensorTask.o
+ .debug_line    0x00003ec3      0x1a5 tasks/ReadIMUSensorTask.o
+ .debug_line    0x00004068      0x216 tasks/ReadMagnetometerSensorTask.o
+ .debug_line    0x0000427e      0x12d tasks/ServoControlTask.o
+ .debug_line    0x000043ab      0x404 tasks/SimTelemetryTask.o
+ .debug_line    0x000047af       0x9e tasks/Task.o
+ .debug_line    0x0000484d      0x418 tasks/TransmitTelemetryTask.o
+ .debug_line    0x00004c65      0x1ac util/CommonHeader.o
+ .debug_line    0x00004e11      0x1a5 util/CoordinateUtil.o
+ .debug_line    0x00004fb6      0x1e2 util/MatrixUtil.o
+ .debug_line    0x00005198       0x96 util/Timer.o
+ .debug_line    0x0000522e      0x20e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
 
-.debug_frame    0x00000000     0x2938
+.debug_frame    0x00000000     0x295c
  *(.debug_frame)
  .debug_frame   0x00000000       0x6c buffer/Buffer.o
  .debug_frame   0x0000006c       0xc4 buffer/Record.o
@@ -2293,116 +2293,116 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .debug_frame   0x00000ac0       0x64 drivers/TWIDriver.o
  .debug_frame   0x00000b24       0x98 HelicopterMain.o
  .debug_frame   0x00000bbc      0x118 interfaces/GroundControlStationInterface.o
- .debug_frame   0x00000cd4      0x1b0 interfaces/RadioControllerInterface.o
- .debug_frame   0x00000e84       0x90 messages/ControlMessage.o
- .debug_frame   0x00000f14       0x64 messages/Message.o
- .debug_frame   0x00000f78       0x90 messages/SensorDataMessage.o
- .debug_frame   0x00001008       0x90 messages/SimpleTelemetryMessage.o
- .debug_frame   0x00001098       0x84 messages/SyncMessage.o
- .debug_frame   0x0000111c      0x12c messages/SystemTelemetryMessage.o
- .debug_frame   0x00001248      0x18c navigation/AHRS.o
- .debug_frame   0x000013d4      0x194 scheduler/Scheduler.o
- .debug_frame   0x00001568      0x198 sensors/BarometerSensor.o
- .debug_frame   0x00001700      0x328 sensors/GPSSensor.o
- .debug_frame   0x00001a28       0x64 sensors/IMUSensor.o
- .debug_frame   0x00001a8c       0x90 sensors/MagnetometerSensor.o
- .debug_frame   0x00001b1c      0x10c tasks/NavigationTask.o
- .debug_frame   0x00001c28       0x84 tasks/PIDInnerLoopTask.o
- .debug_frame   0x00001cac       0x78 tasks/PIDOuterLoopTask.o
- .debug_frame   0x00001d24       0xa0 tasks/ReadBarometerSensorTask.o
- .debug_frame   0x00001dc4       0x98 tasks/ReadGPSSensorTask.o
- .debug_frame   0x00001e5c       0x98 tasks/ReadIMUSensorTask.o
- .debug_frame   0x00001ef4       0x98 tasks/ReadMagnetometerSensorTask.o
- .debug_frame   0x00001f8c       0xc0 tasks/ServoControlTask.o
- .debug_frame   0x0000204c       0xd8 tasks/SimTelemetryTask.o
- .debug_frame   0x00002124       0x74 tasks/Task.o
- .debug_frame   0x00002198       0xfc tasks/TransmitTelemetryTask.o
- .debug_frame   0x00002294       0x54 util/CommonHeader.o
- .debug_frame   0x000022e8      0x25c util/CoordinateUtil.o
- .debug_frame   0x00002544      0x320 util/MatrixUtil.o
- .debug_frame   0x00002864       0x6c util/Timer.o
- .debug_frame   0x000028d0       0x68 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_frame   0x00000cd4      0x1c4 interfaces/RadioControllerInterface.o
+ .debug_frame   0x00000e98       0x90 messages/ControlMessage.o
+ .debug_frame   0x00000f28       0x64 messages/Message.o
+ .debug_frame   0x00000f8c       0x90 messages/SensorDataMessage.o
+ .debug_frame   0x0000101c       0x90 messages/SimpleTelemetryMessage.o
+ .debug_frame   0x000010ac       0x84 messages/SyncMessage.o
+ .debug_frame   0x00001130      0x12c messages/SystemTelemetryMessage.o
+ .debug_frame   0x0000125c      0x18c navigation/AHRS.o
+ .debug_frame   0x000013e8      0x194 scheduler/Scheduler.o
+ .debug_frame   0x0000157c      0x198 sensors/BarometerSensor.o
+ .debug_frame   0x00001714      0x328 sensors/GPSSensor.o
+ .debug_frame   0x00001a3c       0x64 sensors/IMUSensor.o
+ .debug_frame   0x00001aa0       0x90 sensors/MagnetometerSensor.o
+ .debug_frame   0x00001b30      0x10c tasks/NavigationTask.o
+ .debug_frame   0x00001c3c       0x84 tasks/PIDInnerLoopTask.o
+ .debug_frame   0x00001cc0       0x78 tasks/PIDOuterLoopTask.o
+ .debug_frame   0x00001d38       0xa0 tasks/ReadBarometerSensorTask.o
+ .debug_frame   0x00001dd8       0x98 tasks/ReadGPSSensorTask.o
+ .debug_frame   0x00001e70       0x98 tasks/ReadIMUSensorTask.o
+ .debug_frame   0x00001f08       0x98 tasks/ReadMagnetometerSensorTask.o
+ .debug_frame   0x00001fa0       0xd0 tasks/ServoControlTask.o
+ .debug_frame   0x00002070       0xd8 tasks/SimTelemetryTask.o
+ .debug_frame   0x00002148       0x74 tasks/Task.o
+ .debug_frame   0x000021bc       0xfc tasks/TransmitTelemetryTask.o
+ .debug_frame   0x000022b8       0x54 util/CommonHeader.o
+ .debug_frame   0x0000230c      0x25c util/CoordinateUtil.o
+ .debug_frame   0x00002568      0x320 util/MatrixUtil.o
+ .debug_frame   0x00002888       0x6c util/Timer.o
+ .debug_frame   0x000028f4       0x68 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
 
-.debug_str      0x00000000     0xaa16
+.debug_str      0x00000000     0xaab2
  *(.debug_str)
  .debug_str     0x00000000      0x528 buffer/Buffer.o
                                 0x56a (size before relaxing)
  .debug_str     0x00000528       0xc8 buffer/Record.o
                                 0x4e0 (size before relaxing)
- .debug_str     0x000005f0     0x4470 controller/PIDController.o
-                               0x45f2 (size before relaxing)
- .debug_str     0x00004a60      0x5ff drivers/SerialDriver.o
+ .debug_str     0x000005f0     0x450b controller/PIDController.o
+                               0x469d (size before relaxing)
+ .debug_str     0x00004afb      0x5ff drivers/SerialDriver.o
                                 0x7bd (size before relaxing)
- .debug_str     0x0000505f      0x2b0 drivers/SPIDriver.o
+ .debug_str     0x000050fa      0x2b0 drivers/SPIDriver.o
                                 0x423 (size before relaxing)
- .debug_str     0x0000530f      0x19b drivers/TWIDriver.o
+ .debug_str     0x000053aa      0x19b drivers/TWIDriver.o
                                 0x33a (size before relaxing)
- .debug_str     0x000054aa     0x292b HelicopterMain.o
-                               0x7240 (size before relaxing)
- .debug_str     0x00007dd5      0x2a6 interfaces/GroundControlStationInterface.o
+ .debug_str     0x00005545     0x292c HelicopterMain.o
+                               0x72ec (size before relaxing)
+ .debug_str     0x00007e71      0x2a6 interfaces/GroundControlStationInterface.o
                                 0x6f8 (size before relaxing)
- .debug_str     0x0000807b      0x153 interfaces/RadioControllerInterface.o
-                               0x336c (size before relaxing)
- .debug_str     0x000081ce      0x226 messages/ControlMessage.o
+ .debug_str     0x00008117      0x153 interfaces/RadioControllerInterface.o
+                               0x3418 (size before relaxing)
+ .debug_str     0x0000826a      0x226 messages/ControlMessage.o
                                 0x492 (size before relaxing)
- .debug_str     0x000083f4      0x1b9 messages/Message.o
+ .debug_str     0x00008490      0x1b9 messages/Message.o
                                 0x4a0 (size before relaxing)
- .debug_str     0x000085ad       0xf6 messages/SensorDataMessage.o
+ .debug_str     0x00008649       0xf6 messages/SensorDataMessage.o
                                 0x5aa (size before relaxing)
- .debug_str     0x000086a3      0x12f messages/SimpleTelemetryMessage.o
+ .debug_str     0x0000873f      0x12f messages/SimpleTelemetryMessage.o
                                 0x6aa (size before relaxing)
- .debug_str     0x000087d2      0x140 messages/SyncMessage.o
+ .debug_str     0x0000886e      0x140 messages/SyncMessage.o
                                 0x379 (size before relaxing)
- .debug_str     0x00008912      0x2a4 messages/SystemTelemetryMessage.o
-                               0x325c (size before relaxing)
- .debug_str     0x00008bb6       0x19 model/SystemModel.o
+ .debug_str     0x000089ae      0x2a4 messages/SystemTelemetryMessage.o
+                               0x3307 (size before relaxing)
+ .debug_str     0x00008c52       0x19 model/SystemModel.o
                                  0xac (size before relaxing)
- .debug_str     0x00008bcf      0x299 navigation/AHRS.o
+ .debug_str     0x00008c6b      0x299 navigation/AHRS.o
                                 0x819 (size before relaxing)
- .debug_str     0x00008e68      0x225 scheduler/Scheduler.o
+ .debug_str     0x00008f04      0x225 scheduler/Scheduler.o
                                 0x783 (size before relaxing)
- .debug_str     0x0000908d       0x9f sensors/BarometerSensor.o
+ .debug_str     0x00009129       0x9f sensors/BarometerSensor.o
                                 0xa40 (size before relaxing)
- .debug_str     0x0000912c      0x2fc sensors/GPSSensor.o
+ .debug_str     0x000091c8      0x2fc sensors/GPSSensor.o
                                 0xea0 (size before relaxing)
- .debug_str     0x00009428      0x11a sensors/IMUSensor.o
+ .debug_str     0x000094c4      0x11a sensors/IMUSensor.o
                                 0xa90 (size before relaxing)
- .debug_str     0x00009542       0x68 sensors/MagnetometerSensor.o
+ .debug_str     0x000095de       0x68 sensors/MagnetometerSensor.o
                                 0x762 (size before relaxing)
- .debug_str     0x000095aa      0x282 tasks/NavigationTask.o
-                               0x3335 (size before relaxing)
- .debug_str     0x0000982c      0x10c tasks/PIDInnerLoopTask.o
-                               0x424b (size before relaxing)
- .debug_str     0x00009938      0x10c tasks/PIDOuterLoopTask.o
-                               0x424b (size before relaxing)
- .debug_str     0x00009a44      0x161 tasks/ReadBarometerSensorTask.o
-                               0x356b (size before relaxing)
- .debug_str     0x00009ba5      0x131 tasks/ReadGPSSensorTask.o
-                               0x35fa (size before relaxing)
- .debug_str     0x00009cd6      0x121 tasks/ReadIMUSensorTask.o
-                               0x34f5 (size before relaxing)
- .debug_str     0x00009df7      0x174 tasks/ReadMagnetometerSensorTask.o
-                               0x3262 (size before relaxing)
- .debug_str     0x00009f6b      0x12f tasks/ServoControlTask.o
-                               0x3349 (size before relaxing)
- .debug_str     0x0000a09a      0x18e tasks/SimTelemetryTask.o
-                               0x4756 (size before relaxing)
- .debug_str     0x0000a228       0xd2 tasks/Task.o
+ .debug_str     0x00009646      0x282 tasks/NavigationTask.o
+                               0x33e0 (size before relaxing)
+ .debug_str     0x000098c8      0x10c tasks/PIDInnerLoopTask.o
+                               0x42f6 (size before relaxing)
+ .debug_str     0x000099d4      0x10c tasks/PIDOuterLoopTask.o
+                               0x42f6 (size before relaxing)
+ .debug_str     0x00009ae0      0x161 tasks/ReadBarometerSensorTask.o
+                               0x3616 (size before relaxing)
+ .debug_str     0x00009c41      0x131 tasks/ReadGPSSensorTask.o
+                               0x36a5 (size before relaxing)
+ .debug_str     0x00009d72      0x121 tasks/ReadIMUSensorTask.o
+                               0x35a0 (size before relaxing)
+ .debug_str     0x00009e93      0x174 tasks/ReadMagnetometerSensorTask.o
+                               0x330d (size before relaxing)
+ .debug_str     0x0000a007      0x12f tasks/ServoControlTask.o
+                               0x33f5 (size before relaxing)
+ .debug_str     0x0000a136      0x18e tasks/SimTelemetryTask.o
+                               0x4801 (size before relaxing)
+ .debug_str     0x0000a2c4       0xd2 tasks/Task.o
                                 0x388 (size before relaxing)
- .debug_str     0x0000a2fa      0x16e tasks/TransmitTelemetryTask.o
-                               0x311c (size before relaxing)
- .debug_str     0x0000a468       0x2a util/CommonHeader.o
+ .debug_str     0x0000a396      0x16e tasks/TransmitTelemetryTask.o
+                               0x31c7 (size before relaxing)
+ .debug_str     0x0000a504       0x2a util/CommonHeader.o
                                 0x1dc (size before relaxing)
- .debug_str     0x0000a492      0x32a util/CoordinateUtil.o
+ .debug_str     0x0000a52e      0x32a util/CoordinateUtil.o
                                 0x54f (size before relaxing)
- .debug_str     0x0000a7bc      0x14a util/MatrixUtil.o
+ .debug_str     0x0000a858      0x14a util/MatrixUtil.o
                                 0x40c (size before relaxing)
- .debug_str     0x0000a906       0x1c util/Timer.o
+ .debug_str     0x0000a9a2       0x1c util/Timer.o
                                 0x324 (size before relaxing)
- .debug_str     0x0000a922       0xf4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_str     0x0000a9be       0xf4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
                                 0x17c (size before relaxing)
 
-.debug_loc      0x00000000    0x1a09e
+.debug_loc      0x00000000    0x1a36b
  *(.debug_loc)
  .debug_loc     0x00000000      0x1f4 buffer/Buffer.o
  .debug_loc     0x000001f4      0x307 buffer/Record.o
@@ -2410,37 +2410,37 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .debug_loc     0x000027ba      0xfc0 drivers/SerialDriver.o
  .debug_loc     0x0000377a      0x436 drivers/SPIDriver.o
  .debug_loc     0x00003bb0       0xdc drivers/TWIDriver.o
- .debug_loc     0x00003c8c     0x12e5 HelicopterMain.o
- .debug_loc     0x00004f71      0x90c interfaces/GroundControlStationInterface.o
- .debug_loc     0x0000587d      0xc29 interfaces/RadioControllerInterface.o
- .debug_loc     0x000064a6      0x56b messages/ControlMessage.o
- .debug_loc     0x00006a11       0x74 messages/Message.o
- .debug_loc     0x00006a85     0x116b messages/SensorDataMessage.o
- .debug_loc     0x00007bf0     0x23c8 messages/SimpleTelemetryMessage.o
- .debug_loc     0x00009fb8      0x172 messages/SyncMessage.o
- .debug_loc     0x0000a12a     0x629a messages/SystemTelemetryMessage.o
- .debug_loc     0x000103c4      0x5f4 navigation/AHRS.o
- .debug_loc     0x000109b8      0x6f3 scheduler/Scheduler.o
- .debug_loc     0x000110ab     0x2349 sensors/BarometerSensor.o
- .debug_loc     0x000133f4     0x1665 sensors/GPSSensor.o
- .debug_loc     0x00014a59      0x124 sensors/IMUSensor.o
- .debug_loc     0x00014b7d      0x235 sensors/MagnetometerSensor.o
- .debug_loc     0x00014db2      0x728 tasks/NavigationTask.o
- .debug_loc     0x000154da      0x19d tasks/PIDInnerLoopTask.o
- .debug_loc     0x00015677      0x16e tasks/PIDOuterLoopTask.o
- .debug_loc     0x000157e5      0x27e tasks/ReadBarometerSensorTask.o
- .debug_loc     0x00015a63      0x43c tasks/ReadGPSSensorTask.o
- .debug_loc     0x00015e9f      0x43c tasks/ReadIMUSensorTask.o
- .debug_loc     0x000162db      0x30a tasks/ReadMagnetometerSensorTask.o
- .debug_loc     0x000165e5      0x290 tasks/ServoControlTask.o
- .debug_loc     0x00016875      0xfce tasks/SimTelemetryTask.o
- .debug_loc     0x00017843       0x74 tasks/Task.o
- .debug_loc     0x000178b7      0x771 tasks/TransmitTelemetryTask.o
- .debug_loc     0x00018028       0x98 util/CommonHeader.o
- .debug_loc     0x000180c0      0xb90 util/CoordinateUtil.o
- .debug_loc     0x00018c50      0xe3d util/MatrixUtil.o
- .debug_loc     0x00019a8d      0x119 util/Timer.o
- .debug_loc     0x00019ba6      0x4f8 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_loc     0x00003c8c     0x14db HelicopterMain.o
+ .debug_loc     0x00005167      0x90c interfaces/GroundControlStationInterface.o
+ .debug_loc     0x00005a73      0xcbf interfaces/RadioControllerInterface.o
+ .debug_loc     0x00006732      0x56b messages/ControlMessage.o
+ .debug_loc     0x00006c9d       0x74 messages/Message.o
+ .debug_loc     0x00006d11     0x116b messages/SensorDataMessage.o
+ .debug_loc     0x00007e7c     0x23c8 messages/SimpleTelemetryMessage.o
+ .debug_loc     0x0000a244      0x172 messages/SyncMessage.o
+ .debug_loc     0x0000a3b6     0x629a messages/SystemTelemetryMessage.o
+ .debug_loc     0x00010650      0x5f4 navigation/AHRS.o
+ .debug_loc     0x00010c44      0x6f3 scheduler/Scheduler.o
+ .debug_loc     0x00011337     0x2349 sensors/BarometerSensor.o
+ .debug_loc     0x00013680     0x1665 sensors/GPSSensor.o
+ .debug_loc     0x00014ce5      0x124 sensors/IMUSensor.o
+ .debug_loc     0x00014e09      0x235 sensors/MagnetometerSensor.o
+ .debug_loc     0x0001503e      0x728 tasks/NavigationTask.o
+ .debug_loc     0x00015766      0x19d tasks/PIDInnerLoopTask.o
+ .debug_loc     0x00015903      0x16e tasks/PIDOuterLoopTask.o
+ .debug_loc     0x00015a71      0x27e tasks/ReadBarometerSensorTask.o
+ .debug_loc     0x00015cef      0x43c tasks/ReadGPSSensorTask.o
+ .debug_loc     0x0001612b      0x43c tasks/ReadIMUSensorTask.o
+ .debug_loc     0x00016567      0x30a tasks/ReadMagnetometerSensorTask.o
+ .debug_loc     0x00016871      0x2d1 tasks/ServoControlTask.o
+ .debug_loc     0x00016b42      0xfce tasks/SimTelemetryTask.o
+ .debug_loc     0x00017b10       0x74 tasks/Task.o
+ .debug_loc     0x00017b84      0x771 tasks/TransmitTelemetryTask.o
+ .debug_loc     0x000182f5       0x98 util/CommonHeader.o
+ .debug_loc     0x0001838d      0xb90 util/CoordinateUtil.o
+ .debug_loc     0x00018f1d      0xe3d util/MatrixUtil.o
+ .debug_loc     0x00019d5a      0x119 util/Timer.o
+ .debug_loc     0x00019e73      0x4f8 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -2448,7 +2448,7 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0xb78
+.debug_ranges   0x00000000      0xb58
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x28 buffer/Buffer.o
  .debug_ranges  0x00000028       0x30 buffer/Record.o
@@ -2456,37 +2456,37 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .debug_ranges  0x00000110       0xd0 drivers/SerialDriver.o
  .debug_ranges  0x000001e0       0x58 drivers/SPIDriver.o
  .debug_ranges  0x00000238       0x30 drivers/TWIDriver.o
- .debug_ranges  0x00000268      0x130 HelicopterMain.o
- .debug_ranges  0x00000398       0xb0 interfaces/GroundControlStationInterface.o
- .debug_ranges  0x00000448       0x40 interfaces/RadioControllerInterface.o
- .debug_ranges  0x00000488       0x30 messages/ControlMessage.o
- .debug_ranges  0x000004b8       0x30 messages/Message.o
- .debug_ranges  0x000004e8       0x30 messages/SensorDataMessage.o
- .debug_ranges  0x00000518       0x30 messages/SimpleTelemetryMessage.o
- .debug_ranges  0x00000548       0x30 messages/SyncMessage.o
- .debug_ranges  0x00000578       0x48 messages/SystemTelemetryMessage.o
- .debug_ranges  0x000005c0       0x68 navigation/AHRS.o
- .debug_ranges  0x00000628       0x60 scheduler/Scheduler.o
- .debug_ranges  0x00000688       0x40 sensors/BarometerSensor.o
- .debug_ranges  0x000006c8       0xc8 sensors/GPSSensor.o
- .debug_ranges  0x00000790       0x18 sensors/IMUSensor.o
- .debug_ranges  0x000007a8       0x20 sensors/MagnetometerSensor.o
- .debug_ranges  0x000007c8       0x48 tasks/NavigationTask.o
- .debug_ranges  0x00000810       0x30 tasks/PIDInnerLoopTask.o
- .debug_ranges  0x00000840       0x30 tasks/PIDOuterLoopTask.o
- .debug_ranges  0x00000870       0x48 tasks/ReadBarometerSensorTask.o
- .debug_ranges  0x000008b8       0x30 tasks/ReadGPSSensorTask.o
- .debug_ranges  0x000008e8       0x30 tasks/ReadIMUSensorTask.o
- .debug_ranges  0x00000918       0x30 tasks/ReadMagnetometerSensorTask.o
- .debug_ranges  0x00000948       0x30 tasks/ServoControlTask.o
- .debug_ranges  0x00000978       0xa8 tasks/SimTelemetryTask.o
- .debug_ranges  0x00000a20       0x38 tasks/Task.o
- .debug_ranges  0x00000a58       0x30 tasks/TransmitTelemetryTask.o
- .debug_ranges  0x00000a88       0x28 util/CommonHeader.o
- .debug_ranges  0x00000ab0       0x40 util/CoordinateUtil.o
- .debug_ranges  0x00000af0       0x50 util/MatrixUtil.o
- .debug_ranges  0x00000b40       0x20 util/Timer.o
- .debug_ranges  0x00000b60       0x18 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_ranges  0x00000268      0x110 HelicopterMain.o
+ .debug_ranges  0x00000378       0xb0 interfaces/GroundControlStationInterface.o
+ .debug_ranges  0x00000428       0x40 interfaces/RadioControllerInterface.o
+ .debug_ranges  0x00000468       0x30 messages/ControlMessage.o
+ .debug_ranges  0x00000498       0x30 messages/Message.o
+ .debug_ranges  0x000004c8       0x30 messages/SensorDataMessage.o
+ .debug_ranges  0x000004f8       0x30 messages/SimpleTelemetryMessage.o
+ .debug_ranges  0x00000528       0x30 messages/SyncMessage.o
+ .debug_ranges  0x00000558       0x48 messages/SystemTelemetryMessage.o
+ .debug_ranges  0x000005a0       0x68 navigation/AHRS.o
+ .debug_ranges  0x00000608       0x60 scheduler/Scheduler.o
+ .debug_ranges  0x00000668       0x40 sensors/BarometerSensor.o
+ .debug_ranges  0x000006a8       0xc8 sensors/GPSSensor.o
+ .debug_ranges  0x00000770       0x18 sensors/IMUSensor.o
+ .debug_ranges  0x00000788       0x20 sensors/MagnetometerSensor.o
+ .debug_ranges  0x000007a8       0x48 tasks/NavigationTask.o
+ .debug_ranges  0x000007f0       0x30 tasks/PIDInnerLoopTask.o
+ .debug_ranges  0x00000820       0x30 tasks/PIDOuterLoopTask.o
+ .debug_ranges  0x00000850       0x48 tasks/ReadBarometerSensorTask.o
+ .debug_ranges  0x00000898       0x30 tasks/ReadGPSSensorTask.o
+ .debug_ranges  0x000008c8       0x30 tasks/ReadIMUSensorTask.o
+ .debug_ranges  0x000008f8       0x30 tasks/ReadMagnetometerSensorTask.o
+ .debug_ranges  0x00000928       0x30 tasks/ServoControlTask.o
+ .debug_ranges  0x00000958       0xa8 tasks/SimTelemetryTask.o
+ .debug_ranges  0x00000a00       0x38 tasks/Task.o
+ .debug_ranges  0x00000a38       0x30 tasks/TransmitTelemetryTask.o
+ .debug_ranges  0x00000a68       0x28 util/CommonHeader.o
+ .debug_ranges  0x00000a90       0x40 util/CoordinateUtil.o
+ .debug_ranges  0x00000ad0       0x50 util/MatrixUtil.o
+ .debug_ranges  0x00000b20       0x20 util/Timer.o
+ .debug_ranges  0x00000b40       0x18 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
 
 .debug_macro
  *(.debug_macro)

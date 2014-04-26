@@ -26,8 +26,8 @@ namespace GroundControlStation
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //FlightModes flightMode = FlightModes.RealFlight;
-            FlightModes flightMode = FlightModes.SimulatedFlight;
+            FlightModes flightMode = FlightModes.RealFlight;
+            //FlightModes flightMode = FlightModes.SimulatedFlight;
 
             //SerialPort port = new SerialPort("COM7", 76800, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One); //MOST RECENT
@@ -37,7 +37,9 @@ namespace GroundControlStation
             SerialPort port = null;
             if (flightMode == FlightModes.RealFlight)
             {
-                port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
+                //port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
+                //port = new SerialPort("COM12", 115200, Parity.None, 8, StopBits.One);
+                port = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
             }
             else
             {
@@ -132,7 +134,8 @@ namespace GroundControlStation
             model.ZIntegralGain = .000874f;
             model.ZProportionalGain = 0.00445f;
             model.ZDerivativeGain = .430435f;
-            model.ZAntiWindupGain = .000874f;
+            //model.ZAntiWindupGain = .000874f;
+            model.ZAntiWindupGain = .300874f;
 
 
 

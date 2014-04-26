@@ -49,13 +49,14 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	 * These are the setpoints that the helicopter to navigate/orient to.
 	 * This includes the final location that the helicopter should travel to.
 	 */
-	//model->ReferenceMagYawRads(0.0); //point north
-	model->ReferenceMagYawRads(1.9722); //113* south east
+	model->ReferenceMagYawRads(0.0); //point north
+	//model->ReferenceMagYawRads(1.9722); //113* south east
 	model->ReferenceYawVelocityRadsPerSecond(0.0);
 	
 	//Negative values because positive values are 'down' in NED. So we want a negative altitude setpoint.
 	//model->ReferenceZNEDLocalFrameCm(-3048.0);
-	model->ReferenceZNEDLocalFrameCm(-304.8);
+	//model->ReferenceZNEDLocalFrameCm(-304.8);
+	model->ReferenceZNEDLocalFrameCm(-914.4); // 30 feet.
 	model->ReferenceZVelocityCms(0);
 	model->ReferenceXNEDLocalFrameCm(0);
 	//model->ReferenceXNEDLocalFrameCm(15000);
@@ -87,7 +88,7 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	pidController->setZProportionalGain(0.00445);
 	pidController->setZIntegralGain(.000874);
 	pidController->setZDerivativeGain(.430435);
-	pidController->setZAntiWindupGain(.000874);	
+	pidController->setZAntiWindupGain(.300874);	
 	
 	//TODO: Don't forget that there is a difference between how often the sensors
 	//are read and how often the control algorithm runs. 
@@ -148,7 +149,8 @@ int main(void)
 	SystemModel *model = new SystemModel();
 	
 	
-	model->FlightMode(SystemModel::SimulatedFlight);
+	model->FlightMode(SystemModel::HardwareInLoopSimulatedFlight);
+	//model->FlightMode(SystemModel::SimulatedFlight);
 	//model->FlightMode(SystemModel::RealFlight);
 	
 	if (model->FlightMode() == SystemModel::SimulatedFlight)
@@ -159,8 +161,8 @@ int main(void)
 		model->CommunicationMethod(SystemModel::USB);
 		//model->CommunicationMethod(SystemModel::Radio);
 		
-		//sendControlToServos = false;
-		sendControlToServos = true;
+		sendControlToServos = false;
+		//sendControlToServos = true;
 		
 	}else if (model->FlightMode() == SystemModel::RealFlight)
 	{
@@ -171,6 +173,11 @@ int main(void)
 		model->CommunicationMethod(SystemModel::Radio);
 //		model->CommunicationMethod(SystemModel::USB);
 		
+		sendControlToServos = true;
+	}else if (model->FlightMode() == SystemModel::HardwareInLoopSimulatedFlight)
+	{
+		model->SensorInput(SystemModel::SimulatedSensors);
+		model->CommunicationMethod(SystemModel::Radio);
 		sendControlToServos = true;
 	}
 	
@@ -201,7 +208,8 @@ int main(void)
 		//serialDriver = new SerialDriver(250000, SerialDriver::Zero, true, NULL);
 	}else if (model->CommunicationMethod() == SystemModel::Radio)
 	{
-		serialDriverBaudRate = 57600;
+		//serialDriverBaudRate = 57600;
+		serialDriverBaudRate = 115200;
 		//timer = new Timer(F_CPU,PRESCALE_BY_TENTWENTYFOUR,75); //Good timeout when using the radio
 		
 		timer = new Timer(F_CPU,PRESCALE_BY_TENTWENTYFOUR,200);//unfortunately for radio, the initial setup is a huge amount of data which takes a long time.
@@ -248,19 +256,32 @@ int main(void)
 	
 	
 	//SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::ALLDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
-	SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
+	//SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
 	//TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::ALLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
 	//TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
 
+	SimTelemetryTask *simTelemTask = NULL;
 	TransmitTelemetryTask *transTelemTask = NULL;
 
 	if (model->FlightMode() == SystemModel::RealFlight)
 	{
-		transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
-	}else
+		//transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
+		transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .5));
+		
+		//not actually used
+		//simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
+		simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .5));
+	}else if (model->FlightMode() == SystemModel::SimulatedFlight)
 	{
 		transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::ALLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
 		//transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::CONTROLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
+		simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::ALLDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
+		
+	}else if (model->FlightMode() == SystemModel::HardwareInLoopSimulatedFlight)
+	{
+		transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::CONTROLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
+		simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
+		
 	}
 
 	//SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
@@ -553,10 +574,12 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 	scheduler->start();
 	
-	rcInterface->init();
 	
-	rcInterface->start();
-	
+	if (sendControlToServos)
+	{
+		rcInterface->init();
+		rcInterface->start();
+	}
 	
 	while(1)
 	{

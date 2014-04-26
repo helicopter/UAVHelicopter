@@ -8,7 +8,7 @@ using namespace helicopter::interfaces;
 RadioControllerInterface* RadioControllerInterface::radioControllerInterface = NULL;
 
 //const float RadioControllerInterface::MANUAL_MODE_THRESHOLD = 0.0;
-const float RadioControllerInterface::MANUAL_MODE_THRESHOLD = 0.1;
+const float RadioControllerInterface::MANUAL_MODE_THRESHOLD = 0.7;
 
 
 float RadioControllerInterface::calculatePWMCompareMatchFromControlValue(float controlValue)
