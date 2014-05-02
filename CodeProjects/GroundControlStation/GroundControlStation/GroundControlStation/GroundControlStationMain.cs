@@ -38,8 +38,8 @@ namespace GroundControlStation
             if (flightMode == FlightModes.RealFlight)
             {
                 //port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
-                //port = new SerialPort("COM12", 115200, Parity.None, 8, StopBits.One);
-                port = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
+                port = new SerialPort("COM12", 115200, Parity.None, 8, StopBits.One);
+                //port = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
             }
             else
             {

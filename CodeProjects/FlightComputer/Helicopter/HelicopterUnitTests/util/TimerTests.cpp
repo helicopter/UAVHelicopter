@@ -24,8 +24,11 @@ int timeout_test(TestCase *test)
 	
 	t.startTimer();
 	
+	DDRA |= (1<<PA4);
+	
 	//turn yellow LED off.
 	PORTA |= (1<<PA4);
+	//PORTA &= ~(1<<PA4);
 	
 	while (true)
 	{

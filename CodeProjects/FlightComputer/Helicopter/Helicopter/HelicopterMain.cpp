@@ -178,6 +178,7 @@ int main(void)
 	{
 		model->SensorInput(SystemModel::SimulatedSensors);
 		model->CommunicationMethod(SystemModel::Radio);
+//model->CommunicationMethod(SystemModel::USB);
 		sendControlToServos = true;
 	}
 	
@@ -222,11 +223,14 @@ int main(void)
 	serialDriver->init();
 	
 	
-	Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 400);
+	//Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 400);//latest
 	//Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100);
 	
 	//SerialDriver *gpsSerialDriver = new SerialDriver(38400, SerialDriver::One, false, gpsTimer);
-	SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, gpsTimer);
+	//SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, gpsTimer);//LATEST
+	
+	//Don't care about gps timer anymore since it's only used on initialization. 
+	SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, NULL);
 	//SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, false, gpsTimer);
 	gpsSerialDriver->init();
 		
@@ -329,7 +333,6 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 	GPSSensor *gpsSensor = new GPSSensor(gpsSerialDriver);
 	gpsSensor->init();
-	
 	BarometerSensor *baroSensor = new BarometerSensor(baroSpiDriver);
 	baroSensor->init();
 	

@@ -36,6 +36,21 @@ namespace helicopter
 			
 			public: 
 			
+				static const float THROTTLE_VALUE;
+				
+				static const float GEAR_VALUE;
+				
+				static const float AUX3_VALUE;
+			
+				//represents the 'middle' of the scalers. I.e. in a numberline between -100 and 100, this value is actually the 0 point. 
+				//for some reason, on my rc controller, 60 is like the middle. 
+				static const int ZERO_SCALER = 60;
+				
+				static const int AILERON_SCALER = 43;
+				
+				static const int ELEVATOR_SCALER = 43;
+				
+				static const int PITCH_COLLECTIVE_SCALER = 35;
 			
 				/**
 				 * Servo channel for aileron (roll)
@@ -68,7 +83,7 @@ namespace helicopter
 				 * autopilot mode (using the PID controller), or manual mode
 				 * (using the normal radio controller to control the helicopter).
 				 */	
-				static const int FLIGHT_MODE_AUX_CHANNEL = 4;
+				static const int FLIGHT_MODE_AUX_CHANNEL = 6;
 			
 			
 			
@@ -90,14 +105,18 @@ namespace helicopter
 				* So in this case, the desired frequency for the timer to reset is 50 times a second E.g.
 				* (16,000,000 / 8) / 50 = 40,000
 				*/
-				static const long MAX_PPM_TIMER_VALUE = 40000;
+				//static const long MAX_PPM_TIMER_VALUE = 44444;
+				//static const long MAX_PPM_TIMER_VALUE = 40000;
+				static const long MAX_PPM_TIMER_VALUE = 36363; //I have no idea why, but it has to be 55hz for some reason. 
 				//static const long MAX_PPM_TIMER_VALUE = (F_CPU / PRESCALEVALUE) / PWMFREQUENCY;
 				
 				/**
 				 * This represents the highest value that the timer will reach before counting down again.
 				 */
+				//static const int TIMERTOP = 22222;				
 				//static const int TIMERTOP = 20000;				
 				static const int TIMERTOP = MAX_PPM_TIMER_VALUE / 2;				
+				//static const int TIMERTOP = 18181;				
 				
 				/**
 				 * 'Width' in processor ticks of the maximum pulse that we would want to send or receive 
@@ -106,9 +125,10 @@ namespace helicopter
 				 * e.g. (2ms / 20 ms (which is 1/50hz)) * 40000 = 4000
 				 * A few ticks are added and removed to allow for noise.
 				 */
-				static const long MAX_USEABLE_PULSE_WIDTH = 4010;
-				
-				static const long MIN_USEABLE_PULSE_WIDTH = 1990;
+				static const long MAX_PULSE_WIDTH = 4000;
+				static const long MIN_PULSE_WIDTH = 2000;
+				static const long MAX_USEABLE_PULSE_WIDTH = MAX_PULSE_WIDTH + 10;
+				static const long MIN_USEABLE_PULSE_WIDTH = MIN_PULSE_WIDTH - 10;
 				
 				
 				/**
@@ -146,32 +166,37 @@ namespace helicopter
 				 * existing servo value. This could cause a servo control value
 				 * to get sent to the wrong servo. 
 				 */
-				static const int MIN_RECEIVED_CHANNELS = 5;
-				
+				//static const int MIN_RECEIVED_CHANNELS = 5;
+				static const int MIN_RECEIVED_CHANNELS = MAX_CHANNELS - 1;
+					
+		
 			
 			private:
 			
-
+				/**
+				 * The value of the servo controls received from the radio transmitter
+				 * The pulse widths are converted to a value between -1 and 1 and
+				 * stored in this table.
+				 */
+				/*float workingServoChannelPulseWidths[MAX_CHANNELS];
+				float servoChannelPulseWidths[MAX_CHANNELS];	*/
+				long workingServoChannelPulseWidths[MAX_CHANNELS];
+				long servoChannelPulseWidths[MAX_CHANNELS];
 			
 				long previousInputCaptureRegisterValue;
 				
 				int servoChannelIndex;
 
 				SystemModel *systemModel;
-				
-				/**
-				 * The value of the servo controls received from the radio transmitter
-				 * The pulse widths are converted to a value between -1 and 1 and
-				 * stored in this table.
-				 */
-				float servoChannelValues[MAX_CHANNELS];
+
 
 				static RadioControllerInterface *radioControllerInterface;
 			
 				RadioControllerInterface():
 				systemModel (NULL)
 				{
-					memset(servoChannelValues, 0, sizeof(servoChannelValues));
+					memset(workingServoChannelPulseWidths, 0, sizeof(workingServoChannelPulseWidths));
+					memset(servoChannelPulseWidths, 0, sizeof(servoChannelPulseWidths));
 					
 					previousInputCaptureRegisterValue = 0;
 					
@@ -187,9 +212,13 @@ namespace helicopter
 				 * given a control signal value between -1.0 and 1.0
 				 */
 				float calculatePWMCompareMatchFromControlValue(float controlValue);
+				
+				
 
 			public: 
 
+				float convertPulseWidthToCompareMatch(long pulseWidth);
+				float ScaleValue(long servoChannelPulseWidth);
 					
 				/**
 				 * If the RadioControllerInterface hasn't been created yet, then construct the 
@@ -211,26 +240,31 @@ namespace helicopter
 					
 				void controlServos( float lateralControl, float longitudeControl, float mainRotorControl, float yawControl, float auxChannelValue );
 				
-						
+				void copyPulseWidthArrays()
+				{
+					memcpy(servoChannelPulseWidths, workingServoChannelPulseWidths, sizeof(servoChannelPulseWidths));
+				}
 					
-				void SetServoChannelValue(int index, float value) 
+				void SetServoChannelPulseWidth(int index, long value) 
 				{ 
 					if (index < MAX_CHANNELS)
 					{
-						servoChannelValues[index] = value;
+						workingServoChannelPulseWidths[index] = value;
 					}
 				}		
 				
-				float GetServoChannelValue(int index) const
+				long GetServoChannelPulseWidth(int index) const
 				{
 					if (index < MAX_CHANNELS)
 					{
-						return servoChannelValues[index];
+						return workingServoChannelPulseWidths[index];
 					}else
 					{
 						return 0;
 					}
-				}						
+				}	
+					
+				void CCPM(float inAileron, float inElevator, float inCollective, float &outAileron, float &outElevator, float &outPitch);					
 				
 				void init();
 

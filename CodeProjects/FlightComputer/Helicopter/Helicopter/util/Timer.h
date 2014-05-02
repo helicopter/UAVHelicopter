@@ -27,16 +27,23 @@ namespace helicopter
 		{
 			private:
 				static const int NoPrescaling = 1;
-				static const int PrescaleByEight = (1 << CS31);
-				static const int PrescaleBySixtyFour = (1 << CS30) | (1 << CS31);
-				static const int PrescaleByTwofiftysix = (1 << CS32);
-				static const int PrescaleByTentwentyfour = (1 << CS32) | (1 << CS30);
+				static const int PrescaleByEight = (1 << CS01);
+				static const int PrescaleBySixtyFour = (1 << CS00) | (1 << CS01);
+				static const int PrescaleByTwofiftysix = (1 << CS02);
+				static const int PrescaleByTentwentyfour = (1 << CS02) | (1 << CS00);
 				
 				unsigned long cpuSpeed;
 				PRESCALER timerPrescaler;
 				int timeoutMilliseconds;
+				
+				int numberOfTimeouts;
+				
 			
 			public:
+			
+				//This means that the timer can't be used by multiple threads. since this is single threaded it works
+				//just don't use the timer in an interrupt.
+				static int timeoutCounter;
 
 				/**
 				 * timeoutMilliseconds has to be <= 1000.
@@ -46,9 +53,13 @@ namespace helicopter
 				 * timer times out. This value must be under 1000.
 				 * These variables will have to adhere to this equation:
 				 * OCR = ((cpuSpeed /  timerPrescaler) / frequency)
+				 *
+				 * Now that this is using an 8 bit timer, prescaler has to be 1024, and timeout millizeconds
+				 * has to be divisible by 10 and greater than 10. E.g. 10, 20, 30, 200, etc. 
 				 */
 				Timer (unsigned long cpuSpeed, PRESCALER timerPrescaler, unsigned long timeoutMilliseconds):
-					cpuSpeed(cpuSpeed), timerPrescaler(timerPrescaler), timeoutMilliseconds(timeoutMilliseconds)
+					cpuSpeed(cpuSpeed), timerPrescaler(timerPrescaler), timeoutMilliseconds(timeoutMilliseconds),
+					numberOfTimeouts(0)
 					{
 						
 					}

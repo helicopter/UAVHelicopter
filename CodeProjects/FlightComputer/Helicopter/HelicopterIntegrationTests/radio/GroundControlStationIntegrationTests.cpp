@@ -38,6 +38,7 @@ int radiocontrollerservooutput_test(TestCase *test)
 	model->LongitudeControl(-1);
 	model->MainRotorCollectiveControl(-1);
 	model->YawControl(-1);
+	model->OperationalState(SystemModel::AutoPilot);
 							
 	ServoControlTask *servoctask = new ServoControlTask(model, rcInterface,0,0);
 	servoctask->init();
@@ -47,7 +48,7 @@ int radiocontrollerservooutput_test(TestCase *test)
 	while(true)
 	{
 		//I'LL WANT TO RUN THIS AGAIN WITH DIFFERENT VALUES FOR EACH SERVO TO MAKE SURE EACH INDIVIDUAL SERVO IS RECEIVING THE CORRECT VALUE. 
-		switch(counter++)
+		/*switch(counter++)
 		{
 			case 0:
 				model->LateralControl(0);
@@ -74,7 +75,48 @@ int radiocontrollerservooutput_test(TestCase *test)
 		
 		servoctask->runTaskImpl();
 		
-		_delay_ms(5000);	
+		_delay_ms(5000);	*/
+		
+		switch(counter++)
+		{
+			case 0:
+			/*model->LateralControl(.5);
+			model->LongitudeControl(0);
+			model->MainRotorCollectiveControl(.75);
+			model->YawControl(.5);
+			break;*/
+				model->LateralControl(.5);
+				model->LongitudeControl(0);
+				model->MainRotorCollectiveControl(.75);
+				model->YawControl(.5);
+				break;
+			case 1:
+			/*
+			model->LateralControl(0);
+			model->LongitudeControl(0);
+			model->MainRotorCollectiveControl(.75);
+			model->YawControl(.5);
+			*/
+					model->LateralControl(0);
+					model->LongitudeControl(0);
+					model->MainRotorCollectiveControl(.25);
+					model->YawControl(.5);
+			counter = 0;
+			break;
+			default:
+			counter = 0;
+		}
+		
+		servoctask->runTaskImpl();
+
+		if (model->OperationalState() == SystemModel::ManualControl)
+		{
+			_delay_ms(500);
+		}else
+		{
+			_delay_ms(10000);
+		}
+		
 	}
 	
 	return 0;
