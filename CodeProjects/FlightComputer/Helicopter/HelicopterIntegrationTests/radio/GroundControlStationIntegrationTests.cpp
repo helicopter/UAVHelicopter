@@ -23,6 +23,21 @@ using namespace helicopter::interfaces;
 using namespace helicopter::messages;
 
 
+float getFloat(SerialDriver *serialDrive)
+{
+	byte b[4] = {0};
+	float t = 0;
+	
+	serialDrive->receive(b[0]);
+	serialDrive->receive(b[1]);
+	serialDrive->receive(b[2]);
+	serialDrive->receive(b[3]);
+	
+	memcpy(&t, b, sizeof(float));
+	
+	return t;
+}
+
 int radiocontrollerservooutput_test(TestCase *test)
 {
 	SystemModel *model = new SystemModel();
@@ -30,20 +45,27 @@ int radiocontrollerservooutput_test(TestCase *test)
 	
 	rcInterface->SetSystemModel(model);
 	
-	rcInterface->init();
-	rcInterface->start();
-	
-	
 	model->LateralControl(-1);
 	model->LongitudeControl(-1);
 	model->MainRotorCollectiveControl(-1);
 	model->YawControl(-1);
-	model->OperationalState(SystemModel::AutoPilot);
+	//model->OperationalState(SystemModel::AutoPilot);
+	model->OperationalState(SystemModel::ManualControl);
+	
+	rcInterface->init();
+	rcInterface->start();
+	
+	
+	SerialDriver *serialDriver = new SerialDriver(115200, SerialDriver::Zero, true, NULL);
+	serialDriver->init();
+	
+
+//rcInterface->ScaleValue(4000);
 							
 	ServoControlTask *servoctask = new ServoControlTask(model, rcInterface,0,0);
 	servoctask->init();
 	
-	int counter = 0;
+	//int counter = 0;
 	
 	while(true)
 	{
@@ -76,45 +98,65 @@ int radiocontrollerservooutput_test(TestCase *test)
 		servoctask->runTaskImpl();
 		
 		_delay_ms(5000);	*/
+		//
+		//switch(counter++)
+		//{
+			//case 0:
+			///*model->LateralControl(.5);
+			//model->LongitudeControl(0);
+			//model->MainRotorCollectiveControl(.75);
+			//model->YawControl(.5);
+			//break;*/
+				//model->LateralControl(.5);
+				//model->LongitudeControl(0);
+				//model->MainRotorCollectiveControl(.75);
+				//model->YawControl(.5);
+				//break;
+			//case 1:
+			///*
+			//model->LateralControl(0);
+			//model->LongitudeControl(0);
+			//model->MainRotorCollectiveControl(.75);
+			//model->YawControl(.5);
+			//*/
+					//model->LateralControl(0);
+					//model->LongitudeControl(0);
+					//model->MainRotorCollectiveControl(.25);
+					//model->YawControl(.5);
+			//counter = 0;
+			//break;
+			//default:
+			//counter = 0;
+		//}
 		
-		switch(counter++)
-		{
-			case 0:
-			/*model->LateralControl(.5);
-			model->LongitudeControl(0);
-			model->MainRotorCollectiveControl(.75);
-			model->YawControl(.5);
-			break;*/
-				model->LateralControl(.5);
-				model->LongitudeControl(0);
-				model->MainRotorCollectiveControl(.75);
-				model->YawControl(.5);
-				break;
-			case 1:
-			/*
-			model->LateralControl(0);
-			model->LongitudeControl(0);
-			model->MainRotorCollectiveControl(.75);
-			model->YawControl(.5);
-			*/
-					model->LateralControl(0);
-					model->LongitudeControl(0);
-					model->MainRotorCollectiveControl(.25);
-					model->YawControl(.5);
-			counter = 0;
-			break;
-			default:
-			counter = 0;
-		}
+
+
+
+/*
+
+		serialDriver->transmit('T');
 		
+		
+		
+		model->LateralControl(getFloat(serialDriver));
+		model->LongitudeControl(getFloat(serialDriver));
+		model->MainRotorCollectiveControl(getFloat(serialDriver));
+		model->YawControl(getFloat(serialDriver));
+						
+						
+		serialDriver->transmit(model->LateralControl());				
+						
+						*/
 		servoctask->runTaskImpl();
 
 		if (model->OperationalState() == SystemModel::ManualControl)
 		{
-			_delay_ms(500);
+			//_delay_ms(500);
+			_delay_ms(1);
 		}else
 		{
-			_delay_ms(10000);
+			//_delay_ms(10000);
+			_delay_ms(2000);
 		}
 		
 	}

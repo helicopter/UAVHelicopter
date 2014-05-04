@@ -106,8 +106,8 @@ namespace helicopter
 				* (16,000,000 / 8) / 50 = 40,000
 				*/
 				//static const long MAX_PPM_TIMER_VALUE = 44444;
-				//static const long MAX_PPM_TIMER_VALUE = 40000;
-				static const long MAX_PPM_TIMER_VALUE = 36363; //I have no idea why, but it has to be 55hz for some reason. 
+				static const long MAX_PPM_TIMER_VALUE = 40000;
+				//static const long MAX_PPM_TIMER_VALUE = 36363; //I have no idea why, but it has to be 55hz for some reason. 
 				//static const long MAX_PPM_TIMER_VALUE = (F_CPU / PRESCALEVALUE) / PWMFREQUENCY;
 				
 				/**
@@ -115,7 +115,7 @@ namespace helicopter
 				 */
 				//static const int TIMERTOP = 22222;				
 				//static const int TIMERTOP = 20000;				
-				static const int TIMERTOP = MAX_PPM_TIMER_VALUE / 2;				
+				static const long TIMERTOP;// = MAX_PPM_TIMER_VALUE / 2;				
 				//static const int TIMERTOP = 18181;				
 				
 				/**
@@ -125,10 +125,12 @@ namespace helicopter
 				 * e.g. (2ms / 20 ms (which is 1/50hz)) * 40000 = 4000
 				 * A few ticks are added and removed to allow for noise.
 				 */
-				static const long MAX_PULSE_WIDTH = 4000;
-				static const long MIN_PULSE_WIDTH = 2000;
-				static const long MAX_USEABLE_PULSE_WIDTH = MAX_PULSE_WIDTH + 10;
-				static const long MIN_USEABLE_PULSE_WIDTH = MIN_PULSE_WIDTH - 10;
+				//static const long MAX_PULSE_WIDTH = 4000;
+				//static const long MIN_PULSE_WIDTH = 2000;
+				static const long MAX_PULSE_WIDTH;// = (2/20)*MAX_PPM_TIMER_VALUE;
+				static const long MIN_PULSE_WIDTH;// = (1/20)*MAX_PPM_TIMER_VALUE;
+				static const long MAX_USEABLE_PULSE_WIDTH;// = MAX_PULSE_WIDTH + 10;
+				static const long MIN_USEABLE_PULSE_WIDTH;// = MIN_PULSE_WIDTH - 10;
 				
 				
 				/**
@@ -138,10 +140,12 @@ namespace helicopter
 				 * (MAX_PPM_TIMER_VALUE - min pulse width ticks) / 2
 				 * e.g. (40,000 - 2000) / 2 = 19000
 				 */
-				static const long PWM_COMPAREMATCH_MIN_TICKS = 19000;
+				//static const long PWM_COMPAREMATCH_MIN_TICKS = 19000;
+				static const long PWM_COMPAREMATCH_MIN_TICKS;
 				
 
-				static const long PWM_COMPAREMATCH_MAX_TICKS = 18000;
+				//static const long PWM_COMPAREMATCH_MAX_TICKS = 18000;
+				static const long PWM_COMPAREMATCH_MAX_TICKS;
 				
 				
 				/**
@@ -151,6 +155,7 @@ namespace helicopter
 				 * ardupilot project.
 				 */
 				static const int SYNCH_PULSE_WIDTH = 8000;
+				//static const int SYNCH_PULSE_WIDTH = 6000;
 				
 				/**
 				 * The maximum number of channels received by the radio controller

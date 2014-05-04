@@ -149,8 +149,8 @@ int main(void)
 	SystemModel *model = new SystemModel();
 	
 	
-	model->FlightMode(SystemModel::HardwareInLoopSimulatedFlight);
-	//model->FlightMode(SystemModel::SimulatedFlight);
+	//model->FlightMode(SystemModel::HardwareInLoopSimulatedFlight);
+	model->FlightMode(SystemModel::SimulatedFlight);
 	//model->FlightMode(SystemModel::RealFlight);
 	
 	if (model->FlightMode() == SystemModel::SimulatedFlight)
@@ -161,8 +161,8 @@ int main(void)
 		model->CommunicationMethod(SystemModel::USB);
 		//model->CommunicationMethod(SystemModel::Radio);
 		
-		sendControlToServos = false;
-		//sendControlToServos = true;
+		//sendControlToServos = false;
+sendControlToServos = true;
 		
 	}else if (model->FlightMode() == SystemModel::RealFlight)
 	{
@@ -177,7 +177,7 @@ int main(void)
 	}else if (model->FlightMode() == SystemModel::HardwareInLoopSimulatedFlight)
 	{
 		model->SensorInput(SystemModel::SimulatedSensors);
-		model->CommunicationMethod(SystemModel::Radio);
+		//model->CommunicationMethod(SystemModel::Radio);
 //model->CommunicationMethod(SystemModel::USB);
 		sendControlToServos = true;
 	}

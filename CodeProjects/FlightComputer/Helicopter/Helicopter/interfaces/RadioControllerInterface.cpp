@@ -9,6 +9,7 @@ RadioControllerInterface* RadioControllerInterface::radioControllerInterface = N
 
 //const float RadioControllerInterface::MANUAL_MODE_THRESHOLD = 0.0;
 const float RadioControllerInterface::MANUAL_MODE_THRESHOLD = 0.7;
+//const float RadioControllerInterface::MANUAL_MODE_THRESHOLD = 0.3;
 
 
 const float RadioControllerInterface::THROTTLE_VALUE = .80;
@@ -16,6 +17,30 @@ const float RadioControllerInterface::THROTTLE_VALUE = .80;
 const float RadioControllerInterface::GEAR_VALUE = 0.0;
 				
 const float RadioControllerInterface::AUX3_VALUE = 0.0;
+
+
+
+const long RadioControllerInterface::TIMERTOP = (long) (MAX_PPM_TIMER_VALUE / 2.0f);
+
+
+const long RadioControllerInterface::MAX_PULSE_WIDTH = (long)((2.0f/20.0f)*MAX_PPM_TIMER_VALUE);
+const long RadioControllerInterface::MIN_PULSE_WIDTH = (long)((1.0f/20.0f)*MAX_PPM_TIMER_VALUE);
+	
+const long RadioControllerInterface::MAX_USEABLE_PULSE_WIDTH = MAX_PULSE_WIDTH + 10;
+const long RadioControllerInterface::MIN_USEABLE_PULSE_WIDTH = MIN_PULSE_WIDTH - 10;
+	
+
+//The values coming from the PWM-PPM is from 2120 us to 920us according to code found here:https://github.com/diydrones/ardupilot/blob/2874ec67c7a111f09fd57add336a99461e567b73/Tools/ArduPPM/Libraries/PPM_Encoder_v3.h
+/*const long RadioControllerInterface::MAX_PULSE_WIDTH = (long)((2.12f/20.0f)*MAX_PPM_TIMER_VALUE);
+const long RadioControllerInterface::MIN_PULSE_WIDTH = (long)((.920f/20.0f)*MAX_PPM_TIMER_VALUE);
+
+const long RadioControllerInterface::MAX_USEABLE_PULSE_WIDTH = MAX_PULSE_WIDTH;
+const long RadioControllerInterface::MIN_USEABLE_PULSE_WIDTH = MIN_PULSE_WIDTH;
+*/
+	
+				
+const long RadioControllerInterface::PWM_COMPAREMATCH_MIN_TICKS = (long)((RadioControllerInterface::MAX_PPM_TIMER_VALUE - RadioControllerInterface::MIN_PULSE_WIDTH) / 2.0f);
+const long RadioControllerInterface::PWM_COMPAREMATCH_MAX_TICKS = (long)((RadioControllerInterface::MAX_PPM_TIMER_VALUE - RadioControllerInterface::MAX_PULSE_WIDTH) / 2.0f);
 
 float RadioControllerInterface::calculatePWMCompareMatchFromControlValue(float controlValue)
 {
@@ -170,7 +195,7 @@ ISR(TIMER5_CAPT_vect)
 					//rcInterface->ServoChannelIndex(0);
 				}			
 			}
-		}
+		} 
 
 		rcInterface->ServoChannelIndex(rcInterface->ServoChannelIndex() + 1);
 	}
@@ -235,6 +260,7 @@ void RadioControllerInterface::init()
 	DDRB |= (1<<PB6) | (1<<PB5);
 	DDRH |= (1<<PH5) | (1<<PH4) | (1<<PH3);
 	DDRE |= (1<<PE5) | (1<<PE4) | (1<<PE3);
+	
 	
 	/**
 	 * Setup timers for phase correct pwm.
@@ -403,6 +429,11 @@ void RadioControllerInterface::controlServos( float lateralControl, float longit
 	//If in manual control, just forward the pulse width values from the input pins to the output pins.
 	if (systemModel->OperationalState() == SystemModel::ManualControl)
 	{
+		
+		
+//long jj = PWM_COMPAREMATCH_MIN_TICKS;
+//long bb = PWM_COMPAREMATCH_MAX_TICKS;
+
 
 		/*
 		OCR1B = 3000;
@@ -415,6 +446,7 @@ void RadioControllerInterface::controlServos( float lateralControl, float longit
 		OCR3A = 3000;
 		*/
 		
+		
 		OCR1B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]);
 		OCR1A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[1]);
 		OCR4C = convertPulseWidthToCompareMatch(servoChannelPulseWidths[2]);
@@ -423,6 +455,8 @@ void RadioControllerInterface::controlServos( float lateralControl, float longit
 		OCR3C = convertPulseWidthToCompareMatch(servoChannelPulseWidths[5]);
 		OCR3B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[6]);
 		OCR3A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[7]);
+		
+		
 		/*
 		OCR1B = (servoChannelPulseWidths[0]);
 		OCR1A = (servoChannelPulseWidths[1]);
