@@ -7,6 +7,23 @@ using namespace helicopter::interfaces;
 
 RadioControllerInterface* RadioControllerInterface::radioControllerInterface = NULL;
 
+
+/*
+//const float RadioControllerInterface::SUBTRIM_POINT_PER_TENTH_MS = .1f/50.0f;
+const float RadioControllerInterface::SUBTRIM_POINT_PER_TENTH_MS = .1f/47.0f;
+//const float RadioControllerInterface::SUBTRIM_POINT_PER_TENTH_MS = .1f/20.0f;
+//const float RadioControllerInterface::SUBTRIM_POINT_PER_TENTH_MS = .1f/7.0f;
+
+const float RadioControllerInterface::AILERON_SUBTRIM = 43.0f;
+const float RadioControllerInterface::PITCH_SUBTRIM = 10.0f;
+//const float RadioControllerInterface::PITCH_SUBTRIM = 10.0f * -2.0f;
+const float RadioControllerInterface::ELEVATOR_SUBTRIM = -24.0f;
+//const float RadioControllerInterface::ELEVATOR_SUBTRIM = -50.0f;
+*/
+
+
+
+
 //const float RadioControllerInterface::MANUAL_MODE_THRESHOLD = 0.0;
 const float RadioControllerInterface::MANUAL_MODE_THRESHOLD = 0.7;
 //const float RadioControllerInterface::MANUAL_MODE_THRESHOLD = 0.3;
@@ -179,10 +196,10 @@ ISR(TIMER5_CAPT_vect)
 					
 					model->AuxChannelValue(auxChannelValue);
 					
-					rcInterface->copyPulseWidthArrays();
+					rcInterface->copyPulseWidthArrays();//blah. doesn't solve atomic issue. 
 
 					//If in Manual Control, set the servo control values.
-					if (model->OperationalState() == SystemModel::ManualControl)
+					/*if (model->OperationalState() == SystemModel::ManualControl)
 					{
 						//TODO: CCPM->nonCCPM conversion
 						
@@ -190,7 +207,8 @@ ISR(TIMER5_CAPT_vect)
 						model->LongitudeControl(rcInterface->ScaleValue(rcInterface->GetServoChannelPulseWidth(RadioControllerInterface::ELEVATOR_CHANNEL)));
 						model->MainRotorCollectiveControl(rcInterface->ScaleValue(rcInterface->GetServoChannelPulseWidth(RadioControllerInterface::THROTTLE_CHANNEL)));
 						model->YawControl(rcInterface->ScaleValue(rcInterface->GetServoChannelPulseWidth(RadioControllerInterface::RUDDER_CHANNEL)));
-					}
+						
+					}*/
 					
 					//rcInterface->ServoChannelIndex(0);
 				}			
@@ -402,6 +420,11 @@ void RadioControllerInterface::start()
 
 void RadioControllerInterface::CCPM(float inAileron, float inElevator, float inCollective, float &outAileron, float &outElevator, float &outPitch)
 {
+	/*inAileron = inAileron + AILERON_SUBTRIM * SUBTRIM_POINT_PER_TENTH_MS;
+	inElevator = inElevator + ELEVATOR_SUBTRIM * SUBTRIM_POINT_PER_TENTH_MS;
+	inCollective = inCollective + PITCH_SUBTRIM * SUBTRIM_POINT_PER_TENTH_MS;*/
+	
+	
 	/**
 	 * Scale the input values by the given scaler offsets. 
 	 */
@@ -422,10 +445,21 @@ void RadioControllerInterface::CCPM(float inAileron, float inElevator, float inC
 	outPitch = (1.0f - -1.0f) / (2.5f - -2.5f) * (p - -2.5f) + -1.0f;
 	outAileron = (1.0f - -1.0f) / (2.5f - -2.5f) * (a - -2.5f) + -1.0f;
 	outElevator = (1.0f - -1.0f) / (2.0f - -2.0f) * (el - -2.0f) + -1.0f;
+	
+	
+	
+	/*
+	outPitch = outPitch + PITCH_SUBTRIM * SUBTRIM_POINT_PER_TENTH_MS;
+	outAileron = outAileron + AILERON_SUBTRIM * SUBTRIM_POINT_PER_TENTH_MS;
+	outElevator =  outElevator + ELEVATOR_SUBTRIM * SUBTRIM_POINT_PER_TENTH_MS;
+	*/
+	
 }
 
 void RadioControllerInterface::controlServos( float lateralControl, float longitudeControl, float mainRotorControl, float yawControl, float auxChannelValue )
 {
+
+	
 	//If in manual control, just forward the pulse width values from the input pins to the output pins.
 	if (systemModel->OperationalState() == SystemModel::ManualControl)
 	{
@@ -447,6 +481,17 @@ void RadioControllerInterface::controlServos( float lateralControl, float longit
 		*/
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		OCR1B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]);
 		OCR1A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[1]);
 		OCR4C = convertPulseWidthToCompareMatch(servoChannelPulseWidths[2]);
@@ -455,6 +500,38 @@ void RadioControllerInterface::controlServos( float lateralControl, float longit
 		OCR3C = convertPulseWidthToCompareMatch(servoChannelPulseWidths[5]);
 		OCR3B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[6]);
 		OCR3A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[7]);
+		
+		
+		/*
+		
+		OCR1B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]);
+		OCR1A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[1]);
+		OCR4C = convertPulseWidthToCompareMatch(servoChannelPulseWidths[2]);
+		OCR4B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[3]);
+		OCR4A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[4]);
+		OCR3C = convertPulseWidthToCompareMatch(servoChannelPulseWidths[5]);
+		OCR3B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[6]);
+		OCR3A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[7]);
+		
+		
+		systemModel->LateralControl(ScaleValue(GetServoChannelPulseWidth(RadioControllerInterface::AILERON_CHANNEL)));
+		systemModel->LongitudeControl(ScaleValue(GetServoChannelPulseWidth(RadioControllerInterface::ELEVATOR_CHANNEL)));
+		systemModel->MainRotorCollectiveControl(ScaleValue(GetServoChannelPulseWidth(RadioControllerInterface::THROTTLE_CHANNEL)));
+		systemModel->YawControl(ScaleValue(GetServoChannelPulseWidth(RadioControllerInterface::RUDDER_CHANNEL)));
+		
+		*/
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		/*
@@ -475,6 +552,33 @@ void RadioControllerInterface::controlServos( float lateralControl, float longit
 		float outElevator = 0;
 		
 		
+		
+/*
+
+CCPM(-0.015898047, -0.07133783, 0.467764974, outAileron, outElevator, outPitch);
+
+OCR1B = calculatePWMCompareMatchFromControlValue(THROTTLE_VALUE);
+OCR1A = calculatePWMCompareMatchFromControlValue(outAileron);
+OCR4C = calculatePWMCompareMatchFromControlValue(outElevator);
+OCR4B = calculatePWMCompareMatchFromControlValue(0.533155441);
+OCR4A = calculatePWMCompareMatchFromControlValue(GEAR_VALUE);
+OCR3C = calculatePWMCompareMatchFromControlValue(outPitch);
+OCR3B = calculatePWMCompareMatchFromControlValue(auxChannelValue);
+OCR3A = calculatePWMCompareMatchFromControlValue(AUX3_VALUE);
+	*/	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		/**
 			* Setup code for converting control values to pulse width modulation values for the
 			* servos.
@@ -490,7 +594,10 @@ void RadioControllerInterface::controlServos( float lateralControl, float longit
 			* PE3      | OC3A               | Aux 3						| 8
 			*/			
 		
+		
+		
 		CCPM(lateralControl, longitudeControl, mainRotorControl, outAileron, outElevator, outPitch);
+		
 		
 		OCR1B = calculatePWMCompareMatchFromControlValue(THROTTLE_VALUE);
 		OCR1A = calculatePWMCompareMatchFromControlValue(outAileron);
@@ -500,6 +607,34 @@ void RadioControllerInterface::controlServos( float lateralControl, float longit
 		OCR3C = calculatePWMCompareMatchFromControlValue(outPitch);
 		OCR3B = calculatePWMCompareMatchFromControlValue(auxChannelValue);
 		OCR3A = calculatePWMCompareMatchFromControlValue(AUX3_VALUE);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*
+		OCR1B = calculatePWMCompareMatchFromControlValue(THROTTLE_VALUE);
+		OCR1A = calculatePWMCompareMatchFromControlValue(outAileron);
+		OCR4C = convertPulseWidthToCompareMatch(servoChannelPulseWidths[2]);
+		OCR4B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[3]);
+		OCR4A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[4]);
+		OCR3C = calculatePWMCompareMatchFromControlValue(outPitch);
+		OCR3B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[6]);
+		OCR3A = calculatePWMCompareMatchFromControlValue(AUX3_VALUE);
+		*/
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		/*OCR1B = calculatePWMCompareMatchFromControlValue(1.0f);

@@ -40,6 +40,9 @@ float getFloat(SerialDriver *serialDrive)
 
 int radiocontrollerservooutput_test(TestCase *test)
 {
+	DDRA |= (1<<PA5);
+	
+	
 	SystemModel *model = new SystemModel();
 	RadioControllerInterface *rcInterface = RadioControllerInterface::getRadioControllerInterface();
 	
@@ -132,11 +135,16 @@ int radiocontrollerservooutput_test(TestCase *test)
 
 
 
-/*
 
-		serialDriver->transmit('T');
+
+		serialDriver->transmit((byte)'T');
 		
+		byte bb = 0;
 		
+		while (bb != 'S')
+		{
+			serialDriver->receive(bb);
+		}
 		
 		model->LateralControl(getFloat(serialDriver));
 		model->LongitudeControl(getFloat(serialDriver));
@@ -144,17 +152,21 @@ int radiocontrollerservooutput_test(TestCase *test)
 		model->YawControl(getFloat(serialDriver));
 						
 						
-		serialDriver->transmit(model->LateralControl());				
+		serialDriver->transmit((float)model->LateralControl());				
 						
-						*/
+						
 		servoctask->runTaskImpl();
 
 		if (model->OperationalState() == SystemModel::ManualControl)
 		{
+					
+					
+					PORTA &= ~(1<<PA5);
 			//_delay_ms(500);
 			_delay_ms(1);
 		}else
 		{
+					PORTA |= (1<<PA5);
 			//_delay_ms(10000);
 			_delay_ms(2000);
 		}

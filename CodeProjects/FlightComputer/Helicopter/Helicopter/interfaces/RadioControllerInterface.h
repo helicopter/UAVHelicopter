@@ -36,6 +36,23 @@ namespace helicopter
 			
 			public: 
 			
+			
+				//there are 50 points of subtrim per tenth of a ms. i found this out by on my controller, i turned off swash mixing
+				//then i hooked up my oscilloscope (with fine resolution) to a pin, and adjusted the subtrim. after about 50 points it
+				//moved about .1 ms. 
+				/*
+				static const float SUBTRIM_POINT_PER_TENTH_MS;
+				
+				static const float AILERON_SUBTRIM;
+				
+				static const float PITCH_SUBTRIM;
+				
+				static const float ELEVATOR_SUBTRIM;
+				*/
+				
+				
+				
+			
 				static const float THROTTLE_VALUE;
 				
 				static const float GEAR_VALUE;

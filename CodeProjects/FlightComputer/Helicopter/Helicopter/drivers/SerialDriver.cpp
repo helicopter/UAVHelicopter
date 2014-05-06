@@ -236,8 +236,17 @@ int SerialDriver::transmit(byte valueToSend)
 				
 		if (status == 0)
 		{
+			//// Store interrupt status and register flags. Without doing this, servo interrupts will wreak havoc 
+			//uint8_t SREG_tmp = SREG;
+//
+			//// Stop interrupts
+			//cli();
+			
 			/* Put data into buffer, sends the data */
 			UDR0 = valueToSend;			
+			
+			//// Restore interrupt status and register flags
+			//SREG = SREG_tmp;
 		}
 
 	}else if (uartPort == One)
@@ -255,8 +264,17 @@ int SerialDriver::transmit(byte valueToSend)
 		
 		if (status == 0)
 		{
+			//// Store interrupt status and register flags. Without doing this, servo interrupts will wreak havoc
+			//uint8_t SREG_tmp = SREG;
+//
+			//// Stop interrupts
+			//cli();
+						
 			/* Put data into buffer, sends the data */
 			UDR1 = valueToSend;
+			
+			//// Restore interrupt status and register flags
+			//SREG = SREG_tmp;			
 		}		
 	}
 	
@@ -295,9 +313,19 @@ int SerialDriver::receive(byte &receivedByte)
 			{
 				status = -2;
 			}
+			
+			//// Store interrupt status and register flags. Without doing this, servo interrupts will wreak havoc
+			//uint8_t SREG_tmp = SREG;
+
+			//// Stop interrupts
+			//cli();
 		
 			/* Read the data from the serial port buffer, even if the buffer was overrun */
 			receivedByte = UDR0;
+			
+			
+			//// Restore interrupt status and register flags
+			//SREG = SREG_tmp;			
 		}
 	} else if (uartPort == One)
 	{
@@ -328,9 +356,21 @@ int SerialDriver::receive(byte &receivedByte)
 			{
 				status = -2;
 			}
+			
+			//// Store interrupt status and register flags. Without doing this, servo interrupts will wreak havoc
+			//uint8_t SREG_tmp = SREG;
+//
+			//// Stop interrupts
+			//cli();
+						
 				
 			/* Read the data from the serial port buffer, even if the buffer was overrun */
 			receivedByte = UDR1;
+			
+			
+			
+			//// Restore interrupt status and register flags
+			//SREG = SREG_tmp;			
 		}
 	}
 
