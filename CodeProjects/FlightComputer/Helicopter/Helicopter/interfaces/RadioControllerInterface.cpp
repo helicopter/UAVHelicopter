@@ -410,6 +410,63 @@ void RadioControllerInterface::start()
 	//Set the timer prescaler to 8. (CS = Clock Select) which starts the timer.
 	//Starts the PPM input timer
 	TCCR5B |= (1<<CS51);	
+	
+	
+	
+	//Wait for a few readings to come in, and then measure the offset between what the system calculates as 'zero' and 
+	//what the transmitter is transmitting as 0. This requires the sticks to be at neutral (0) at startup (sept for throttle)
+	//This is done because the 3gx system has some sort of algorithm which will cause the swashplate to freak out if you switch from
+	//manual mode, to autopilot and i think it's because the '0' position between manual mode and autopilot is off.
+	bool haveInitialData = false;
+	
+	while (!haveInitialData)
+	{
+		_delay_ms(1000);
+		
+		if (servoChannelPulseWidths[7] != 0)
+		{
+			haveInitialData = true;
+		}
+	}
+	
+	
+	
+	
+	/**
+	 * Calculate an offset between what the system thinks is the starting position, and what the
+	 * radio controller thinks is the starting position. The sticks on the controller should be neutral
+	 * except for the collective which should be all the way down. 
+	 */
+	float outPitch = 0;
+	float outAileron = 0;
+	float outElevator = 0;
+		
+	/**
+	 * Calculate what the system thinks is the value of having the collective stick all the way down (-1),
+	 * and the other sticks neutral (0)
+	 */	
+	CCPM(0, 0, -1, outAileron, outElevator, outPitch);
+	
+	int zeroPoint = calculatePWMCompareMatchFromControlValue(0);
+	
+	channel1Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]);
+	channel2Offset = calculatePWMCompareMatchFromControlValue(outAileron) - convertPulseWidthToCompareMatch(servoChannelPulseWidths[1]);
+	channel3Offset = calculatePWMCompareMatchFromControlValue(outElevator) - convertPulseWidthToCompareMatch(servoChannelPulseWidths[2]);
+	channel4Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[3]);
+	channel5Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[4]);
+	channel6Offset = calculatePWMCompareMatchFromControlValue(outPitch) - convertPulseWidthToCompareMatch(servoChannelPulseWidths[5]);
+	channel7Offset = 0;//AUX don't want an offset. 
+	channel8Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[7]);
+	
+	
+
+	
+	
+	
+
+			
+	
+	
 
 	//Starts the PWM output timers
 	TCCR1B |= (1<<CS11);
@@ -491,18 +548,16 @@ void RadioControllerInterface::controlServos( float lateralControl, float longit
 		
 		
 		
-		
-		OCR1B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]);
-		OCR1A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[1]);
-		OCR4C = convertPulseWidthToCompareMatch(servoChannelPulseWidths[2]);
-		OCR4B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[3]);
-		OCR4A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[4]);
-		OCR3C = convertPulseWidthToCompareMatch(servoChannelPulseWidths[5]);
-		OCR3B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[6]);
-		OCR3A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[7]);
-		
-		
 		/*
+		OCR1B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]);
+		OCR1A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[1]);
+		OCR4C = convertPulseWidthToCompareMatch(servoChannelPulseWidths[2]);
+		OCR4B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[3]);
+		OCR4A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[4]);
+		OCR3C = convertPulseWidthToCompareMatch(servoChannelPulseWidths[5]);
+		OCR3B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[6]);
+		OCR3A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[7]);
+		*/
 		
 		OCR1B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]);
 		OCR1A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[1]);
@@ -513,13 +568,13 @@ void RadioControllerInterface::controlServos( float lateralControl, float longit
 		OCR3B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[6]);
 		OCR3A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[7]);
 		
-		
+		/* Removed because without ccpm -> non ccpm, this doesn't make sense.
 		systemModel->LateralControl(ScaleValue(GetServoChannelPulseWidth(RadioControllerInterface::AILERON_CHANNEL)));
 		systemModel->LongitudeControl(ScaleValue(GetServoChannelPulseWidth(RadioControllerInterface::ELEVATOR_CHANNEL)));
 		systemModel->MainRotorCollectiveControl(ScaleValue(GetServoChannelPulseWidth(RadioControllerInterface::THROTTLE_CHANNEL)));
 		systemModel->YawControl(ScaleValue(GetServoChannelPulseWidth(RadioControllerInterface::RUDDER_CHANNEL)));
-		
 		*/
+		
 		
 		
 		
@@ -599,14 +654,14 @@ OCR3A = calculatePWMCompareMatchFromControlValue(AUX3_VALUE);
 		CCPM(lateralControl, longitudeControl, mainRotorControl, outAileron, outElevator, outPitch);
 		
 		
-		OCR1B = calculatePWMCompareMatchFromControlValue(THROTTLE_VALUE);
-		OCR1A = calculatePWMCompareMatchFromControlValue(outAileron);
-		OCR4C = calculatePWMCompareMatchFromControlValue(outElevator);
-		OCR4B = calculatePWMCompareMatchFromControlValue(yawControl);
-		OCR4A = calculatePWMCompareMatchFromControlValue(GEAR_VALUE);
-		OCR3C = calculatePWMCompareMatchFromControlValue(outPitch);
-		OCR3B = calculatePWMCompareMatchFromControlValue(auxChannelValue);
-		OCR3A = calculatePWMCompareMatchFromControlValue(AUX3_VALUE);
+		OCR1B = calculatePWMCompareMatchFromControlValue(THROTTLE_VALUE) - channel1Offset;
+		OCR1A = calculatePWMCompareMatchFromControlValue(outAileron) - channel2Offset;
+		OCR4C = calculatePWMCompareMatchFromControlValue(outElevator) - channel3Offset;
+		OCR4B = calculatePWMCompareMatchFromControlValue(yawControl) - channel4Offset;
+		OCR4A = calculatePWMCompareMatchFromControlValue(GEAR_VALUE) - channel5Offset;
+		OCR3C = calculatePWMCompareMatchFromControlValue(outPitch) - channel6Offset;
+		OCR3B = calculatePWMCompareMatchFromControlValue(auxChannelValue) - channel7Offset;
+		OCR3A = calculatePWMCompareMatchFromControlValue(AUX3_VALUE) - channel8Offset;
 		
 		
 		

@@ -152,7 +152,14 @@ int radiocontrollerservooutput_test(TestCase *test)
 		model->YawControl(getFloat(serialDriver));
 						
 						
-		serialDriver->transmit((float)model->LateralControl());				
+		serialDriver->transmit((float)model->LateralControl());			
+		
+		
+		
+		serialDriver->transmit((int)OCR1A);		//ail
+		serialDriver->transmit((int)OCR4C);		//ele
+		serialDriver->transmit((int)OCR3C);		//pitch
+		
 						
 						
 		servoctask->runTaskImpl();
@@ -163,7 +170,7 @@ int radiocontrollerservooutput_test(TestCase *test)
 					
 					PORTA &= ~(1<<PA5);
 			//_delay_ms(500);
-			_delay_ms(1);
+		//	_delay_ms(1);
 		}else
 		{
 					PORTA |= (1<<PA5);

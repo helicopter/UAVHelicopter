@@ -10,6 +10,7 @@
 #define RADIOCONTROLLERINTERFACE_H_
 
 #include <string.h>
+#include <util/delay.h>
 #include "SystemModel.h"
 
 using namespace helicopter::model;
@@ -208,6 +209,18 @@ namespace helicopter
 				long previousInputCaptureRegisterValue;
 				
 				int servoChannelIndex;
+				
+				
+				//These offsets represent the 'trim' values on the remote.
+				int channel1Offset;
+				int channel2Offset;
+				int channel3Offset;
+				int channel4Offset;
+				int channel5Offset;
+				int channel6Offset;
+				int channel7Offset;
+				int channel8Offset;			
+				
 
 				SystemModel *systemModel;
 
@@ -223,6 +236,15 @@ namespace helicopter
 					previousInputCaptureRegisterValue = 0;
 					
 					servoChannelIndex = 0;
+					
+					channel1Offset = 0;
+					channel2Offset = 0;
+					channel3Offset = 0;
+					channel4Offset = 0;
+					channel5Offset = 0;
+					channel6Offset = 0;
+					channel7Offset = 0;
+					channel8Offset = 0;				
 				}
 						
 				~RadioControllerInterface()

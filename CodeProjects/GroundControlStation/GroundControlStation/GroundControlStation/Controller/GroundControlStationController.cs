@@ -171,6 +171,9 @@ namespace GroundControlStation.Controller
                         FlightComputerTelemetryMessage telem = (FlightComputerTelemetryMessage) msg;
 
 
+                        System.Diagnostics.Debug.WriteLine("collective control: " + telem.MainRotorCollectiveControl + ", lat control: " + telem.LateralControl + ", long control: " + telem.LongitudeControl + ", Rudder control: " + telem.YawControl);
+
+
                         telem.UpdateModel(Model);
 
                         UpdateViews();
