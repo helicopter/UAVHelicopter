@@ -69,6 +69,17 @@ namespace helicopter
 				static const int ELEVATOR_SCALER = 43;
 				
 				static const int PITCH_COLLECTIVE_SCALER = 35;
+				
+				
+				
+				static const float SWASHOFFSETPITCHMULTIPLYER;
+				static const float SWASHOFFSETELEVATORMULTIPLYER;
+				static const float SWASHOFFSETELEVATORELEVATORMULTIPLYER;
+				static const float SWASHOFFSETSAILERONMULTIPLIER;
+
+				
+				
+				
 			
 				/**
 				 * Servo channel for aileron (roll)
@@ -165,6 +176,7 @@ namespace helicopter
 				//static const long PWM_COMPAREMATCH_MAX_TICKS = 18000;
 				static const long PWM_COMPAREMATCH_MAX_TICKS;
 				
+				static const long PWM_NEUTRAL_POSITION;
 				
 				/**
 				 * This number represents the minimum time interval between PPM

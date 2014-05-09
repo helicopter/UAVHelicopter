@@ -28,13 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
             "Test1",
             "test2"}, -1);
             this.listLatestValues = new System.Windows.Forms.ListView();
             this.TelemName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TelemValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
@@ -54,8 +56,11 @@
             this.yawProportional = new System.Windows.Forms.Button();
             this.btnFcMagX = new System.Windows.Forms.Button();
             this.btnHeadingGraph = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
-            this.button11 = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
+            this.button13 = new System.Windows.Forms.Button();
+            this.button15 = new System.Windows.Forms.Button();
+            this.button16 = new System.Windows.Forms.Button();
+            this.button17 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,7 +72,7 @@
             this.TelemName,
             this.TelemValue});
             this.listLatestValues.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem2});
+            listViewItem12});
             this.listLatestValues.Location = new System.Drawing.Point(1, -1);
             this.listLatestValues.Name = "listLatestValues";
             this.listLatestValues.Size = new System.Drawing.Size(173, 632);
@@ -93,9 +98,6 @@
             this.panel1.Controls.Add(this.button11);
             this.panel1.Controls.Add(this.button10);
             this.panel1.Controls.Add(this.button9);
-            this.panel1.Controls.Add(this.button8);
-            this.panel1.Controls.Add(this.button7);
-            this.panel1.Controls.Add(this.button6);
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.button3);
             this.panel1.Controls.Add(this.button4);
@@ -104,17 +106,35 @@
             this.panel1.Controls.Add(this.btnXDer);
             this.panel1.Controls.Add(this.btnXInt);
             this.panel1.Controls.Add(this.btnXProp);
-            this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.btnYawControl);
             this.panel1.Controls.Add(this.btnYawDeriv);
             this.panel1.Controls.Add(this.btnYawIntegral);
             this.panel1.Controls.Add(this.yawProportional);
-            this.panel1.Controls.Add(this.btnFcMagX);
             this.panel1.Controls.Add(this.btnHeadingGraph);
             this.panel1.Location = new System.Drawing.Point(177, -1);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(137, 632);
             this.panel1.TabIndex = 3;
+            // 
+            // button11
+            // 
+            this.button11.Location = new System.Drawing.Point(0, 497);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(129, 23);
+            this.button11.TabIndex = 20;
+            this.button11.Text = "Z Integral";
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(0, 468);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(129, 23);
+            this.button10.TabIndex = 19;
+            this.button10.Text = "Z Derivative";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // button9
             // 
@@ -128,7 +148,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(0, 570);
+            this.button8.Location = new System.Drawing.Point(320, 32);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(129, 23);
             this.button8.TabIndex = 17;
@@ -138,7 +158,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(0, 541);
+            this.button7.Location = new System.Drawing.Point(320, 2);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(129, 23);
             this.button7.TabIndex = 16;
@@ -148,7 +168,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(0, 410);
+            this.button6.Location = new System.Drawing.Point(320, 149);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(129, 23);
             this.button6.TabIndex = 15;
@@ -238,7 +258,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(0, 599);
+            this.button1.Location = new System.Drawing.Point(320, 496);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(129, 23);
             this.button1.TabIndex = 6;
@@ -288,7 +308,7 @@
             // 
             // btnFcMagX
             // 
-            this.btnFcMagX.Location = new System.Drawing.Point(3, 33);
+            this.btnFcMagX.Location = new System.Drawing.Point(320, 61);
             this.btnFcMagX.Name = "btnFcMagX";
             this.btnFcMagX.Size = new System.Drawing.Size(129, 23);
             this.btnFcMagX.TabIndex = 1;
@@ -306,33 +326,73 @@
             this.btnHeadingGraph.UseVisualStyleBackColor = true;
             this.btnHeadingGraph.Click += new System.EventHandler(this.btnHeadingGraph_Click);
             // 
-            // button10
+            // button12
             // 
-            this.button10.Location = new System.Drawing.Point(0, 468);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(129, 23);
-            this.button10.TabIndex = 19;
-            this.button10.Text = "Z Derivative";
-            this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click);
+            this.button12.Location = new System.Drawing.Point(320, 90);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(129, 23);
+            this.button12.TabIndex = 19;
+            this.button12.Text = "XNED";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
-            // button11
+            // button13
             // 
-            this.button11.Location = new System.Drawing.Point(0, 497);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(129, 23);
-            this.button11.TabIndex = 20;
-            this.button11.Text = "Z Integral";
-            this.button11.UseVisualStyleBackColor = true;
-            this.button11.Click += new System.EventHandler(this.button11_Click);
+            this.button13.Location = new System.Drawing.Point(320, 120);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(129, 23);
+            this.button13.TabIndex = 20;
+            this.button13.Text = "YNED";
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
+            // 
+            // button15
+            // 
+            this.button15.Location = new System.Drawing.Point(320, 178);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(129, 23);
+            this.button15.TabIndex = 22;
+            this.button15.Text = "XVelocityFrdCms";
+            this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
+            // 
+            // button16
+            // 
+            this.button16.Location = new System.Drawing.Point(320, 208);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(129, 23);
+            this.button16.TabIndex = 23;
+            this.button16.Text = "YVelocityFrdCms";
+            this.button16.UseVisualStyleBackColor = true;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
+            // 
+            // button17
+            // 
+            this.button17.Location = new System.Drawing.Point(320, 237);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(129, 23);
+            this.button17.TabIndex = 21;
+            this.button17.Text = "ZVelocityFrdCms";
+            this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.button17_Click);
             // 
             // GroundControlStationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(369, 633);
+            this.ClientSize = new System.Drawing.Size(458, 633);
+            this.Controls.Add(this.button15);
+            this.Controls.Add(this.button16);
+            this.Controls.Add(this.button17);
+            this.Controls.Add(this.button6);
+            this.Controls.Add(this.button12);
+            this.Controls.Add(this.button13);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.listLatestValues);
+            this.Controls.Add(this.button7);
+            this.Controls.Add(this.button8);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnFcMagX);
             this.Name = "GroundControlStationForm";
             this.Text = "GroundControlStation";
             this.panel1.ResumeLayout(false);
@@ -367,6 +427,11 @@
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.Button button17;
     }
 }
 

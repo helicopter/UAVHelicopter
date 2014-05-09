@@ -150,8 +150,8 @@ int main(void)
 	
 	
 	//model->FlightMode(SystemModel::HardwareInLoopSimulatedFlight);
-	model->FlightMode(SystemModel::SimulatedFlight);
-	//model->FlightMode(SystemModel::RealFlight);
+	//model->FlightMode(SystemModel::SimulatedFlight);
+	model->FlightMode(SystemModel::RealFlight);
 	
 	if (model->FlightMode() == SystemModel::SimulatedFlight)
 	{

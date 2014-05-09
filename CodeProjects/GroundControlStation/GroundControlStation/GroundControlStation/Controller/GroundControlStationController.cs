@@ -68,7 +68,7 @@ namespace GroundControlStation.Controller
         public void UpdateViews()
         {
             UpdateView(View.SimHeadingGraph, Model.SimTelm.MagHeadingDegrees);
-            UpdateView(View.FcMagYaw, Model.MagYaw);
+            //UpdateView(View.FcMagYaw, Model.MagYaw);
             UpdateView(View.YawVelocityDegreesPerSecond, Model.YawVelocityRadsPerSecond);
             UpdateView(View.YawProportional, Model.YawProportional);
             UpdateView(View.YawIntegral, Model.YawIntegral);
@@ -94,6 +94,16 @@ namespace GroundControlStation.Controller
 
             UpdateView(View.Pitch, Model.PitchRads * (180/Math.PI));
             UpdateView(View.Roll, Model.RollRads * (180 / Math.PI));
+
+
+
+            //UpdateView(View.FcMagYaw, Model.
+            UpdateView(View.FcMagYaw, Model.YawRads * (180 / Math.PI));
+            UpdateView(View.XNED, Model.XNEDLocalFrame);
+            UpdateView(View.YNED, Model.YNEDLocalFrame);
+            UpdateView(View.XVEL, Model.XVelocityMetersPerSecond);
+            UpdateView(View.YVEL, Model.YVelocityMetersPerSecond);
+            UpdateView(View.ZVEL, Model.ZVelocityFeetPerSecond);
 
             UpdateLatestValues();
         }

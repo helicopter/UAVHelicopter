@@ -68,6 +68,13 @@ int radiocontrollerservooutput_test(TestCase *test)
 	ServoControlTask *servoctask = new ServoControlTask(model, rcInterface,0,0);
 	servoctask->init();
 	
+	/*
+	float a = 0;
+	float b = 0;
+	float c = 0;
+	rcInterface->CCPM(.42,.42,.42,a,b,c);
+	*/
+	
 	//int counter = 0;
 	
 	while(true)

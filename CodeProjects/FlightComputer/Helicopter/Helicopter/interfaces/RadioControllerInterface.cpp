@@ -40,11 +40,13 @@ const float RadioControllerInterface::AUX3_VALUE = 0.0;
 const long RadioControllerInterface::TIMERTOP = (long) (MAX_PPM_TIMER_VALUE / 2.0f);
 
 
-const long RadioControllerInterface::MAX_PULSE_WIDTH = (long)((2.0f/20.0f)*MAX_PPM_TIMER_VALUE);
+const long RadioControllerInterface::MAX_PULSE_WIDTH = (long)((2.0f/20.0f)*MAX_PPM_TIMER_VALUE); //the 2 is the number of milliseconds for the max pwm value.i.e. max servo control is a 2ms pulse. The 20 is how many milliseconds in the frame. i.e. 50 hz rate is 20 ms per frame. 
 const long RadioControllerInterface::MIN_PULSE_WIDTH = (long)((1.0f/20.0f)*MAX_PPM_TIMER_VALUE);
 	
 const long RadioControllerInterface::MAX_USEABLE_PULSE_WIDTH = MAX_PULSE_WIDTH + 10;
 const long RadioControllerInterface::MIN_USEABLE_PULSE_WIDTH = MIN_PULSE_WIDTH - 10;
+
+
 	
 
 //The values coming from the PWM-PPM is from 2120 us to 920us according to code found here:https://github.com/diydrones/ardupilot/blob/2874ec67c7a111f09fd57add336a99461e567b73/Tools/ArduPPM/Libraries/PPM_Encoder_v3.h
@@ -58,6 +60,14 @@ const long RadioControllerInterface::MIN_USEABLE_PULSE_WIDTH = MIN_PULSE_WIDTH;
 				
 const long RadioControllerInterface::PWM_COMPAREMATCH_MIN_TICKS = (long)((RadioControllerInterface::MAX_PPM_TIMER_VALUE - RadioControllerInterface::MIN_PULSE_WIDTH) / 2.0f);
 const long RadioControllerInterface::PWM_COMPAREMATCH_MAX_TICKS = (long)((RadioControllerInterface::MAX_PPM_TIMER_VALUE - RadioControllerInterface::MAX_PULSE_WIDTH) / 2.0f);
+
+const long RadioControllerInterface::PWM_NEUTRAL_POSITION = (long) ((PWM_COMPAREMATCH_MAX_TICKS + PWM_COMPAREMATCH_MIN_TICKS)/2);
+
+
+const float RadioControllerInterface::SWASHOFFSETPITCHMULTIPLYER = 4.0f;
+const float RadioControllerInterface::SWASHOFFSETELEVATORMULTIPLYER = 2.0f;
+const float RadioControllerInterface::SWASHOFFSETELEVATORELEVATORMULTIPLYER = 4.0f;
+const float RadioControllerInterface::SWASHOFFSETSAILERONMULTIPLIER = 3.37209302325581;
 
 float RadioControllerInterface::calculatePWMCompareMatchFromControlValue(float controlValue)
 {
@@ -449,6 +459,7 @@ void RadioControllerInterface::start()
 	
 	int zeroPoint = calculatePWMCompareMatchFromControlValue(0);
 	
+	/*
 	channel1Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]);
 	channel2Offset = calculatePWMCompareMatchFromControlValue(outAileron) - convertPulseWidthToCompareMatch(servoChannelPulseWidths[1]);
 	channel3Offset = calculatePWMCompareMatchFromControlValue(outElevator) - convertPulseWidthToCompareMatch(servoChannelPulseWidths[2]);
@@ -457,6 +468,17 @@ void RadioControllerInterface::start()
 	channel6Offset = calculatePWMCompareMatchFromControlValue(outPitch) - convertPulseWidthToCompareMatch(servoChannelPulseWidths[5]);
 	channel7Offset = 0;//AUX don't want an offset. 
 	channel8Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[7]);
+	*/
+	
+	channel1Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]);
+	channel2Offset = outAileron - convertPulseWidthToCompareMatch(servoChannelPulseWidths[1]);
+	channel3Offset = outElevator - convertPulseWidthToCompareMatch(servoChannelPulseWidths[2]);
+	channel4Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[3]);
+	channel5Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[4]);
+	channel6Offset = outPitch - convertPulseWidthToCompareMatch(servoChannelPulseWidths[5]);
+	channel7Offset = 0;//AUX don't want an offset.
+	channel8Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[7]);
+	
 	
 	
 
@@ -477,31 +499,50 @@ void RadioControllerInterface::start()
 
 void RadioControllerInterface::CCPM(float inAileron, float inElevator, float inCollective, float &outAileron, float &outElevator, float &outPitch)
 {
+	//look at spreadsheet for the math behind this (swashmixingaltorithm.xlsx). calculated based on observation of the behavior of my remote control.
+	outPitch = PWM_NEUTRAL_POSITION+PITCH_COLLECTIVE_SCALER*SWASHOFFSETPITCHMULTIPLYER*inCollective*-1 + ELEVATOR_SCALER*SWASHOFFSETELEVATORMULTIPLYER*inElevator+AILERON_SCALER*SWASHOFFSETSAILERONMULTIPLIER*inAileron*-1;
+	outAileron = PWM_NEUTRAL_POSITION+PITCH_COLLECTIVE_SCALER*SWASHOFFSETPITCHMULTIPLYER*inCollective+ELEVATOR_SCALER*SWASHOFFSETELEVATORMULTIPLYER*inElevator*-1+AILERON_SCALER*SWASHOFFSETSAILERONMULTIPLIER*inAileron*-1;
+	outElevator = PWM_NEUTRAL_POSITION+PITCH_COLLECTIVE_SCALER*SWASHOFFSETPITCHMULTIPLYER*inCollective*-1 + ELEVATOR_SCALER*SWASHOFFSETELEVATORELEVATORMULTIPLYER*inElevator*-1;
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/*inAileron = inAileron + AILERON_SUBTRIM * SUBTRIM_POINT_PER_TENTH_MS;
 	inElevator = inElevator + ELEVATOR_SUBTRIM * SUBTRIM_POINT_PER_TENTH_MS;
 	inCollective = inCollective + PITCH_SUBTRIM * SUBTRIM_POINT_PER_TENTH_MS;*/
 	
 	
-	/**
-	 * Scale the input values by the given scaler offsets. 
-	 */
-	float adjustedAileron = (float) inAileron * (AILERON_SCALER / (float)ZERO_SCALER);
-	float adjustedElevator = (float) inElevator * (ELEVATOR_SCALER / (float)ZERO_SCALER);
-	float adjustedPitchCollective = (float) inCollective * (PITCH_COLLECTIVE_SCALER / (float)ZERO_SCALER);
-	
-	/**
-	 * Mix the inputs together
-	 */
-    float p = adjustedPitchCollective + adjustedAileron - adjustedElevator / 2.0f;
-    float a = -adjustedPitchCollective + adjustedAileron + adjustedElevator / 2.0f;
-    float el = adjustedPitchCollective + adjustedElevator;	
-	
-	/**
-	 * Scale the outputs
-	 */
-	outPitch = (1.0f - -1.0f) / (2.5f - -2.5f) * (p - -2.5f) + -1.0f;
-	outAileron = (1.0f - -1.0f) / (2.5f - -2.5f) * (a - -2.5f) + -1.0f;
-	outElevator = (1.0f - -1.0f) / (2.0f - -2.0f) * (el - -2.0f) + -1.0f;
+	///**
+	 //* Scale the input values by the given scaler offsets. 
+	 //*/
+	//float adjustedAileron = (float) inAileron * (AILERON_SCALER / (float)ZERO_SCALER);
+	//float adjustedElevator = (float) inElevator * (ELEVATOR_SCALER / (float)ZERO_SCALER);
+	//float adjustedPitchCollective = (float) inCollective * (PITCH_COLLECTIVE_SCALER / (float)ZERO_SCALER);
+	//
+	///**
+	 //* Mix the inputs together
+	 //*/
+    //float p = adjustedPitchCollective + adjustedAileron - adjustedElevator / 2.0f;
+    //float a = -adjustedPitchCollective + adjustedAileron + adjustedElevator / 2.0f;
+    //float el = adjustedPitchCollective + adjustedElevator;	
+	//
+	///**
+	 //* Scale the outputs
+	 //*/
+	//outPitch = (1.0f - -1.0f) / (2.5f - -2.5f) * (p - -2.5f) + -1.0f;
+	//outAileron = (1.0f - -1.0f) / (2.5f - -2.5f) * (a - -2.5f) + -1.0f;
+	//outElevator = (1.0f - -1.0f) / (2.0f - -2.0f) * (el - -2.0f) + -1.0f;
 	
 	
 	
@@ -655,6 +696,16 @@ OCR3A = calculatePWMCompareMatchFromControlValue(AUX3_VALUE);
 		
 		
 		OCR1B = calculatePWMCompareMatchFromControlValue(THROTTLE_VALUE) - channel1Offset;
+		OCR1A = outAileron - channel2Offset;
+		OCR4C = outElevator - channel3Offset;
+		OCR4B = calculatePWMCompareMatchFromControlValue(yawControl) - channel4Offset;
+		OCR4A = calculatePWMCompareMatchFromControlValue(GEAR_VALUE) - channel5Offset;
+		OCR3C = outPitch - channel6Offset;
+		OCR3B = calculatePWMCompareMatchFromControlValue(auxChannelValue) - channel7Offset;
+		OCR3A = calculatePWMCompareMatchFromControlValue(AUX3_VALUE) - channel8Offset;
+		
+		/*
+		OCR1B = calculatePWMCompareMatchFromControlValue(THROTTLE_VALUE) - channel1Offset;
 		OCR1A = calculatePWMCompareMatchFromControlValue(outAileron) - channel2Offset;
 		OCR4C = calculatePWMCompareMatchFromControlValue(outElevator) - channel3Offset;
 		OCR4B = calculatePWMCompareMatchFromControlValue(yawControl) - channel4Offset;
@@ -662,6 +713,7 @@ OCR3A = calculatePWMCompareMatchFromControlValue(AUX3_VALUE);
 		OCR3C = calculatePWMCompareMatchFromControlValue(outPitch) - channel6Offset;
 		OCR3B = calculatePWMCompareMatchFromControlValue(auxChannelValue) - channel7Offset;
 		OCR3A = calculatePWMCompareMatchFromControlValue(AUX3_VALUE) - channel8Offset;
+		*/
 		
 		
 		

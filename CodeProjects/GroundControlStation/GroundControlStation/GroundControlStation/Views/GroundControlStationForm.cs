@@ -57,9 +57,27 @@ namespace GroundControlStation.Views
 
         public IGraphingView ZIntegral { get; set; }
 
+
+
+
+        public IGraphingView XNED { get; set; }
+        public IGraphingView YNED { get; set; }
+
+        public IGraphingView XVEL { get; set; }
+        public IGraphingView YVEL { get; set; }
+        public IGraphingView ZVEL { get; set; }
+
         public GroundControlStationForm(GroundControlStationController controller)
         {
             InitializeComponent();
+
+            XNED = new GraphForm();
+            YNED = new GraphForm();
+            XVEL = new GraphForm();
+            YVEL = new GraphForm();
+            ZVEL = new GraphForm();
+
+
 
             SimHeadingGraph = new GraphForm();
 
@@ -257,6 +275,31 @@ namespace GroundControlStation.Views
         private void button11_Click(object sender, EventArgs e)
         {
             ToggleGraph(ZIntegral);
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(XNED);
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(YNED);
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(XVEL);
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(YVEL);
+        }
+
+        private void button17_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(ZVEL);
         }
 
     }
