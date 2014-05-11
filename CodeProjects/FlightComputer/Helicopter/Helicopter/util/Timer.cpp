@@ -32,8 +32,6 @@ void Timer::startTimer()
 	OCR0A = ((cpuSpeed /  timerPrescaler) / frequency);
 	*/ 
 	OCR0A = ((cpuSpeed /  timerPrescaler) / 100); //fire off every 10 ms. 
-	
-	numberOfTimeouts = timeoutMilliseconds / 10;
 	timeoutCounter = 0;
 		
 	//Configure timer 1 for Clear on Timer Compare (CTC) mode so that if there is a match, the TCNT goes back to 0.

@@ -28,104 +28,104 @@ namespace HelicopterIntegrationTests
             return (float)(b1 | b2);
         }
 
-        
-        ////public static void Main()
+
         //public static void Main()
-        //{
-        //    SerialPort port = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
-        //    SerialPortInterface portInterface = new SerialPortInterface(port);
-        //    portInterface.Open();
-
-            
-        //    GraphForm yawG = new GraphForm("yaw");
-        //    GraphForm pitchG = new GraphForm("pitch");
-        //    GraphForm rollG = new GraphForm("roll");
-        //    GraphForm lax = new GraphForm("lax");
-        //    GraphForm lay = new GraphForm("lay");
-        //    GraphForm laz = new GraphForm("laz");
-        //    GraphForm velX = new GraphForm("velX");
-        //    yawG.Visible = true;
-        //    pitchG.Visible = true;
-        //    rollG.Visible = true;
-        //    lax.Visible = true;
-        //    lay.Visible = true;
-        //    laz.Visible = true;
-        //    velX.Visible = true;
-            
-            
-        //    /*
-        //    GraphForm accxg = new GraphForm("accx");
-        //    GraphForm accyg = new GraphForm("accy");
-        //    GraphForm acczg = new GraphForm("accz");
-        //    GraphForm gyroxg = new GraphForm("gyrox");
-        //    GraphForm gyroyg = new GraphForm("gyroy");
-        //    GraphForm gyrozg = new GraphForm("gyroz");
-        //    GraphForm magxg = new GraphForm("magx");
-        //    GraphForm magyg = new GraphForm("magy");
-        //    GraphForm magzg = new GraphForm("magz");
-        //    accxg.Visible = true;
-        //    accyg.Visible = true;
-        //    acczg.Visible = true;
-        //    gyroxg.Visible = true;
-        //    gyroyg.Visible = true;
-        //    gyrozg.Visible = true;
-        //    magxg.Visible = true;
-        //    magyg.Visible = true;
-        //    magzg.Visible = true;
-        //    */
-
-        //    port.DiscardInBuffer();
-        //    while (true)
-        //    {
-        //        while (portInterface.ReadByte() != 'S')
-        //        {
-
-        //        }
-
-                
-        //        float yaw = portInterface.ReadFloat() * (float)(180.0f / Math.PI);
-        //        float pitch = portInterface.ReadFloat() * (float)(180.0f / Math.PI);
-        //        float roll = portInterface.ReadFloat() * (float)(180.0f / Math.PI);
-        //        float lineX = portInterface.ReadFloat();
-        //        float lineY = portInterface.ReadFloat();
-        //        float lineZ = portInterface.ReadFloat();
-        //        float velocityX = portInterface.ReadFloat();
-        //        yawG.AddValueToGraph(yaw);
-        //        pitchG.AddValueToGraph(pitch);
-        //        rollG.AddValueToGraph(roll);
-        //        lax.AddValueToGraph(lineX);
-        //        lay.AddValueToGraph(lineY);
-        //        laz.AddValueToGraph(lineZ);
-        //        velX.AddValueToGraph(velocityX);
-                
-                
-        //        /*
-        //        float accx = portInterface.ReadFloat();
-        //        float accy = portInterface.ReadFloat();
-        //        float accz = portInterface.ReadFloat();
-        //        float gyrox = portInterface.ReadFloat();
-        //        float gyroy = portInterface.ReadFloat();
-        //        float gyroz = portInterface.ReadFloat();
-        //        float magx = portInterface.ReadFloat();
-        //        float magy = portInterface.ReadFloat();
-        //        float magz = portInterface.ReadFloat();
-        //        accxg.AddValueToGraph(accx);
-        //        accyg.AddValueToGraph(accy);
-        //        acczg.AddValueToGraph(accz);
-        //        gyroxg.AddValueToGraph(gyrox);
-        //        gyroyg.AddValueToGraph(gyroy);
-        //        gyrozg.AddValueToGraph(gyroz);
-        //        magxg.AddValueToGraph(magx);
-        //        magyg.AddValueToGraph(magy);
-        //        magzg.AddValueToGraph(magz);                
-        //        */
+        public static void Main()
+        {
+            SerialPort port = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
+            SerialPortInterface portInterface = new SerialPortInterface(port);
+            portInterface.Open();
 
 
+            GraphForm yawG = new GraphForm("yaw");
+            GraphForm pitchG = new GraphForm("pitch");
+            GraphForm rollG = new GraphForm("roll");
+            GraphForm lax = new GraphForm("lax");
+            GraphForm lay = new GraphForm("lay");
+            GraphForm laz = new GraphForm("laz");
+            GraphForm velX = new GraphForm("velX");
+            yawG.Visible = true;
+            pitchG.Visible = true;
+            rollG.Visible = true;
+            lax.Visible = true;
+            lay.Visible = true;
+            laz.Visible = true;
+            velX.Visible = true;
 
-        //        Application.DoEvents();
-        //    }
 
-        //}
+            /*
+            GraphForm accxg = new GraphForm("accx");
+            GraphForm accyg = new GraphForm("accy");
+            GraphForm acczg = new GraphForm("accz");
+            GraphForm gyroxg = new GraphForm("gyrox");
+            GraphForm gyroyg = new GraphForm("gyroy");
+            GraphForm gyrozg = new GraphForm("gyroz");
+            GraphForm magxg = new GraphForm("magx");
+            GraphForm magyg = new GraphForm("magy");
+            GraphForm magzg = new GraphForm("magz");
+            accxg.Visible = true;
+            accyg.Visible = true;
+            acczg.Visible = true;
+            gyroxg.Visible = true;
+            gyroyg.Visible = true;
+            gyrozg.Visible = true;
+            magxg.Visible = true;
+            magyg.Visible = true;
+            magzg.Visible = true;
+            */
+
+            port.DiscardInBuffer();
+            while (true)
+            {
+                while (portInterface.ReadByte() != 'S')
+                {
+
+                }
+
+
+                float yaw = portInterface.ReadFloat() * (float)(180.0f / Math.PI);
+                float pitch = portInterface.ReadFloat() * (float)(180.0f / Math.PI);
+                float roll = portInterface.ReadFloat() * (float)(180.0f / Math.PI);
+                float lineX = portInterface.ReadFloat();
+                float lineY = portInterface.ReadFloat();
+                float lineZ = portInterface.ReadFloat();
+                float velocityX = portInterface.ReadFloat();
+                yawG.AddValueToGraph(yaw);
+                pitchG.AddValueToGraph(pitch);
+                rollG.AddValueToGraph(roll);
+                lax.AddValueToGraph(lineX);
+                lay.AddValueToGraph(lineY);
+                laz.AddValueToGraph(lineZ);
+                velX.AddValueToGraph(velocityX);
+
+
+                /*
+                float accx = portInterface.ReadFloat();
+                float accy = portInterface.ReadFloat();
+                float accz = portInterface.ReadFloat();
+                float gyrox = portInterface.ReadFloat();
+                float gyroy = portInterface.ReadFloat();
+                float gyroz = portInterface.ReadFloat();
+                float magx = portInterface.ReadFloat();
+                float magy = portInterface.ReadFloat();
+                float magz = portInterface.ReadFloat();
+                accxg.AddValueToGraph(accx);
+                accyg.AddValueToGraph(accy);
+                acczg.AddValueToGraph(accz);
+                gyroxg.AddValueToGraph(gyrox);
+                gyroyg.AddValueToGraph(gyroy);
+                gyrozg.AddValueToGraph(gyroz);
+                magxg.AddValueToGraph(magx);
+                magyg.AddValueToGraph(magy);
+                magzg.AddValueToGraph(magz);                
+                */
+
+
+
+                Application.DoEvents();
+            }
+
+        }
 
 
 
@@ -220,201 +220,201 @@ namespace HelicopterIntegrationTests
          */
 
         //Test reading GPS.
-        public static void Main()
-        {
-            //SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
-            //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One);
-           SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
+        //public static void Main()
+        //{
+        //    //SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
+        //    //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One);
+        //   SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
 
 
-            SerialPortInterface portInterface = new SerialPortInterface(port);
-            portInterface.Open();
+        //    SerialPortInterface portInterface = new SerialPortInterface(port);
+        //    portInterface.Open();
 
 
-            GraphForm lat = new GraphForm("Latitude");
-            GraphForm lon = new GraphForm("Longitude");
-            lat.Visible = true;
-            lon.Visible = true;
+        //    GraphForm lat = new GraphForm("Latitude");
+        //    GraphForm lon = new GraphForm("Longitude");
+        //    lat.Visible = true;
+        //    lon.Visible = true;
 
-            byte var = 0;
-            int counter = 0;
-            byte[] bytes = new byte[80];
-
-
-            port.DiscardInBuffer();
-            while (true)
-            {
-                List<byte> bts = new List<byte>();
-
-                while (true)
-                {
-
-                //    bts.Add(portInterface.ReadByte());
-                    /*
-                    byte[] buff = new byte[34];
-
-                    for (int i = 0; i < 34; i++)
-                    {
-                        buff[i] = portInterface.ReadByte();
-                    }
-
-                    int a = 0;
-                    a++;
-                    */
-
-                    /**
-                     * This is needed to prevent getting out of synch. After a restart
-                     * the system could have already transmitted half of the data, so the first message
-                     * after a restart will be junk. Then this will snychronize the messages after the first
-                     * transmit.
-                     */
-                    while (portInterface.ReadByte() != 'T')
-                    {
-
-                    }
-
-                    //byte bb = 0;
-                    //bb = portInterface.ReadByte();
-                    //bb = portInterface.ReadByte();
-                    //bb = portInterface.ReadByte();
-
-                    int latitude = portInterface.ReadInt();
-                    int longitude = portInterface.ReadInt();
-                    int positionAcc = portInterface.ReadInt();
-                    short fixStatus = portInterface.ReadShort();
-                    int x = portInterface.ReadInt();
-                    int y = portInterface.ReadInt();
-                    int z = portInterface.ReadInt();
-                    int b = 0;
-
-                    Console.WriteLine("lat: " + latitude.ToString() + " long: " + longitude.ToString() + " pos acc " + positionAcc.ToString() + " fixStatus " + fixStatus.ToString() + " x: " + x.ToString() + " y: " + y.ToString() + " z " + z.ToString());
+        //    byte var = 0;
+        //    int counter = 0;
+        //    byte[] bytes = new byte[80];
 
 
-                }
+        //    port.DiscardInBuffer();
+        //    while (true)
+        //    {
+        //        List<byte> bts = new List<byte>();
 
-            }
+        //        while (true)
+        //        {
 
-            //        /*
-            //        bytes = new byte[80];
+        //        //    bts.Add(portInterface.ReadByte());
+        //            /*
+        //            byte[] buff = new byte[34];
 
-            //        for (int i = 0; i < 80; i++)
-            //        {
-            //            var = portInterface.ReadByte();
+        //            for (int i = 0; i < 34; i++)
+        //            {
+        //                buff[i] = portInterface.ReadByte();
+        //            }
 
-            //            bytes[i] = var;
-            //        }
+        //            int a = 0;
+        //            a++;
+        //            */
 
-            //        byte b = 2;
-            //         */
+        //            /**
+        //             * This is needed to prevent getting out of synch. After a restart
+        //             * the system could have already transmitted half of the data, so the first message
+        //             * after a restart will be junk. Then this will snychronize the messages after the first
+        //             * transmit.
+        //             */
+        //            while (portInterface.ReadByte() != 'T')
+        //            {
 
-            //        /*
-            //        var = portInterface.ReadByte();
+        //            }
+
+        //            //byte bb = 0;
+        //            //bb = portInterface.ReadByte();
+        //            //bb = portInterface.ReadByte();
+        //            //bb = portInterface.ReadByte();
+
+        //            int latitude = portInterface.ReadInt();
+        //            int longitude = portInterface.ReadInt();
+        //            int positionAcc = portInterface.ReadInt();
+        //            short fixStatus = portInterface.ReadShort();
+        //            int x = portInterface.ReadInt();
+        //            int y = portInterface.ReadInt();
+        //            int z = portInterface.ReadInt();
+        //            int b = 0;
+
+        //            Console.WriteLine("lat: " + latitude.ToString() + " long: " + longitude.ToString() + " pos acc " + positionAcc.ToString() + " fixStatus " + fixStatus.ToString() + " x: " + x.ToString() + " y: " + y.ToString() + " z " + z.ToString());
+
+
+        //        }
+
+        //    }
+
+        //    //        /*
+        //    //        bytes = new byte[80];
+
+        //    //        for (int i = 0; i < 80; i++)
+        //    //        {
+        //    //            var = portInterface.ReadByte();
+
+        //    //            bytes[i] = var;
+        //    //        }
+
+        //    //        byte b = 2;
+        //    //         */
+
+        //    //        /*
+        //    //        var = portInterface.ReadByte();
                       
                      
-            //        if (var == 'S')
-            //        {
-            //            counter = 0;
-            //            System.Diagnostics.Debug.WriteLine("Counter " + (bytes[0] << 24 | bytes[1] << 16 | bytes[2] << 8 | bytes[3]));
-            //        }
-            //        else if (var == 'B')
-            //        {
-            //            System.Diagnostics.Debug.WriteLine("Timeout " + ((int)portInterface.ReadByte()).ToString());
-            //        }
-            //        else
-            //        {
-            //            bytes[counter++] = var;
-            //        }
-            //         * */
+        //    //        if (var == 'S')
+        //    //        {
+        //    //            counter = 0;
+        //    //            System.Diagnostics.Debug.WriteLine("Counter " + (bytes[0] << 24 | bytes[1] << 16 | bytes[2] << 8 | bytes[3]));
+        //    //        }
+        //    //        else if (var == 'B')
+        //    //        {
+        //    //            System.Diagnostics.Debug.WriteLine("Timeout " + ((int)portInterface.ReadByte()).ToString());
+        //    //        }
+        //    //        else
+        //    //        {
+        //    //            bytes[counter++] = var;
+        //    //        }
+        //    //         * */
 
-            //        counter++;
-            //        /*byte[] bytes2 = new byte[28];
+        //    //        counter++;
+        //    //        /*byte[] bytes2 = new byte[28];
 
                     
 
-            //        for (int i = 0; i < 28; i++)
-            //        {
-            //            var = portInterface.ReadByte();
-            //            bytes2[i] = var;
-            //        }
+        //    //        for (int i = 0; i < 28; i++)
+        //    //        {
+        //    //            var = portInterface.ReadByte();
+        //    //            bytes2[i] = var;
+        //    //        }
 
-            //        int b = 3;
-            //        System.Diagnostics.Debug.WriteLine("Counter " + (bytes2[13] << 24 | bytes2[12] << 16 | bytes2[11] << 8 | bytes2[10]));
-            //         */
+        //    //        int b = 3;
+        //    //        System.Diagnostics.Debug.WriteLine("Counter " + (bytes2[13] << 24 | bytes2[12] << 16 | bytes2[11] << 8 | bytes2[10]));
+        //    //         */
 
-            //        /*
-            //        bytes [counter++] = var;
+        //    //        /*
+        //    //        bytes [counter++] = var;
 
-            //        if (counter == 3)
-            //        {
-            //            counter = 0;
-            //            System.Diagnostics.Debug.WriteLine("Counter " + (bytes[0] <<24 | bytes[1] <<16 | bytes[2] << 8 | bytes[3]));
-            //        }
-            //         */
+        //    //        if (counter == 3)
+        //    //        {
+        //    //            counter = 0;
+        //    //            System.Diagnostics.Debug.WriteLine("Counter " + (bytes[0] <<24 | bytes[1] <<16 | bytes[2] << 8 | bytes[3]));
+        //    //        }
+        //    //         */
 
-            //        /*
-            //        if (var == 0xB5)
-            //        {
-            //            System.Diagnostics.Debug.WriteLine("Counter" + counter);
-            //            counter = 1;
+        //    //        /*
+        //    //        if (var == 0xB5)
+        //    //        {
+        //    //            System.Diagnostics.Debug.WriteLine("Counter" + counter);
+        //    //            counter = 1;
                         
-            //        }
+        //    //        }
 
-            //        if (counter == 11 | counter == 12 | counter == 13 | counter == 14)
-            //        {
-            //            bytes[14 - counter] = var;
-            //            bytes[counter - 11] = var;
-            //        }
-            //        if (counter == 15)
-            //        {
-            //            System.Diagnostics.Debug.WriteLine("Number" + BitConverter.ToInt32(bytes,0));
-            //        }
+        //    //        if (counter == 11 | counter == 12 | counter == 13 | counter == 14)
+        //    //        {
+        //    //            bytes[14 - counter] = var;
+        //    //            bytes[counter - 11] = var;
+        //    //        }
+        //    //        if (counter == 15)
+        //    //        {
+        //    //            System.Diagnostics.Debug.WriteLine("Number" + BitConverter.ToInt32(bytes,0));
+        //    //        }
 
-            //        System.Diagnostics.Debug.Write((char)var);
-            //         */
-            //        /*
-            //        if (var == 'S')
-            //        {
-            //            int bb = portInterface.ReadInt();
-            //            System.Diagnostics.Debug.WriteLine(" Int: " + bb.ToString());
+        //    //        System.Diagnostics.Debug.Write((char)var);
+        //    //         */
+        //    //        /*
+        //    //        if (var == 'S')
+        //    //        {
+        //    //            int bb = portInterface.ReadInt();
+        //    //            System.Diagnostics.Debug.WriteLine(" Int: " + bb.ToString());
                         
-            //        }*/
-            //    }
+        //    //        }*/
+        //    //    }
 
 
-            //    while (var != 'S')
-            //    {
-            //        var = portInterface.ReadByte();
-            //    }
+        //    //    while (var != 'S')
+        //    //    {
+        //    //        var = portInterface.ReadByte();
+        //    //    }
 
-            //    Note:The status value might come back as a large value because after restart, the value S gets sent as one of the bytes ruining the synchronization
-            //    /*
-            //    Read raw lat/long
-            //    System.Diagnostics.Debug.WriteLine(portInterface.ReadInt(portInterface));
-            //    int rwLat = portInterface.ReadInt(portInterface);
-            //    lat.AddValueToGraph(rwLat);
+        //    //    Note:The status value might come back as a large value because after restart, the value S gets sent as one of the bytes ruining the synchronization
+        //    //    /*
+        //    //    Read raw lat/long
+        //    //    System.Diagnostics.Debug.WriteLine(portInterface.ReadInt(portInterface));
+        //    //    int rwLat = portInterface.ReadInt(portInterface);
+        //    //    lat.AddValueToGraph(rwLat);
 
-            //    int rwLon = portInterface.ReadInt(portInterface);
-            //    lon.AddValueToGraph(rwLon);*/
-
-
-            //    Read raw messages
-            //    var = 0;
-            //    short status = portInterface.ReadShort();
-            //    System.Diagnostics.Debug.WriteLine("status: " + status); // status
-            //    while (var != 'S')
-            //    {
-            //        var = portInterface.ReadByte();
-            //        System.Diagnostics.Debug.Write((char)var);
-            //    }
+        //    //    int rwLon = portInterface.ReadInt(portInterface);
+        //    //    lon.AddValueToGraph(rwLon);*/
 
 
+        //    //    Read raw messages
+        //    //    var = 0;
+        //    //    short status = portInterface.ReadShort();
+        //    //    System.Diagnostics.Debug.WriteLine("status: " + status); // status
+        //    //    while (var != 'S')
+        //    //    {
+        //    //        var = portInterface.ReadByte();
+        //    //        System.Diagnostics.Debug.Write((char)var);
+        //    //    }
 
-            //    Read xned
-            //    System.Diagnostics.Debug.WriteLine(portInterface.ReadFloat().ToString());
 
-            //    Application.DoEvents();
-            //}
-        }
+
+        //    //    Read xned
+        //    //    System.Diagnostics.Debug.WriteLine(portInterface.ReadFloat().ToString());
+
+        //    //    Application.DoEvents();
+        //    //}
+        //}
 
 
 
@@ -523,44 +523,44 @@ namespace HelicopterIntegrationTests
 
 
 
-    //    //public static void Main()
-    //    //{
-    //    //    SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
-    //    //    SerialPortInterface portInterface = new SerialPortInterface(port);
-    //    //    portInterface.Open();
+        //public static void Main()
+        //{
+        //    SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
+        //    SerialPortInterface portInterface = new SerialPortInterface(port);
+        //    portInterface.Open();
 
 
-    //    //    GraphForm magX = new GraphForm("MagX");
-    //    //    GraphForm magZ = new GraphForm("MagZ");
-    //    //    GraphForm magY = new GraphForm("MagY");
-    //    //    GraphForm frdmagX = new GraphForm("FRDMagX");
-    //    //    GraphForm frdmagZ = new GraphForm("FRDMagZ");
-    //    //    GraphForm frdmagY = new GraphForm("FRDMagY");
+        //    GraphForm magX = new GraphForm("MagX");
+        //    GraphForm magZ = new GraphForm("MagZ");
+        //    GraphForm magY = new GraphForm("MagY");
+        //    GraphForm frdmagX = new GraphForm("FRDMagX");
+        //    GraphForm frdmagZ = new GraphForm("FRDMagZ");
+        //    GraphForm frdmagY = new GraphForm("FRDMagY");
 
-    //    //    magX.Visible = true;
-    //    //    magZ.Visible = true;
-    //    //    magY.Visible = true;
-    //    //    frdmagX.Visible = true;
-    //    //    frdmagZ.Visible = true;
-    //    //    frdmagY.Visible = true;
+        //    magX.Visible = true;
+        //    magZ.Visible = true;
+        //    magY.Visible = true;
+        //    frdmagX.Visible = true;
+        //    frdmagZ.Visible = true;
+        //    frdmagY.Visible = true;
 
-    //    //    while (true)
-    //    //    {
-    //    //        int var = 0;
-    //    //        while (var != 'S')
-    //    //        {
-    //    //            var = portInterface.ReadByte();
-    //    //        }
-    //    //        magX.AddValueToGraph(readShort(portInterface));
-    //    //        magY.AddValueToGraph(readShort(portInterface));
-    //    //        magZ.AddValueToGraph(readShort(portInterface));
-    //    //        frdmagX.AddValueToGraph(readShort(portInterface));
-    //    //        frdmagY.AddValueToGraph(readShort(portInterface));
-    //    //        frdmagZ.AddValueToGraph(readShort(portInterface));
+        //    while (true)
+        //    {
+        //        int var = 0;
+        //        while (var != 'S')
+        //        {
+        //            var = portInterface.ReadByte();
+        //        }
+        //        magX.AddValueToGraph(readShort(portInterface));
+        //        magY.AddValueToGraph(readShort(portInterface));
+        //        magZ.AddValueToGraph(readShort(portInterface));
+        //        frdmagX.AddValueToGraph(readShort(portInterface));
+        //        frdmagY.AddValueToGraph(readShort(portInterface));
+        //        frdmagZ.AddValueToGraph(readShort(portInterface));
                 
-    //    //        Application.DoEvents();
-    //    //    }
-    //    //}
+        //        Application.DoEvents();
+        //    }
+        //}
 
 
     //    //public static void Main()

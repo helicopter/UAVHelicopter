@@ -170,8 +170,8 @@ sendControlToServos = true;
 		//model->SensorInput(SystemModel::SimulatedSensors);
 		
 		
-		model->CommunicationMethod(SystemModel::Radio);
-//		model->CommunicationMethod(SystemModel::USB);
+		//model->CommunicationMethod(SystemModel::Radio);
+model->CommunicationMethod(SystemModel::USB);
 		
 		sendControlToServos = true;
 	}else if (model->FlightMode() == SystemModel::HardwareInLoopSimulatedFlight)

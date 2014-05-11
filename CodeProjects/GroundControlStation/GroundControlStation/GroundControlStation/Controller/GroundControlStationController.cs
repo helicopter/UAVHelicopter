@@ -98,7 +98,7 @@ namespace GroundControlStation.Controller
 
 
             //UpdateView(View.FcMagYaw, Model.
-            UpdateView(View.FcMagYaw, Model.YawRads * (180 / Math.PI));
+            UpdateView(View.FcMagYaw, (float)Model.YawRads * (180.0f / Math.PI));
             UpdateView(View.XNED, Model.XNEDLocalFrame);
             UpdateView(View.YNED, Model.YNEDLocalFrame);
             UpdateView(View.XVEL, Model.XVelocityMetersPerSecond);
@@ -250,11 +250,13 @@ namespace GroundControlStation.Controller
                         Model.YNEDLocalFrame = telem.YNEDLocalFrame;
                         Model.YVelocityMetersPerSecond = telem.YVelocityFRDCms;
 
-
+                        System.Diagnostics.Debug.WriteLine(telem.YVelocityFRDCms);
 
                         Model.ZVelocityFeetPerSecond = telem.ZVelocityFRDCms;
+                        
                         Model.YawRads = telem.YawRads;
                         Model.ZNEDLocalFrame = telem.ZNEDLocalFrame;
+
 
 
                         Model.XAccelFrdMss = telem.XAccelFrdMss;

@@ -14,6 +14,7 @@
 #include "SensorDataMessage.h"
 #include "RadioControllerInterface.h"
 #include "ServoControlTask.h"
+#include "SimpleTelemetryMessage.h"
 
 #include <string.h>
 #include <util/delay.h>
@@ -330,6 +331,79 @@ int radiocontrollerservooutput_test(TestCase *test)
 ////
 ////
 ////
+
+
+
+
+
+int newmsgformat2_test(TestCase *test)
+{
+
+	//////////////////////////////////////////////////////////////////////////
+	// Transmit a test message
+	//////////////////////////////////////////////////////////////////////////
+	Timer *t = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 200);
+
+	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, true, t);
+	serialDriver->init();
+	
+	
+	GroundControlStationInterface radioInterface(serialDriver);
+	
+	
+	SimpleTelemetryMessage *transmitMessage = new SimpleTelemetryMessage();
+	transmitMessage->PitchAngularVelocityRadsPerSecond = 3.14;
+	transmitMessage->PressureMillibars = 44.313;
+	transmitMessage->RollAngularVelocityRadsPerSecond = 4422.1;
+	transmitMessage->XAccelFrdMss = 33.33;
+	transmitMessage->XEcefCm = 331.2;
+	transmitMessage->XMagFrd = 22.2;
+	transmitMessage->YawRads = 231.23f;
+	transmitMessage->ZVelocityFRDCms = .0123f;
+	
+	AssertTrue2(radioInterface.transmit(transmitMessage) == 0, 1);
+	
+	delete transmitMessage;
+	
+	//////////////////////////////////////////////////////////////////////////
+	// Test receiving a message
+	//////////////////////////////////////////////////////////////////////////
+	Message *receiveMessage = NULL;
+	
+	AssertTrue2(radioInterface.receive(receiveMessage) == 0, 2);
+	
+	AssertTrue2(receiveMessage->getType() == SimpleTelemetryMessage::MessageType, 4);
+	
+	SimpleTelemetryMessage *receivedMsg = (SimpleTelemetryMessage *)receiveMessage;
+	
+	
+	AssertTrue(receivedMsg->PitchAngularVelocityRadsPerSecond == 3.14f);
+	AssertTrue(receivedMsg->PressureMillibars == 44.313f);
+	AssertTrue(receivedMsg->RollAngularVelocityRadsPerSecond == 4422.1f);
+	AssertTrue(receivedMsg->XAccelFrdMss == 33.33f);
+	AssertTrue(receivedMsg->XEcefCm == 331);
+	AssertTrue(receivedMsg->XMagFrd == 22.2f);
+	AssertTrue(receivedMsg->YawRads ==  231.23f);
+	AssertTrue(receivedMsg->ZVelocityFRDCms == .0123f);
+
+	
+	delete receivedMsg;
+	
+	
+	//Send a signal to the other software indicating that this test passed.
+	SimpleTelemetryMessage *transmitMessage2 = new SimpleTelemetryMessage();
+	transmitMessage2->PressureMillibars = 12;
+	
+	AssertTrue2(radioInterface.transmit(transmitMessage2) == 0, 7);
+	
+	delete transmitMessage2;
+
+	return 0;
+}
+
+
+
+
 
 int newmsgformat_test(TestCase *test)
 {

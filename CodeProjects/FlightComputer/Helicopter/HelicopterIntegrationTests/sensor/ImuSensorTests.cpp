@@ -234,11 +234,11 @@ int magdriver_test(TestCase *test)
 		_delay_ms(700);
 		magSensor->readSensor();
 		
-		serialDriver->transmit('S');
+		serialDriver->transmit((byte)'S');
 		
-		serialDriver->transmit(magSensor->getRawX());
-		serialDriver->transmit(magSensor->getRawY());
-		serialDriver->transmit(magSensor->getRawZ());
+		serialDriver->transmit((int)magSensor->getRawX());
+		serialDriver->transmit((int)magSensor->getRawY());
+		serialDriver->transmit((int)magSensor->getRawZ());
 		send(serialDriver, magSensor->getFRDX());
 		send(serialDriver, magSensor->getFRDY());
 		send(serialDriver, magSensor->getFRDZ());

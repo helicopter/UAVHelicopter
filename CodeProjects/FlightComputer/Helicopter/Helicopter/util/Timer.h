@@ -59,9 +59,8 @@ namespace helicopter
 				 */
 				Timer (unsigned long cpuSpeed, PRESCALER timerPrescaler, unsigned long timeoutMilliseconds):
 					cpuSpeed(cpuSpeed), timerPrescaler(timerPrescaler), timeoutMilliseconds(timeoutMilliseconds),
-					numberOfTimeouts(0)
+					numberOfTimeouts(timeoutMilliseconds / 10)
 					{
-						
 					}
 					
 				

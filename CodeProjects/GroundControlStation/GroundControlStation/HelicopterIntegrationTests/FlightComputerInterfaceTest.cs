@@ -120,6 +120,43 @@ namespace HelicopterIntegrationTests
 
 
         [TestMethod]
+        public void newmsgformat2_test()
+        {
+            SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
+
+            SerialPortInterface portInterface = new SerialPortInterface(port);
+
+            using (FlightComputerInterface fcInt = new FlightComputerInterface(portInterface))
+            {
+                fcInt.Open();
+
+
+                SimpleTelemetryMessage sensorData = (SimpleTelemetryMessage)fcInt.Receive();
+
+                Assert.IsTrue(sensorData.MsgType == 6);
+                Assert.IsTrue(sensorData.PitchAngularVelocityRadsPerSecond == 3.14f);
+                Assert.IsTrue(sensorData.PressureMillibars == 44.313f);
+                Assert.IsTrue(sensorData.RollAngularVelocityRadsPerSecond == 4422.1f);
+                Assert.IsTrue(sensorData.XAccelFrdMss == 33.33f);
+                Assert.IsTrue(sensorData.XEcefCm == 331);
+                Assert.IsTrue(sensorData.XMagFrd == 22.2f);
+                Assert.IsTrue(sensorData.YawRads == 231.23f);
+                Assert.IsTrue(sensorData.ZVelocityFRDCms == .0123f);
+
+
+
+                fcInt.Transmit(sensorData);
+
+                sensorData = (SimpleTelemetryMessage)fcInt.Receive();
+
+                Assert.IsTrue(sensorData.PressureMillibars == 12);
+
+            }
+        }
+
+
+
+        [TestMethod]
         public void newmsgformat_test()
         {
             SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);

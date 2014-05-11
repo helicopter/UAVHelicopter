@@ -39,7 +39,7 @@ int main(void)
 	//helicopterTests.addTest(readSensor_test, 6);
 	//helicopterTests.addTest(nedGps_test, 6);
 //	helicopterTests.addTest(newmsgformat_test, 6);
-	helicopterTests.addTest(radiocontrollerservooutput_test, 6);
+	//helicopterTests.addTest(radiocontrollerservooutput_test, 6);
 	
 	//helicopterTests.addTest(partialTransmit_test, 6);
 	//helicopterTests.addTest(gpsPartialReceive_test, 6);
@@ -47,6 +47,9 @@ int main(void)
 //	helicopterTests.addTest(ahrs_test, 6);
 //	helicopterTests.addTest(fakedata_test, 3);
 	//helicopterTests.addTest(systemtelemetrytransmitandreceive_test, 3);
+	//helicopterTests.addTest(magdriver_test,10);
+	//helicopterTests.addTest(ahrs_test, 11);
+	helicopterTests.addTest(newmsgformat2_test, 11);
 	
 	
 	helicopterTests.runTests();

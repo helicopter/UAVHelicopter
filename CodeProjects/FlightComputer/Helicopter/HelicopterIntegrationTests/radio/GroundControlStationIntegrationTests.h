@@ -27,6 +27,8 @@ int radiocontrollerservooutput_test(TestCase *test);
 int systemtelemetrytransmitandreceive_test(TestCase *test);
 
 int newmsgformat_test(TestCase *test);
+int newmsgformat2_test(TestCase *test);
+
 
 //int reliablyreceive_test(TestCase *test);
 
