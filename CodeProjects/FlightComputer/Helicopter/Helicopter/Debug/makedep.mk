@@ -22,6 +22,8 @@ interfaces\RadioControllerInterface.cpp
 
 messages\ControlMessage.cpp
 
+messages\GainsMessage.cpp
+
 messages\Message.cpp
 
 messages\SensorDataMessage.cpp

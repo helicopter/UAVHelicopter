@@ -65,7 +65,9 @@ void SerialDriver::init()
 		/* Enable receiver and transmitter. Receiver Enable(RXEN), Transmitter Enable (TXEN) */
 		UCSR0B |= (1<<RXEN0) | (1<<TXEN0);
 	} else if (uartPort == One)
-	{			
+	{	
+		
+				
 		/* Set baud rate */
 		UBRR1 = baudPrescaller;
 		

@@ -57,6 +57,7 @@ C_SRCS +=  \
 ../interfaces/GroundControlStationInterface.cpp \
 ../interfaces/RadioControllerInterface.cpp \
 ../messages/ControlMessage.cpp \
+../messages/GainsMessage.cpp \
 ../messages/Message.cpp \
 ../messages/SensorDataMessage.cpp \
 ../messages/SimpleTelemetryMessage.cpp \
@@ -103,6 +104,7 @@ HelicopterMain.o \
 interfaces/GroundControlStationInterface.o \
 interfaces/RadioControllerInterface.o \
 messages/ControlMessage.o \
+messages/GainsMessage.o \
 messages/Message.o \
 messages/SensorDataMessage.o \
 messages/SimpleTelemetryMessage.o \
@@ -142,6 +144,7 @@ HelicopterMain.o \
 interfaces/GroundControlStationInterface.o \
 interfaces/RadioControllerInterface.o \
 messages/ControlMessage.o \
+messages/GainsMessage.o \
 messages/Message.o \
 messages/SensorDataMessage.o \
 messages/SimpleTelemetryMessage.o \
@@ -181,6 +184,7 @@ HelicopterMain.d \
 interfaces/GroundControlStationInterface.d \
 interfaces/RadioControllerInterface.d \
 messages/ControlMessage.d \
+messages/GainsMessage.d \
 messages/Message.d \
 messages/SensorDataMessage.d \
 messages/SimpleTelemetryMessage.d \
@@ -220,6 +224,7 @@ HelicopterMain.d \
 interfaces/GroundControlStationInterface.d \
 interfaces/RadioControllerInterface.d \
 messages/ControlMessage.d \
+messages/GainsMessage.d \
 messages/Message.d \
 messages/SensorDataMessage.d \
 messages/SimpleTelemetryMessage.d \
@@ -259,6 +264,8 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 LIB_DEP+= 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

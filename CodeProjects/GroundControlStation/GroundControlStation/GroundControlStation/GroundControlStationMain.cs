@@ -26,8 +26,8 @@ namespace GroundControlStation
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //FlightModes flightMode = FlightModes.RealFlight;
-            FlightModes flightMode = FlightModes.SimulatedFlight;
+            FlightModes flightMode = FlightModes.RealFlight;
+            //FlightModes flightMode = FlightModes.SimulatedFlight;
 
             //SerialPort port = new SerialPort("COM7", 76800, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One); //MOST RECENT
@@ -269,10 +269,18 @@ namespace GroundControlStation
             //model.ZProportionalGain = 0.05901f;
             //model.ZDerivativeGain = .01141f;
             //model.ZAntiWindupGain = .1f;
-             
 
-            GroundControlStationController gcsController =
-                new GroundControlStationController(xInterface, fcInterface, GroundControlStationController.DATATOSEND.SENSORDATA);
+
+            GroundControlStationController gcsController = null;
+
+            if (flightMode == FlightModes.RealFlight)
+            {
+                gcsController = new GroundControlStationController(xInterface, fcInterface, GroundControlStationController.DATATOSEND.SENSORDATA, 1);
+            }
+            else
+            {
+                gcsController = new GroundControlStationController(xInterface, fcInterface, GroundControlStationController.DATATOSEND.SENSORDATA, 0);
+            }
 
             gcsController.Model = model;
 

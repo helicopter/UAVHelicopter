@@ -49,7 +49,8 @@ int main(void)
 	//helicopterTests.addTest(systemtelemetrytransmitandreceive_test, 3);
 	//helicopterTests.addTest(magdriver_test,10);
 	//helicopterTests.addTest(ahrs_test, 11);
-	helicopterTests.addTest(newmsgformat2_test, 11);
+	//helicopterTests.addTest(magdriver_test, 11);
+	helicopterTests.addTest(radiocontrollerservooutput_test, 11);
 	
 	
 	helicopterTests.runTests();

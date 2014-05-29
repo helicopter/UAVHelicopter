@@ -485,6 +485,29 @@ namespace helicopter
 															
 			float AuxChannelValue() const {return auxChannelValue;}
 			void AuxChannelValue(float val) {auxChannelValue = val;}
+
+
+
+
+
+
+
+
+
+float cal1f;
+float off1() const {return cal1f;}
+void off1(float val) {cal1f = val;}
+float cal2f;
+float off2() const {return cal2f;}
+void off2(float val) {cal2f = val;}
+float cal3f;
+float off3() const {return cal3f;}
+void off3(float val) {cal3f = val;}
+
+
+
+
+
 													
 		};
 	}

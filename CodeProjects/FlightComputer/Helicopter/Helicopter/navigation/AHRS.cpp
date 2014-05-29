@@ -64,6 +64,41 @@ void AHRS::orthonormalizeDcm()
 	MatrixUtil::Normalize(dcm[2]);
 }
 
+
+
+
+float constrain_float2(float amt, float low, float high)
+{
+	// the check for NaN as a float prevents propogation of
+	// floating point errors through any function that uses
+	// constrain_float(). The normal float semantics already handle -Inf
+	// and +Inf
+	if (isnan(amt)) {
+		return (low+high)*0.5f;
+	}
+	return ((amt)<(low)?(low):((amt)>(high)?(high):(amt)));
+}
+
+
+float wrap(float angle)
+{
+	if (angle > M_PI)
+	{
+		angle -= (2*M_PI);
+	}
+	 if (angle < -M_PI)
+	{
+		angle += (2*M_PI);
+	}
+	 if (angle < 0)
+	{
+		angle += 2*M_PI;
+	}
+	return angle;
+}
+
+
+
 void AHRS::update(float frdAccXMss, float frdAccYMss, float frdAccZMss,
 	float frdGyroXRs, float frdGyroYRs, float frdGyroZRs,
 	float frdMagX, float frdMagY, float frdMagZ)
@@ -115,8 +150,63 @@ void AHRS::update(float frdAccXMss, float frdAccYMss, float frdAccZMss,
 	/*
 	MatrixUtil::CrossProduct(accelerometerVector, magnetometerVector, westFacingVector);
 	MatrixUtil::CrossProduct(westFacingVector, accelerometerVector, correctedMagnetometerVector);	
-	*/	
+	*/
 	MatrixUtil::Normalize(correctedMagnetometerVector);
+	
+	
+	
+	
+/*
+float cos_pitch_sq = 1.0f-(dcm[2][0]*dcm[2][0]);
+
+// Tilt compensated magnetic field Y component:
+float headY = frdMagY * dcm[2][2] - frdMagZ * dcm[2][1];
+
+// Tilt compensated magnetic field X component:
+float headX = frdMagX * cos_pitch_sq - dcm[2][0] * (frdMagY * dcm[2][1] + frdMagZ * dcm[2][2]);
+
+// magnetic heading
+// 6/4/11 - added constrain to keep bad values from ruining DCM Yaw - Jason S.
+float heading = constrain_float2(atan2f(-headY,headX), -3.15f, 3.15f); //+M_PI;	
+*/
+
+//http://diydrones.com/profiles/blogs/tiltcompensated-heading
+    //phi = pitch
+	//roll = theta
+//float Xh = frdMagX * cos(pitchRads) + frdMagY * sin(rollRads) * sin(pitchRads) + frdMagZ * cos(rollRads) * sin(pitchRads);
+//float Yh = frdMagY * cos(rollRads) - frdMagZ * sin(rollRads);
+//float heading = wrap(atan2(-Yh, Xh));
+//
+////theta = pitch, phi = roll, sai = yaw
+//float cp = cosf(pitchRads);
+//float sp = sinf(pitchRads);
+//float sr = sinf(rollRads);
+//float cr = cosf(rollRads);
+//float sy = sinf(heading);
+//float cy = cosf(heading);
+//
+//float cx1 = -sp;
+//float cy1 = sr * cp;
+//float cz1 = cr * cp;
+	//
+	///*
+//correctedMagnetometerVector[0] = Xh;
+//correctedMagnetometerVector[1] = -Yh;
+//correctedMagnetometerVector[2] = 0;
+//*/
+	//
+//correctedMagnetometerVector[0] = cp*cy;
+//correctedMagnetometerVector[1] = sr*sp*cy-cr*sy;
+//correctedMagnetometerVector[2] = cr*sp*cy+sr*sy;
+	//
+	//
+//MatrixUtil::Normalize(correctedMagnetometerVector);
+//
+
+
+
+
+
 
 
 	//Calculate the cross product between the accelerometer data, and the
@@ -178,6 +268,33 @@ void AHRS::update(float frdAccXMss, float frdAccYMss, float frdAccZMss,
 	 */
 	//Add the yaw angle to pi to convert from -pi or pi being north and -3pi/2 being east to 0 or 2pi being north, and pi/2 being east
 	yawRads = M_PI + atan2(dcm[1][0], dcm[0][0]);
+	//yawRads = heading;
+	
+	
+/*	
+float cos_pitch_sq = 1.0f-(dcm[2][0]*dcm[2][0]);
+
+// Tilt compensated magnetic field Y component:
+float headY = frdMagY * dcm[2][2] - frdMagZ * dcm[2][1];
+
+// Tilt compensated magnetic field X component:
+float headX = frdMagX * cos_pitch_sq - dcm[2][0] * (frdMagY * dcm[2][1] + frdMagZ * dcm[2][2]);
+
+// magnetic heading
+// 6/4/11 - added constrain to keep bad values from ruining DCM Yaw - Jason S.
+float heading = constrain_float2(atan2f(-headY,headX), -3.15f, 3.15f) +M_PI;
+
+
+	
+	
+	
+	
+	
+yawRads = heading;	*/
+	
+	
+	
+	
 	pitchRads = -asin(dcm[2][0]);
 	rollRads = atan2(dcm[2][1], dcm[2][2]);
 }

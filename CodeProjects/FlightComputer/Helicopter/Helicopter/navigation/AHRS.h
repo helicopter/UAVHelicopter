@@ -58,6 +58,8 @@ namespace helicopter
 				 * Direction cosine matrix which stores the cosines of the angles between the body frame vectors
 				 * and the ground frame vectors. This can be thought of as the x,y,z components which is mapped from
 				 * one frame to the other.
+				 *
+				 * The matrix can be used to rotate a vector from body frame to ground frame
 				 * 
 				 * This matrix consists of the vectors I(X),J(Y) and K(Z), and i, j, k
 				 * where I,J,K are unity vectors of the magnetic (north) vector, the cross product of the gravitational and magnetic (north) vector), and the gravitational vector respectively

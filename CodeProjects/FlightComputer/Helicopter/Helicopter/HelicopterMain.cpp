@@ -28,6 +28,7 @@
 #include "MagnetometerSensor.h"
 #include "ReadMagnetometerSensorTask.h"
 #include "ServoControlTask.h"
+#include "TWIDriver.h"
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -70,6 +71,14 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	pidController->setYawIntegralGain(.806);
 	pidController->setYawDerivativeGain(.391);
 	pidController->setYawAntiWindupGain(0.135);
+	
+	
+	/*
+	pidController->setYawProportionalGain(.1116);
+	pidController->setYawIntegralGain(.0806);
+	pidController->setYawDerivativeGain(.0391);
+	pidController->setYawAntiWindupGain(0.0135);
+	*/
 	
 	pidController->setXProportionalGain(.00019);
 	pidController->setXIntegralGain(0);
@@ -134,14 +143,9 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 }
 
 
+
 int main(void)
 {	
-	
-
-		
-		
-		
-
 	bool sendControlToServos = false;
 	
 	Scheduler *scheduler = Scheduler::getScheduler();
@@ -161,8 +165,8 @@ int main(void)
 		model->CommunicationMethod(SystemModel::USB);
 		//model->CommunicationMethod(SystemModel::Radio);
 		
-		//sendControlToServos = false;
-sendControlToServos = true;
+		sendControlToServos = false;
+//sendControlToServos = true;
 		
 	}else if (model->FlightMode() == SystemModel::RealFlight)
 	{
@@ -170,14 +174,14 @@ sendControlToServos = true;
 		//model->SensorInput(SystemModel::SimulatedSensors);
 		
 		
-		//model->CommunicationMethod(SystemModel::Radio);
-model->CommunicationMethod(SystemModel::USB);
+		model->CommunicationMethod(SystemModel::Radio);
+//model->CommunicationMethod(SystemModel::USB);
 		
 		sendControlToServos = true;
 	}else if (model->FlightMode() == SystemModel::HardwareInLoopSimulatedFlight)
 	{
 		model->SensorInput(SystemModel::SimulatedSensors);
-		//model->CommunicationMethod(SystemModel::Radio);
+		model->CommunicationMethod(SystemModel::Radio);
 //model->CommunicationMethod(SystemModel::USB);
 		sendControlToServos = true;
 	}
@@ -230,7 +234,8 @@ model->CommunicationMethod(SystemModel::USB);
 	//SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, gpsTimer);//LATEST
 	
 	//Don't care about gps timer anymore since it's only used on initialization. 
-	SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, NULL);
+	//SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, NULL);
+	SerialDriver *gpsSerialDriver = new SerialDriver(38400, SerialDriver::One, true, NULL);
 	//SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, false, gpsTimer);
 	gpsSerialDriver->init();
 		
@@ -330,9 +335,10 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 	IMUSensor *imuSensor = new IMUSensor(spiDriver);
 	imuSensor->init();
-	
+
 	GPSSensor *gpsSensor = new GPSSensor(gpsSerialDriver);
 	gpsSensor->init();
+
 	BarometerSensor *baroSensor = new BarometerSensor(baroSpiDriver);
 	baroSensor->init();
 	
@@ -424,7 +430,8 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	if (model->SensorInput() == SystemModel::RealSensors)
 	{		
 		//Initialize GPS readings and position
-		while (!gpsSensor->isGpsReady() || gpsSensor->getPositionAccuracyEstimateEcefCm() > 400)
+		//while (!gpsSensor->isGpsReady() || gpsSensor->getPositionAccuracyEstimateEcefCm() > 400)
+while (!gpsSensor->isGpsReady() || gpsSensor->getPositionAccuracyEstimateEcefCm() > 1000)		
 		{
 			//gpsSensor->processSensorSolution();
 			gpsSensor->readSensorLLH();
@@ -482,7 +489,8 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 		_delay_ms(500);
 		
 		//Initialize barometer readings. The barometer needs lots of time to stabilize. 
-		for (int i = 0; i < 1000; i++)
+		//for (int i = 0; i < 1000; i++)
+for (int i = 0; i < 5; i++)		
 		{
 			//baro task is a 3 step process, so run 3 times.
 			for (int i = 0; i < 3; i++)
@@ -496,7 +504,8 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 		model->InitialAltitudeCm((((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-6.8755856 * 0.000001)) / 3.28084) * -100);
 		
 		//execute all the senor tasks a bunch of times to initialize the ahrs and nav systems.
-		for (int i = 0; i < 500; i++)
+		//for (int i = 0; i < 500; i++)
+for (int i = 0; i < 5; i++)		
 		{
 			magSensorTask->runTaskImpl();
 			gpsSensorTask->runTaskImpl();
@@ -571,8 +580,10 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 		PORTA |= (1<<PA5);
 	}
 	
-	gpsSensor->start();
 	
+
+	gpsSensor->start();
+
 	scheduler->init(); //Sets up the timer registers, inits all tasks,
 	
 	scheduler->start();
@@ -583,6 +594,7 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 		rcInterface->init();
 		rcInterface->start();
 	}
+	
 	
 	while(1)
 	{

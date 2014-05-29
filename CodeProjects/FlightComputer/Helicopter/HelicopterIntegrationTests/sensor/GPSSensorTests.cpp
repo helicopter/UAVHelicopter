@@ -22,6 +22,56 @@ using namespace helicopter::drivers;
 using namespace helicopter::sensors;
 using namespace helicopter::util;
 
+
+
+
+int fwdGpsData_test(TestCase *test)
+{
+	Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 50);
+	Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 500);
+	
+	/**
+	 * Note, this serial driver must be on baud rate 9600 because the GPS code is
+	 * hard coded to communicate over serial at 9600 baud.
+	 */
+	SerialDriver *gpsSerialDriver = new SerialDriver(38400, SerialDriver::One, false, NULL);
+	gpsSerialDriver->init();
+
+	SerialDriver *serialDriver = new SerialDriver(9600, SerialDriver::Zero, true, timer);
+	serialDriver->init();
+	
+	GPSSensor *sensor = new GPSSensor(gpsSerialDriver);
+	sensor->init();
+	//sensor->start();
+
+
+int ctr = 0;
+//UBRR1 = 10;
+
+	while (true)
+	{
+		byte b = 0;
+		gpsSerialDriver->receive(b);
+		serialDriver->transmit((byte)b);
+		//serialDriver->transmit('b');
+		
+		if (ctr++ == 40)
+		{
+			serialDriver->transmit((byte)'A');
+			serialDriver->transmit((byte)'A');
+			serialDriver->transmit((byte)'A');
+			//serialDriver->transmit((byte)UBRR1);
+			//UBRR1 = UBRR1 +1;
+			ctr = 0;
+		}
+		
+	}
+	
+
+	
+	return 0;
+}
+
 int baudchange_test(TestCase *test)
 {
 	Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 500);

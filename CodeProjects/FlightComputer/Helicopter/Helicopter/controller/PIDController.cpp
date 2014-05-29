@@ -327,7 +327,9 @@ void PIDController::tailRotorCollectiveOuterLoopUpdate()
 	float yawControlBeforeServoLimitsAdjustment = calculateOuterLoopControlValue(yawProportional, yawDerivativeError, weightedYawIntegral, yawProportionalGain, yawDerivativeGain, 1);
 	float yawControl = adjustControlForServoLimits(yawControlBeforeServoLimitsAdjustment, minYawServoControlValue, maxYawServoControlValue);
 	
-	model->YawControl(yawControl);
+	//model->YawControl(yawControl);
+	//Multiply by -1 because in the simulator, +1 results in counter clockwise yaw, but on the helicopter, it's a clockwise yaw. 
+	model->YawControl(yawControl * -1);
 	model->YawControlBeforeServoLimitsAdjustment(yawControlBeforeServoLimitsAdjustment);
 	model->YawIntegral(weightedYawIntegral);
 	model->YawProportional(yawProportional);
@@ -402,7 +404,10 @@ void PIDController::cyclicLongitudeInnerLoopUpdate()
 	
 		model->LongitudeControlBeforeServoLimitsAdjustment(xLongitudinalInnerLoopControlBeforeServoLimits);
 	
-		model->LongitudeControl(xLongitudinalInnerLoopControl);
+//		model->LongitudeControl(xLongitudinalInnerLoopControl);
+
+		//Multiply by -1 because in the simulator, a control value of +1 results in the helicopter pitching up, but the real helicopter pitches down.
+		model->LongitudeControl(xLongitudinalInnerLoopControl * -1);
 	}
 }
 

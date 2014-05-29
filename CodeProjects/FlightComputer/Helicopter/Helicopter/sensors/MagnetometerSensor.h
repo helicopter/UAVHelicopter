@@ -54,9 +54,12 @@ namespace helicopter
 	
 				static const byte DATA_OUTPUT_X_MSG_REGISTER = 0x03;
 				static const byte CONFIGURATION_REGISTER_A = 0x00;
+				static const byte CONFIGURATION_REGISTER_B = 0x01;
+				
 				static const byte MODE_REGISTER = 0x02;
 	
 				static const byte REGISTER_A_CONFIGURATION_75HZ_8AVG = 0x78;
+				static const byte REGISTER_B_CONFIGURATION_660_GAIN = 0x60;
 				static const byte COMPASS_MODE_CONTINUOUS_MEASUREMENT_MODE = 0x00;
 							
 				int rawMagX;
@@ -78,7 +81,8 @@ namespace helicopter
 				TWIDriver *driver;
 			
 			public:
-			
+static float _offset[3];
+static float debug[3];			
 				MagnetometerSensor(TWIDriver *driver);
 				
 				/**
@@ -140,6 +144,9 @@ namespace helicopter
 				{
 					return frdMagZ;
 				}
+				
+				
+				void learn_offsets(void);
 		};
 	}
 }

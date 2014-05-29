@@ -30,7 +30,7 @@ namespace HelicopterIntegrationTests
 
 
         //public static void Main()
-        public static void Main()
+        public static void Main2()
         {
             SerialPort port = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
             SerialPortInterface portInterface = new SerialPortInterface(port);
@@ -523,44 +523,44 @@ namespace HelicopterIntegrationTests
 
 
 
-        //public static void Main()
-        //{
-        //    SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
-        //    SerialPortInterface portInterface = new SerialPortInterface(port);
-        //    portInterface.Open();
+        public static void Main()
+        {
+            SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
+            SerialPortInterface portInterface = new SerialPortInterface(port);
+            portInterface.Open();
 
 
-        //    GraphForm magX = new GraphForm("MagX");
-        //    GraphForm magZ = new GraphForm("MagZ");
-        //    GraphForm magY = new GraphForm("MagY");
-        //    GraphForm frdmagX = new GraphForm("FRDMagX");
-        //    GraphForm frdmagZ = new GraphForm("FRDMagZ");
-        //    GraphForm frdmagY = new GraphForm("FRDMagY");
+            GraphForm magX = new GraphForm("MagX");
+            GraphForm magZ = new GraphForm("MagZ");
+            GraphForm magY = new GraphForm("MagY");
+            GraphForm frdmagX = new GraphForm("FRDMagX");
+            GraphForm frdmagZ = new GraphForm("FRDMagZ");
+            GraphForm frdmagY = new GraphForm("FRDMagY");
 
-        //    magX.Visible = true;
-        //    magZ.Visible = true;
-        //    magY.Visible = true;
-        //    frdmagX.Visible = true;
-        //    frdmagZ.Visible = true;
-        //    frdmagY.Visible = true;
+            magX.Visible = true;
+            magZ.Visible = true;
+            magY.Visible = true;
+            frdmagX.Visible = true;
+            frdmagZ.Visible = true;
+            frdmagY.Visible = true;
 
-        //    while (true)
-        //    {
-        //        int var = 0;
-        //        while (var != 'S')
-        //        {
-        //            var = portInterface.ReadByte();
-        //        }
-        //        magX.AddValueToGraph(readShort(portInterface));
-        //        magY.AddValueToGraph(readShort(portInterface));
-        //        magZ.AddValueToGraph(readShort(portInterface));
-        //        frdmagX.AddValueToGraph(readShort(portInterface));
-        //        frdmagY.AddValueToGraph(readShort(portInterface));
-        //        frdmagZ.AddValueToGraph(readShort(portInterface));
-                
-        //        Application.DoEvents();
-        //    }
-        //}
+            while (true)
+            {
+                int var = 0;
+                while (var != 'S')
+                {
+                    var = portInterface.ReadByte();
+                }
+                magX.AddValueToGraph(readShort(portInterface));
+                magY.AddValueToGraph(readShort(portInterface));
+                magZ.AddValueToGraph(readShort(portInterface));
+                frdmagX.AddValueToGraph(readShort(portInterface));
+                frdmagY.AddValueToGraph(readShort(portInterface));
+                frdmagZ.AddValueToGraph(readShort(portInterface));
+
+                Application.DoEvents();
+            }
+        }
 
 
     //    //public static void Main()

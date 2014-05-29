@@ -33,6 +33,13 @@ void ReadMagnetometerSensorTask::runTaskImpl()
 		model->XMagFrd(magnetometerSensor->getFRDX());
 		model->YMagFrd(magnetometerSensor->getFRDY());
 		model->ZMagFrd(magnetometerSensor->getFRDZ());
+
+/*	
+model->off1(magnetometerSensor->debug[0]);
+model->off2(magnetometerSensor->debug[1]);
+model->off3(magnetometerSensor->debug[2]);
+*/
+
 	}
 	
 }

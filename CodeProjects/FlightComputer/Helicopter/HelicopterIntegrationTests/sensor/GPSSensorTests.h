@@ -21,7 +21,7 @@ int nedGps_test(TestCase *test);
 int partialTransmit_test(TestCase *test);
 int gpsPartialReceive_test(TestCase *test);
 int baudchange_test(TestCase *test);
-
+int fwdGpsData_test(TestCase *test);
 
 
 //

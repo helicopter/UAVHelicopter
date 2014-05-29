@@ -71,10 +71,17 @@ void TransmitTelemetryTask::runTaskImpl()
 			message->YawAngularVelocityRadsPerSecond = model->YawAngularVelocityRadsPerSecond();
 			message->PitchAngularVelocityRadsPerSecond = model->PitchAngularVelocityRadsPerSecond();
 			message->RollAngularVelocityRadsPerSecond = model->RollAngularVelocityRadsPerSecond();
+			
+			
 			message->XMagFrd = model->XMagFrd();
 			message->YMagFrd = model->YMagFrd();
 			message->ZMagFrd = model->ZMagFrd();
-
+			
+/*
+message->XMagFrd = model->off1();
+message->YMagFrd = model->off2();
+message->ZMagFrd = model->off3();			
+*/
 			message->XEcefCm = model->XEcefCm();
 			message->YEcefCm = model->YEcefCm();
 			message->ZEcefCm = model->ZEcefCm();

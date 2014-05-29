@@ -15,6 +15,7 @@
 #include "RadioControllerInterface.h"
 #include "ServoControlTask.h"
 #include "SimpleTelemetryMessage.h"
+#include "MagnetometerSensor.h"
 
 #include <string.h>
 #include <util/delay.h>
@@ -22,6 +23,7 @@
 using namespace helicopter::drivers;
 using namespace helicopter::interfaces;
 using namespace helicopter::messages;
+using namespace helicopter::sensors;
 
 
 float getFloat(SerialDriver *serialDrive)
@@ -338,6 +340,26 @@ int radiocontrollerservooutput_test(TestCase *test)
 
 int newmsgformat2_test(TestCase *test)
 {
+	
+	
+		TWIDriver *twiDriver = new TWIDriver();
+		//twiDriver->init();
+		MagnetometerSensor *magSensor = new MagnetometerSensor(twiDriver);
+		//magSensor->init();
+	
+	magSensor->learn_offsets();
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	//////////////////////////////////////////////////////////////////////////
 	// Transmit a test message

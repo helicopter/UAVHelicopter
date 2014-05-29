@@ -29,7 +29,9 @@ const float RadioControllerInterface::MANUAL_MODE_THRESHOLD = 0.7;
 //const float RadioControllerInterface::MANUAL_MODE_THRESHOLD = 0.3;
 
 
-const float RadioControllerInterface::THROTTLE_VALUE = .80;
+//const float RadioControllerInterface::THROTTLE_VALUE = .80;
+//const float RadioControllerInterface::THROTTLE_VALUE = .20;
+const float RadioControllerInterface::THROTTLE_VALUE = -.55f;
 				
 const float RadioControllerInterface::GEAR_VALUE = 0.0;
 				
@@ -227,7 +229,7 @@ ISR(TIMER5_CAPT_vect)
 
 		rcInterface->ServoChannelIndex(rcInterface->ServoChannelIndex() + 1);
 	}
-	
+
 }
 
 
@@ -410,13 +412,15 @@ void RadioControllerInterface::init()
 
 	//Enable global interrupts
 	sei();
-	
+
 	// Enable Input Capture interrupt so the interrupt will fire when a PPM signal is received.
 	TIMSK5 |= (1<<ICIE5);
+
 }
 
 void RadioControllerInterface::start()
 {
+
 	//Set the timer prescaler to 8. (CS = Clock Select) which starts the timer.
 	//Starts the PPM input timer
 	TCCR5B |= (1<<CS51);	
@@ -432,14 +436,14 @@ void RadioControllerInterface::start()
 	while (!haveInitialData)
 	{
 		_delay_ms(1000);
-		
+
 		if (servoChannelPulseWidths[7] != 0)
 		{
 			haveInitialData = true;
 		}
 	}
 	
-	
+
 	
 	
 	/**
@@ -458,6 +462,7 @@ void RadioControllerInterface::start()
 	CCPM(0, 0, -1, outAileron, outElevator, outPitch);
 	
 	int zeroPoint = calculatePWMCompareMatchFromControlValue(0);
+	int negativeOnePoint = calculatePWMCompareMatchFromControlValue(-1);
 	
 	/*
 	channel1Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]);
@@ -470,7 +475,7 @@ void RadioControllerInterface::start()
 	channel8Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[7]);
 	*/
 	
-	channel1Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]);
+	channel1Offset = negativeOnePoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]); //Throttle starts at -1. 
 	channel2Offset = outAileron - convertPulseWidthToCompareMatch(servoChannelPulseWidths[1]);
 	channel3Offset = outElevator - convertPulseWidthToCompareMatch(servoChannelPulseWidths[2]);
 	channel4Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[3]);
@@ -483,7 +488,7 @@ void RadioControllerInterface::start()
 	
 
 	
-	
+
 	
 
 			
@@ -494,6 +499,7 @@ void RadioControllerInterface::start()
 	TCCR1B |= (1<<CS11);
 	TCCR3B |= (1<<CS31);
 	TCCR4B |= (1<<CS41);
+
 }
 
 
@@ -695,7 +701,8 @@ OCR3A = calculatePWMCompareMatchFromControlValue(AUX3_VALUE);
 		CCPM(lateralControl, longitudeControl, mainRotorControl, outAileron, outElevator, outPitch);
 		
 		
-		OCR1B = calculatePWMCompareMatchFromControlValue(THROTTLE_VALUE) - channel1Offset;
+		//OCR1B = calculatePWMCompareMatchFromControlValue(THROTTLE_VALUE) - channel1Offset;
+		OCR1B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]);
 		OCR1A = outAileron - channel2Offset;
 		OCR4C = outElevator - channel3Offset;
 		OCR4B = calculatePWMCompareMatchFromControlValue(yawControl) - channel4Offset;

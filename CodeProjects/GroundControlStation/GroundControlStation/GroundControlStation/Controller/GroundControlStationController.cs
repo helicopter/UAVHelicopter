@@ -43,7 +43,7 @@ namespace GroundControlStation.Controller
 
         public DATATOSEND dataToSend;
 
-        public GroundControlStationController(SimulatorInterface xplaneInterface, FlightComputerInterface fcInterface, DATATOSEND dataToSend)
+        public GroundControlStationController(SimulatorInterface xplaneInterface, FlightComputerInterface fcInterface, DATATOSEND dataToSend, int realFlight)
         {
             this.xplaneInterface = xplaneInterface;
             this.fcInterface = fcInterface;
@@ -53,7 +53,17 @@ namespace GroundControlStation.Controller
             flightComputerThread.Priority = ThreadPriority.Highest;
 
             flightComputerFileLogger = new StreamWriter(Path.Combine(LogFilePath, "FlightComputerLog" + DateTime.Now.ToString("_MM_dd_yyyy_hhmmss") + ".csv"));
-            flightComputerFileLogger.WriteLine("DateTime," + LoggingUtil.ToCsvHeader(",", new FlightComputerTelemetryMessage()));
+
+            if (realFlight == 1)
+            {
+
+                flightComputerFileLogger.WriteLine("DateTime," + LoggingUtil.ToCsvHeader(",", new SimpleTelemetryMessage()));
+            }
+            else
+            {
+                flightComputerFileLogger.WriteLine("DateTime," + LoggingUtil.ToCsvHeader(",", new FlightComputerTelemetryMessage()));
+            }
+
 
             simulatorFileLogger = new StreamWriter(Path.Combine(LogFilePath, "SimulatorLog" + DateTime.Now.ToString("_MM_dd_yyyy_hhmmss") + ".csv"));
             simulatorFileLogger.WriteLine("DateTime," + LoggingUtil.ToCsvHeader(",", new SimulatorTelemetry()));
@@ -181,7 +191,7 @@ namespace GroundControlStation.Controller
                         FlightComputerTelemetryMessage telem = (FlightComputerTelemetryMessage) msg;
 
 
-                        System.Diagnostics.Debug.WriteLine("collective control: " + telem.MainRotorCollectiveControl + ", lat control: " + telem.LateralControl + ", long control: " + telem.LongitudeControl + ", Rudder control: " + telem.YawControl);
+//                        System.Diagnostics.Debug.WriteLine("collective control: " + telem.MainRotorCollectiveControl + ", lat control: " + telem.LateralControl + ", long control: " + telem.LongitudeControl + ", Rudder control: " + telem.YawControl);
 
 
                         telem.UpdateModel(Model);
@@ -217,8 +227,11 @@ namespace GroundControlStation.Controller
                         //Receive model data from FC
                         ControlMessage telem = (ControlMessage)msg;
                         Model.MainRotorCollectiveControl = telem.MainRotorCollectiveControl;
-                        Model.YawControl = telem.YawControl;
-                        Model.LongitudeControl = telem.LongitudeControl;
+                        //Model.YawControl = telem.YawControl;
+                        //Model.LongitudeControl = telem.LongitudeControl;
+                        //Multiply by -1 because the control direction between the helicopter and the sim is reversed for yaw and longitude.
+                        Model.YawControl = telem.YawControl * -1;
+                        Model.LongitudeControl = telem.LongitudeControl * -1;
                         Model.LateralControl = telem.LateralControl;
 
                         UpdateViews();
@@ -237,6 +250,8 @@ namespace GroundControlStation.Controller
                         if (Model.LongitudeControl < -.8) Model.LongitudeControl = -.8f;
 
                         xplaneInterface.Transmit(Model);
+
+                        
                     }
                     else if (msg.MsgType == SimpleTelemetryMessage.MessageType)
                     {
@@ -250,7 +265,10 @@ namespace GroundControlStation.Controller
                         Model.YNEDLocalFrame = telem.YNEDLocalFrame;
                         Model.YVelocityMetersPerSecond = telem.YVelocityFRDCms;
 
-                        System.Diagnostics.Debug.WriteLine(telem.YVelocityFRDCms);
+                        //System.Diagnostics.Debug.WriteLine(telem.YVelocityFRDCms);
+//System.Diagnostics.Debug.WriteLine("yaw: " + (telem.YawRads * (180/Math.PI)) + " xmagfrd: " + telem.XMagFrd + ", ymag: " + telem.YMagFrd + ", zmag: " + telem.ZMagFrd);
+//System.Diagnostics.Debug.WriteLine( Math.Sqrt(Math.Pow(telem.XMagFrd,2)  + Math.Pow(telem.YMagFrd,2) + Math.Pow(telem.ZMagFrd,2)));
+
 
                         Model.ZVelocityFeetPerSecond = telem.ZVelocityFRDCms;
                         
@@ -275,7 +293,7 @@ namespace GroundControlStation.Controller
                         Model.YVEcefCms = telem.YVEcefCms;
                         Model.ZVEcefCms = telem.ZVEcefCms;
                         Model.PressureMillibars = telem.PressureMillibars;
-
+System.Diagnostics.Debug.WriteLine("X: " + telem.XMagFrd + " Y: " + telem.YMagFrd + " Z: " + telem.ZMagFrd);
                         Model.PitchRads = telem.PitchRads;
                         Model.RollRads = telem.RollRads;
 
@@ -286,6 +304,9 @@ namespace GroundControlStation.Controller
                         Model.NumOfBlownFrames = telem.NumOfBlownFrames;
                         Model.SerialCommunicationBufferOverruns = telem.SerialCommunicationBufferOverruns;
                         UpdateViews();
+
+
+                        flightComputerFileLogger.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + ", " + LoggingUtil.ToCsv(",", telem));
                     }
                     else if (msg.MsgType == SyncMessage.MessageType)
                     {
