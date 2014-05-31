@@ -29,7 +29,7 @@ namespace helicopter
 		class SimTelemetryTask : public Task
 		{
 			public:
-				enum DATATORECEIVE {ALLDATA, SENSORDATA};
+				enum DATATORECEIVE {ALLDATA, SENSORDATA, GAINSDATA};
 				
 			private:
 				GroundControlStationInterface *radioInterface;

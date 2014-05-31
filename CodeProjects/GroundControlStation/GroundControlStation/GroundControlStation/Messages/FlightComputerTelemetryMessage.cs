@@ -421,7 +421,7 @@ namespace GroundControlStation.Messages
             model.XIntegral = XIntegral;
             model.XProportional = XProportional;
             model.XDerivativeError = XDerivativeError;
-            model.LongitudeControl = LongitudeControl;
+            model.LongitudeControl = LongitudeControl * -1;
             model.XLongitudeOuterLoopSetpoint = XLongitudeOuterLoopSetpoint;
             model.PitchAngularVelocityRadsPerSecond = PitchAngularVelocityRadsPerSecond;
             //model.XIntegralGain = XIntegralGain;
@@ -460,7 +460,7 @@ namespace GroundControlStation.Messages
             //model.ZProportionalGain = ZProportionalGain;
             //model.ZAntiWindupGain = ZAntiWindupGain;
 
-            model.YawControl = YawControl;
+            model.YawControl = YawControl * -1;
 
 
 

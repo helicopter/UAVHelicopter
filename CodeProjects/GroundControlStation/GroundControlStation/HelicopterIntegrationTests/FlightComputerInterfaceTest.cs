@@ -145,6 +145,56 @@ namespace HelicopterIntegrationTests
 
 
         [TestMethod]
+        public void gainsmessage_test()
+        {
+            SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
+
+            SerialPortInterface portInterface = new SerialPortInterface(port);
+
+            using (FlightComputerInterface fcInt = new FlightComputerInterface(portInterface))
+            {
+                fcInt.Open();
+
+
+                GainsMessage gains = (GainsMessage)fcInt.Receive();
+
+                Assert.IsTrue(gains.LateralInnerLoopGain == 1.1f);
+                Assert.IsTrue(gains.LongitudeInnerLoopGain == 1.2f);
+                Assert.IsTrue(gains.PitchAngularVelocityGain == 1.3f);
+                Assert.IsTrue(gains.RollAngularVelocityGain == 1.4f);
+                Assert.IsTrue(gains.XAntiWindupGain == 1.5f);
+                Assert.IsTrue(gains.XDerivativeGain == 1.6f);
+                Assert.IsTrue(gains.XIntegralGain == 1.7f);
+                Assert.IsTrue(gains.XProportionalGain == 1.8f);
+                Assert.IsTrue(gains.YAntiWindupGain == 1.9f);
+                Assert.IsTrue(gains.YawAntiWindupGain == 1.0f);
+                Assert.IsTrue(gains.YawDerivativeGain == 1.11f);
+                Assert.IsTrue(gains.YawIntegralGain == 1.12f);
+                Assert.IsTrue(gains.YawProportionalGain == 1.13f);
+                Assert.IsTrue(gains.YDerivativeGain == 1.14f);
+                Assert.IsTrue(gains.YIntegralGain == 1.15f);
+                Assert.IsTrue(gains.YProportionalGain == 1.16f);
+                Assert.IsTrue(gains.ZAntiWindupGain == 1.17f);
+                Assert.IsTrue(gains.ZDerivativeGain == 1.18f);
+                Assert.IsTrue(gains.ZIntegralGain == 1.19f);
+                Assert.IsTrue(gains.ZProportionalGain == 1.20f);
+
+
+
+                fcInt.Transmit(gains);
+
+                gains = (GainsMessage)fcInt.Receive();
+
+                Assert.IsTrue(gains.ZProportionalGain == 12);
+
+            }
+        }
+
+
+
+
+
+        [TestMethod]
         public void newmsgformat2_test()
         {
             SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);

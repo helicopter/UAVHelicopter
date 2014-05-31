@@ -123,6 +123,10 @@ namespace GroundControlStation.Interfaces
                         {
                             messageSize = SimpleTelemetryMessage.NumOfBytesInMsg;
                         }
+                        else if (messageType == GainsMessage.MessageType)
+                        {
+                            messageSize = GainsMessage.NumOfBytesInMsg;
+                        }
                         else
                         {
                             Debug.WriteLine("Invalid msgType");
@@ -172,6 +176,10 @@ namespace GroundControlStation.Interfaces
                             else if (messageType == SimpleTelemetryMessage.MessageType)
                             {
                                 data = SimpleTelemetryMessage.BuildMessageSt(messagePayload);
+                            }
+                            else if (messageType == GainsMessage.MessageType)
+                            {
+                                data = GainsMessage.BuildMessageSt(messagePayload);
                             }
                         }
                         else

@@ -147,6 +147,7 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 int main(void)
 {	
 	bool sendControlToServos = false;
+	bool receiveGains = false;
 	
 	Scheduler *scheduler = Scheduler::getScheduler();
 	
@@ -154,8 +155,19 @@ int main(void)
 	
 	
 	//model->FlightMode(SystemModel::HardwareInLoopSimulatedFlight);
-	//model->FlightMode(SystemModel::SimulatedFlight);
-	model->FlightMode(SystemModel::RealFlight);
+	model->FlightMode(SystemModel::SimulatedFlight);
+	
+	/**
+	 * Checklist:
+	 * turn off gains
+	 * modify start up parameters to read gps and baro data longer before start. 
+	 */
+	//model->FlightMode(SystemModel::RealFlight);
+	
+	
+	
+	
+	
 	
 	if (model->FlightMode() == SystemModel::SimulatedFlight)
 	{
@@ -167,6 +179,8 @@ int main(void)
 		
 		sendControlToServos = false;
 //sendControlToServos = true;
+	
+
 		
 	}else if (model->FlightMode() == SystemModel::RealFlight)
 	{
@@ -176,8 +190,11 @@ int main(void)
 		
 		model->CommunicationMethod(SystemModel::Radio);
 //model->CommunicationMethod(SystemModel::USB);
-		
+
 		sendControlToServos = true;
+		
+		//receiveGains = false;
+receiveGains = true;		
 	}else if (model->FlightMode() == SystemModel::HardwareInLoopSimulatedFlight)
 	{
 		model->SensorInput(SystemModel::SimulatedSensors);
@@ -279,7 +296,15 @@ int main(void)
 		
 		//not actually used
 		//simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
-		simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .5));
+		
+		if (receiveGains)
+		{
+			simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::GAINSDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ)); //execute once a sec
+		}else
+		{
+			simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .5));
+		}
+		
 	}else if (model->FlightMode() == SystemModel::SimulatedFlight)
 	{
 		transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::ALLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
@@ -373,7 +398,7 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	scheduler->addTask(magSensorTask);
 
 
-	if (model->SensorInput() == SystemModel::SimulatedSensors)
+	if (model->SensorInput() == SystemModel::SimulatedSensors || receiveGains == true)
 	{
 		//Add a task to read simulator data if setup to receive sensor data from the simulator.
 		scheduler->addTask(simTelemTask);

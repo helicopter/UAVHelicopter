@@ -347,6 +347,7 @@
             this.tbXProportionalGain.Name = "tbXProportionalGain";
             this.tbXProportionalGain.Size = new System.Drawing.Size(648, 45);
             this.tbXProportionalGain.TabIndex = 22;
+            this.tbXProportionalGain.Visible = false;
             // 
             // label14
             // 
@@ -365,6 +366,7 @@
             this.tbXAntiWindupGain.Name = "tbXAntiWindupGain";
             this.tbXAntiWindupGain.Size = new System.Drawing.Size(648, 45);
             this.tbXAntiWindupGain.TabIndex = 20;
+            this.tbXAntiWindupGain.Visible = false;
             // 
             // label15
             // 
@@ -383,6 +385,7 @@
             this.tbXDerivativeGain.Name = "tbXDerivativeGain";
             this.tbXDerivativeGain.Size = new System.Drawing.Size(648, 45);
             this.tbXDerivativeGain.TabIndex = 18;
+            this.tbXDerivativeGain.Visible = false;
             // 
             // label16
             // 
@@ -401,6 +404,7 @@
             this.tbXIntegralGain.Name = "tbXIntegralGain";
             this.tbXIntegralGain.Size = new System.Drawing.Size(648, 45);
             this.tbXIntegralGain.TabIndex = 16;
+            this.tbXIntegralGain.Visible = false;
             // 
             // txtZProportionalValue
             // 
@@ -619,6 +623,7 @@
             this.tbYProportionalGain.Name = "tbYProportionalGain";
             this.tbYProportionalGain.Size = new System.Drawing.Size(648, 45);
             this.tbYProportionalGain.TabIndex = 54;
+            this.tbYProportionalGain.Visible = false;
             // 
             // label30
             // 
@@ -637,6 +642,7 @@
             this.tbYAntiWindupGain.Name = "tbYAntiWindupGain";
             this.tbYAntiWindupGain.Size = new System.Drawing.Size(648, 45);
             this.tbYAntiWindupGain.TabIndex = 52;
+            this.tbYAntiWindupGain.Visible = false;
             // 
             // label31
             // 
@@ -655,6 +661,7 @@
             this.tbYDerivativeGain.Name = "tbYDerivativeGain";
             this.tbYDerivativeGain.Size = new System.Drawing.Size(648, 45);
             this.tbYDerivativeGain.TabIndex = 50;
+            this.tbYDerivativeGain.Visible = false;
             // 
             // label32
             // 
@@ -673,6 +680,7 @@
             this.tbYIntegralGain.Name = "tbYIntegralGain";
             this.tbYIntegralGain.Size = new System.Drawing.Size(648, 45);
             this.tbYIntegralGain.TabIndex = 48;
+            this.tbYIntegralGain.Visible = false;
             // 
             // txtLateralControlGainValue
             // 
@@ -705,6 +713,7 @@
             this.tbLateralControlGain.Name = "tbLateralControlGain";
             this.tbLateralControlGain.Size = new System.Drawing.Size(648, 45);
             this.tbLateralControlGain.TabIndex = 66;
+            this.tbLateralControlGain.Visible = false;
             // 
             // label34
             // 
@@ -723,6 +732,7 @@
             this.tbLongitudeControlGain.Name = "tbLongitudeControlGain";
             this.tbLongitudeControlGain.Size = new System.Drawing.Size(648, 45);
             this.tbLongitudeControlGain.TabIndex = 64;
+            this.tbLongitudeControlGain.Visible = false;
             // 
             // txtRollAngularVelocityValue
             // 

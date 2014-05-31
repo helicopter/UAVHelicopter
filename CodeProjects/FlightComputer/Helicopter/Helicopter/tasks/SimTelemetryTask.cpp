@@ -8,6 +8,7 @@
 #include "SystemTelemetryMessage.h"
 #include "SyncMessage.h"
 #include "SensorDataMessage.h"
+#include "GainsMessage.h"
 
 using namespace helicopter::tasks;
 using namespace helicopter::messages;
@@ -92,6 +93,33 @@ void SimTelemetryTask::runTaskImpl()
 				model->ZVEcefCms(sensorMsg->ZVEcefCms);
 				model->PressureMillibars(sensorMsg->PressureMillibars);
 				
+			}else if (message->getType() == GainsMessage::MessageType)
+			{
+				GainsMessage *telemMsg = (GainsMessage*) message;
+			
+				pidController->setYawIntegralGain(telemMsg->YawIntegralGain);
+				pidController->setYawDerivativeGain(telemMsg->YawDerivativeGain);
+				pidController->setYawProportionalGain(telemMsg->YawProportionalGain);
+				pidController->setYawAntiWindupGain(telemMsg->YawAntiWindupGain);
+			
+				pidController->setXIntegralGain(telemMsg->XIntegralGain);
+				pidController->setXDerivativeGain(telemMsg->XDerivativeGain);
+				pidController->setXProportionalGain(telemMsg->XProportionalGain);
+				pidController->setXAntiWindupGain(telemMsg->XAntiWindupGain);
+				pidController->setLongitudeInnerLoopGain(telemMsg->LongitudeInnerLoopGain);
+				pidController->setPitchAngularVelocityGain(telemMsg->PitchAngularVelocityGain);
+			
+				pidController->setYIntegralGain(telemMsg->YIntegralGain);
+				pidController->setYDerivativeGain(telemMsg->YDerivativeGain);
+				pidController->setYProportionalGain(telemMsg->YProportionalGain);
+				pidController->setYAntiWindupGain(telemMsg->YAntiWindupGain);
+				pidController->setLateralInnerLoopGain(telemMsg->LateralInnerLoopGain);
+				pidController->setRollAngularVelocityGain(telemMsg->RollAngularVelocityGain);
+			
+				pidController->setZIntegralGain(telemMsg->ZIntegralGain);
+				pidController->setZDerivativeGain(telemMsg->ZDerivativeGain);
+				pidController->setZProportionalGain(telemMsg->ZProportionalGain);
+				pidController->setZAntiWindupGain(telemMsg->ZAntiWindupGain);
 			}
 			
 		}

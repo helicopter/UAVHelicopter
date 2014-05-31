@@ -50,7 +50,9 @@ int main(void)
 	//helicopterTests.addTest(magdriver_test,10);
 	//helicopterTests.addTest(ahrs_test, 11);
 	//helicopterTests.addTest(magdriver_test, 11);
-	helicopterTests.addTest(radiocontrollerservooutput_test, 11);
+	//helicopterTests.addTest(radiocontrollerservooutput_test, 11);
+	helicopterTests.addTest(gainsmessage_test, 11);
+	
 	
 	
 	helicopterTests.runTests();

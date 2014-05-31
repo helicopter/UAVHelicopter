@@ -39,7 +39,7 @@ namespace GroundControlStation.Controller
 
         public GroundControlStationForm View { get; set; }
 
-        public enum DATATOSEND { ALL, SENSORDATA };
+        public enum DATATOSEND { ALL, SENSORDATA, GAINSDATA };
 
         public DATATOSEND dataToSend;
 
@@ -342,6 +342,36 @@ System.Diagnostics.Debug.WriteLine("X: " + telem.XMagFrd + " Y: " + telem.YMagFr
 
 
                             fcInterface.Transmit(sensorData);
+                        }
+                        else if (syncMsg.RequestedMessage == (byte)DATATOSEND.GAINSDATA)
+                        {
+                            GainsMessage gains = new GainsMessage();
+                            gains.YawIntegralGain = data.YawIntegralGain;
+                            gains.YawDerivativeGain = data.YawDerivativeGain;
+                            gains.YawProportionalGain = data.YawProportionalGain;
+                            gains.YawAntiWindupGain = data.YawAntiWindupGain;
+
+                            gains.XIntegralGain = data.XIntegralGain;
+                            gains.XDerivativeGain = data.XDerivativeGain;
+                            gains.XProportionalGain = data.XProportionalGain;
+                            gains.XAntiWindupGain = data.XAntiWindupGain;
+                            gains.LongitudeInnerLoopGain = data.LongitudeInnerLoopGain;
+                            gains.PitchAngularVelocityGain = data.PitchAngularVelocityGain;
+
+                            gains.YIntegralGain = data.YIntegralGain;
+                            gains.YDerivativeGain = data.YDerivativeGain;
+                            gains.YProportionalGain = data.YProportionalGain;
+                            gains.YAntiWindupGain = data.YAntiWindupGain;
+                            gains.LateralInnerLoopGain = data.LateralInnerLoopGain;
+                            gains.RollAngularVelocityGain = data.RollAngularVelocityGain;
+
+                            gains.ZIntegralGain = data.ZIntegralGain;
+                            gains.ZDerivativeGain = data.ZDerivativeGain;
+                            gains.ZProportionalGain = data.ZProportionalGain;
+                            gains.ZAntiWindupGain = data.ZAntiWindupGain;
+
+
+                            fcInterface.Transmit(gains);
                         }
                     }
                 }

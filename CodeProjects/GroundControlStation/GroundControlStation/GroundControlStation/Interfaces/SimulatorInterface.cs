@@ -19,13 +19,18 @@ namespace GroundControlStation.Interfaces
         //Identifier for indicating that the message data is for controlling the propellers collective.
         static int PROPELLER_COLLECTIVE_MSG_INDEX = 39;
 
+        static int THROTTLE_MSG_INDEX = 25;
+
         static int PROPELLER_CYCLIC_MSG_INDEX = 8;
 
         static int COLLECTIVE_MSG_PADDING = 24;
 
+        static int THROTTLE_MSG_PADDING = 28;
+
         static int CYCLIC_MSG_PADDING = 24;
 
         static int NUM_OF_MESSAGE_SEGMENTS = 2;
+//        static int NUM_OF_MESSAGE_SEGMENTS = 3;
 
         //header (the word DATA is 4 chars thus 4 bytes) + 1 byte for indicating input vs. output message + 
         //(4 byte for the segment ID * num of segments in message) + 
@@ -115,6 +120,8 @@ namespace GroundControlStation.Interfaces
             //header
             index = populateMessageHeader(index, xplaneBytes);
 
+//index = populateThrottleMessage(.90f, index, xplaneBytes);
+
             index = populatePropellerCollectiveMessage(model, index, xplaneBytes);
 
             index = populatePropellerCyclicMessage(model, index, xplaneBytes);
@@ -127,6 +134,20 @@ namespace GroundControlStation.Interfaces
             populateMessage(xplaneBytes, INPUT_MESSAGE_HEADER, ref index, 4);
             xplaneBytes[index++] = 0; //This field is set to 0 for pure input-into-xplane messages
             return index;
+        }
+
+
+        private int populateThrottleMessage(float throttleCommand, int index, byte[] xplaneBytes)
+        {
+            //Indicates this is a propeller pitch (tail and main rotors) message
+            populateMessage(xplaneBytes, THROTTLE_MSG_INDEX, ref index, 4);
+
+
+            //SET THROTTLE
+            populateMessage(xplaneBytes, throttleCommand, ref index, 4);
+
+            //Set the index to the end of the collective message section
+            return index + THROTTLE_MSG_PADDING;
         }
 
         /// <summary>

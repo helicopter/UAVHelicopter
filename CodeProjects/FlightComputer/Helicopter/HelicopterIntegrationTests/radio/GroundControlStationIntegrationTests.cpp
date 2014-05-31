@@ -16,6 +16,7 @@
 #include "ServoControlTask.h"
 #include "SimpleTelemetryMessage.h"
 #include "MagnetometerSensor.h"
+#include "GainsMessage.h"
 
 #include <string.h>
 #include <util/delay.h>
@@ -40,6 +41,104 @@ float getFloat(SerialDriver *serialDrive)
 	
 	return t;
 }
+
+
+
+
+int gainsmessage_test(TestCase *test)
+{
+	
+
+	//////////////////////////////////////////////////////////////////////////
+	// Transmit a test message
+	//////////////////////////////////////////////////////////////////////////
+	Timer *t = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 200);
+
+	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, true, t);
+	serialDriver->init();
+	
+	
+	GroundControlStationInterface radioInterface(serialDriver);
+	
+	
+	GainsMessage *transmitMessage = new GainsMessage();
+	transmitMessage->LateralInnerLoopGain = 1.1f;
+	transmitMessage->LongitudeInnerLoopGain = 1.2f;
+	transmitMessage->PitchAngularVelocityGain = 1.3f;
+	transmitMessage->RollAngularVelocityGain = 1.4f;
+	transmitMessage->XAntiWindupGain = 1.5f;
+	transmitMessage->XDerivativeGain = 1.6f;
+	transmitMessage->XIntegralGain = 1.7f;
+	transmitMessage->XProportionalGain = 1.8f;
+	transmitMessage->YAntiWindupGain = 1.9f;
+	transmitMessage->YawAntiWindupGain = 1.0f;
+	transmitMessage->YawDerivativeGain = 1.11f;
+	transmitMessage->YawIntegralGain = 1.12f;
+	transmitMessage->YawProportionalGain = 1.13f;
+	transmitMessage->YDerivativeGain = 1.14f;
+	transmitMessage->YIntegralGain = 1.15f;
+	transmitMessage->YProportionalGain = 1.16f;
+	transmitMessage->ZAntiWindupGain = 1.17f;
+	transmitMessage->ZDerivativeGain = 1.18f;
+	transmitMessage->ZIntegralGain = 1.19f;
+	transmitMessage->ZProportionalGain = 1.20f;
+	
+	AssertTrue2(radioInterface.transmit(transmitMessage) == 0, 1);
+	
+	delete transmitMessage;
+	
+	//////////////////////////////////////////////////////////////////////////
+	// Test receiving a message
+	//////////////////////////////////////////////////////////////////////////
+	Message *receiveMessage = NULL;
+	
+	AssertTrue2(radioInterface.receive(receiveMessage) == 0, 2);
+	
+	AssertTrue2(receiveMessage->getType() == GainsMessage::MessageType, 7);
+	
+	GainsMessage *receivedMsg = (GainsMessage *)receiveMessage;
+	
+	
+	
+	AssertTrue(receivedMsg->LateralInnerLoopGain == 1.1f);
+	AssertTrue(receivedMsg->LongitudeInnerLoopGain == 1.2f);
+	AssertTrue(receivedMsg->PitchAngularVelocityGain == 1.3f);
+	AssertTrue(receivedMsg->RollAngularVelocityGain == 1.4f);
+	AssertTrue(receivedMsg->XAntiWindupGain == 1.5f);
+	AssertTrue(receivedMsg->XDerivativeGain == 1.6f);
+	AssertTrue(receivedMsg->XIntegralGain == 1.7f);
+	AssertTrue(receivedMsg->XProportionalGain == 1.8f);
+	AssertTrue(receivedMsg->YAntiWindupGain == 1.9f);
+	AssertTrue(receivedMsg->YawAntiWindupGain == 1.0f);
+	AssertTrue(receivedMsg->YawDerivativeGain == 1.11f);
+	AssertTrue(receivedMsg->YawIntegralGain == 1.12f);
+	AssertTrue(receivedMsg->YawProportionalGain == 1.13f);
+	AssertTrue(receivedMsg->YDerivativeGain == 1.14f);
+	AssertTrue(receivedMsg->YIntegralGain == 1.15f);
+	AssertTrue(receivedMsg->YProportionalGain == 1.16f);
+	AssertTrue(receivedMsg->ZAntiWindupGain == 1.17f);
+	AssertTrue(receivedMsg->ZDerivativeGain == 1.18f);
+	AssertTrue(receivedMsg->ZIntegralGain == 1.19f);
+	AssertTrue(receivedMsg->ZProportionalGain == 1.20f);
+	
+
+	
+	delete receivedMsg;
+	
+	
+	//Send a signal to the other software indicating that this test passed.
+	GainsMessage *transmitMessage2 = new GainsMessage();
+	transmitMessage2->ZProportionalGain = 12;
+	
+	AssertTrue2(radioInterface.transmit(transmitMessage2) == 0, 7);
+	
+	delete transmitMessage2;
+
+	return 0;
+}
+
+
+
 
 int radiocontrollerservooutput_test(TestCase *test)
 {

@@ -11,6 +11,7 @@
 #include "SystemTelemetryMessage.h"
 #include "SensorDataMessage.h"
 #include "SimpleTelemetryMessage.h"
+#include "GainsMessage.h"
 
 using namespace helicopter::util;
 using namespace helicopter::interfaces;
@@ -123,6 +124,9 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 					break;
 				case SimpleTelemetryMessage::MessageType:
 					msgSize = SimpleTelemetryMessage::MessageSize;
+					break;
+				case GainsMessage::MessageType:
+					msgSize = GainsMessage::MessageSize;
 					break;					
 				default:
 					//unrecognized message type.
@@ -171,7 +175,10 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 							break;
 							case SimpleTelemetryMessage::MessageType:
 								receivedMessage = SimpleTelemetryMessage::buildMessageSt(messagePayload);
-							break;							
+							break;	
+							case GainsMessage::MessageType:
+								receivedMessage = GainsMessage::buildMessageSt(messagePayload);
+							break;						
 							default:
 								//unrecognized message type.
 								status = -3;
