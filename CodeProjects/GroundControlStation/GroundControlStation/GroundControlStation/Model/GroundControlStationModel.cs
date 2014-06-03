@@ -228,5 +228,11 @@ namespace GroundControlStation.Model
 
 
 
+
+        public float XRefSetpoint { get; set; }
+
+        public float YRefSetpoint { get; set; }
+
+        public float YawRefSetpoint { get; set; }
     }
 }

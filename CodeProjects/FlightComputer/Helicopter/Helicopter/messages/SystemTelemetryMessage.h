@@ -109,7 +109,12 @@ namespace helicopter
 				long ZVEcefCms;
 				float PressureMillibars;
 				
-														
+
+				float XRefSetpoint;
+				float YRefSetpoint;
+				float YawRefSetpoint;
+				
+																		
 				
 				/**
 				 * Instrumentation fields
@@ -206,7 +211,11 @@ namespace helicopter
 				sizeof(YVEcefCms) +
 				sizeof(ZVEcefCms) +
 				sizeof(PressureMillibars) +		
-				
+
+
+				sizeof(XRefSetpoint)+
+				sizeof(YRefSetpoint) +
+				sizeof(YawRefSetpoint) +				
 				
 				sizeof(Timeouts) + 
 				sizeof(UnrecognizedMsgTypes) + 
@@ -296,7 +305,9 @@ namespace helicopter
 							
 							
 							
-							
+						XRefSetpoint(0),
+						YRefSetpoint(0),
+						YawRefSetpoint(0),						
 							
 							
 										

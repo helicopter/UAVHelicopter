@@ -153,9 +153,7 @@ debug[2] = diff[2];*/
 		diff[2] = diff[2] * lengthGain;
 		
 		
-DDRA |= (1<<PA5);
-		
-PORTA &= ~(1<<PA5);
+
         // limit the change from any one reading. This is to prevent
         // single crazy readings from throwing off the offsets for a long
         // time

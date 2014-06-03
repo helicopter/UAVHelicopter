@@ -37,6 +37,13 @@ namespace GroundControlStation.Messages
         public float ZProportionalGain;
         public float ZAntiWindupGain;
 
+        //offsets
+        public float XRefSetpoint;
+        public float YRefSetpoint;
+        public float YawRefSetpoint;
+            
+
+
         /// <summary>
         /// This represents the number of bytes in this message including the message type.
         /// </summary>
@@ -64,6 +71,10 @@ namespace GroundControlStation.Messages
             sizeof(float) +
 
             sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
+
             sizeof(float) +
             sizeof(float) +
             sizeof(float);
@@ -113,6 +124,10 @@ namespace GroundControlStation.Messages
             ZProportionalGain = decodeFloat(byteBuffer, ref positionCounter);
             ZAntiWindupGain = decodeFloat(byteBuffer, ref positionCounter);
 
+
+            XRefSetpoint = decodeFloat(byteBuffer, ref positionCounter);
+            YRefSetpoint = decodeFloat(byteBuffer, ref positionCounter);
+            YawRefSetpoint = decodeFloat(byteBuffer, ref positionCounter);
         }
 
 
@@ -150,6 +165,10 @@ namespace GroundControlStation.Messages
             encode(ref rawMsg, ZProportionalGain, ref positionCounter);
             encode(ref rawMsg, ZAntiWindupGain, ref positionCounter);
 
+            encode(ref rawMsg, XRefSetpoint, ref positionCounter);
+            encode(ref rawMsg, YRefSetpoint, ref positionCounter);
+            encode(ref rawMsg, YawRefSetpoint, ref positionCounter);
+            
 
             return rawMsg;
         }

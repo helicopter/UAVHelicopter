@@ -53,7 +53,11 @@ namespace helicopter
 				float ZIntegralGain;
 				float ZDerivativeGain;
 				float ZProportionalGain;
-				float ZAntiWindupGain;				
+				float ZAntiWindupGain;		
+				
+				float XRefSetpoint;
+				float YRefSetpoint;
+				float YawRefSetpoint;		
 				
 				
 				static const byte MessageType = 7;
@@ -90,7 +94,12 @@ namespace helicopter
 				sizeof(ZIntegralGain) +
 				sizeof(ZDerivativeGain) +
 				sizeof(ZProportionalGain) +
-				sizeof(ZAntiWindupGain);
+				sizeof(ZAntiWindupGain) + 
+				
+				
+				sizeof(XRefSetpoint)+
+				sizeof(YRefSetpoint) + 
+				sizeof(YawRefSetpoint);
 			
 				GainsMessage(): Message(MessageType, MessageSize),
 				
@@ -119,7 +128,11 @@ namespace helicopter
 					ZIntegralGain(0),
 					ZDerivativeGain(0),
 					ZProportionalGain(0),
-					ZAntiWindupGain(0)
+					ZAntiWindupGain(0),
+					
+					XRefSetpoint(0),
+					YRefSetpoint(0),
+					YawRefSetpoint(0)
 				{
 				
 				}

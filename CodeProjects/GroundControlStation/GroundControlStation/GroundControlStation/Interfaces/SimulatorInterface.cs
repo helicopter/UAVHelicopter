@@ -29,8 +29,8 @@ namespace GroundControlStation.Interfaces
 
         static int CYCLIC_MSG_PADDING = 24;
 
-        static int NUM_OF_MESSAGE_SEGMENTS = 2;
-//        static int NUM_OF_MESSAGE_SEGMENTS = 3;
+        //static int NUM_OF_MESSAGE_SEGMENTS = 2;
+        static int NUM_OF_MESSAGE_SEGMENTS = 3;
 
         //header (the word DATA is 4 chars thus 4 bytes) + 1 byte for indicating input vs. output message + 
         //(4 byte for the segment ID * num of segments in message) + 
@@ -120,7 +120,7 @@ namespace GroundControlStation.Interfaces
             //header
             index = populateMessageHeader(index, xplaneBytes);
 
-//index = populateThrottleMessage(.90f, index, xplaneBytes);
+index = populateThrottleMessage(.90f, index, xplaneBytes);
 
             index = populatePropellerCollectiveMessage(model, index, xplaneBytes);
 

@@ -420,110 +420,116 @@ namespace HelicopterIntegrationTests
 
 
 
-    //    ////Test reading barometer.
-    //    //public static void Main()
-    //    //{
-    //    //    double baseAltitudeFeet = 0.0;
-    //    //    int counter2 = 0;
-
-    //    //    double alpha = .15;
-
-    //    //    double previousAltitudeFeet = 0.0;
-    //    //    bool isReady = false;
-
-    //    //    SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
-    //    //    SerialPortInterface portInterface = new SerialPortInterface(port);
-    //    //    portInterface.Open();
-
-
-    //    //    GraphForm rawTemp = new GraphForm("RawTemp");
-    //    //    GraphForm rawPress = new GraphForm("RawPress");
-    //    //    GraphForm temp = new GraphForm("Temp");
-    //    //    GraphForm press = new GraphForm("Pressure");
-    //    //    GraphForm alt = new GraphForm("altitude");
-
-    //    //    rawTemp.Visible = true;
-    //    //    rawPress.Visible = true;
-    //    //    temp.Visible = true;
-    //    //    press.Visible = true;
-    //    //    alt.Visible = true;
-
-    //    //    while (true)
-    //    //    {
-    //    //        int var = 0;
-    //    //        while (var != 'S')
-    //    //        {
-    //    //            var = portInterface.ReadByte();
-    //    //        }
-    //    //        uint rwTemp = portInterface.ReadUInt(portInterface);
-    //    //        rawTemp.AddValueToGraph(rwTemp);
-
-    //    //        uint rwPress = portInterface.ReadUInt(portInterface);
-    //    //        rawPress.AddValueToGraph(rwPress);
-    //    //        int temperature = portInterface.ReadInt(portInterface);
-    //    //        temp.AddValueToGraph(temperature);
-    //    //        int pressure = portInterface.ReadInt(portInterface);
-    //    //        press.AddValueToGraph(pressure);
-
-    //    //        //Application.DoEvents();
-
-    //    //        //altitude equation from: http://www.barnardmicrosystems.com/L4E_FMU_sensors.htm#Pressure
-    //    //        double altitudemeters = (288.15 / (6.5 / 1000.0)) * (1 - (Math.Pow((pressure / 101325.0), (6.5 / 1000.0) * (287.052 / 9.78))));
-    //    //        double altitudefeet = altitudemeters * 3.28084;
-
-
-
-
-    //    //        //*******note the barometer appears to need more time to settle
-    //    //        if (counter2 == 40)
-    //    //        {
-    //    //            baseAltitudeFeet = altitudefeet;
-    //    //            counter2 = 80;
-    //    //        }
-    //    //        else if (counter2 == 80)
-    //    //        {
-    //    //            //do nothing
-    //    //        }
-    //    //        else
-    //    //        {
-    //    //            counter2++;
-    //    //        }
-
-    //    //        if (isReady)
-    //    //        {
-    //    //            //Danger *** This algorithm drifts. Sometimes it takes like 10 seconds
-    //    //            //or more to stabalize. So you have to wait a long time before you should 
-    //    //            //read the altitude and set it as the base altitude because of how long it takes. 
-    //    //            //Also, as the barometer heats up, the altitude changes. This isn't good as the barometer's
-    //    //            //temperature will probably change throughout the flight
-    //    //            double altitudefeettemp = (double)(altitudefeet - baseAltitudeFeet);
-    //    //            altitudefeet = alpha * (altitudefeettemp) + (1 - alpha) * previousAltitudeFeet;
-    //    //            previousAltitudeFeet = altitudefeet;
-
-    //    //            alt.AddValueToGraph(altitudefeet);
-    //    //        }
-    //    //        else
-    //    //        {
-    //    //            altitudefeet = (double)(altitudefeet - baseAltitudeFeet);
-    //    //        }
-
-
-    //    //        if (altitudefeet < 20 && altitudefeet != 0)
-    //    //        {
-    //    //            isReady = true;
-    //    //        }
-
-    //    //    }
-    //    //}
-
-
-
-
-
-
-
-
+        //Test reading barometer.
         public static void Main()
+        {
+            double baseAltitudeFeet = 0.0;
+            int counter2 = 0;
+
+            double alpha = .15;
+
+            double previousAltitudeFeet = 0.0;
+            bool isReady = false;
+
+            SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
+            SerialPortInterface portInterface = new SerialPortInterface(port);
+            portInterface.Open();
+
+
+            GraphForm rawTemp = new GraphForm("RawTemp");
+            GraphForm rawPress = new GraphForm("RawPress");
+            GraphForm temp = new GraphForm("Temp");
+            GraphForm press = new GraphForm("Pressure");
+            GraphForm alt = new GraphForm("altitude");
+
+            rawTemp.Visible = true;
+            rawPress.Visible = true;
+            temp.Visible = true;
+            press.Visible = true;
+            alt.Visible = true;
+
+            while (true)
+            {
+                int var = 0;
+                while (var != 'S')
+                {
+                    var = portInterface.ReadByte();
+                }
+                uint rwTemp = portInterface.ReadUInt();
+                rawTemp.AddValueToGraph(rwTemp);
+
+                uint rwPress = portInterface.ReadUInt();
+                rawPress.AddValueToGraph(rwPress);
+                int temperature = portInterface.ReadInt();
+                temp.AddValueToGraph(temperature);
+                int pressure = portInterface.ReadInt();
+                //press.AddValueToGraph(pressure);
+
+                float pressure2 = portInterface.ReadFloat();
+                //press.AddValueToGraph(pressure2);
+
+                float zned = portInterface.ReadFloat();
+                press.AddValueToGraph(zned);
+
+                Application.DoEvents();
+
+                //altitude equation from: http://www.barnardmicrosystems.com/L4E_FMU_sensors.htm#Pressure
+                double altitudemeters = (288.15 / (6.5 / 1000.0)) * (1 - (Math.Pow((pressure / 101325.0), (6.5 / 1000.0) * (287.052 / 9.78))));
+                double altitudefeet = altitudemeters * 3.28084;
+
+
+
+
+                //*******note the barometer appears to need more time to settle
+                if (counter2 == 40)
+                {
+                    baseAltitudeFeet = altitudefeet;
+                    counter2 = 80;
+                }
+                else if (counter2 == 80)
+                {
+                    //do nothing
+                }
+                else
+                {
+                    counter2++;
+                }
+
+                if (isReady)
+                {
+                    //Danger *** This algorithm drifts. Sometimes it takes like 10 seconds
+                    //or more to stabalize. So you have to wait a long time before you should 
+                    //read the altitude and set it as the base altitude because of how long it takes. 
+                    //Also, as the barometer heats up, the altitude changes. This isn't good as the barometer's
+                    //temperature will probably change throughout the flight
+                    double altitudefeettemp = (double)(altitudefeet - baseAltitudeFeet);
+                    altitudefeet = alpha * (altitudefeettemp) + (1 - alpha) * previousAltitudeFeet;
+                    previousAltitudeFeet = altitudefeet;
+
+                    alt.AddValueToGraph(altitudefeet);
+                }
+                else
+                {
+                    altitudefeet = (double)(altitudefeet - baseAltitudeFeet);
+                }
+
+
+                if (altitudefeet < 20 && altitudefeet != 0)
+                {
+                    isReady = true;
+                }
+
+            }
+        }
+
+
+
+
+
+
+
+
+        public static void Main3()
         {
             SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
             SerialPortInterface portInterface = new SerialPortInterface(port);

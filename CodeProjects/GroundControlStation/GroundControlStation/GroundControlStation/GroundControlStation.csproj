@@ -82,6 +82,12 @@
     </Compile>
     <Compile Include="Views\IDashboardView.cs" />
     <Compile Include="Views\IGraphingView.cs" />
+    <Compile Include="Views\SetpointsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\SetpointsForm.Designer.cs">
+      <DependentUpon>SetpointsForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -99,6 +105,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\GroundControlStationForm.resx">
       <DependentUpon>GroundControlStationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SetpointsForm.resx">
+      <DependentUpon>SetpointsForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -99,6 +99,10 @@ namespace GroundControlStation.Messages
         public int ZVEcefCms;
         public float PressureMillibars;
 
+        public float XRefSetpoint;
+        public float YRefSetpoint;
+        public float YawRefSetpoint;
+
 
         public int Timeouts;
         public int UnrecognizedMsgTypes;
@@ -187,6 +191,10 @@ namespace GroundControlStation.Messages
             sizeof(int) +
             sizeof(int) + 
             sizeof(float) + 
+
+                        sizeof(float) +
+            sizeof(float) +
+            sizeof(float) +
 
             sizeof(int) +
             sizeof(int) +
@@ -292,7 +300,9 @@ namespace GroundControlStation.Messages
 
 
 
-
+            XRefSetpoint = decodeFloat(byteBuffer, ref positionCounter);
+            YRefSetpoint = decodeFloat(byteBuffer, ref positionCounter);
+            YawRefSetpoint = decodeFloat(byteBuffer, ref positionCounter);
 
 
 
@@ -393,7 +403,9 @@ namespace GroundControlStation.Messages
 
 
 
-
+            encode(ref rawMsg, XRefSetpoint, ref positionCounter);
+            encode(ref rawMsg, YRefSetpoint, ref positionCounter);
+            encode(ref rawMsg, YawRefSetpoint, ref positionCounter);
 
 
 
@@ -485,6 +497,11 @@ namespace GroundControlStation.Messages
 
             model.PitchRads = PitchRads;
             model.RollRads = RollRads;
+
+
+            model.XRefSetpoint = XRefSetpoint;
+            model.YRefSetpoint = YRefSetpoint;
+            model.YawRefSetpoint = YawRefSetpoint;
 
 
             model.Timeouts = Timeouts;
@@ -759,6 +776,11 @@ System.Diagnostics.Debug.WriteLine("FRD x from sim recalced: " + velocityRotated
             msg.ZVEcefCms = zvel;
 
 
+
+
+            msg.XRefSetpoint = model.XRefSetpoint;
+            msg.YRefSetpoint = model.YRefSetpoint;
+            msg.YawRefSetpoint = model.YawRefSetpoint * ((float)Math.PI / (float)180);
 
             return msg;
         }

@@ -370,6 +370,10 @@ System.Diagnostics.Debug.WriteLine("X: " + telem.XMagFrd + " Y: " + telem.YMagFr
                             gains.ZProportionalGain = data.ZProportionalGain;
                             gains.ZAntiWindupGain = data.ZAntiWindupGain;
 
+                            gains.XRefSetpoint = Model.XRefSetpoint;
+                            gains.YRefSetpoint = Model.YRefSetpoint;
+                            gains.YawRefSetpoint = Model.YawRefSetpoint * ((float)Math.PI / 180.0f);
+
 
                             fcInterface.Transmit(gains);
                         }

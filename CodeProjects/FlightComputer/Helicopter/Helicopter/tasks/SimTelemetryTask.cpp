@@ -120,6 +120,10 @@ void SimTelemetryTask::runTaskImpl()
 				pidController->setZDerivativeGain(telemMsg->ZDerivativeGain);
 				pidController->setZProportionalGain(telemMsg->ZProportionalGain);
 				pidController->setZAntiWindupGain(telemMsg->ZAntiWindupGain);
+				
+				model->ReferenceMagYawRads(telemMsg->YawRefSetpoint);
+				model->ReferenceXNEDLocalFrameCm(telemMsg->XRefSetpoint);
+				model->ReferenceYNEDLocalFrameCm(telemMsg->YRefSetpoint);
 			}
 			
 		}

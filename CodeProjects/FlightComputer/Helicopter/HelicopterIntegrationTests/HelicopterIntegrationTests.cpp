@@ -51,7 +51,10 @@ int main(void)
 	//helicopterTests.addTest(ahrs_test, 11);
 	//helicopterTests.addTest(magdriver_test, 11);
 	//helicopterTests.addTest(radiocontrollerservooutput_test, 11);
-	helicopterTests.addTest(gainsmessage_test, 11);
+	//helicopterTests.addTest(gainsmessage_test, 11);
+	//helicopterTests.addTest(newmsgformat2_test, 11);
+	helicopterTests.addTest(readbaro_test, 11);
+	
 	
 	
 	

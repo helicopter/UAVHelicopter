@@ -80,24 +80,63 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	pidController->setYawAntiWindupGain(0.0135);
 	*/
 	
-	pidController->setXProportionalGain(.00019);
+	
+	
+	/*latest 5/31/2014
+	pidController->setXProportionalGain(.0151f);
 	pidController->setXIntegralGain(0);
-	pidController->setXDerivativeGain(.00153);
+	pidController->setXDerivativeGain(.052f);
 	pidController->setXAntiWindupGain(0);
 	pidController->setLongitudeInnerLoopGain(1.7081);
 	pidController->setPitchAngularVelocityGain(1.77509);
 	
-	pidController->setYProportionalGain(.04577);
+	pidController->setYProportionalGain(.015f);
 	pidController->setYIntegralGain(0);
-	pidController->setYDerivativeGain(.13043);
+	pidController->setYDerivativeGain(.049f);
 	pidController->setYAntiWindupGain(0);
-	pidController->setLateralInnerLoopGain(.36102);	
-	pidController->setRollAngularVelocityGain(.04348);
+	pidController->setLateralInnerLoopGain(1.73f);	
+	pidController->setRollAngularVelocityGain(0.768f);
 	
-	pidController->setZProportionalGain(0.00445);
-	pidController->setZIntegralGain(.000874);
+	pidController->setZProportionalGain(0.004f);
+	pidController->setZIntegralGain(.001f);
 	pidController->setZDerivativeGain(.430435);
 	pidController->setZAntiWindupGain(.300874);	
+	
+	*/
+	
+	
+	
+	pidController->setXProportionalGain(.0151f);
+	pidController->setXIntegralGain(0);
+	pidController->setXDerivativeGain(.052f);
+	pidController->setXAntiWindupGain(0);
+	pidController->setLongitudeInnerLoopGain(1.7081);
+	pidController->setPitchAngularVelocityGain(1.77509);
+	
+	pidController->setYProportionalGain(.015f);
+	pidController->setYIntegralGain(0);
+	pidController->setYDerivativeGain(.049f);
+	pidController->setYAntiWindupGain(0);
+	pidController->setLateralInnerLoopGain(1.73f);
+	pidController->setRollAngularVelocityGain(0.768f);
+	
+	pidController->setZProportionalGain(0.004f);
+	pidController->setZIntegralGain(.001f);
+	pidController->setZDerivativeGain(.430435f);
+	pidController->setZAntiWindupGain(.300874f);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	//TODO: Don't forget that there is a difference between how often the sensors
 	//are read and how often the control algorithm runs. 
@@ -130,10 +169,14 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	pidController->setMaxMainRotorServoControlValue(.5d);
 	pidController->setMinMainRotorServoControlValue(0.0d);
 	
-	//5 degrees
+	////5 degrees
 	pidController->setMaxRollSetpointRads(0.0872664626);
 	pidController->setMinRollSetpointRads(-0.0872664626);
+//10 degrees
+//pidController->setMaxRollSetpointRads(0.1745328);
+//pidController->setMinRollSetpointRads(-0.1745328);	
 	
+	//13 degrees
 	pidController->setMaxPitchSetpointRads(0.226892803);
 	pidController->setMinPitchSetpointRads(-0.226892803);
 	
@@ -198,8 +241,8 @@ receiveGains = true;
 	}else if (model->FlightMode() == SystemModel::HardwareInLoopSimulatedFlight)
 	{
 		model->SensorInput(SystemModel::SimulatedSensors);
-		model->CommunicationMethod(SystemModel::Radio);
-//model->CommunicationMethod(SystemModel::USB);
+		//model->CommunicationMethod(SystemModel::Radio);
+model->CommunicationMethod(SystemModel::USB);
 		sendControlToServos = true;
 	}
 	
@@ -343,9 +386,21 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 	float barometerSensorReadPeriod = 1/20.0f; //will be 1/50 for production (or will it? because the ahrs uses this too.
 	float simulatorSensorReadPeriod = barometerSensorReadPeriod;
+	
+	float sensorReadPeriod = 0;
+		
+	if (model->SensorInput() == SystemModel::SimulatedSensors)
+	{
+		sensorReadPeriod = simulatorSensorReadPeriod;
+	}else
+	{
+		sensorReadPeriod = GYRO_SENSOR_READ_PERIOD;
+	}
+		
 		
 	//AHRS *ahrs = new AHRS(GYRO_SENSOR_READ_PERIOD);
-	AHRS *ahrs = new AHRS(simulatorSensorReadPeriod); //for simulator angular velocity reads.
+	//AHRS *ahrs = new AHRS(simulatorSensorReadPeriod); //for simulator angular velocity reads.
+	AHRS *ahrs = new AHRS(sensorReadPeriod);
 	
 	//NavigationTask *navTask = new NavigationTask(BAROMETER_SENSOR_READ_PERIOD, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. //used for the real helicopter
 	NavigationTask *navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. most recent 4/9/2014

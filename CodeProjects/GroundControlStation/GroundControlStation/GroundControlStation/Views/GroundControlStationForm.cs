@@ -44,6 +44,8 @@ namespace GroundControlStation.Views
 
         public IGraphingView GainAdjustments { get; set; }
 
+        public IGraphingView SetPoints { get; set; }
+
 
         public IGraphingView ZNED { get; set; }
 
@@ -128,7 +130,13 @@ namespace GroundControlStation.Views
             gainAdjustments.Controller = controller;
             GainAdjustments = gainAdjustments;
 
+
+            SetpointsForm setPoints = new SetpointsForm();
+            setPoints.Controller = controller;
+            SetPoints = setPoints;
+
             Controller = controller;
+
 
         }
 
@@ -300,6 +308,11 @@ namespace GroundControlStation.Views
         private void button17_Click(object sender, EventArgs e)
         {
             ToggleGraph(ZVEL);
+        }
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+            ToggleGraph(SetPoints);
         }
 
     }

@@ -46,7 +46,9 @@ byte *GainsMessage::getBytes()
 	encode (msgPtr, ZProportionalGain);
 	encode (msgPtr, ZAntiWindupGain);	
 	
-	
+	encode (msgPtr, XRefSetpoint);
+	encode (msgPtr, YRefSetpoint);
+	encode (msgPtr, YawRefSetpoint);
 	
 	return msg;
 }
@@ -86,7 +88,9 @@ void GainsMessage::buildMessage(byte *message)
 		decode (message, ZAntiWindupGain);			
 			
 			
-			
+		decode (message, XRefSetpoint);
+		decode (message, YRefSetpoint);
+		decode (message, YawRefSetpoint);
 			
 	}
 }

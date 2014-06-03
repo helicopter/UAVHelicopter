@@ -201,31 +201,34 @@ namespace GroundControlStation
             */
 
 
-            //experimental gains - 5/31/2014
-            model.YawIntegralGain = .806f;
-            model.YawProportionalGain = 1.116f;
-            model.YawDerivativeGain = .391f;
-            model.YawAntiWindupGain = 0.135f;
+            //experimental gains - 5/31/2014 - most recent
+
+             model.YawIntegralGain = .806f;
+             //model.YawProportionalGain = 1.116f;
+             model.YawProportionalGain = 2.0f;
+             model.YawDerivativeGain = .391f;
+             model.YawAntiWindupGain = 0.135f;
 
 
             model.XIntegralGain = 0.0f;
-            model.XProportionalGain = .00019f;
-            model.XDerivativeGain = .00153f;
+            model.XProportionalGain = .0151f;
+            model.XDerivativeGain = .052f;
             model.XAntiWindupGain = 0.0f;
             model.LongitudeInnerLoopGain = 1.7081f;
-            model.PitchAngularVelocityGain = 1.77509f;
+            //model.PitchAngularVelocityGain = 1.77509f;
+            model.PitchAngularVelocityGain = 0.043f;
 
             model.YIntegralGain = 0.0f;
            
-            model.YProportionalGain = .04577f;
-            
-            model.YDerivativeGain = .13043f;
+            model.YProportionalGain = .015f;
+            model.YDerivativeGain = .049f;
             model.YAntiWindupGain = 0.0f;
-            model.LateralInnerLoopGain = .36102f;
-            model.RollAngularVelocityGain = .04348f;
+            model.LateralInnerLoopGain = 1.73f;
+            //model.RollAngularVelocityGain = 0.768f;
+            model.RollAngularVelocityGain = 0.014f;
 
-            model.ZIntegralGain = .000874f;
-            model.ZProportionalGain = 0.00445f;
+            model.ZIntegralGain = .001f;
+            model.ZProportionalGain = 0.004f;
             model.ZDerivativeGain = .430435f;
             model.ZAntiWindupGain = .300874f;
 

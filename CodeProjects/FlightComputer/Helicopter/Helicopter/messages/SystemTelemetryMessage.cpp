@@ -96,7 +96,9 @@ byte *SystemTelemetryMessage::getBytes()
 	encode (msgPtr, PressureMillibars);	
 	
 	
-	
+	encode (msgPtr, XRefSetpoint);
+	encode (msgPtr, YRefSetpoint);
+	encode (msgPtr, YawRefSetpoint);	
 	
 	
 	
@@ -193,7 +195,9 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		decode (message, PressureMillibars);		
 
 		
-		
+		decode (message, XRefSetpoint);
+		decode (message, YRefSetpoint);
+		decode (message, YawRefSetpoint);		
 						
 		decode (message, Timeouts);
 		decode (message, UnrecognizedMsgTypes);
@@ -280,6 +284,13 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 	message->NumOfBlownFrames = model->BlownFrames();
 	message->SerialCommunicationBufferOverruns = model->SerialCommunicationBufferOverruns();
 	
+	
+	
+	message->XRefSetpoint = model->ReferenceXNEDLocalFrameCm();
+	message->YRefSetpoint = model->ReferenceYNEDLocalFrameCm();
+	message->YawRefSetpoint = model->ReferenceMagYawRads();
+	
+	
 	message->LatitudeDegrees = model->LatitudeDegrees();
 	message->LongitudeDegrees = model->LongitudeDegrees();
 	
@@ -359,4 +370,9 @@ void SystemTelemetryMessage::updateModelFromMessageFromSimulator (SystemModel *m
 	//Copy fake barometer data.
 	model->PressureMillibars(this->PressureMillibars);	
 
+
+	model->ReferenceXNEDLocalFrameCm(this->XRefSetpoint);
+	model->ReferenceYNEDLocalFrameCm(this->YRefSetpoint);
+	model->ReferenceMagYawRads(this->YawRefSetpoint);
+	
 }
