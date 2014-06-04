@@ -50,6 +50,7 @@ void TransmitTelemetryTask::runTaskImpl()
 			
 			message->PitchRads = model->PitchRads();
 			message->XNEDLocalFrame = model->XNEDLocalFrameCm();
+//message->XNEDLocalFrame = model->LateralControl();			
 			message->XVelocityFRDCms = model->XVelocityFRDCms();
 
 			

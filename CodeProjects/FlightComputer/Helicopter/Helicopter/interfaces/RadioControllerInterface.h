@@ -205,6 +205,7 @@ namespace helicopter
 				static const int MIN_RECEIVED_CHANNELS = MAX_CHANNELS - 1;
 					
 		
+				bool ARRAYLOCK;
 			
 			private:
 			
@@ -256,7 +257,9 @@ namespace helicopter
 					channel5Offset = 0;
 					channel6Offset = 0;
 					channel7Offset = 0;
-					channel8Offset = 0;				
+					channel8Offset = 0;		
+					
+					ARRAYLOCK = false;		
 				}
 						
 				~RadioControllerInterface()
@@ -272,6 +275,8 @@ namespace helicopter
 				
 
 			public: 
+
+				
 
 				float convertPulseWidthToCompareMatch(long pulseWidth);
 				float ScaleValue(long servoChannelPulseWidth);

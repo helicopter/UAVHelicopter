@@ -26,8 +26,8 @@ namespace GroundControlStation
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //FlightModes flightMode = FlightModes.RealFlight;
-            FlightModes flightMode = FlightModes.SimulatedFlight;
+            FlightModes flightMode = FlightModes.RealFlight;
+            //FlightModes flightMode = FlightModes.SimulatedFlight;
 
             //SerialPort port = new SerialPort("COM7", 76800, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One); //MOST RECENT

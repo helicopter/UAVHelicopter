@@ -66,12 +66,12 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	model->ReferenceYNEDLocalFrameCm(0);
 	model->ReferenceYVelocityCms(0);
 	
-	
+	/*latest 6/3/2014
 	pidController->setYawProportionalGain(1.116);
 	pidController->setYawIntegralGain(.806);
 	pidController->setYawDerivativeGain(.391);
 	pidController->setYawAntiWindupGain(0.135);
-	
+	*/
 	
 	/*
 	pidController->setYawProportionalGain(.1116);
@@ -111,14 +111,14 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	pidController->setXDerivativeGain(.052f);
 	pidController->setXAntiWindupGain(0);
 	pidController->setLongitudeInnerLoopGain(1.7081);
-	pidController->setPitchAngularVelocityGain(1.77509);
+	pidController->setPitchAngularVelocityGain(.043);
 	
 	pidController->setYProportionalGain(.015f);
 	pidController->setYIntegralGain(0);
 	pidController->setYDerivativeGain(.049f);
 	pidController->setYAntiWindupGain(0);
 	pidController->setLateralInnerLoopGain(1.73f);
-	pidController->setRollAngularVelocityGain(0.768f);
+	pidController->setRollAngularVelocityGain(0.014);
 	
 	pidController->setZProportionalGain(0.004f);
 	pidController->setZIntegralGain(.001f);
@@ -129,7 +129,10 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	
 	
 	
-	
+		pidController->setYawProportionalGain(2.0);
+		pidController->setYawIntegralGain(.806);
+		pidController->setYawDerivativeGain(.391);
+		pidController->setYawAntiWindupGain(0.135);
 	
 	
 	
@@ -198,14 +201,14 @@ int main(void)
 	
 	
 	//model->FlightMode(SystemModel::HardwareInLoopSimulatedFlight);
-	model->FlightMode(SystemModel::SimulatedFlight);
+	//model->FlightMode(SystemModel::SimulatedFlight);
 	
 	/**
 	 * Checklist:
 	 * turn off gains
 	 * modify start up parameters to read gps and baro data longer before start. 
 	 */
-	//model->FlightMode(SystemModel::RealFlight);
+	model->FlightMode(SystemModel::RealFlight);
 	
 	
 	

@@ -208,7 +208,11 @@ ISR(TIMER5_CAPT_vect)
 					
 					model->AuxChannelValue(auxChannelValue);
 					
-					rcInterface->copyPulseWidthArrays();//blah. doesn't solve atomic issue. 
+					if (!rcInterface->ARRAYLOCK)
+					{
+						rcInterface->copyPulseWidthArrays();
+					}
+					
 
 					//If in Manual Control, set the servo control values.
 					/*if (model->OperationalState() == SystemModel::ManualControl)
@@ -606,6 +610,7 @@ void RadioControllerInterface::controlServos( float lateralControl, float longit
 		OCR3A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[7]);
 		*/
 		
+		ARRAYLOCK = true;
 		OCR1B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]);
 		OCR1A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[1]);
 		OCR4C = convertPulseWidthToCompareMatch(servoChannelPulseWidths[2]);
@@ -614,6 +619,7 @@ void RadioControllerInterface::controlServos( float lateralControl, float longit
 		OCR3C = convertPulseWidthToCompareMatch(servoChannelPulseWidths[5]);
 		OCR3B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[6]);
 		OCR3A = convertPulseWidthToCompareMatch(servoChannelPulseWidths[7]);
+		ARRAYLOCK = false;
 		
 		/* Removed because without ccpm -> non ccpm, this doesn't make sense.
 		systemModel->LateralControl(ScaleValue(GetServoChannelPulseWidth(RadioControllerInterface::AILERON_CHANNEL)));
@@ -702,7 +708,11 @@ OCR3A = calculatePWMCompareMatchFromControlValue(AUX3_VALUE);
 		
 		
 		//OCR1B = calculatePWMCompareMatchFromControlValue(THROTTLE_VALUE) - channel1Offset;
+		
+		ARRAYLOCK = true;
 		OCR1B = convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]);
+		ARRAYLOCK = false;
+		
 		OCR1A = outAileron - channel2Offset;
 		OCR4C = outElevator - channel3Offset;
 		OCR4B = calculatePWMCompareMatchFromControlValue(yawControl) - channel4Offset;
