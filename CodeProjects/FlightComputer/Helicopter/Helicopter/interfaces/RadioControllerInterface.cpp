@@ -170,6 +170,22 @@ ISR(TIMER5_CAPT_vect)
 			servoChannelPulseWidth > RadioControllerInterface::MIN_USEABLE_PULSE_WIDTH)
 		{
 			int servoChannelIndex = rcInterface->ServoChannelIndex();
+			
+			
+			
+			
+			
+			//since throttle is mechanically bypassed, set throttle to -1 (no throttle) in the array of control values, and 
+			//then continue processing the received signal for the next channel (channel 1)
+			if (servoChannelIndex == 0)
+			{
+				rcInterface->SetServoChannelPulseWidth(servoChannelIndex, RadioControllerInterface::MIN_PULSE_WIDTH);
+				servoChannelIndex++;
+			}
+		
+		
+		
+		
 		
 			if (servoChannelIndex < RadioControllerInterface::MAX_CHANNELS)
 			{
@@ -320,7 +336,8 @@ void RadioControllerInterface::init()
 	/**
 	 * Set the compare value so that the servos are set to a neutral position
 	 */
-	OCR1B = calculatePWMCompareMatchFromControlValue(0);
+	//OCR1B = calculatePWMCompareMatchFromControlValue(0);
+	OCR1B = calculatePWMCompareMatchFromControlValue(-1); //set throttle to -1 which is 'off'. 
 	OCR1A = calculatePWMCompareMatchFromControlValue(0);
 	OCR3C = calculatePWMCompareMatchFromControlValue(0);
 	OCR3B = calculatePWMCompareMatchFromControlValue(0);
@@ -441,7 +458,7 @@ void RadioControllerInterface::start()
 	{
 		_delay_ms(1000);
 
-		if (servoChannelPulseWidths[7] != 0)
+		if (servoChannelPulseWidths[MIN_RECEIVED_CHANNELS] != 0) 
 		{
 			haveInitialData = true;
 		}
@@ -466,7 +483,7 @@ void RadioControllerInterface::start()
 	CCPM(0, 0, -1, outAileron, outElevator, outPitch);
 	
 	int zeroPoint = calculatePWMCompareMatchFromControlValue(0);
-	int negativeOnePoint = calculatePWMCompareMatchFromControlValue(-1);
+	//int negativeOnePoint = calculatePWMCompareMatchFromControlValue(-1);
 	
 	/*
 	channel1Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]);
@@ -479,7 +496,9 @@ void RadioControllerInterface::start()
 	channel8Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[7]);
 	*/
 	
-	channel1Offset = negativeOnePoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]); //Throttle starts at -1. 
+
+	//channel1Offset = negativeOnePoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[0]);  *** //Throttle starts at -1. 
+	channel1Offset = 0;//don't offset throttle. 
 	channel2Offset = outAileron - convertPulseWidthToCompareMatch(servoChannelPulseWidths[1]);
 	channel3Offset = outElevator - convertPulseWidthToCompareMatch(servoChannelPulseWidths[2]);
 	channel4Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[3]);
@@ -487,9 +506,6 @@ void RadioControllerInterface::start()
 	channel6Offset = outPitch - convertPulseWidthToCompareMatch(servoChannelPulseWidths[5]);
 	channel7Offset = 0;//AUX don't want an offset.
 	channel8Offset = zeroPoint - convertPulseWidthToCompareMatch(servoChannelPulseWidths[7]);
-	
-	
-	
 
 	
 

@@ -85,25 +85,25 @@ namespace helicopter
 				 * Servo channel for aileron (roll)
 				 * Input pin 1 on the ardupilot 
 				 */
-				static const int AILERON_CHANNEL = 0;
+				//static const int AILERON_CHANNEL = 0;
 				
 				/**
 				 * Servo channel for elevator (pitch)
 				 * Input pin 2 on the ardupilot 
 				 */
-				static const int ELEVATOR_CHANNEL = 1;
+				//static const int ELEVATOR_CHANNEL = 1;
 				
 				/**
 				 * Servo channel for throttle (collective heave)
 				 * Input pin 3 on the ardupilot 
 				 */				
-				static const int THROTTLE_CHANNEL = 2;
+				//static const int THROTTLE_CHANNEL = 2;
 				
 				/**
 				 * Servo channel for rudder (yaw)
 				 * Input pin 4 on the ardupilot 
 				 */				
-				static const int RUDDER_CHANNEL = 3;
+				//static const int RUDDER_CHANNEL = 3;
 				
 				/**
 				 * Servo channel for auxiliary
