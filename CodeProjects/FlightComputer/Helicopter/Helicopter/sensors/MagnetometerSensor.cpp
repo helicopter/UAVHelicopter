@@ -202,6 +202,7 @@ MagnetometerSensor::MagnetometerSensor(TWIDriver *driver):
 					
 	//MatrixUtil::CreateRotationMatrix(M_PI, 0.0f, -1 * (M_PI/2), magLBUToFRDRotationMatrix);
 	MatrixUtil::CreateRotationMatrix(0.0f, 0.0f, (M_PI/2.0f), magLBUToFRDRotationMatrix);
+	//MatrixUtil::CreateRotationMatrix(M_PI, 0.0f, -1 * (M_PI/2), magLBUToFRDRotationMatrix);
 }
 
 
@@ -444,6 +445,7 @@ calibration[2] = 1;
             cal[0] > 0.7f && cal[0] < 1.35f &&
             cal[1] > 0.7f && cal[1] < 1.35f &&
             cal[2] > 0.7f && cal[2] < 1.35f) {
+//        if (numAttempts > 2 ) {				
             // hal.console->printf_P(PSTR("cal=%.2f %.2f %.2f good\n"), cal[0], cal[1], cal[2]);
             good_count++;
             calibration[0] += cal[0];
@@ -679,18 +681,61 @@ int MagnetometerSensor::readSensor()
 	
 	//Convert the raw values to FRD values.
 	float rotatedValues[3] = {0};
+		
+		
+		
+		
+		
+		
+	/**
+	 * correct for magnetic interference. Code from ardupilot file found here:
+	 * https://github.com/diydrones/ardupilot/blob/6af705d4554defc27aa475dab99f918b26de3ce1/libraries/AP_Compass/Compass_learn.cpp
+	 */
+	if (readyForOffsets)
+	{
+		rawMagX *= calibration[0];
+		rawMagY *= calibration[1];
+		rawMagZ *= calibration[2];
+		
+	}
+		
+		
+		
 	
 	int values[3] = {rawMagX, rawMagY, rawMagZ};
 	
 	MatrixUtil::RotateMatrix(magLBUToFRDRotationMatrix, values, rotatedValues);
 	
+	
+	
 	frdMagX = rotatedValues[0];
 	frdMagY = rotatedValues[1];
-	frdMagZ = rotatedValues[2];	
+	frdMagZ = rotatedValues[2];
+		
+		
+		
+	float neg = frdMagZ<0? -1.0f:1.0f;
+		
+	//x2+y2+z2=mag2
+	//mag2-x2-y2=z2
+	//sqrroot	
 	
+	/*
+	float mx = frdMagX / 100.0f;
+	float my = frdMagY / 100.0f;
+	float magnitude = 570.0f / 100.0f;
+	*/
+		
+	frdMagZ = sqrt(fabsf(570.0f*570.0f - frdMagX*frdMagX-frdMagY*frdMagY)) * neg;
+	//frdMagZ = (sqrt(fabsf(magnitude*magnitude - mx*mx-my*my)) * neg) * 100.0f;
 		
 		
-
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -707,10 +752,14 @@ int MagnetometerSensor::readSensor()
 		debug[2] = _offset[0];
 		*/
 
-		
+/*		latest 6/14/2014
 		frdMagX *= calibration[0];
 		frdMagY *= calibration[1];
 		frdMagZ *= calibration[2];
+	*/	
+		
+		
+		
 	//apply offsets
 	/*frdMagX += _offset[0];
 	frdMagY += _offset[1];

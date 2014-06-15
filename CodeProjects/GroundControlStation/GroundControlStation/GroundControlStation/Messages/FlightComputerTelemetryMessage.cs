@@ -763,7 +763,7 @@ System.Diagnostics.Debug.WriteLine("FRD x from sim recalced: " + velocityRotated
 
             if (seconds.Seconds >= 1)
             {
-                System.Diagnostics.Debug.WriteLine("counter2 : " + counter2 + " Seconds, " + seconds.TotalMilliseconds);
+           //     System.Diagnostics.Debug.WriteLine("counter2 : " + counter2 + " Seconds, " + seconds.TotalMilliseconds);
                 counter2 = 0;
                 startTime = DateTime.Now;
             }

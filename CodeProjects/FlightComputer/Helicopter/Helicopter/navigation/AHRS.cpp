@@ -27,9 +27,22 @@ const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .1f;
 //const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .10f;//latest
 //const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .0175;//.00975;//.0001f;//.0175f;
 //const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .23f;
-const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .00975;
-const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .75f;
 
+
+//Latest 6/13/2014
+//const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .00975;
+//const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .75f;
+
+
+/*
+const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .02f;//.1f;//.0975;
+const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .05f;//.75f;
+*/
+
+//experimental 6/14/2014
+
+const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .015f;
+const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .05f;
 
 void AHRS::scaleAndAdjust(float vectorToAdjust[3], float vectorToScale[3], float scalerValue, float (&outputVector)[3])
 {
@@ -147,10 +160,12 @@ void AHRS::update(float frdAccXMss, float frdAccYMss, float frdAccZMss,
 	MatrixUtil::CrossProduct(dcm[2], magnetometerVector, westFacingVector);	
 	MatrixUtil::CrossProduct(westFacingVector, dcm[2], correctedMagnetometerVector);
 	
-	/*
-	MatrixUtil::CrossProduct(accelerometerVector, magnetometerVector, westFacingVector);
-	MatrixUtil::CrossProduct(westFacingVector, accelerometerVector, correctedMagnetometerVector);	
-	*/
+	
+	//Doing it this way prevents a 'gyro' effect where if you pitch up, it causes the gyro to affect the yaw, and then it 'stabilizes' back to normal value
+	//This way prevents that. if you took the DCM value and cross proded that with the mag value, you would get the gyro affect. 
+	/*MatrixUtil::CrossProduct(accelerometerVector, magnetometerVector, westFacingVector);
+	MatrixUtil::CrossProduct(westFacingVector, accelerometerVector, correctedMagnetometerVector);	*/
+	
 	MatrixUtil::Normalize(correctedMagnetometerVector);
 	
 	
@@ -226,10 +241,10 @@ float heading = constrain_float2(atan2f(-headY,headX), -3.15f, 3.15f); //+M_PI;
 		 * but for the accelerometer, a clockwise rotation about X results in a negative change, so we gyroData*-1 to bring the motions
 		 * into alignment
 		 */
-		angularDisplacementWeightedAverage[i] = (-gyroscopeAngularDisplacement[i]+ 
+		angularDisplacementWeightedAverage[i] = (-gyroscopeAngularDisplacement[i] + 
 												accelerometerAngularDisplacement[i] * ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT + 
 												magnetometerAngularDisplacement[i] * MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT) /
-												(1 + ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT + MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT);
+												(1.0f + ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT + MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT);
 
 	}
 

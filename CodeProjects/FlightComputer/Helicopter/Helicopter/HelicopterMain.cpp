@@ -234,8 +234,8 @@ int main(void)
 		//model->SensorInput(SystemModel::SimulatedSensors);
 		
 		
-		model->CommunicationMethod(SystemModel::Radio);
-//model->CommunicationMethod(SystemModel::USB);
+		//model->CommunicationMethod(SystemModel::Radio);
+model->CommunicationMethod(SystemModel::USB);
 
 		sendControlToServos = true;
 		
@@ -397,6 +397,7 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 		sensorReadPeriod = simulatorSensorReadPeriod;
 	}else
 	{
+		barometerSensorReadPeriod = 1/50.0f;
 		sensorReadPeriod = GYRO_SENSOR_READ_PERIOD;
 	}
 		
@@ -406,7 +407,8 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	AHRS *ahrs = new AHRS(sensorReadPeriod);
 	
 	//NavigationTask *navTask = new NavigationTask(BAROMETER_SENSOR_READ_PERIOD, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. //used for the real helicopter
-	NavigationTask *navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. most recent 4/9/2014
+	//NavigationTask *navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. most recent 4/9/2014 //6/14/2014 most recent
+	NavigationTask *navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .01)); //run at 100 hz. experimental
 //	NavigationTask *navTask = new NavigationTask(simulatorSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .01)); //run at 100 hz.
 
 
@@ -437,7 +439,8 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 	//ReadGPSSensorTask *gpsSensorTask = new ReadGPSSensorTask(model, gpsSensor, 7, SCHEDULER_TICK_FREQUENCY_HZ * .25); //run at 4 hz
 	ReadGPSSensorTask *gpsSensorTask = new ReadGPSSensorTask(model, gpsSensor, 7, SCHEDULER_TICK_FREQUENCY_HZ * .1); //run at 10 hz
-	ReadIMUSensorTask *imuSensorTask = new ReadIMUSensorTask(model, imuSensor, 8,  (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz.
+	//ReadIMUSensorTask *imuSensorTask = new ReadIMUSensorTask(model, imuSensor, 8,  (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz.
+	ReadIMUSensorTask *imuSensorTask = new ReadIMUSensorTask(model, imuSensor, 8,  (SCHEDULER_TICK_FREQUENCY_HZ * .01)); //run at 100 hz.
 	ReadBarometerSensorTask *barometerSensorTask = new ReadBarometerSensorTask(model, baroSensor, 9, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. needs to run so that at least 10 ms is between each operation. since it's a 3 step process, this is really only executes hz/3 for a complete cycle (*** this will probably cause huge timeouts since it takes like 8ms to complete.)
 	ReadMagnetometerSensorTask *magSensorTask = new ReadMagnetometerSensorTask(model, magSensor, 10, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz, although the sensor is reading at 75 hz.
 	

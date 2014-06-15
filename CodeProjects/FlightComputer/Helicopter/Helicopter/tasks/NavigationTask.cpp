@@ -73,7 +73,7 @@ void NavigationTask::runTaskImpl()
 	
 	float altitudeMslCm = (((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-0.00000687535)) / 3.28084) * -100.0f;
 	
-	bool hasGoodAltitude = true;
+	//bool hasGoodAltitude = true;
 	
 	if (!isnanf(altitudeMslCm) && 
 		((altitudeMslCm - model->InitialAltitudeCm()) - model->ZNEDLocalFrameCm()) < 800 && 

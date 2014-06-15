@@ -168,6 +168,7 @@ namespace GroundControlStation.Controller
             {
                 Model.SimTelm = xplaneInterface.Receive();
                 simulatorFileLogger.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + ", " + LoggingUtil.ToCsv(",", Model.SimTelm));
+
             }
         }
 
@@ -294,6 +295,10 @@ namespace GroundControlStation.Controller
                         Model.ZVEcefCms = telem.ZVEcefCms;
                         Model.PressureMillibars = telem.PressureMillibars;
 System.Diagnostics.Debug.WriteLine("X: " + telem.XMagFrd + " Y: " + telem.YMagFrd + " Z: " + telem.ZMagFrd);
+//System.Diagnostics.Debug.WriteLine("X: " + telem.XAccelFrdMss + " Y: " + telem.YAccelFrdMss + " Z: " + telem.ZAccelFrdMss);
+//System.Diagnostics.Debug.WriteLine("pitchv: " + telem.PitchAngularVelocityRadsPerSecond + " rollv: " + telem.RollAngularVelocityRadsPerSecond + " YawV: " + telem.YawAngularVelocityRadsPerSecond);
+
+
                         Model.PitchRads = telem.PitchRads;
                         Model.RollRads = telem.RollRads;
 
