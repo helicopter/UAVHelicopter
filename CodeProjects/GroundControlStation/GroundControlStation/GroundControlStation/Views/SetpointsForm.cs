@@ -70,10 +70,12 @@ namespace GroundControlStation.Views
         {
             Controller.Model.XRefSetpoint = (float)tbX.Value * 10;
             Controller.Model.YRefSetpoint = (float)tbY.Value * 10;
+            controller.Model.ZRefSetpoint = (float)tbZ.Value * 10;
             Controller.Model.YawRefSetpoint = (float)tbYaw.Value;
 
             txtX.Text = (tbX.Value * 10).ToString();
             txtY.Text = (tbY.Value * 10).ToString();
+            txtZ.Text = (tbZ.Value * 10).ToString();
             txtYaw.Text = (tbYaw.Value).ToString();
         }
     }

@@ -98,6 +98,7 @@ byte *SystemTelemetryMessage::getBytes()
 	
 	encode (msgPtr, XRefSetpoint);
 	encode (msgPtr, YRefSetpoint);
+	encode (msgPtr, ZRefSetpoint);	
 	encode (msgPtr, YawRefSetpoint);	
 	
 	
@@ -197,6 +198,7 @@ void SystemTelemetryMessage::buildMessage(byte *message)
 		
 		decode (message, XRefSetpoint);
 		decode (message, YRefSetpoint);
+		decode (message, ZRefSetpoint);		
 		decode (message, YawRefSetpoint);		
 						
 		decode (message, Timeouts);
@@ -288,6 +290,7 @@ SystemTelemetryMessage * SystemTelemetryMessage::buildMessageFromModel(SystemMod
 	
 	message->XRefSetpoint = model->ReferenceXNEDLocalFrameCm();
 	message->YRefSetpoint = model->ReferenceYNEDLocalFrameCm();
+	message->ZRefSetpoint = model->ReferenceZNEDLocalFrameCm();	
 	message->YawRefSetpoint = model->ReferenceMagYawRads();
 	
 	
@@ -373,6 +376,7 @@ void SystemTelemetryMessage::updateModelFromMessageFromSimulator (SystemModel *m
 
 	model->ReferenceXNEDLocalFrameCm(this->XRefSetpoint);
 	model->ReferenceYNEDLocalFrameCm(this->YRefSetpoint);
+	model->ReferenceZNEDLocalFrameCm(this->ZRefSetpoint);
 	model->ReferenceMagYawRads(this->YawRefSetpoint);
 	
 }

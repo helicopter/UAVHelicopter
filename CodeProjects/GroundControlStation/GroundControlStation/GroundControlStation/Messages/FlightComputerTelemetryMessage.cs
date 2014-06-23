@@ -101,6 +101,7 @@ namespace GroundControlStation.Messages
 
         public float XRefSetpoint;
         public float YRefSetpoint;
+        public float ZRefSetpoint;
         public float YawRefSetpoint;
 
 
@@ -193,6 +194,7 @@ namespace GroundControlStation.Messages
             sizeof(float) + 
 
                         sizeof(float) +
+            sizeof(float) +
             sizeof(float) +
             sizeof(float) +
 
@@ -302,6 +304,7 @@ namespace GroundControlStation.Messages
 
             XRefSetpoint = decodeFloat(byteBuffer, ref positionCounter);
             YRefSetpoint = decodeFloat(byteBuffer, ref positionCounter);
+            ZRefSetpoint = decodeFloat(byteBuffer, ref positionCounter);
             YawRefSetpoint = decodeFloat(byteBuffer, ref positionCounter);
 
 
@@ -405,6 +408,7 @@ namespace GroundControlStation.Messages
 
             encode(ref rawMsg, XRefSetpoint, ref positionCounter);
             encode(ref rawMsg, YRefSetpoint, ref positionCounter);
+            encode(ref rawMsg, ZRefSetpoint, ref positionCounter);
             encode(ref rawMsg, YawRefSetpoint, ref positionCounter);
 
 
@@ -501,6 +505,7 @@ namespace GroundControlStation.Messages
 
             model.XRefSetpoint = XRefSetpoint;
             model.YRefSetpoint = YRefSetpoint;
+            model.ZRefSetpoint = ZRefSetpoint;
             model.YawRefSetpoint = YawRefSetpoint;
 
 
@@ -780,6 +785,7 @@ System.Diagnostics.Debug.WriteLine("FRD x from sim recalced: " + velocityRotated
 
             msg.XRefSetpoint = model.XRefSetpoint;
             msg.YRefSetpoint = model.YRefSetpoint;
+            msg.ZRefSetpoint = model.ZRefSetpoint;
             msg.YawRefSetpoint = model.YawRefSetpoint * ((float)Math.PI / (float)180);
 
             return msg;

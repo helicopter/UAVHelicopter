@@ -234,8 +234,8 @@ int main(void)
 		//model->SensorInput(SystemModel::SimulatedSensors);
 		
 		
-		//model->CommunicationMethod(SystemModel::Radio);
-model->CommunicationMethod(SystemModel::USB);
+		model->CommunicationMethod(SystemModel::Radio);
+//model->CommunicationMethod(SystemModel::USB);
 
 		sendControlToServos = true;
 		

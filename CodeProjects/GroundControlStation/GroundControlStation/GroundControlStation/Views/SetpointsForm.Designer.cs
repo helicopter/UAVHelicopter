@@ -37,9 +37,13 @@
             this.txtYaw = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tbYaw = new System.Windows.Forms.TrackBar();
+            this.txtZ = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.tbZ = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.tbX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbY)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbYaw)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbZ)).BeginInit();
             this.SuspendLayout();
             // 
             // tbX
@@ -96,7 +100,7 @@
             // 
             // txtYaw
             // 
-            this.txtYaw.Location = new System.Drawing.Point(531, 107);
+            this.txtYaw.Location = new System.Drawing.Point(531, 148);
             this.txtYaw.Name = "txtYaw";
             this.txtYaw.Size = new System.Drawing.Size(100, 20);
             this.txtYaw.TabIndex = 8;
@@ -104,7 +108,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 114);
+            this.label3.Location = new System.Drawing.Point(12, 155);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(28, 13);
             this.label3.TabIndex = 7;
@@ -112,18 +116,48 @@
             // 
             // tbYaw
             // 
-            this.tbYaw.Location = new System.Drawing.Point(66, 103);
+            this.tbYaw.Location = new System.Drawing.Point(66, 144);
             this.tbYaw.Maximum = 360;
             this.tbYaw.Name = "tbYaw";
             this.tbYaw.Size = new System.Drawing.Size(459, 45);
             this.tbYaw.TabIndex = 6;
             this.tbYaw.ValueChanged += new System.EventHandler(this.tbX_ValueChanged);
             // 
+            // txtZ
+            // 
+            this.txtZ.Location = new System.Drawing.Point(531, 97);
+            this.txtZ.Name = "txtZ";
+            this.txtZ.Size = new System.Drawing.Size(100, 20);
+            this.txtZ.TabIndex = 11;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 104);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(17, 13);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Z:";
+            // 
+            // tbZ
+            // 
+            this.tbZ.Location = new System.Drawing.Point(66, 93);
+            this.tbZ.Maximum = 0;
+            this.tbZ.Minimum = -100;
+            this.tbZ.Name = "tbZ";
+            this.tbZ.Size = new System.Drawing.Size(459, 45);
+            this.tbZ.TabIndex = 9;
+            this.tbZ.ValueChanged += new System.EventHandler(this.tbX_ValueChanged);
+            // 
             // SetpointsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(643, 188);
+            this.ClientSize = new System.Drawing.Size(643, 214);
+            this.ControlBox = false;
+            this.Controls.Add(this.txtZ);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.tbZ);
             this.Controls.Add(this.txtYaw);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.tbYaw);
@@ -138,6 +172,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.tbX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbY)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbYaw)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tbZ)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -154,5 +189,8 @@
         private System.Windows.Forms.TextBox txtYaw;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TrackBar tbYaw;
+        private System.Windows.Forms.TextBox txtZ;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TrackBar tbZ;
     }
 }

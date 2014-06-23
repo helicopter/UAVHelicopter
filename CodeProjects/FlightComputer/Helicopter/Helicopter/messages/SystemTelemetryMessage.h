@@ -112,6 +112,7 @@ namespace helicopter
 
 				float XRefSetpoint;
 				float YRefSetpoint;
+				float ZRefSetpoint;
 				float YawRefSetpoint;
 				
 																		
@@ -215,6 +216,7 @@ namespace helicopter
 
 				sizeof(XRefSetpoint)+
 				sizeof(YRefSetpoint) +
+				sizeof(ZRefSetpoint) +
 				sizeof(YawRefSetpoint) +				
 				
 				sizeof(Timeouts) + 
@@ -307,6 +309,7 @@ namespace helicopter
 							
 						XRefSetpoint(0),
 						YRefSetpoint(0),
+						ZRefSetpoint(0),
 						YawRefSetpoint(0),						
 							
 							

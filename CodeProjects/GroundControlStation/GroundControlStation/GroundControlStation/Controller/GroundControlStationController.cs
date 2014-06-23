@@ -377,6 +377,7 @@ System.Diagnostics.Debug.WriteLine("X: " + telem.XMagFrd + " Y: " + telem.YMagFr
 
                             gains.XRefSetpoint = Model.XRefSetpoint;
                             gains.YRefSetpoint = Model.YRefSetpoint;
+                            gains.ZRefSetpoint = Model.ZRefSetpoint;
                             gains.YawRefSetpoint = Model.YawRefSetpoint * ((float)Math.PI / 180.0f);
 
 

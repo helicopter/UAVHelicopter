@@ -124,6 +124,7 @@ void SimTelemetryTask::runTaskImpl()
 				model->ReferenceMagYawRads(telemMsg->YawRefSetpoint);
 				model->ReferenceXNEDLocalFrameCm(telemMsg->XRefSetpoint);
 				model->ReferenceYNEDLocalFrameCm(telemMsg->YRefSetpoint);
+				model->ReferenceZNEDLocalFrameCm(telemMsg->ZRefSetpoint);
 			}
 			
 		}

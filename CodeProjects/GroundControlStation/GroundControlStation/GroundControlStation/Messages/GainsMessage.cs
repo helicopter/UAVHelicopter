@@ -40,7 +40,9 @@ namespace GroundControlStation.Messages
         //offsets
         public float XRefSetpoint;
         public float YRefSetpoint;
+        public float ZRefSetpoint;//cm 0 - 1000
         public float YawRefSetpoint;
+        
             
 
 
@@ -77,6 +79,7 @@ namespace GroundControlStation.Messages
 
             sizeof(float) +
             sizeof(float) +
+            sizeof(float) + 
             sizeof(float);
 
 
@@ -127,6 +130,7 @@ namespace GroundControlStation.Messages
 
             XRefSetpoint = decodeFloat(byteBuffer, ref positionCounter);
             YRefSetpoint = decodeFloat(byteBuffer, ref positionCounter);
+            ZRefSetpoint = decodeFloat(byteBuffer, ref positionCounter);
             YawRefSetpoint = decodeFloat(byteBuffer, ref positionCounter);
         }
 
@@ -167,6 +171,7 @@ namespace GroundControlStation.Messages
 
             encode(ref rawMsg, XRefSetpoint, ref positionCounter);
             encode(ref rawMsg, YRefSetpoint, ref positionCounter);
+            encode(ref rawMsg, ZRefSetpoint, ref positionCounter);
             encode(ref rawMsg, YawRefSetpoint, ref positionCounter);
             
 

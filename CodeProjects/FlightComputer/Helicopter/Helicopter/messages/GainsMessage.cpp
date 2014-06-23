@@ -48,6 +48,7 @@ byte *GainsMessage::getBytes()
 	
 	encode (msgPtr, XRefSetpoint);
 	encode (msgPtr, YRefSetpoint);
+	encode (msgPtr, ZRefSetpoint);	
 	encode (msgPtr, YawRefSetpoint);
 	
 	return msg;
@@ -90,6 +91,7 @@ void GainsMessage::buildMessage(byte *message)
 			
 		decode (message, XRefSetpoint);
 		decode (message, YRefSetpoint);
+		decode (message, ZRefSetpoint);
 		decode (message, YawRefSetpoint);
 			
 	}
