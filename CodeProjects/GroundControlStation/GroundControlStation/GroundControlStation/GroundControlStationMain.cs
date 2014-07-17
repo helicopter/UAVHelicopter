@@ -249,15 +249,17 @@ namespace GroundControlStation
             model.XProportionalGain = .0151f;
             model.XDerivativeGain = 0.0f;
             model.XAntiWindupGain = 0.0f;
-            model.LongitudeInnerLoopGain = 1.0f;
+            //model.LongitudeInnerLoopGain = 1.0f;
+            model.LongitudeInnerLoopGain = 0.17081f;
             model.PitchAngularVelocityGain = 0.0f;
 
             model.YIntegralGain = 0.0f;
 
-            model.YProportionalGain = .015f;
+            model.YProportionalGain = .0151f;
             model.YDerivativeGain = 0.0f;
             model.YAntiWindupGain = 0.0f;
-            model.LateralInnerLoopGain = 1.0f;
+            //model.LateralInnerLoopGain = 1.0f;
+            model.LateralInnerLoopGain = 0.17081f;
             model.RollAngularVelocityGain = 0.0f;
 
             model.ZIntegralGain = 0.0f;

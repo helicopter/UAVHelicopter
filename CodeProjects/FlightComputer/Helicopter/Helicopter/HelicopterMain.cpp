@@ -515,6 +515,7 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	 */
 	if (model->SensorInput() == SystemModel::RealSensors)
 	{		
+	
 		//Initialize GPS readings and position
 		//while (!gpsSensor->isGpsReady() || gpsSensor->getPositionAccuracyEstimateEcefCm() > 400)
 while (!gpsSensor->isGpsReady() || gpsSensor->getPositionAccuracyEstimateEcefCm() > 1000)		
@@ -546,7 +547,6 @@ while (!gpsSensor->isGpsReady() || gpsSensor->getPositionAccuracyEstimateEcefCm(
 
 
 
-
 		
 		//Turn off interrupts so that the gps sensor doesn't auto receive gps data which would
 		//mess up the manual read.
@@ -557,10 +557,10 @@ while (!gpsSensor->isGpsReady() || gpsSensor->getPositionAccuracyEstimateEcefCm(
 			gpsSensor->readSensorLLH();
 			_delay_ms(250);
 		}
-		
+	
 		//turn interrupts back on.
 		//sei();
-		
+	
 		
 		//set initial position			
 		model->InitialXPositionEcef(gpsSensor->getXEcefCm());

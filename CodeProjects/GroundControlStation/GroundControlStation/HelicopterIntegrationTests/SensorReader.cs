@@ -220,208 +220,208 @@ namespace HelicopterIntegrationTests
          */
 
         //Test reading GPS.
-        //public static void Main()
-        //{
-        //    //SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
-        //    //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One);
-        //   SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
+        public static void Main()
+        {
+            //SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
+            //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One);
+            SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
 
 
-        //    SerialPortInterface portInterface = new SerialPortInterface(port);
-        //    portInterface.Open();
+            SerialPortInterface portInterface = new SerialPortInterface(port);
+            portInterface.Open();
 
 
-        //    GraphForm lat = new GraphForm("Latitude");
-        //    GraphForm lon = new GraphForm("Longitude");
-        //    lat.Visible = true;
-        //    lon.Visible = true;
+            GraphForm lat = new GraphForm("Latitude");
+            GraphForm lon = new GraphForm("Longitude");
+            lat.Visible = true;
+            lon.Visible = true;
 
-        //    byte var = 0;
-        //    int counter = 0;
-        //    byte[] bytes = new byte[80];
-
-
-        //    port.DiscardInBuffer();
-        //    while (true)
-        //    {
-        //        List<byte> bts = new List<byte>();
-
-        //        while (true)
-        //        {
-
-        //        //    bts.Add(portInterface.ReadByte());
-        //            /*
-        //            byte[] buff = new byte[34];
-
-        //            for (int i = 0; i < 34; i++)
-        //            {
-        //                buff[i] = portInterface.ReadByte();
-        //            }
-
-        //            int a = 0;
-        //            a++;
-        //            */
-
-        //            /**
-        //             * This is needed to prevent getting out of synch. After a restart
-        //             * the system could have already transmitted half of the data, so the first message
-        //             * after a restart will be junk. Then this will snychronize the messages after the first
-        //             * transmit.
-        //             */
-        //            while (portInterface.ReadByte() != 'T')
-        //            {
-
-        //            }
-
-        //            //byte bb = 0;
-        //            //bb = portInterface.ReadByte();
-        //            //bb = portInterface.ReadByte();
-        //            //bb = portInterface.ReadByte();
-
-        //            int latitude = portInterface.ReadInt();
-        //            int longitude = portInterface.ReadInt();
-        //            int positionAcc = portInterface.ReadInt();
-        //            short fixStatus = portInterface.ReadShort();
-        //            int x = portInterface.ReadInt();
-        //            int y = portInterface.ReadInt();
-        //            int z = portInterface.ReadInt();
-        //            int b = 0;
-
-        //            Console.WriteLine("lat: " + latitude.ToString() + " long: " + longitude.ToString() + " pos acc " + positionAcc.ToString() + " fixStatus " + fixStatus.ToString() + " x: " + x.ToString() + " y: " + y.ToString() + " z " + z.ToString());
+            byte var = 0;
+            int counter = 0;
+            byte[] bytes = new byte[80];
 
 
-        //        }
+            port.DiscardInBuffer();
+            while (true)
+            {
+                List<byte> bts = new List<byte>();
 
-        //    }
+                while (true)
+                {
 
-        //    //        /*
-        //    //        bytes = new byte[80];
+                    //    bts.Add(portInterface.ReadByte());
+                    /*
+                    byte[] buff = new byte[34];
 
-        //    //        for (int i = 0; i < 80; i++)
-        //    //        {
-        //    //            var = portInterface.ReadByte();
+                    for (int i = 0; i < 34; i++)
+                    {
+                        buff[i] = portInterface.ReadByte();
+                    }
 
-        //    //            bytes[i] = var;
-        //    //        }
+                    int a = 0;
+                    a++;
+                    */
 
-        //    //        byte b = 2;
-        //    //         */
+                    /**
+                     * This is needed to prevent getting out of synch. After a restart
+                     * the system could have already transmitted half of the data, so the first message
+                     * after a restart will be junk. Then this will snychronize the messages after the first
+                     * transmit.
+                     */
+                    while (portInterface.ReadByte() != 'T')
+                    {
 
-        //    //        /*
-        //    //        var = portInterface.ReadByte();
-                      
-                     
-        //    //        if (var == 'S')
-        //    //        {
-        //    //            counter = 0;
-        //    //            System.Diagnostics.Debug.WriteLine("Counter " + (bytes[0] << 24 | bytes[1] << 16 | bytes[2] << 8 | bytes[3]));
-        //    //        }
-        //    //        else if (var == 'B')
-        //    //        {
-        //    //            System.Diagnostics.Debug.WriteLine("Timeout " + ((int)portInterface.ReadByte()).ToString());
-        //    //        }
-        //    //        else
-        //    //        {
-        //    //            bytes[counter++] = var;
-        //    //        }
-        //    //         * */
+                    }
 
-        //    //        counter++;
-        //    //        /*byte[] bytes2 = new byte[28];
+                    //byte bb = 0;
+                    //bb = portInterface.ReadByte();
+                    //bb = portInterface.ReadByte();
+                    //bb = portInterface.ReadByte();
 
-                    
+                    int latitude = portInterface.ReadInt();
+                    int longitude = portInterface.ReadInt();
+                    int positionAcc = portInterface.ReadInt();
+                    short fixStatus = portInterface.ReadShort();
+                    int x = portInterface.ReadInt();
+                    int y = portInterface.ReadInt();
+                    int z = portInterface.ReadInt();
+                    int b = 0;
 
-        //    //        for (int i = 0; i < 28; i++)
-        //    //        {
-        //    //            var = portInterface.ReadByte();
-        //    //            bytes2[i] = var;
-        //    //        }
-
-        //    //        int b = 3;
-        //    //        System.Diagnostics.Debug.WriteLine("Counter " + (bytes2[13] << 24 | bytes2[12] << 16 | bytes2[11] << 8 | bytes2[10]));
-        //    //         */
-
-        //    //        /*
-        //    //        bytes [counter++] = var;
-
-        //    //        if (counter == 3)
-        //    //        {
-        //    //            counter = 0;
-        //    //            System.Diagnostics.Debug.WriteLine("Counter " + (bytes[0] <<24 | bytes[1] <<16 | bytes[2] << 8 | bytes[3]));
-        //    //        }
-        //    //         */
-
-        //    //        /*
-        //    //        if (var == 0xB5)
-        //    //        {
-        //    //            System.Diagnostics.Debug.WriteLine("Counter" + counter);
-        //    //            counter = 1;
-                        
-        //    //        }
-
-        //    //        if (counter == 11 | counter == 12 | counter == 13 | counter == 14)
-        //    //        {
-        //    //            bytes[14 - counter] = var;
-        //    //            bytes[counter - 11] = var;
-        //    //        }
-        //    //        if (counter == 15)
-        //    //        {
-        //    //            System.Diagnostics.Debug.WriteLine("Number" + BitConverter.ToInt32(bytes,0));
-        //    //        }
-
-        //    //        System.Diagnostics.Debug.Write((char)var);
-        //    //         */
-        //    //        /*
-        //    //        if (var == 'S')
-        //    //        {
-        //    //            int bb = portInterface.ReadInt();
-        //    //            System.Diagnostics.Debug.WriteLine(" Int: " + bb.ToString());
-                        
-        //    //        }*/
-        //    //    }
+                    Console.WriteLine("lat: " + latitude.ToString() + " long: " + longitude.ToString() + " pos acc " + positionAcc.ToString() + " fixStatus " + fixStatus.ToString() + " x: " + x.ToString() + " y: " + y.ToString() + " z " + z.ToString());
 
 
-        //    //    while (var != 'S')
-        //    //    {
-        //    //        var = portInterface.ReadByte();
-        //    //    }
+                }
 
-        //    //    Note:The status value might come back as a large value because after restart, the value S gets sent as one of the bytes ruining the synchronization
-        //    //    /*
-        //    //    Read raw lat/long
-        //    //    System.Diagnostics.Debug.WriteLine(portInterface.ReadInt(portInterface));
-        //    //    int rwLat = portInterface.ReadInt(portInterface);
-        //    //    lat.AddValueToGraph(rwLat);
+            }
 
-        //    //    int rwLon = portInterface.ReadInt(portInterface);
-        //    //    lon.AddValueToGraph(rwLon);*/
+            //        /*
+            //        bytes = new byte[80];
+
+            //        for (int i = 0; i < 80; i++)
+            //        {
+            //            var = portInterface.ReadByte();
+
+            //            bytes[i] = var;
+            //        }
+
+            //        byte b = 2;
+            //         */
+
+            //        /*
+            //        var = portInterface.ReadByte();
 
 
-        //    //    Read raw messages
-        //    //    var = 0;
-        //    //    short status = portInterface.ReadShort();
-        //    //    System.Diagnostics.Debug.WriteLine("status: " + status); // status
-        //    //    while (var != 'S')
-        //    //    {
-        //    //        var = portInterface.ReadByte();
-        //    //        System.Diagnostics.Debug.Write((char)var);
-        //    //    }
+            //        if (var == 'S')
+            //        {
+            //            counter = 0;
+            //            System.Diagnostics.Debug.WriteLine("Counter " + (bytes[0] << 24 | bytes[1] << 16 | bytes[2] << 8 | bytes[3]));
+            //        }
+            //        else if (var == 'B')
+            //        {
+            //            System.Diagnostics.Debug.WriteLine("Timeout " + ((int)portInterface.ReadByte()).ToString());
+            //        }
+            //        else
+            //        {
+            //            bytes[counter++] = var;
+            //        }
+            //         * */
+
+            //        counter++;
+            //        /*byte[] bytes2 = new byte[28];
 
 
 
-        //    //    Read xned
-        //    //    System.Diagnostics.Debug.WriteLine(portInterface.ReadFloat().ToString());
+            //        for (int i = 0; i < 28; i++)
+            //        {
+            //            var = portInterface.ReadByte();
+            //            bytes2[i] = var;
+            //        }
 
-        //    //    Application.DoEvents();
-        //    //}
-        //}
+            //        int b = 3;
+            //        System.Diagnostics.Debug.WriteLine("Counter " + (bytes2[13] << 24 | bytes2[12] << 16 | bytes2[11] << 8 | bytes2[10]));
+            //         */
+
+            //        /*
+            //        bytes [counter++] = var;
+
+            //        if (counter == 3)
+            //        {
+            //            counter = 0;
+            //            System.Diagnostics.Debug.WriteLine("Counter " + (bytes[0] <<24 | bytes[1] <<16 | bytes[2] << 8 | bytes[3]));
+            //        }
+            //         */
+
+            //        /*
+            //        if (var == 0xB5)
+            //        {
+            //            System.Diagnostics.Debug.WriteLine("Counter" + counter);
+            //            counter = 1;
+
+            //        }
+
+            //        if (counter == 11 | counter == 12 | counter == 13 | counter == 14)
+            //        {
+            //            bytes[14 - counter] = var;
+            //            bytes[counter - 11] = var;
+            //        }
+            //        if (counter == 15)
+            //        {
+            //            System.Diagnostics.Debug.WriteLine("Number" + BitConverter.ToInt32(bytes,0));
+            //        }
+
+            //        System.Diagnostics.Debug.Write((char)var);
+            //         */
+            //        /*
+            //        if (var == 'S')
+            //        {
+            //            int bb = portInterface.ReadInt();
+            //            System.Diagnostics.Debug.WriteLine(" Int: " + bb.ToString());
+
+            //        }*/
+            //    }
+
+
+            //    while (var != 'S')
+            //    {
+            //        var = portInterface.ReadByte();
+            //    }
+
+            //    Note:The status value might come back as a large value because after restart, the value S gets sent as one of the bytes ruining the synchronization
+            //    /*
+            //    Read raw lat/long
+            //    System.Diagnostics.Debug.WriteLine(portInterface.ReadInt(portInterface));
+            //    int rwLat = portInterface.ReadInt(portInterface);
+            //    lat.AddValueToGraph(rwLat);
+
+            //    int rwLon = portInterface.ReadInt(portInterface);
+            //    lon.AddValueToGraph(rwLon);*/
+
+
+            //    Read raw messages
+            //    var = 0;
+            //    short status = portInterface.ReadShort();
+            //    System.Diagnostics.Debug.WriteLine("status: " + status); // status
+            //    while (var != 'S')
+            //    {
+            //        var = portInterface.ReadByte();
+            //        System.Diagnostics.Debug.Write((char)var);
+            //    }
+
+
+
+            //    Read xned
+            //    System.Diagnostics.Debug.WriteLine(portInterface.ReadFloat().ToString());
+
+            //    Application.DoEvents();
+            //}
+        }
 
 
 
 
 
         //Test reading barometer.
-        public static void Main()
+        public static void Main44()
         {
             double baseAltitudeFeet = 0.0;
             int counter2 = 0;

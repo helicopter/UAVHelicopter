@@ -714,7 +714,7 @@ int MagnetometerSensor::readSensor()
 		
 		
 		
-	float neg = frdMagZ<0? -1.0f:1.0f;
+	
 		
 	//x2+y2+z2=mag2
 	//mag2-x2-y2=z2
@@ -725,9 +725,11 @@ int MagnetometerSensor::readSensor()
 	float my = frdMagY / 100.0f;
 	float magnitude = 570.0f / 100.0f;
 	*/
-		
-	frdMagZ = sqrt(fabsf(570.0f*570.0f - frdMagX*frdMagX-frdMagY*frdMagY)) * neg;
-	//frdMagZ = (sqrt(fabsf(magnitude*magnitude - mx*mx-my*my)) * neg) * 100.0f;
+	
+	//This code is used as a work around for when my Z axis wasn't working on my magnetometer. 
+	//float neg = frdMagZ<0? -1.0f:1.0f;	
+	//frdMagZ = sqrt(fabsf(570.0f*570.0f - frdMagX*frdMagX-frdMagY*frdMagY)) * neg;
+	////frdMagZ = (sqrt(fabsf(magnitude*magnitude - mx*mx-my*my)) * neg) * 100.0f;
 		
 		
 		

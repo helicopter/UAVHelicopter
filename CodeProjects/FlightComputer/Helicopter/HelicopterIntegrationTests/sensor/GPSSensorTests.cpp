@@ -503,7 +503,7 @@ int readRealSensor_test(TestCase *test)
 	 * Note, this serial driver must be on baud rate 9600 because the GPS code is
 	 * hard coded to communicate over serial at 9600 baud.
 	 */
-	SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, gpsTimer);
+	SerialDriver *gpsSerialDriver = new SerialDriver(38400, SerialDriver::One, true, gpsTimer);
 	gpsSerialDriver->init();
 
 	SerialDriver *serialDriver = new SerialDriver(9600, SerialDriver::Zero, true, timer);
