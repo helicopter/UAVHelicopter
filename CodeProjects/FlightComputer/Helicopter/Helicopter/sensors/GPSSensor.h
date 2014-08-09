@@ -31,6 +31,8 @@ namespace helicopter
 					
 				static byte navSolMsgBuffer[navSolBufferSize];	
 				
+				static byte navSolMsgBuffer2[navSolBufferSize];	
+				
 				static int navSolBufferCounter;
 				
 				static bool navSolMsgReceived;

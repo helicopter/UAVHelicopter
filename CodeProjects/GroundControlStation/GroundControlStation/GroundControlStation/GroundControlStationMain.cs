@@ -237,12 +237,14 @@ namespace GroundControlStation
              */
 
 
-            //zeroed out gains
+            //zeroed out gains - most recent 8/3/2014
             
-            model.YawIntegralGain = 0.072f;
+            //model.YawIntegralGain = 0.072f;
+            model.YawIntegralGain = 0.00f;
             model.YawProportionalGain = .507f;
             model.YawDerivativeGain = 0.0f;
-            model.YawAntiWindupGain = 0.02f;
+            //model.YawAntiWindupGain = 0.02f;
+            model.YawAntiWindupGain = 0.00f;
 
 
             model.XIntegralGain = 0.0f;

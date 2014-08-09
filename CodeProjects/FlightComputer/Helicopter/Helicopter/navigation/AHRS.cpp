@@ -40,8 +40,13 @@ const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .05f;//.75f;
 */
 
 //experimental 6/14/2014
+//latest 8/3/2014
+//const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .015f;
+//const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .05f;
 
-const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .015f;
+//more experimental 8/3/2014
+//const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .076f;
+const float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .016f;
 const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .05f;
 
 void AHRS::scaleAndAdjust(float vectorToAdjust[3], float vectorToScale[3], float scalerValue, float (&outputVector)[3])

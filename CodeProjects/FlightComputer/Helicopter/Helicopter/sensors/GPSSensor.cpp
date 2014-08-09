@@ -27,7 +27,8 @@ const byte GPSSensor::NAV_STATUS_POLLMSG[] = {0xB5, 0x62, 0x01, 0x03, 0x00, 0x00
 //msg to periodically receive nav_sol messages.
 const byte GPSSensor::CFG_MSG_CONFIG_PERIODIC_SOL[] = {0xB5, 0x62, 0x06, 0x01, 0x08, 0x00, 0x01, 0x06, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x17, 0xDA};
 
-byte GPSSensor::navSolMsgBuffer[60] = {};
+byte GPSSensor::navSolMsgBuffer[navSolBufferSize] = {};
+byte GPSSensor::navSolMsgBuffer2[navSolBufferSize] = {};
 	
 int GPSSensor::navSolBufferCounter = 0;
 
@@ -283,7 +284,7 @@ void GPSSensor::processSensorSolution()
 			
 		//Copy the nav solution data into a local buffer in case an
 		//interrupt occurs during processing.
-		memcpy(navSolMsg,navSolMsgBuffer, navSolBufferSize);
+		memcpy(navSolMsg,navSolMsgBuffer2, navSolBufferSize);
 		
 		positionFixStatus =  navSolMsg[16] >= 3 ? VALID : INVALID;
 
@@ -549,8 +550,30 @@ ISR(USART1_RX_vect)
 			
 			if (GPSSensor::navSolBufferCounter >= GPSSensor::navSolBufferSize)
 			{
-				GPSSensor::navSolMsgReceived = true;
-				GPSSensor::navSolBufferCounter = 0;
+				//8-bit fletcher algorithm defined on page 86 of gps pdf.
+				unsigned char ckA = 0;
+				unsigned char ckB = 0;
+				
+				for (int i = 0; i < GPSSensor::navSolBufferSize - 4; i++)
+				{
+					ckA = ckA + GPSSensor::navSolMsgBuffer[i+2];
+					ckB = ckB + ckA;
+				}
+				
+				if (GPSSensor::navSolMsgBuffer[GPSSensor::navSolBufferSize - 2] == ckA && 
+					GPSSensor::navSolMsgBuffer[GPSSensor::navSolBufferSize - 1] == ckB)
+				{
+					memcpy(GPSSensor::navSolMsgBuffer2,GPSSensor::navSolMsgBuffer, GPSSensor::navSolBufferSize);
+					GPSSensor::navSolMsgReceived = true;
+					GPSSensor::navSolBufferCounter = 0;					
+				}else
+				{
+					//GPS checksum didn't match. 
+					GPSSensor::navSolMsgReceived = false;
+					GPSSensor::navSolBufferCounter = 0;
+				}
+				
+
 			}			
 		}
 	}else
