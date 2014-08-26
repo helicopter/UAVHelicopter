@@ -33,6 +33,7 @@ byte GPSSensor::navSolMsgBuffer2[navSolBufferSize] = {};
 int GPSSensor::navSolBufferCounter = 0;
 
 bool GPSSensor::navSolMsgReceived = false;
+bool GPSSensor::crcError = false;
 			
 /**
 * Target=uart1, protocolin = ubx, protocolout = ubx, baud = 9600
@@ -273,8 +274,9 @@ int GPSSensor::readSensorSolutionReadData()
 }
 
 
-void GPSSensor::processSensorSolution()
+int GPSSensor::processSensorSolution()
 {
+	int status = 0;
 	
 	if (navSolMsgReceived)
 	{
@@ -285,6 +287,7 @@ void GPSSensor::processSensorSolution()
 		//Copy the nav solution data into a local buffer in case an
 		//interrupt occurs during processing.
 		memcpy(navSolMsg,navSolMsgBuffer2, navSolBufferSize);
+		
 		
 		positionFixStatus =  navSolMsg[16] >= 3 ? VALID : INVALID;
 
@@ -301,7 +304,16 @@ void GPSSensor::processSensorSolution()
 		velocityAccuracyEstimateEcefCms =  ((long)navSolMsg[49] << 24) | ((long)navSolMsg[48] << 16) | ((long)navSolMsg[47] << 8) | (long) navSolMsg[46];		
 		
 		navSolMsgReceived = false;
+		
+		if (crcError)
+		{
+			status = -1;
+			crcError = false;
+		}
+		
 	}
+	
+	return status;
 }
 
 int GPSSensor::readSensorSolution()
@@ -571,6 +583,7 @@ ISR(USART1_RX_vect)
 					//GPS checksum didn't match. 
 					GPSSensor::navSolMsgReceived = false;
 					GPSSensor::navSolBufferCounter = 0;
+					GPSSensor::crcError = true;
 				}
 				
 

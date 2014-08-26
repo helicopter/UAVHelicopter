@@ -36,6 +36,8 @@ namespace helicopter
 				static int navSolBufferCounter;
 				
 				static bool navSolMsgReceived;
+				
+				static bool crcError;
 					
 			private:
 				
@@ -158,7 +160,7 @@ namespace helicopter
 				 * If a new gps nav solution message has been completely received, then
 				 * parse the message and set the appropriate gps variables.
 				 */
-				void processSensorSolution();
+				int processSensorSolution();
 				
 				/**
 				 * Latitude in degrees X 10^7

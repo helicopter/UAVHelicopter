@@ -21,7 +21,7 @@ sendReadCommand(true)
 void ReadGPSSensorTask::runTaskImpl()
 {
 	
-	gpsSensor->processSensorSolution();
+	int status = gpsSensor->processSensorSolution();
 	
 	if(model->SensorInput() == SystemModel::RealSensors)
 	{
@@ -32,6 +32,11 @@ void ReadGPSSensorTask::runTaskImpl()
 		model->XVEcefCms(gpsSensor->getXVEcefCms());
 		model->YVEcefCms(gpsSensor->getYVEcefCms());
 		model->ZVEcefCms(gpsSensor->getZVEcefCms());
+		
+		if (status == -1)
+		{
+			model->ChecksumErrors(model->ChecksumErrors() + 1);
+		}
 	}
 	
 	
