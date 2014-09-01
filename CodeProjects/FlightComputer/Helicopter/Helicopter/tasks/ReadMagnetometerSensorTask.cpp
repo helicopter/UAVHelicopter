@@ -24,8 +24,8 @@ void ReadMagnetometerSensorTask::runTaskImpl()
 
 	if (magnetometerSensor->readSensor() != 0)
 	{
-				DDRA |= (1<<PA4);
-				PORTA &= ~(1<<PA4);
+		model->ChecksumErrors(model->ChecksumErrors() + 1);
+		return;
 	}
 	
 	if(model->SensorInput() == SystemModel::RealSensors)

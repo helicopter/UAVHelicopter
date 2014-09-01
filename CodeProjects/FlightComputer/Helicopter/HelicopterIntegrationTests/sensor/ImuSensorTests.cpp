@@ -165,19 +165,19 @@ int readmag_test(TestCase *test)
 		byte highByte = 0;
 		byte lowByte = 0;
 		
-		highByte = driver->readByte(true);
-		lowByte = driver->readByte(true);
+		highByte = driver->readByte(true, highByte);
+		lowByte = driver->readByte(true, lowByte);
 		magXVal = (highByte << 8) | (lowByte);
 		
-		highByte = driver->readByte(true);
-		lowByte = driver->readByte(true);
+		highByte = driver->readByte(true, highByte);
+		lowByte = driver->readByte(true, lowByte);
 		magZVal = (highByte << 8) | (lowByte);
 		
-		highByte = driver->readByte(true);
+		highByte = driver->readByte(true, highByte);
 		
 		//We don't send an acknowledgment on the last byte to be read (the magnetic Y values low byte) because of an apparent undocumented requirement by the device
 		//that the nack needs to be sent to have the internal pointer go back to the magnetic X variable.
-		lowByte = driver->readByte(false);
+		lowByte = driver->readByte(false, lowByte);
 		magYVal = (highByte << 8) | (lowByte);		
 	
 		//transmit stop condition

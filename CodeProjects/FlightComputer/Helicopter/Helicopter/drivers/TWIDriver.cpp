@@ -12,6 +12,12 @@
 
 using namespace helicopter::drivers;
 
+void TWIDriver::reset()
+{
+	this->stop();
+	TWCR &= ~(1<<TWEN);
+}
+
 void TWIDriver::init()
 {
 	//From this code located here: https://github.com/diydrones/ardupilot/blob/8f4665c4c7e36714cc35eaf9dfe764a788fcf4c1/libraries/AP_HAL_AVR/I2CDriver.cpp
@@ -31,6 +37,9 @@ void TWIDriver::init()
 	TWSR &= ~(1<<TWPS1);
 
 	//set the bit rate (page 248 of atmega2560 data sheet)
+	//this is 200khz clock rate. 
+	//equation is here http://www.ermicro.com/blog/?p=744
+	//SCL freq = cpu clock freq / (16 + 2(TWBR) * prescaler)
 	TWBR = ((16000000UL / 400000UL) - 16UL) / 2UL;
 }
 
@@ -41,17 +50,28 @@ bool TWIDriver::start()
 
 	//wait for twint flag to be set.
 	//This indicates that the start condition was sent.
-	while (!(TWCR & (1<<TWINT)))
-	;
+//	while (!(TWCR & (1<<TWINT)))
+//	;
+	for (int i = 0; i < 100  && !(TWCR & (1<<TWINT)); i++)
+	{
+	}
+
+	if (!(TWCR & (1<<TWINT)))
+	{
+		return false;
+	}
+	
+	
 	
 	//Verify that start condition was successfully sent.
 	int status = TWSR & 0xF8;
 	
 	if (status == START ||
 	 status == REPEATED_START)
-	{
+	{	
 		return true;
 	}
+
 	
 	return false;
 }
@@ -79,10 +99,16 @@ bool TWIDriver::write( byte data, byte acknowledgeValue)
 	
 	//Wait for TWINT flag to be set. This indicates that the data has been transmitted
 	//and the ack/nack has been received.  
-	while (!(TWCR & (1<<TWINT)))
-	;
+	//while (!(TWCR & (1<<TWINT)))
+	//;
+	for (int i = 0; i < 100  && !(TWCR & (1<<TWINT)); i++)
+	{
+	}
 
-
+	if (!(TWCR & (1<<TWINT)))
+	{
+		return false;
+	}
 
 	
 	//If an acknowledgment value was given,
@@ -97,7 +123,7 @@ bool TWIDriver::write( byte data, byte acknowledgeValue)
 	return true;
 }
 
-byte TWIDriver::readByte(bool acknowledge)
+bool TWIDriver::readByte(bool acknowledge, byte& val)
 {
 	//Clear the interrupt to start receiving data (why acknowledge?)*** clocks out data??
 	//TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWEA); 
@@ -111,12 +137,22 @@ byte TWIDriver::readByte(bool acknowledge)
 	
 	
 	//Wait for the interrupt to be reset, indicating that we received the data
-	while (!(TWCR & (1<<TWINT))) ;
+	//while (!(TWCR & (1<<TWINT))) ;
+	for (int i = 0; i < 100  && !(TWCR & (1<<TWINT)); i++)
+	{
+	}
 	
+	if (!(TWCR & (1<<TWINT)))
+	{
+		val = 0;
+		return false;
+	}
 
 	
 	//Read the data.
-	byte receivedValue = TWDR;
+	//byte receivedValue = TWDR;
+	val = TWDR;
 	
-	return receivedValue;
+	//return receivedValue;
+	return true;
 }

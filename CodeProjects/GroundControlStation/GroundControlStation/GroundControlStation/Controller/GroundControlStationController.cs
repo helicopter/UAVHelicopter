@@ -222,6 +222,24 @@ namespace GroundControlStation.Controller
                         xplaneInterface.Transmit(Model);
 
                         flightComputerFileLogger.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + ", " + LoggingUtil.ToCsv(",", telem));
+
+
+/*
+                        if (Model.CalcMSE)
+                        {
+                            //calculate mean squared error of yaw pitch and roll. 
+                            double rollsquaredError = Math.Pow(telem.RollRads - (Model.SimTelm.RollDegrees * (Math.PI / 180)), 2);
+                            Model.RollMSE = (rollsquaredError + (Model.RollMSE * Model.MSEIterations)) / (Model.MSEIterations + 1);
+
+                            double pitchsquaredError = Math.Pow(telem.PitchRads - (Model.SimTelm.PitchDegrees * (Math.PI / 180)), 2);
+                            Model.PitchMSE = (pitchsquaredError + (Model.PitchMSE * Model.MSEIterations)) / (Model.MSEIterations + 1);
+
+                            double yawsquaredError = Math.Pow(telem.YawRads - (Model.SimTelm.MagHeadingDegrees * (Math.PI / 180)), 2);
+                            Model.YawMSE = (yawsquaredError + (Model.YawMSE * Model.MSEIterations)) / (Model.MSEIterations + 1);
+
+                            Model.MSEIterations = Model.MSEIterations + 1;
+                        }
+ * */
                     }
                     else if (msg.MsgType == ControlMessage.MessageType)
                     {
@@ -252,7 +270,9 @@ namespace GroundControlStation.Controller
 
                         xplaneInterface.Transmit(Model);
 
+
                         
+
                     }
                     else if (msg.MsgType == SimpleTelemetryMessage.MessageType)
                     {

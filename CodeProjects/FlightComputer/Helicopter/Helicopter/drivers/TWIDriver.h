@@ -94,9 +94,17 @@ namespace helicopter
 				 * it's set to acknowledge, then the acknowledgment is sent to the device. Otherwise
 				 * the NACK is sent. 
 				 */
-				byte readByte(bool acknowledge);
+				bool readByte(bool acknowledge, byte& val);
 				
 				void init();
+				
+				/**
+				 * Clears the TWI communication line by sending the stop condition and disabling TWI.
+				 * This frees the communication lines in the event of a stuck bus. This is because
+				 * in the event of radio interference, the magnetometer was getting stuck and wasn't
+				 * responsive. by turning off the twi line it allowed things to communicate again. 
+				 */
+				void reset();
 		};
 	}
 }

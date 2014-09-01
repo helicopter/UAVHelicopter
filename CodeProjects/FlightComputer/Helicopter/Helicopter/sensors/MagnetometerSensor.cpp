@@ -19,6 +19,32 @@ using namespace helicopter::util;
     bool _null_init_done = false;                           ///< first-time-around flag used by offset nulling
 
 
+//Implements bus clear method to clear out the i2c bus in the event of an error. 
+//http://davinci-linux-open-source.1494791.n2.nabble.com/PATCH-v1-i2c-Davinci-i2c-bus-recovery-procedure-to-come-out-of-time-out-conditions-td4051690.html
+/*#define CHECK(A) if(!A){ \
+	TWCR &= ~(1<<TWEN); \
+	TWCR = (1<<TWINT) | (1<<TWEN); \
+	PORTD |= (1<<PD1); \
+	for (int i = 0; i < 9; i++) \
+	{ \
+		PORTD &= ~(1<<PD0); \
+		_delay_us(20); \
+		PORTD |= (1<<PD0); \
+		_delay_us(20); \
+	} \
+	driver->stop(); \
+	return -1;\
+	}
+*/
+//I disable the i2c bus ~(1<<TWEN) because this somehow 'frees' up the line with the magnetometer. 
+//Before, i was running into an issue where the radio was interfering with the magnetometer i2c lines
+//causing it to lock up and nothing would unlike the line besides a reset. I couldn't re-initiate a start command
+//or anything. freeing the SCL (twen) solved that issue. This isn't documented anywhere it was through trial and error. 
+#define CHECK(A) if(!A){ \
+	driver->reset(); \
+	return -1;\
+}
+
 static const uint8_t _mag_history_size = 20;
 
 
@@ -603,6 +629,19 @@ calibration[2] = 1;
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 float _offsets2[3] = {0};
 float previousMag[3] = {.001, .001, .001};
 int MagnetometerSensor::readSensor()
@@ -613,20 +652,24 @@ int MagnetometerSensor::readSensor()
 	/**
 	* Setup device to start reading mag data
 	*/
-	if (!driver->start())
+	/*if (!driver->start())
 	{
+		driver->stop();
 		return -1;
-	}
+	}*/
+	CHECK(driver->start());
 	
 	/**
 		* Send a command to the sensor indicating that the next value
 		* is a write operation. I.e. we will tell the sensor what internal address
 		* to jump to.
 		*/
-	if (!driver->write(MAGNETOMETER_TWOWIRE_SENSOR_ADDRESS | WRITE_OPERATION, TWIDriver::MASTERTRANSMIT_SLAVE_WRITE_ACK))
+	/*if (!driver->write(MAGNETOMETER_TWOWIRE_SENSOR_ADDRESS | WRITE_OPERATION, TWIDriver::MASTERTRANSMIT_SLAVE_WRITE_ACK))
 	{
+		driver->stop();
 		return -1;
-	}		
+	}*/		
+	CHECK(driver->write(MAGNETOMETER_TWOWIRE_SENSOR_ADDRESS | WRITE_OPERATION, TWIDriver::MASTERTRANSMIT_SLAVE_WRITE_ACK));
 	
 	
 
@@ -636,44 +679,53 @@ int MagnetometerSensor::readSensor()
 		* to move the internal 'cursor' to that position so the subsequent 
 		* read command will return the value at that address
 		*/
-	if (!driver->write(DATA_OUTPUT_X_MSG_REGISTER, TWIDriver::MASTERTRANSMIT_DATA_ACK))
+	/*if (!driver->write(DATA_OUTPUT_X_MSG_REGISTER, TWIDriver::MASTERTRANSMIT_DATA_ACK))
 	{
+		driver->stop();
 		return -1;
-	}
+	}*/
+	CHECK(driver->write(DATA_OUTPUT_X_MSG_REGISTER, TWIDriver::MASTERTRANSMIT_DATA_ACK));
 		
 
 	//(from atmega2560 doc)
 	//In order to enter 'master receiver' mode (the mode we enter into in the next command), a start condition must be entered.
-	if (!driver->start())
+	/*if (!driver->start())
 	{
+		driver->stop();
 		return -1;
-	}
+	}*/
+	CHECK(driver->start());
 	
 	/**
 		* Tell the sensor to read data from the address given above, and send it
 		* to us.
 		*/
-	if (!driver->write(MAGNETOMETER_TWOWIRE_SENSOR_ADDRESS | READ_OPERATION, TWIDriver::MASTERRECEIVER_SLAVE_READ_ACK))
+	/*if (!driver->write(MAGNETOMETER_TWOWIRE_SENSOR_ADDRESS | READ_OPERATION, TWIDriver::MASTERRECEIVER_SLAVE_READ_ACK))
 	{
+		driver->stop();
 		return -1;
-	}
+	}*/
+	CHECK(driver->write(MAGNETOMETER_TWOWIRE_SENSOR_ADDRESS | READ_OPERATION, TWIDriver::MASTERRECEIVER_SLAVE_READ_ACK));
+	
+	
 		
 	byte highByte = 0;
 	byte lowByte = 0;
 		
-	highByte = driver->readByte(true);
-	lowByte = driver->readByte(true);
+	CHECK(driver->readByte(true, highByte));
+	CHECK(driver->readByte(true, lowByte));
 	rawMagX = (highByte << 8) | (lowByte);
 		
-	highByte = driver->readByte(true);
-	lowByte = driver->readByte(true);
+	CHECK(driver->readByte(true, highByte));
+	CHECK(driver->readByte(true, lowByte));
 	rawMagZ = (highByte << 8) | (lowByte);
 		
-	highByte = driver->readByte(true);
+	CHECK(driver->readByte(true, highByte));
 		
 	//We don't send an acknowledgment on the last byte to be read (the magnetic Y values low byte) because of an apparent undocumented requirement by the device
 	//that the nack needs to be sent to have the internal pointer go back to the magnetic X variable.
-	lowByte = driver->readByte(false);
+	//According to wikipedia, when in masterreceive mode, the master sends an ack bit after every byte read except for the last one. 
+	CHECK(driver->readByte(false, lowByte));
 	rawMagY = (highByte << 8) | (lowByte);		
 	
 	//transmit stop condition
