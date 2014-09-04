@@ -272,7 +272,7 @@ model->CommunicationMethod(SystemModel::USB);
 		//Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100); //Good timeout when using the USB
 		timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 50); //Good timeout when using the USB
 		//serialDriver = new SerialDriver(250000, SerialDriver::Zero, true, timer);//MOSTRECENT
-		serialDriver = new SerialDriver(serialDriverBaudRate, SerialDriver::Zero, false, timer);
+		serialDriver = new SerialDriver(serialDriverBaudRate, SerialDriver::Zero, false, true, timer);
 		//serialDriver = new SerialDriver(250000, SerialDriver::Zero, true, NULL);
 	}else if (model->CommunicationMethod() == SystemModel::Radio)
 	{
@@ -284,7 +284,7 @@ model->CommunicationMethod(SystemModel::USB);
 			
 		//Use a slower baud rate because the real helicopter uses the radio for communication
 		//which is slower than USB.
-		serialDriver = new SerialDriver(serialDriverBaudRate, SerialDriver::Zero, true, timer);
+		serialDriver = new SerialDriver(serialDriverBaudRate, SerialDriver::Zero, true, true, timer);
 	}
 	
 	serialDriver->init();
@@ -298,7 +298,7 @@ model->CommunicationMethod(SystemModel::USB);
 	
 	//Don't care about gps timer anymore since it's only used on initialization. 
 	//SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, true, NULL);
-	SerialDriver *gpsSerialDriver = new SerialDriver(38400, SerialDriver::One, true, NULL);
+	SerialDriver *gpsSerialDriver = new SerialDriver(38400, SerialDriver::One, true, false, NULL);
 	//SerialDriver *gpsSerialDriver = new SerialDriver(9600, SerialDriver::One, false, gpsTimer);
 	gpsSerialDriver->init();
 		
@@ -614,7 +614,7 @@ for (int i = 0; i < 5; i++)
 	}else
 	{
 
-		SerialDriver *initSerialDriver = new SerialDriver(serialDriverBaudRate, SerialDriver::Zero, true, NULL);
+		SerialDriver *initSerialDriver = new SerialDriver(serialDriverBaudRate, SerialDriver::Zero, true, false, NULL);
 		GroundControlStationInterface *initGcsInterface = new GroundControlStationInterface(initSerialDriver);
 		SimTelemetryTask *initSimTelemTask = new SimTelemetryTask(initGcsInterface, model, pidController,SimTelemetryTask::ALLDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
 	
@@ -666,15 +666,13 @@ for (int i = 0; i < 5; i++)
 		PORTA |= (1<<PA5);
 	}
 	
-	
-
 	gpsSensor->start();
 
 	scheduler->init(); //Sets up the timer registers, inits all tasks,
 	
 	scheduler->start();
 	
-	
+
 	if (sendControlToServos)
 	{
 		rcInterface->init();

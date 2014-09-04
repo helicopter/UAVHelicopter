@@ -109,6 +109,7 @@
       <Value>../util/testframework</Value>
       <Value>../../Helicopter/util</Value>
       <Value>../../Helicopter/drivers</Value>
+      <Value>../../Helicopter/buffer</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
   <avrgcccpp.compiler.optimization.level>Optimize (-O1)</avrgcccpp.compiler.optimization.level>

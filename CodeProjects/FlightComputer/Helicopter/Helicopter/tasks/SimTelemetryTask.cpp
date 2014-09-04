@@ -25,7 +25,7 @@ SimTelemetryTask::SimTelemetryTask(GroundControlStationInterface *radioInterface
 
 void SimTelemetryTask::runTaskImpl() 
 {
-	
+
 	//Send sync message to indicate to the ground control station that we are ready to receive data.
 	//Without this sync message, the GCS could send data while the FC is asleep, which would cause the data
 	//to overflow the usart buffer.

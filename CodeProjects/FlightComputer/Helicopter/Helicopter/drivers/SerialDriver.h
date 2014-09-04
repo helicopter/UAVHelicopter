@@ -11,8 +11,10 @@
 
 #include "Timer.h"
 #include "CommonHeader.h"
+#include "CircularBuffer.h"
 
 using namespace helicopter::util;
+using namespace helicopter::buffer;
 
 
 namespace helicopter 
@@ -31,6 +33,8 @@ namespace helicopter
 				 */
 				enum UartPort {Zero, One};
 					
+				static CircularBuffer buffer;
+					
 			private:
 				
 				unsigned long baudRate;
@@ -39,7 +43,12 @@ namespace helicopter
 				
 				bool useDoubleSpeedMode;
 				
+				bool asyncReceiveData;
+				
 				Timer *timer;
+				
+				
+				
 				
 			public:
 			
@@ -54,6 +63,7 @@ namespace helicopter
 				 * be used when calculating the baud rate configurations. This is useful for
 				 * using the radio interface because it seems to have issues if double speed
 				 * mode isn't set to true.
+				 * @param asyncReceiveData Asynchronously receive data using interrupts rather than waiting for data. 
 				 * @param timer A timer which is used to determine if the system has timed out while
 				 * transmitting or receiving data. If this field is Null then the timeout mechanism won't be utilized.
 				 */		
@@ -61,13 +71,15 @@ namespace helicopter
 					unsigned long baudRate, 
 					UartPort uartPort,
 					bool useDoubleSpeedMode = true,
+					bool asyncReceiveData = false,
 					Timer *timer = NULL) :
 				baudRate(baudRate),
 				uartPort(uartPort),
 				useDoubleSpeedMode(useDoubleSpeedMode),
+				asyncReceiveData(asyncReceiveData),
 				timer(timer)
 				{
-					
+
 				}
 						
 				virtual ~SerialDriver()

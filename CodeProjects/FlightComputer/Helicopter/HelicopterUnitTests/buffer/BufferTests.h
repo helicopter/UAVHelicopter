@@ -15,6 +15,7 @@ using namespace helicoptertestscommon::util::testframework;
 
 int buffercreation_test(TestCase *test);
 int addbufferrecord_test(TestCase *test);
+int circularbuffer_test(TestCase *test);
 
 
 #endif /* CIRCULARBYTEBUFFERTESTS_H_ */

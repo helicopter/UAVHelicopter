@@ -10,6 +10,7 @@
 #include "UnitTestUtils.h"
 #include "TestCase.h"
 #include "CommonHeader.h"
+#include "CircularBuffer.h"
 
 
 using namespace helicopter::buffer;
@@ -22,6 +23,70 @@ class TestDataClass
 		int someValue2;
 		double someValue3;
 };
+
+int circularbuffer_test(TestCase *test)
+{
+	CircularBuffer buffer(5);
+	
+	AssertTrue(buffer.getBytesInQueue() == 0);
+	
+	buffer.enqueue('t');
+	
+	AssertTrue(buffer.getBytesInQueue() == 1);
+	
+	buffer.enqueue('i');
+	buffer.enqueue('m');
+	AssertTrue(buffer.enqueue('e') == true);
+	AssertTrue(buffer.enqueue('s') == true);
+	
+	AssertTrue(buffer.getBytesInQueue() == 5);
+	
+	AssertTrue(buffer.enqueue('s') == false);
+	
+	AssertTrue(buffer.getBytesInQueue() == 5);
+	
+	byte b;
+	
+	AssertTrue(buffer.dequeue(b) == true);
+	
+	AssertTrue(b == 't');
+	
+	AssertTrue(buffer.getBytesInQueue() == 4);
+	
+	AssertTrue(buffer.enqueue('s') == true);
+	
+	AssertTrue(buffer.getBytesInQueue() == 5);
+	
+	AssertTrue(buffer.enqueue('s') == false);
+	
+	AssertTrue(buffer.dequeue(b) == true);
+	
+	AssertTrue(b == 'i');
+	
+	AssertTrue(buffer.dequeue(b) == true);
+	
+	AssertTrue(buffer.dequeue(b) == true);
+	
+	AssertTrue(buffer.dequeue(b) == true);
+	
+	AssertTrue(buffer.dequeue(b) == true);
+	
+	AssertTrue(buffer.dequeue(b) == false);
+	
+	AssertTrue(buffer.getBytesInQueue() == 0);
+	
+	AssertTrue(buffer.enqueue('s') == true);
+	
+	AssertTrue(buffer.getBytesInQueue() == 1);
+	
+	AssertTrue(buffer.dequeue(b) == true);
+	
+	AssertTrue(b == 's');
+	
+	AssertTrue(buffer.getBytesInQueue() == 0);	
+	
+	return 0;
+}
 
 int buffercreation_test(TestCase *test)
 {

@@ -73,6 +73,8 @@ int Scheduler::addTask(Task *task)
 
 void Scheduler::init()
 {
+	cli();
+	
 	for (int i = 0; i < numOfTasks; i++)
 	{
 		tasks[i]->init();

@@ -219,8 +219,35 @@ namespace HelicopterIntegrationTests
         }
          */
 
-        //Test reading GPS.
+                //Test reading GPS.
         public static void Main()
+        {
+            //SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
+            //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One);
+            //SerialPort port = new SerialPort("COM12", 57600, Parity.None, 8, StopBits.One);
+            SerialPort port = new SerialPort("COM7", 57600, Parity.None, 8, StopBits.One);
+
+
+            SerialPortInterface portInterface = new SerialPortInterface(port);
+            portInterface.Open();
+
+            byte[] buffer = { (byte)'T', (byte)'a', (byte)'f', (byte)'y', (byte)'a' };
+
+            portInterface.Write(buffer,0,1);
+
+            System.Threading.Thread.Sleep(500);
+
+            portInterface.Write(buffer, 1, 4);
+
+            byte b = portInterface.ReadByte();
+
+            Console.WriteLine(b == 'L');
+        }
+
+
+
+        //Test reading GPS.
+        public static void Main4()
         {
             //SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One);

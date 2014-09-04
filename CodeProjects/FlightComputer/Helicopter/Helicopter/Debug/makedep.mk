@@ -4,6 +4,8 @@
 
 buffer\Buffer.cpp
 
+buffer\CircularBuffer.cpp
+
 buffer\Record.cpp
 
 controller\PIDController.cpp

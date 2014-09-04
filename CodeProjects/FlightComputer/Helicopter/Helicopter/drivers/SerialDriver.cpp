@@ -9,10 +9,13 @@
 #include <avr/io.h>
 #include <string.h>
 
+
 #include "SerialDriver.h"
 #include "CommonHeader.h"
 
 using namespace helicopter::drivers;
+
+CircularBuffer SerialDriver::buffer(1000);
 
 void SerialDriver::startTimer()
 {
@@ -85,6 +88,23 @@ void SerialDriver::init()
 
 		/* Enable receiver and transmitter. Receiver Enable(RXEN), Transmitter Enable (TXEN) */
 		UCSR1B |= (1<<RXEN1) | (1<<TXEN1);		
+	}
+	
+	
+	if (asyncReceiveData)
+	{
+		cli();
+		//enable interrupts for asynchronously receiving data. 
+		if (uartPort == Zero)
+		{
+			UCSR0B |= (1<<RXCIE0);
+		}
+		else if (uartPort == One)
+		{
+			UCSR1B |= (1<<RXCIE1);
+		}
+		
+		sei();
 	}
 }
 
@@ -287,6 +307,18 @@ int SerialDriver::receive(byte &receivedByte)
 {
 	int status = 0;
 	
+	if (asyncReceiveData)
+	{
+		bool status = buffer.dequeue(receivedByte);
+		
+		if (!status)
+		{
+			return -1;
+		}
+		
+		return 0;
+	}
+	
 	if (uartPort == Zero)
 	{
 		
@@ -400,4 +432,12 @@ void SerialDriver::clearBuffer()
 	}
 	
 	dummy++; // here to remove 'set but not used' warning
+}
+
+
+//ISR for receiving serial data from the gps when an interrupt occurs
+ISR(USART0_RX_vect)
+{
+	byte b = UDR0;
+	SerialDriver::buffer.enqueue(b);
 }

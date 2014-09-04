@@ -489,6 +489,7 @@ int GPSSensor::init()
 
 int GPSSensor::start()
 {
+	cli();
 	/**
 	* Hack to setup the serial driver to interrupt when data is received.
 	*/
