@@ -21,15 +21,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   8 .debug_abbrev 0000792f  00000000  00000000  00050320  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   00005f15  00000000  00000000  00057c4f  2**0
+  9 .debug_line   00005f16  00000000  00000000  00057c4f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_frame  00002d1c  00000000  00000000  0005db64  2**2
+ 10 .debug_frame  00002d1c  00000000  00000000  0005db68  2**2
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    0000ba6e  00000000  00000000  00060880  2**0
+ 11 .debug_str    0000ba6e  00000000  00000000  00060884  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_loc    0001e8d3  00000000  00000000  0006c2ee  2**0
+ 12 .debug_loc    0001e8d3  00000000  00000000  0006c2f2  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_ranges 00000d48  00000000  00000000  0008abc1  2**0
+ 13 .debug_ranges 00000d48  00000000  00000000  0008abc5  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -28898,6 +28898,7 @@ void SimTelemetryTask::runTaskImpl()
     b0e6:	89 83       	std	Y+1, r24	; 0x01
     b0e8:	2e 83       	std	Y+6, r18	; 0x06
 	
+	//Since this is now asychronous, this will actually be receiving data from the previous request. 
 	int status = radioInterface->transmit(&syncMsg);
     b0ea:	be 01       	movw	r22, r28
     b0ec:	6f 5f       	subi	r22, 0xFF	; 255

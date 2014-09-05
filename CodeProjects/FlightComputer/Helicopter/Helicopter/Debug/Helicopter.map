@@ -2440,7 +2440,7 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .debug_abbrev  0x0000767e      0x1b8 util/Timer.o
  .debug_abbrev  0x00007836       0xf9 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
 
-.debug_line     0x00000000     0x5f15
+.debug_line     0x00000000     0x5f16
  *(.debug_line)
  .debug_line    0x00000000       0xd9 buffer/Buffer.o
  .debug_line    0x000000d9       0x9f buffer/CircularBuffer.o
@@ -2474,14 +2474,14 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .debug_line    0x0000482b      0x1a5 tasks/ReadIMUSensorTask.o
  .debug_line    0x000049d0      0x22c tasks/ReadMagnetometerSensorTask.o
  .debug_line    0x00004bfc      0x12d tasks/ServoControlTask.o
- .debug_line    0x00004d29      0x52c tasks/SimTelemetryTask.o
- .debug_line    0x00005255       0x9e tasks/Task.o
- .debug_line    0x000052f3      0x436 tasks/TransmitTelemetryTask.o
- .debug_line    0x00005729      0x1ac util/CommonHeader.o
- .debug_line    0x000058d5      0x1a5 util/CoordinateUtil.o
- .debug_line    0x00005a7a      0x1e2 util/MatrixUtil.o
- .debug_line    0x00005c5c       0xab util/Timer.o
- .debug_line    0x00005d07      0x20e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_line    0x00004d29      0x52d tasks/SimTelemetryTask.o
+ .debug_line    0x00005256       0x9e tasks/Task.o
+ .debug_line    0x000052f4      0x436 tasks/TransmitTelemetryTask.o
+ .debug_line    0x0000572a      0x1ac util/CommonHeader.o
+ .debug_line    0x000058d6      0x1a5 util/CoordinateUtil.o
+ .debug_line    0x00005a7b      0x1e2 util/MatrixUtil.o
+ .debug_line    0x00005c5d       0xab util/Timer.o
+ .debug_line    0x00005d08      0x20e c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
 
 .debug_frame    0x00000000     0x2d1c
  *(.debug_frame)

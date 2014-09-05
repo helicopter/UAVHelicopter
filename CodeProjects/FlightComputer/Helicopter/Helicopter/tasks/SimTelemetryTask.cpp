@@ -31,6 +31,7 @@ void SimTelemetryTask::runTaskImpl()
 	//to overflow the usart buffer.
 	SyncMessage syncMsg(dataToReceive);
 	
+	//Since this is now asychronous, this will actually be receiving data from the previous request. 
 	int status = radioInterface->transmit(&syncMsg);
 	
 	if (status == 0)
