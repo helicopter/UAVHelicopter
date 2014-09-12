@@ -156,39 +156,49 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 					byte calculatedChecksumB = 0;
 								
 					status = serialDriver->receive(messageChecksumA);
-					status = serialDriver->receive(messageChecksumB);
-								
-					//Generate checksum for the message			
-					calculateChecksum(messagePayload, msgSize, calculatedChecksumA, calculatedChecksumB);
-								
-					//verify that the checksum is correct
-					if (calculatedChecksumA == messageChecksumA && calculatedChecksumB == messageChecksumB)
+					
+					if (status == 0)
 					{
-						//build the message
-						switch(msgType)
+						status = serialDriver->receive(messageChecksumB);
+						
+						if (status == 0)
 						{
-							case SystemTelemetryMessage::MessageType:
-								receivedMessage = SystemTelemetryMessage::buildMessageSt(messagePayload);
-							break;
-							case SensorDataMessage::MessageType:
-								receivedMessage = SensorDataMessage::buildMessageSt(messagePayload);
-							break;
-							case SimpleTelemetryMessage::MessageType:
-								receivedMessage = SimpleTelemetryMessage::buildMessageSt(messagePayload);
-							break;	
-							case GainsMessage::MessageType:
-								receivedMessage = GainsMessage::buildMessageSt(messagePayload);
-							break;						
-							default:
-								//unrecognized message type.
-								status = -3;
-							break;
+							//Generate checksum for the message
+							calculateChecksum(messagePayload, msgSize, calculatedChecksumA, calculatedChecksumB);
+						
+							//verify that the checksum is correct
+							if (calculatedChecksumA == messageChecksumA && calculatedChecksumB == messageChecksumB)
+							{
+								//build the message
+								switch(msgType)
+								{
+									case SystemTelemetryMessage::MessageType:
+									receivedMessage = SystemTelemetryMessage::buildMessageSt(messagePayload);
+									break;
+									case SensorDataMessage::MessageType:
+									receivedMessage = SensorDataMessage::buildMessageSt(messagePayload);
+									break;
+									case SimpleTelemetryMessage::MessageType:
+									receivedMessage = SimpleTelemetryMessage::buildMessageSt(messagePayload);
+									break;
+									case GainsMessage::MessageType:
+									receivedMessage = GainsMessage::buildMessageSt(messagePayload);
+									break;
+									default:
+									//unrecognized message type.
+									status = -3;
+									break;
+								}
+							}else
+							{
+								//checksum mismatch
+								status = -4;
+							}							
 						}
-					}else
-					{
-						//checksum mismatch
-						status = -4;
+					
+					
 					}
+
 				}
 			}
 		}

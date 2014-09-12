@@ -6,6 +6,7 @@
  */ 
 
 #include "CircularBuffer.h"
+#include <avr/io.h>
 
 using namespace helicopter::buffer;
 

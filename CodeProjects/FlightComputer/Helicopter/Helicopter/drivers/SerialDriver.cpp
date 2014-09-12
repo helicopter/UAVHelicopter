@@ -241,6 +241,7 @@ int SerialDriver::timedTransmit(const char *buffer, int numOfBytes)
 int SerialDriver::transmit(byte valueToSend)
 {
 	int status = 0;
+
 	
 	if (uartPort == Zero)
 	{
@@ -300,6 +301,7 @@ int SerialDriver::transmit(byte valueToSend)
 		}		
 	}
 	
+
 	return status;
 }
 
@@ -438,6 +440,7 @@ void SerialDriver::clearBuffer()
 //ISR for receiving serial data from the gps when an interrupt occurs
 ISR(USART0_RX_vect)
 {
+			
 	byte b = UDR0;
 	SerialDriver::buffer.enqueue(b);
 }

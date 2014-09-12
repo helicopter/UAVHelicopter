@@ -315,5 +315,21 @@ namespace GroundControlStation.Views
             ToggleGraph(SetPoints);
         }
 
+        private void button18_Click(object sender, EventArgs e)
+        {
+            if (Controller.Model.CalcMSE == true)
+            {
+                Controller.Model.CalcMSE = false;
+                Controller.Model.RollMSE = 0;
+                Controller.Model.PitchMSE = 0;
+                Controller.Model.YawMSE = 0;
+
+            }
+            else
+            {
+                Controller.Model.CalcMSE = true;
+            }
+        }
+
     }
 }

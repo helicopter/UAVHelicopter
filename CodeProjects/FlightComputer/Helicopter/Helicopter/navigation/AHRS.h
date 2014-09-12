@@ -28,9 +28,7 @@ namespace helicopter
 		class AHRS
 		{
 			private:
-				static const float ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT;
-				static const float MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT;
-				
+
 				float gyroTimeInterval;
 				
 				float frdAccX;
@@ -92,6 +90,9 @@ namespace helicopter
 				void orthonormalizeDcm();
 			
 			public:
+				static float ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT;
+				static float MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT;
+							
 
 				/**
 				 * @param the time interval between gyroscope readings. I.e. .02 seconds.

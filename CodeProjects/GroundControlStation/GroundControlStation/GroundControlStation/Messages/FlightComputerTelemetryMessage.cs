@@ -502,12 +502,12 @@ namespace GroundControlStation.Messages
             model.PitchRads = PitchRads;
             model.RollRads = RollRads;
 
-
+            /*
             model.XRefSetpoint = XRefSetpoint;
             model.YRefSetpoint = YRefSetpoint;
             model.ZRefSetpoint = ZRefSetpoint;
             model.YawRefSetpoint = YawRefSetpoint;
-
+            */
 
             model.Timeouts = Timeouts;
             model.UnrecognizedMsgTypes = UnrecognizedMsgTypes;

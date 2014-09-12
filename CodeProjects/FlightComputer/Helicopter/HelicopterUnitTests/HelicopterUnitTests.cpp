@@ -17,12 +17,13 @@
 #include "CoordinateUtilTests.h"
 #include "SPIDriverTests.h"
 #include "MatrixUtilTests.h"
+#include "SystemTelemetryMessage.h"
 
 #include <stdio.h>
 #include <avr/io.h>
 
 using namespace helicopter::buffer;
-
+using namespace helicopter::messages;
 
 int main(void)
 {	

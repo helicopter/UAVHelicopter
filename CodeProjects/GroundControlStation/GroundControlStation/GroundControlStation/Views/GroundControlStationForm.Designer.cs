@@ -62,6 +62,7 @@
             this.button16 = new System.Windows.Forms.Button();
             this.button17 = new System.Windows.Forms.Button();
             this.button14 = new System.Windows.Forms.Button();
+            this.button18 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -387,11 +388,22 @@
             this.button14.UseVisualStyleBackColor = true;
             this.button14.Click += new System.EventHandler(this.button14_Click);
             // 
+            // button18
+            // 
+            this.button18.Location = new System.Drawing.Point(320, 558);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(129, 23);
+            this.button18.TabIndex = 25;
+            this.button18.Text = "Toggle MSE";
+            this.button18.UseVisualStyleBackColor = true;
+            this.button18.Click += new System.EventHandler(this.button18_Click);
+            // 
             // GroundControlStationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(458, 633);
+            this.Controls.Add(this.button18);
             this.Controls.Add(this.button14);
             this.Controls.Add(this.button15);
             this.Controls.Add(this.button16);
@@ -445,6 +457,7 @@
         private System.Windows.Forms.Button button16;
         private System.Windows.Forms.Button button17;
         private System.Windows.Forms.Button button14;
+        private System.Windows.Forms.Button button18;
     }
 }
 

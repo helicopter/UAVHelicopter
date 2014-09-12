@@ -29,6 +29,8 @@
 #include "ReadMagnetometerSensorTask.h"
 #include "ServoControlTask.h"
 #include "TWIDriver.h"
+#include "SystemTelemetryMessage.h"
+#include "SensorDataMessage.h"
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -39,6 +41,7 @@ using namespace helicopter::drivers;
 using namespace helicopter::interfaces;
 using namespace helicopter::model;
 using namespace helicopter::controller;
+using namespace helicopter::messages;
 using namespace helicopter::util;
 using namespace helicopter::sensors;
 using namespace helicopter::navigation;
@@ -189,8 +192,161 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 }
 
 
-
 int main(void)
+{
+	SystemModel *model = new SystemModel();
+	model->FlightMode(SystemModel::RealFlight);
+	
+	
+	SerialDriver *serialDriver = NULL;
+	unsigned long serialDriverBaudRate = 250000;
+		
+	serialDriver = new SerialDriver(serialDriverBaudRate, SerialDriver::Zero, false, false, NULL);
+	serialDriver->init();	
+	
+	
+	GroundControlStationInterface *gcsInterface = new GroundControlStationInterface(serialDriver);
+	
+	byte b = 0;
+			
+	while(b != 't')
+	{
+		serialDriver->receive(b);
+	}
+	
+	byte t[4];
+	
+	int numOfRecords=0;
+	
+	serialDriver->receive(b);
+	t[0] = b;
+	serialDriver->receive(b);
+	t[1] = b;
+	serialDriver->receive(b);
+	t[2] = b;
+	serialDriver->receive(b);
+	t[3] = b;
+	
+	memcpy(&numOfRecords,t,sizeof(int));
+	
+	
+	
+	while (true)
+	{
+		
+		b = 0;
+			
+		while(b != 't')
+		{
+			serialDriver->receive(b);
+		}
+		
+		
+
+
+		
+		
+		float mag = 0;
+		float accel = 0;
+		
+		byte temp[4];
+		
+		serialDriver->receive(b);
+		temp[0] = b;
+		serialDriver->receive(b);
+		temp[1] = b;
+		serialDriver->receive(b);
+		temp[2] = b;
+		serialDriver->receive(b);
+		temp[3] = b;	
+		
+		memcpy(&mag,temp,sizeof(float));
+		
+	
+
+		serialDriver->receive(b);
+		temp[0] = b;
+		serialDriver->receive(b);
+		temp[1] = b;
+		serialDriver->receive(b);
+		temp[2] = b;
+		serialDriver->receive(b);
+		temp[3] = b;
+		
+		memcpy(&accel,temp,sizeof(float));
+			
+		
+		if (accel > .01f)		
+		{
+			DDRA |= (1<<PA5);
+			PORTA &= ~(1<<PA5);
+			
+		}
+
+		
+		AHRS *ahrs = new AHRS(1.0f/20.0f);
+		ahrs->MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = mag;
+		ahrs->ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = accel;
+		
+		
+		//for (int i = 0; i < 544; i++)
+		for (int i = 0; i < numOfRecords; i++)
+		{
+			int status = 0;
+
+			//Use the radio interface to get the telemetry message from the simulator
+			Message *message = NULL;
+				
+			status = gcsInterface->receive(message);
+			
+			SensorDataMessage *telemMsg = NULL;
+			
+			if (status == 0 && message != NULL)
+			{
+
+				telemMsg = (SensorDataMessage*) message;
+			}
+			
+			if(message != NULL) 
+			{
+				delete message;
+			}
+			
+			ahrs->update(telemMsg->XAccelFrdMss, telemMsg->YAccelFrdMss, telemMsg->ZAccelFrdMss,
+			telemMsg->RollAngularVelocityRadsPerSecond, telemMsg->PitchAngularVelocityRadsPerSecond, telemMsg->YawAngularVelocityRadsPerSecond,
+			telemMsg->XMagFrd, telemMsg->YMagFrd, telemMsg->ZMagFrd);
+			
+			/*model->YawRads(ahrs->getYawRads());
+			model->PitchRads(ahrs->getPitchRads());
+			model->RollRads(ahrs->getRollRads());
+			
+			SystemTelemetryMessage *message2 = SystemTelemetryMessage::buildMessageFromModel(model);
+					
+			//TODO add some error handling in here
+			gcsInterface->transmit(message2);
+			delete message2;
+			*/
+			
+			serialDriver->transmit(ahrs->getYawRads());
+			serialDriver->transmit(ahrs->getPitchRads());
+			serialDriver->transmit(ahrs->getRollRads());
+					
+			
+			
+		}
+		
+		
+		delete ahrs;
+		
+	}
+	
+	
+
+		return 0;
+
+}
+
+int main2(void)
 {	
 	bool sendControlToServos = false;
 	bool receiveGains = false;
@@ -201,14 +357,14 @@ int main(void)
 	
 	
 	//model->FlightMode(SystemModel::HardwareInLoopSimulatedFlight);
-	//model->FlightMode(SystemModel::SimulatedFlight);
+	model->FlightMode(SystemModel::SimulatedFlight);
 	
 	/**
 	 * Checklist:
 	 * turn off gains
 	 * modify start up parameters to read gps and baro data longer before start. 
 	 */
-	model->FlightMode(SystemModel::RealFlight);
+	//model->FlightMode(SystemModel::RealFlight);
 	
 	
 	
@@ -244,13 +400,13 @@ receiveGains = true;
 	}else if (model->FlightMode() == SystemModel::HardwareInLoopSimulatedFlight)
 	{
 		model->SensorInput(SystemModel::SimulatedSensors);
-		//model->CommunicationMethod(SystemModel::Radio);
-model->CommunicationMethod(SystemModel::USB);
+		model->CommunicationMethod(SystemModel::Radio);
+//model->CommunicationMethod(SystemModel::USB);
 		sendControlToServos = true;
 	}
 	
 	
-	
+
 	
 	PIDController *pidController = new PIDController(model);
 	
@@ -355,6 +511,7 @@ model->CommunicationMethod(SystemModel::USB);
 	{
 		transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::ALLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
 		//transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::CONTROLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
+		
 		simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::ALLDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
 		
 	}else if (model->FlightMode() == SystemModel::HardwareInLoopSimulatedFlight)
@@ -400,7 +557,7 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 		barometerSensorReadPeriod = 1/50.0f;
 		sensorReadPeriod = GYRO_SENSOR_READ_PERIOD;
 	}
-		
+	
 		
 	//AHRS *ahrs = new AHRS(GYRO_SENSOR_READ_PERIOD);
 	//AHRS *ahrs = new AHRS(simulatorSensorReadPeriod); //for simulator angular velocity reads.
@@ -518,7 +675,7 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 		//Initialize GPS readings and position
 		//while (!gpsSensor->isGpsReady() || gpsSensor->getPositionAccuracyEstimateEcefCm() > 400)
-while (!gpsSensor->isGpsReady() || gpsSensor->getPositionAccuracyEstimateEcefCm() > 2000)		
+while (!gpsSensor->isGpsReady() || gpsSensor->getPositionAccuracyEstimateEcefCm() > 20000)		
 		{
 			//gpsSensor->processSensorSolution();
 			gpsSensor->readSensorLLH();
@@ -614,8 +771,9 @@ for (int i = 0; i < 5; i++)
 	}else
 	{
 
-		SerialDriver *initSerialDriver = new SerialDriver(serialDriverBaudRate, SerialDriver::Zero, true, false, NULL);
-		GroundControlStationInterface *initGcsInterface = new GroundControlStationInterface(initSerialDriver);
+		//SerialDriver *initSerialDriver = new SerialDriver(serialDriverBaudRate, SerialDriver::Zero, true, true, NULL);
+		//GroundControlStationInterface *initGcsInterface = new GroundControlStationInterface(initSerialDriver);
+		GroundControlStationInterface *initGcsInterface = new GroundControlStationInterface(serialDriver);
 		SimTelemetryTask *initSimTelemTask = new SimTelemetryTask(initGcsInterface, model, pidController,SimTelemetryTask::ALLDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
 	
 		while (!isInitialized)
@@ -656,7 +814,7 @@ for (int i = 0; i < 5; i++)
 		
 		delete initSimTelemTask;
 		delete initGcsInterface;
-		delete initSerialDriver;
+	//	delete initSerialDriver;
 	}
 	
 	

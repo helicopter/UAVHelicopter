@@ -238,13 +238,13 @@ namespace GroundControlStation.Model
         public float YawRefSetpoint { get; set; }
 
 
-/*
+
         public bool CalcMSE { get; set; }
         public double RollMSE { get; set; }
         public double PitchMSE { get; set; }
         public double YawMSE { get; set; }
         
         public int MSEIterations { get; set; }
- * */
+ 
     }
 }

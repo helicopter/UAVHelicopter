@@ -9,6 +9,9 @@ using GroundControlStation.Controller;
 using GroundControlStation.Interfaces;
 using GroundControlStation.Model;
 using GroundControlStation.Views;
+using System.IO;
+using GroundControlStation.Messages;
+using System.Diagnostics;
 
 namespace GroundControlStation
 {
@@ -16,18 +19,244 @@ namespace GroundControlStation
     {
         enum FlightModes { SimulatedFlight, RealFlight };
 
+        [STAThread]
+        static void Main()
+        {
+
+
+
+            GroundControlStationModel mm = new GroundControlStationModel();
+            SimulatorTelemetry tt = new SimulatorTelemetry();
+            tt.MagHeadingDegrees = 90;
+            tt.PitchDegrees = 0;
+            tt.RollDegrees = 0;
+            tt.XVelocityNEDMs = 10;
+            tt.YVelocityNEDMs = 0;
+            tt.ZVelocityNEDMs = 0;
+
+            mm.PreviousXVelocityNEDCms = 500;
+            mm.PreviousYVelocityNEDCms = 0;
+            mm.PreviousZVelocityNEDCms = 0;
+
+
+            mm.SimTelm = tt;
+
+
+
+            FlightComputerTelemetryMessage dd = FlightComputerTelemetryMessage.CreateFromModel(mm);
+
+
+
+
+
+
+
+
+
+
+
+
+            //shrink files
+            //verify data being received and sent
+            //test timing of ahrs, and enhance speed of ahrs. 
+
+            List<SimulatorTelemetry> simTelemList = parseFile();
+
+            SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One);
+            port.ReadTimeout = 50000;
+           
+            SerialPortInterface portInterface = new SerialPortInterface(port);
+
+            FlightComputerInterface fcInterface = new FlightComputerInterface(portInterface);
+            fcInterface.Open();
+
+            GroundControlStationModel model = new GroundControlStationModel();
+            model.SimTelm = new SimulatorTelemetry();
+
+            Debug.WriteLine(String.Format("Roll, Pitch, Yaw, Mag, Accel"));
+
+
+
+            portInterface.Write(new byte[] { (byte)'t' }, 0, 1);
+            portInterface.Write(BitConverter.GetBytes(simTelemList.Count), 0, 4);
+
+
+
+
+            double lowestError = 999999;
+            double lowestAccel = 0;
+            double lowestMag = 0;
+
+            for (int mag = 1; mag < 100; mag++)
+            {
+                //for (int accel = 1; accel < 100; accel++)
+                //for (int accel = 1; accel < 40; accel++)
+                for (int accel = 1; accel < 12; accel++)
+                {
+                    model.RollMSE = 0;
+                    model.PitchMSE = 0;
+                    model.YawMSE = 0;
+
+                    float magVal = mag / 100.0f;
+                    float accelVal = accel / 100.0f;
+
+                    portInterface.Write(new byte[]{(byte)'t'},0,1);
+                    portInterface.Write(BitConverter.GetBytes(magVal), 0, sizeof(float));
+                    portInterface.Write(BitConverter.GetBytes(accelVal), 0, sizeof(float));
+
+
+                    int counter = 0;
+
+                    foreach (SimulatorTelemetry val in simTelemList)
+                    {
+                        try
+                        {
+                            //Console.WriteLine(counter++);
+                            model.SimTelm = val;
+
+                            FlightComputerTelemetryMessage data = FlightComputerTelemetryMessage.CreateFromModel(model);
+
+                            SensorDataMessage sensorData = new SensorDataMessage();
+                            sensorData.PitchAngularVelocityRadsPerSecond = data.PitchAngularVelocityRadsPerSecond;
+                            sensorData.PressureMillibars = data.PressureMillibars;
+                            sensorData.RollAngularVelocityRadsPerSecond = data.RollAngularVelocityRadsPerSecond;
+                            sensorData.XAccelFrdMss = data.XAccelFrdMss;
+                            sensorData.XEcefCm = data.XEcefCm;
+                            sensorData.XMagFrd = data.XMagFrd;
+                            sensorData.XVEcefCms = data.XVEcefCms;
+                            sensorData.YAccelFrdMss = data.YAccelFrdMss;
+                            sensorData.YawAngularVelocityRadsPerSecond = data.YawAngularVelocityRadsPerSecond;
+                            sensorData.YEcefCm = data.YEcefCm;
+                            sensorData.YMagFrd = data.YMagFrd;
+                            sensorData.YVEcefCms = data.YVEcefCms;
+                            sensorData.ZAccelFrdMss = data.ZAccelFrdMss;
+                            sensorData.ZEcefCm = data.ZEcefCm;
+                            sensorData.ZMagFrd = data.ZMagFrd;
+                            sensorData.ZVEcefCms = data.ZVEcefCms;
+
+
+                            fcInterface.Transmit(sensorData);
+
+                            //Send sim model data to FC. 
+                            //fcInterface.Transmit(data);
+
+                            //FlightComputerTelemetryMessage telem = (FlightComputerTelemetryMessage)fcInterface.Receive();
+
+                            float yaw = portInterface.ReadFloat();
+                            float pitch = portInterface.ReadFloat();
+                            float roll = portInterface.ReadFloat();
+
+                            //if (telem != null)
+                            {
+                                double rollError = (roll * (180 / Math.PI)) - model.SimTelm.RollDegrees;
+                                rollError = Math.Abs(rollError);
+                                model.RollMSE += Math.Pow(rollError, 2);
+
+                                double pitchError = (pitch * (180 / Math.PI)) - model.SimTelm.PitchDegrees;
+                                pitchError = Math.Abs(pitchError);
+                                model.PitchMSE += Math.Pow(pitchError, 2);
+
+                                double yawError = (yaw * (180 / Math.PI)) - model.SimTelm.MagHeadingDegrees;
+                                yawError = Math.Abs(yawError);
+                                model.YawMSE += Math.Pow(yawError, 2);
+
+                                model.MSEIterations = model.MSEIterations + 1;
+
+
+                                //Debug.WriteLine(String.Format("{0},{1},{2}", rollError, pitchError, yawError));
+                                Debug.WriteLine(String.Format("Actual Pitch {0},Calc pitch {1}, Error {2}", model.SimTelm.PitchDegrees, (pitch * (180 / Math.PI)), pitchError));
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            
+                        }
+                    }
+
+                    double totalAvgError = (model.RollMSE + model.PitchMSE + model.YawMSE) / 3;
+                   
+
+                    
+                    //Debug.WriteLine("total: " + totalAvgError + ", MAG " + mag + ", accel: " + accel);
+
+                    if (totalAvgError < lowestError)
+                    {
+                        lowestError = totalAvgError;
+                        lowestAccel = accel;
+                        lowestMag = mag;
+                    }
+
+                    //Debug.WriteLine(String.Format("Total: {0}, RollE {1}, PitchE {2}, YawE {3}, Mag {4}, Accel {5}, lowestaccel {6}, lowestMag {7}", totalAvgError, model.RollMSE, model.PitchMSE, model.YawMSE, mag, accel, lowestAccel, lowestMag));
+                    Debug.WriteLine(String.Format("{0},{1},{2},{3},{4}", model.RollMSE, model.PitchMSE, model.YawMSE, mag, accel));
+
+
+                }
+            }
+            //for 1000 iterations for mag value
+            //for 1000 iterations for accel value
+            //for each record, send it to the heli
+            //retrieve the response
+            //compare response with data
+            //at end of loop, update if smallest error. 
+
+        }
+
+        private static List<SimulatorTelemetry> parseFile()
+        {
+            
+            List<SimulatorTelemetry> simTelemdata = new List<SimulatorTelemetry>();
+            //parse file and create records
+            //using (var reader = new StreamReader(@"C:\Heli\GitRepository\UAVHelicopter\CodeProjects\GroundControlStation\logs\ahrsopt\SimulatorLog_09_07_2014_093648.csv"))
+            //using (var reader = new StreamReader(@"C:\Heli\GitRepository\UAVHelicopter\CodeProjects\GroundControlStation\logs\ahrsopt\SimulatorLog_09_10_2014_105228.csv"))
+            using (var reader = new StreamReader(@"C:\Heli\GitRepository\UAVHelicopter\CodeProjects\GroundControlStation\logs\ahrsopt\SimulatorLog_09_11_2014_051115.csv"))
+            {
+                reader.ReadLine(); //throw away header.
+                while (!reader.EndOfStream)
+                {
+
+                    string line = reader.ReadLine();
+
+                    var values = line.Split(',');
+
+                    if (values.Count() == 14)
+                    {
+
+                        SimulatorTelemetry obj = new SimulatorTelemetry();
+                        obj.PitchVelocityRadsPerS = float.Parse(values[1]);
+                        obj.RollVelocityRadsPerS = float.Parse(values[2]);
+                        obj.YawVelocityRadsPerS = float.Parse(values[3]);
+                        obj.PitchDegrees = float.Parse(values[4]);
+                        obj.RollDegrees = float.Parse(values[5]);
+                        obj.MagHeadingDegrees = float.Parse(values[6]);
+                        obj.LatitudeDegrees = float.Parse(values[7]);
+                        obj.LongitudeDegrees = float.Parse(values[8]);
+                        obj.ZAltitudeFtAgl = float.Parse(values[9]);
+                        obj.ZAltitudeFtMsl = float.Parse(values[10]);
+                        obj.XVelocityNEDMs = float.Parse(values[11]);
+                        obj.YVelocityNEDMs = float.Parse(values[12]);
+                        obj.ZVelocityNEDMs = float.Parse(values[13]);
+
+                        simTelemdata.Add(obj);
+                    }
+                }
+            }
+
+            return simTelemdata;
+        }
+
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main2()
         {
             //TODO focus on thread ui update.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            FlightModes flightMode = FlightModes.RealFlight;
-            //FlightModes flightMode = FlightModes.SimulatedFlight;
+            //FlightModes flightMode = FlightModes.RealFlight;
+            FlightModes flightMode = FlightModes.SimulatedFlight;
 
             //SerialPort port = new SerialPort("COM7", 76800, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One); //MOST RECENT
@@ -238,7 +467,7 @@ namespace GroundControlStation
 
 
             //zeroed out gains - most recent 8/3/2014
-            
+            /*
             //model.YawIntegralGain = 0.072f;
             model.YawIntegralGain = 0.00f;
             model.YawProportionalGain = .507f;
@@ -268,6 +497,7 @@ namespace GroundControlStation
             model.ZProportionalGain = 0.004f;
             model.ZDerivativeGain = 0.0f;
             model.ZAntiWindupGain = 0.0f;
+            */
             
 
 
@@ -275,9 +505,34 @@ namespace GroundControlStation
 
 
 
+            //experimental gains 9/9/2014
+            model.YawIntegralGain = 0f;//.3f;
+            model.YawProportionalGain = .400f;
+            model.YawDerivativeGain = .0f;
+            model.YawAntiWindupGain = 0f;// 0.05f;
 
 
+            model.XIntegralGain = 0.0f;
+            model.XProportionalGain = .0151f;
+            model.XDerivativeGain = .052f;
+            model.XAntiWindupGain = 0.0f;
+            model.LongitudeInnerLoopGain = 1.7081f;
+            //model.PitchAngularVelocityGain = 1.77509f;
+            model.PitchAngularVelocityGain = 0.043f;
 
+            model.YIntegralGain = 0.0f;
+
+            model.YProportionalGain = .015f;
+            model.YDerivativeGain = .049f;
+            model.YAntiWindupGain = 0.0f;
+            model.LateralInnerLoopGain = 1.73f;
+            //model.RollAngularVelocityGain = 0.768f;
+            model.RollAngularVelocityGain = 0.014f;
+
+            model.ZIntegralGain = .001f;
+            model.ZProportionalGain = 0.004f;
+            model.ZDerivativeGain = .430435f;
+            model.ZAntiWindupGain = .300874f;
 
 
 

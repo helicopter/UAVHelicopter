@@ -173,6 +173,7 @@ namespace GroundControlStation.Controller
         }
 
         DateTime startTime = DateTime.Now;
+        DateTime startTime2 = DateTime.Now;
         //int counter = 0;
 
 
@@ -190,7 +191,8 @@ namespace GroundControlStation.Controller
                     {
                         //Receive model data from FC
                         FlightComputerTelemetryMessage telem = (FlightComputerTelemetryMessage) msg;
-
+//Debug.WriteLine(startTime2.Subtract(DateTime.Now).TotalMilliseconds + " " + telem.ChecksumErrors);
+//startTime2 = DateTime.Now;
 
 //                        System.Diagnostics.Debug.WriteLine("collective control: " + telem.MainRotorCollectiveControl + ", lat control: " + telem.LateralControl + ", long control: " + telem.LongitudeControl + ", Rudder control: " + telem.YawControl);
 
@@ -224,22 +226,36 @@ namespace GroundControlStation.Controller
                         flightComputerFileLogger.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + ", " + LoggingUtil.ToCsv(",", telem));
 
 
-/*
+
                         if (Model.CalcMSE)
                         {
                             //calculate mean squared error of yaw pitch and roll. 
-                            double rollsquaredError = Math.Pow(telem.RollRads - (Model.SimTelm.RollDegrees * (Math.PI / 180)), 2);
-                            Model.RollMSE = (rollsquaredError + (Model.RollMSE * Model.MSEIterations)) / (Model.MSEIterations + 1);
+                            double rollError = (telem.RollRads * (180 / Math.PI)) - Model.SimTelm.RollDegrees;
+                            rollError = Math.Abs(rollError);
+                            double rollsquaredError = Math.Pow(rollError, 2);
+                            //Model.RollMSE = (rollsquaredError + (Model.RollMSE * Model.MSEIterations)) / (Model.MSEIterations + 1);
+                            Model.RollMSE += rollError;
 
-                            double pitchsquaredError = Math.Pow(telem.PitchRads - (Model.SimTelm.PitchDegrees * (Math.PI / 180)), 2);
-                            Model.PitchMSE = (pitchsquaredError + (Model.PitchMSE * Model.MSEIterations)) / (Model.MSEIterations + 1);
+                            double pitchError = (telem.PitchRads* (180 / Math.PI)) - Model.SimTelm.PitchDegrees;
+                            pitchError = Math.Abs(pitchError);
+                            double pitchsquaredError = Math.Pow(pitchError, 2);
+                            //Model.PitchMSE = (pitchsquaredError + (Model.PitchMSE * Model.MSEIterations)) / (Model.MSEIterations + 1);
+                            Model.PitchMSE += pitchError;
 
-                            double yawsquaredError = Math.Pow(telem.YawRads - (Model.SimTelm.MagHeadingDegrees * (Math.PI / 180)), 2);
-                            Model.YawMSE = (yawsquaredError + (Model.YawMSE * Model.MSEIterations)) / (Model.MSEIterations + 1);
+                            double yawError = (telem.YawRads * (180 / Math.PI)) -  Model.SimTelm.MagHeadingDegrees;
+                            yawError = Math.Abs(yawError);
+                            double yawsquaredError = Math.Pow(yawError, 2);
+                            //Model.YawMSE = (yawsquaredError + (Model.YawMSE * Model.MSEIterations)) / (Model.MSEIterations + 1);
+                            Model.YawMSE += yawError;
 
                             Model.MSEIterations = Model.MSEIterations + 1;
+
+
+                            Debug.WriteLine(String.Format("RollMSE: {0}, PitchMSE: {1}, YawMSE: {2}, TotalMSE: {3}", Model.RollMSE, Model.PitchMSE, Model.YawMSE, ((Model.RollMSE + Model.PitchMSE) / 2)));
+                            //Debug.WriteLine(String.Format("RollMSE: {0}, PitchMSE: {1}, YawMSE: {2}, TotalMSE: {3}", Model.RollMSE, Model.PitchMSE, Model.YawMSE, ((rollsquaredError+pitchsquaredError+yawsquaredError)/3)));
+                            Debug.WriteLine(String.Format("RollE: {0}, PitchE: {1}, YawE: {2}, TotalE: {3}", rollError, pitchError, yawError, ((rollError+pitchError+yawError) / 3)));
                         }
- * */
+
                     }
                     else if (msg.MsgType == ControlMessage.MessageType)
                     {
@@ -314,7 +330,7 @@ namespace GroundControlStation.Controller
                         Model.YVEcefCms = telem.YVEcefCms;
                         Model.ZVEcefCms = telem.ZVEcefCms;
                         Model.PressureMillibars = telem.PressureMillibars;
-System.Diagnostics.Debug.WriteLine("X: " + telem.XMagFrd + " Y: " + telem.YMagFrd + " Z: " + telem.ZMagFrd);
+//System.Diagnostics.Debug.WriteLine("X: " + telem.XMagFrd + " Y: " + telem.YMagFrd + " Z: " + telem.ZMagFrd);
 //System.Diagnostics.Debug.WriteLine("X: " + telem.XAccelFrdMss + " Y: " + telem.YAccelFrdMss + " Z: " + telem.ZAccelFrdMss);
 //System.Diagnostics.Debug.WriteLine("pitchv: " + telem.PitchAngularVelocityRadsPerSecond + " rollv: " + telem.RollAngularVelocityRadsPerSecond + " YawV: " + telem.YawAngularVelocityRadsPerSecond);
 
