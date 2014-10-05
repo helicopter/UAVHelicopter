@@ -117,6 +117,9 @@ namespace helicopter
 				float frdGyroYRs;
 				float frdGyroZRs;
 				
+				//Offsets for raw gyro readings. [0] = x, [1] = y, [2] = z
+				float gyroOffsets[3];
+				
 				
 			public:
 				/**
@@ -147,6 +150,10 @@ namespace helicopter
 					memset(imuRFUToFRDRotationMatrix,0,sizeof(imuRFUToFRDRotationMatrix));
 					
 					MatrixUtil::CreateRotationMatrix(M_PI, 0.0f, (M_PI/2), imuRFUToFRDRotationMatrix);
+					
+					gyroOffsets[0] = 0;
+					gyroOffsets[1] = 0;
+					gyroOffsets[2] = 0;
 				}
 				
 				/**

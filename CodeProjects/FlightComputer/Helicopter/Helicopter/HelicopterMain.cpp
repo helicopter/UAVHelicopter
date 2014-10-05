@@ -192,8 +192,24 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 }
 
 
-int main(void)
+int main2(void)
 {
+	
+	//AHRS *ahrs = new AHRS(1.0f/20.0f);
+	
+	
+	//ahrs->update(-1.94171476,3.34171748,-9.517631,-0.05545767,0.3717419,-0.3282723,-0.2521546,-0.199393168,-0.9469216);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	SystemModel *model = new SystemModel();
 	model->FlightMode(SystemModel::RealFlight);
 	
@@ -346,7 +362,7 @@ int main(void)
 
 }
 
-int main2(void)
+int main(void)
 {	
 	bool sendControlToServos = false;
 	bool receiveGains = false;
@@ -565,8 +581,15 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 	//NavigationTask *navTask = new NavigationTask(BAROMETER_SENSOR_READ_PERIOD, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. //used for the real helicopter
 	//NavigationTask *navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. most recent 4/9/2014 //6/14/2014 most recent
-	NavigationTask *navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .01)); //run at 100 hz. experimental
+	
 //	NavigationTask *navTask = new NavigationTask(simulatorSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .01)); //run at 100 hz.
+
+	//NavigationTask *navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .01)); //run at 100 hz. experimental latest working 9/30/2014
+	NavigationTask *navTask = NULL;
+	
+
+	navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * sensorReadPeriod)); //run at 100 hz.
+
 
 
 	SPIDriver *spiDriver = new SPIDriver();
@@ -746,6 +769,15 @@ for (int i = 0; i < 5; i++)
 		//set the initial altitude based on sensor readings.
 		model->InitialAltitudeCm((((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-6.8755856 * 0.000001)) / 3.28084) * -100);
 		
+		
+		
+		float accelGain = ahrs->ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT;
+		float magGain = ahrs->MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT;
+		
+		ahrs->ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .1f;
+		ahrs->MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .1f;
+		
+		
 		//execute all the senor tasks a bunch of times to initialize the ahrs and nav systems.
 		//for (int i = 0; i < 500; i++)
 for (int i = 0; i < 5; i++)		
@@ -766,6 +798,9 @@ for (int i = 0; i < 5; i++)
 			
 			_delay_ms(10);
 		}
+		
+		ahrs->ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = accelGain;
+		ahrs->MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = magGain;
 
 		isInitialized = true;
 	}else

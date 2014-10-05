@@ -44,14 +44,14 @@ namespace GroundControlStation.Views
             this.tbYawProportionalGain.Value = (int)(controller.Model.YawProportionalGain * 1000);
 
             this.tbXAntiWindupGain.Value = (int)(controller.Model.XAntiWindupGain * 1000);
-            this.tbXDerivativeGain.Value = (int)(controller.Model.XDerivativeGain * 1000);
+            this.tbXDerivativeGain.Value = (int)(controller.Model.XDerivativeGain * 1000000);
             this.tbXIntegralGain.Value = (int)(controller.Model.XIntegralGain * 1000);
-            this.tbXProportionalGain.Value = (int)(controller.Model.XProportionalGain * 1000);
+            this.tbXProportionalGain.Value = (int)(controller.Model.XProportionalGain * 1000000);
 
             this.tbYAntiWindupGain.Value = (int)(controller.Model.YAntiWindupGain * 1000);
-            this.tbYDerivativeGain.Value = (int)(controller.Model.YDerivativeGain * 1000);
+            this.tbYDerivativeGain.Value = (int)(controller.Model.YDerivativeGain * 1000000);
             this.tbYIntegralGain.Value = (int)(controller.Model.YIntegralGain * 1000);
-            this.tbYProportionalGain.Value = (int)(controller.Model.YProportionalGain * 1000);
+            this.tbYProportionalGain.Value = (int)(controller.Model.YProportionalGain * 1000000);
 
             this.tbZAntiWindupGain.Value = (int)(controller.Model.ZAntiWindupGain * 1000);
             this.tbZDerivativeGain.Value = (int)(controller.Model.ZDerivativeGain * 1000);
@@ -70,14 +70,14 @@ namespace GroundControlStation.Views
             txtYawProportionalValue.Text = (tbYawProportionalGain.Value / 1000).ToString();
 
             txtXAntiWindupValue.Text = (tbXAntiWindupGain.Value / 1000).ToString();
-            txtXDerivativeValue.Text = (tbXDerivativeGain.Value / 1000).ToString();
+            txtXDerivativeValue.Text = (tbXDerivativeGain.Value / 1000000).ToString();
             txtXIntegralValue.Text = (tbXIntegralGain.Value / 1000).ToString();
-            txtXProportionalValue.Text = (tbXProportionalGain.Value / 1000).ToString();
+            txtXProportionalValue.Text = (tbXProportionalGain.Value / 1000000).ToString();
 
             txtYAntiWindupValue.Text = (tbYAntiWindupGain.Value / 1000).ToString();
-            txtYDerivativeValue.Text = (tbYDerivativeGain.Value / 1000).ToString();
+            txtYDerivativeValue.Text = (tbYDerivativeGain.Value / 1000000).ToString();
             txtYIntegralValue.Text = (tbYIntegralGain.Value / 1000).ToString();
-            txtYProportionalValue.Text = (tbYProportionalGain.Value / 1000).ToString();
+            txtYProportionalValue.Text = (tbYProportionalGain.Value / 1000000).ToString();
 
             txtZAntiWindupValue.Text = (tbZAntiWindupGain.Value / 1000.0).ToString();
             txtZDerivativeValue.Text = (tbZDerivativeGain.Value / 1000).ToString();
@@ -202,26 +202,26 @@ namespace GroundControlStation.Views
             txtYawIntegralValue.Text = (tbYawIntegralGain.Value / 1000.0).ToString();
             txtYawProportionalValue.Text = (tbYawProportionalGain.Value / 1000.0).ToString();
 
-            Controller.Model.XDerivativeGain = (float)tbXDerivativeGain.Value / 1000;
+            Controller.Model.XDerivativeGain = (float)tbXDerivativeGain.Value / 1000000;
             Controller.Model.XIntegralGain = (float)tbXIntegralGain.Value / 1000;
-            Controller.Model.XProportionalGain = (float)tbXProportionalGain.Value / 1000;
+            Controller.Model.XProportionalGain = (float)tbXProportionalGain.Value / 1000000;
             Controller.Model.XAntiWindupGain = (float)tbXAntiWindupGain.Value / 1000;
 
             txtXAntiWindupValue.Text = (tbXAntiWindupGain.Value / 1000.0).ToString();
-            txtXDerivativeValue.Text = (tbXDerivativeGain.Value / 1000.0).ToString();
+            txtXDerivativeValue.Text = new Decimal((tbXDerivativeGain.Value / 1000000.0)).ToString();
             txtXIntegralValue.Text = (tbXIntegralGain.Value / 1000.0).ToString();
-            txtXProportionalValue.Text = (tbXProportionalGain.Value / 1000.0).ToString();
+            txtXProportionalValue.Text = new Decimal((tbXProportionalGain.Value / 1000000.0)).ToString();
 
 
-            Controller.Model.YDerivativeGain = (float)tbYDerivativeGain.Value / 1000;
+            Controller.Model.YDerivativeGain = (float)tbYDerivativeGain.Value / 1000000;
             Controller.Model.YIntegralGain = (float)tbYIntegralGain.Value / 1000;
-            Controller.Model.YProportionalGain = (float)tbYProportionalGain.Value / 1000;
+            Controller.Model.YProportionalGain = (float)tbYProportionalGain.Value / 1000000;
             Controller.Model.YAntiWindupGain = (float)tbYAntiWindupGain.Value / 1000;
 
             txtYAntiWindupValue.Text = (tbYAntiWindupGain.Value / 1000.0).ToString();
-            txtYDerivativeValue.Text = (tbYDerivativeGain.Value / 1000.0).ToString();
+            txtYDerivativeValue.Text = (tbYDerivativeGain.Value / 1000000.0).ToString();
             txtYIntegralValue.Text = (tbYIntegralGain.Value / 1000.0).ToString();
-            txtYProportionalValue.Text = (tbYProportionalGain.Value / 1000.0).ToString();
+            txtYProportionalValue.Text = (tbYProportionalGain.Value / 1000000.0).ToString();
 
             Controller.Model.ZDerivativeGain = (float)tbZDerivativeGain.Value / 1000;
             Controller.Model.ZIntegralGain = (float)tbZIntegralGain.Value / 1000;

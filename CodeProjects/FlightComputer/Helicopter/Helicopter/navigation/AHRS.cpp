@@ -57,8 +57,11 @@ const float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .05f;//.75f;
 //float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .007;
 //float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .09;
 
-float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .08;
-float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .75;//.08;
+
+/*float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .001f; //.0036f;//.001;//.015f;//.008f;//.003;
+float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .01f;//.08f;//.05f;//.15;//.14f;//.08;//.08;*/
+float AHRS::ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT = .001f;
+float AHRS::MAGNETOMETER_ANGULARDISPLACEMENT_WEIGHT = .01f;
 
 void AHRS::scaleAndAdjust(float vectorToAdjust[3], float vectorToScale[3], float scalerValue, float (&outputVector)[3])
 {
@@ -247,6 +250,11 @@ float heading = constrain_float2(atan2f(-headY,headX), -3.15f, 3.15f); //+M_PI;
 	//d?a ­= dt wa = KB0 x (KB1A­ - KB0) - see http://www.starlino.com/dcm_tutorial.html for proof		
 	MatrixUtil::CrossProduct(accelerometerVector, dcm[2], accelerometerAngularDisplacement);
 	MatrixUtil::CrossProduct(correctedMagnetometerVector, dcm[0], magnetometerAngularDisplacement);
+	
+	
+	debug1 = accelerometerVector[0];
+	debug2 = accelerometerVector[1];
+	debug3 = accelerometerVector[2];
 	
 	//Calculate the weighted average of the angular displacements to obtain the correction vector
 	//to adjust the DCM.

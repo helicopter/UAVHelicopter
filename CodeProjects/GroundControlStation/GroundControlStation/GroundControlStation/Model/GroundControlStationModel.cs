@@ -10,6 +10,43 @@ namespace GroundControlStation.Model
     public class GroundControlStationModel
     {
 
+
+        public class Results
+        {
+            public double median = 0;
+            public double average = 0;
+            public double minimum = 0;
+            public double q1 = 0;
+            public double q3 = 0;
+            public double maximum = 0;
+
+            public double magVal = 0;
+            public double accelVal = 0;
+
+            public List<double> values = new List<double>();
+
+            public void calc()
+            {
+                values.Sort();
+
+                median = values[values.Count / 2];
+                q1 = values[values.Count / 4];
+                q3 = values[(values.Count / 4) + (values.Count / 2)];
+
+                minimum = values.Min();
+                maximum = values.Max();
+                average = values.Average();
+
+
+            }
+
+            public override string ToString()
+            {
+                return String.Format("{0},{1},{2},{3},{4},{5},{6},{7}", minimum, q1, median, average, q3, maximum,magVal,accelVal);
+            }
+        }
+
+
         public float PreviousXVelocityNEDCms { get; set; }
 
         public float PreviousYVelocityNEDCms { get; set; }
@@ -243,6 +280,9 @@ namespace GroundControlStation.Model
         public double RollMSE { get; set; }
         public double PitchMSE { get; set; }
         public double YawMSE { get; set; }
+        public List<Results> RollResults { get; set; }
+        public List<Results> YawResults { get; set; }
+        public List<Results> PitchResults { get; set; }
         
         public int MSEIterations { get; set; }
  

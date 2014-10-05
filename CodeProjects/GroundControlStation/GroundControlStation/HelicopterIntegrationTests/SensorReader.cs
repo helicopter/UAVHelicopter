@@ -29,6 +29,79 @@ namespace HelicopterIntegrationTests
         }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+        //public static void Main()
+        public static void Main()
+        {
+            SerialPort port = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
+            SerialPortInterface portInterface = new SerialPortInterface(port);
+            portInterface.Open();
+
+
+            port.DiscardInBuffer();
+            while (true)
+            {
+                while (portInterface.ReadByte() != 'S')
+                {
+
+                }
+
+
+                float accx = portInterface.ReadFloat();
+                float accy = portInterface.ReadFloat() * (float)(180.0f / Math.PI);
+                float accz = portInterface.ReadFloat() * (float)(180.0f / Math.PI);
+                float magx = portInterface.ReadFloat();
+                float magy = portInterface.ReadFloat();
+                float magz = portInterface.ReadFloat();
+
+                Console.WriteLine(String.Format("{0},{1},{2},{3},{4},{5}", accx, accy, accz, magx, magy, magz));
+
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //public static void Main()
         public static void Main2()
         {
@@ -220,7 +293,7 @@ namespace HelicopterIntegrationTests
          */
 
                 //Test reading GPS.
-        public static void Main()
+        public static void Main4()
         {
             //SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One);
@@ -247,7 +320,7 @@ namespace HelicopterIntegrationTests
 
 
         //Test reading GPS.
-        public static void Main4()
+        public static void Main6()
         {
             //SerialPort port = new SerialPort("COM7", 9600, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One);

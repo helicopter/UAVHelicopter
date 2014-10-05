@@ -60,7 +60,9 @@
     <Compile Include="Messages\SyncMessage.cs" />
     <Compile Include="GroundControlStationMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\AHRS.cs" />
     <Compile Include="Util\LoggingUtil.cs" />
+    <Compile Include="Util\MadgwickAHRS.cs" />
     <Compile Include="Util\Util.cs" />
     <Compile Include="Views\GainAdjustmentsForm.cs">
       <SubType>Form</SubType>

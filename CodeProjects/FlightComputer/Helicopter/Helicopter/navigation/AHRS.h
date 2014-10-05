@@ -117,7 +117,7 @@ namespace helicopter
 				{
 					/**
 					 * Setup initial state of the DCM matrix with initial unit vectors
-					 * {{1,0,0},{0,1,0},{0,0,1}}
+					 * {{1,0,0},{0,1,0},{0,0,-1}}
 					 */
 					dcm[0][0] = 1;
 					dcm[0][1] = 0;
@@ -127,7 +127,7 @@ namespace helicopter
 					dcm[1][2] = 0;
 					dcm[2][0] = 0;
 					dcm[2][1] = 0;
-					dcm[2][2] = 1;
+					dcm[2][2] = -1;
 				}
 			
 				/**
@@ -192,6 +192,11 @@ namespace helicopter
 				 * - when device is pushed up				 
 				 */
 				float getLinearAccelerationZMss();
+				
+				
+				float debug1;
+				float debug2;
+				float debug3;
 		};
 	}
 }

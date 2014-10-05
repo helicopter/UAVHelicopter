@@ -34,6 +34,56 @@ void send(SerialDriver *driver, int val)
 }
 
 
+int imu_test(TestCase *test)
+{
+	//Create objects for reading sensors
+	SPIDriver *spiDriver = new SPIDriver();
+	spiDriver->init();
+	
+	SerialDriver *serialDriver = new SerialDriver(115200, SerialDriver::Zero, true, NULL);
+	serialDriver->init();
+	
+	IMUSensor *imuSensor = new IMUSensor(spiDriver);
+	imuSensor->init();
+	
+	
+	
+	TWIDriver *twDriver = new TWIDriver();
+
+	MagnetometerSensor *magnetometerSensor = new MagnetometerSensor(twDriver);
+	magnetometerSensor->init();
+	
+	
+	
+	while(true)
+	{
+		imuSensor->readSensor();
+		magnetometerSensor->readSensor();
+	
+		
+		serialDriver->transmit('S');
+		serialDriver->transmit(imuSensor->getFRDAccXMss());
+		serialDriver->transmit(imuSensor->getFRDAccYMss());
+		serialDriver->transmit(imuSensor->getFRDAccZMss());
+		
+		serialDriver->transmit(magnetometerSensor->getFRDX());
+		serialDriver->transmit(magnetometerSensor->getFRDY());
+		serialDriver->transmit(magnetometerSensor->getFRDZ());
+		
+		/*
+		serialDriver->transmit(imuSensor->getFRDGyroXRs());
+		serialDriver->transmit(imuSensor->getFRDGyroYRs());
+		serialDriver->transmit(imuSensor->getFRDGyroZRs());
+		*/
+				
+		_delay_ms(500);
+	}
+	
+
+	return 0;	
+}
+
+
 int readmag_test(TestCase *test)
 {
 	byte SENSOR_ADDRESS = 0x3C;

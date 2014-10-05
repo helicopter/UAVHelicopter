@@ -612,6 +612,7 @@ namespace GroundControlStation.Messages
 
             //float[,] rotationMatrix = Util.Util.CreateRotationMatrixTransposed(rollRads,pitchRads,yawRads);
             float[] rotatedUnitVector = Util.Util.RotateMatrix(nedToFRDRotationMatrix, new float[3] { 0, 0, -1 });
+            //float[] rotatedUnitVector = Util.Util.RotateMatrix(nedToFRDRotationMatrix, new float[3] { 0, 0, 1 });
 
             float xGrav = rotatedUnitVector[0] * Util.Util.GRAVITY;
             float yGrav = rotatedUnitVector[1] * Util.Util.GRAVITY;
@@ -639,6 +640,7 @@ System.Diagnostics.Debug.WriteLine("ZLinearAccel: " + linearAccelerationFRDBodyF
 */
 //System.Diagnostics.Debug.WriteLine("ygrav before: " + yGrav + ", adjustment " + linearAccelerationFRDBodyFrameMss[1]);            
             xGrav += linearAccelerationFRDBodyFrameMss[0];
+            //yGrav += linearAccelerationFRDBodyFrameMss[1];
             yGrav += linearAccelerationFRDBodyFrameMss[1];
             zGrav += linearAccelerationFRDBodyFrameMss[2];
             
@@ -669,6 +671,9 @@ System.Diagnostics.Debug.WriteLine("ZLinearAccel: " + linearAccelerationFRDBodyF
              */
             float[,] magFrameRotationMatrix = Util.Util.CreateRotationMatrix(0, Util.Util.ConvertToRads(70), 0);
             float[] magFrameRotatedUnitVector = Util.Util.RotateMatrix(magFrameRotationMatrix, new float[3] { 1, 0, 0 });
+
+            //multiply the Z axis by -1 because the rotation rotates it 'down' correctly, but 'down' is technically positive in NED frame. 
+            magFrameRotatedUnitVector[2] *= -1;
 
             float[,] magRotationMatrix = Util.Util.CreateRotationMatrixTransposed(rollRads, pitchRads, yawRads);
             float[] magRotatedUnitVector = Util.Util.RotateMatrix(magRotationMatrix, magFrameRotatedUnitVector);

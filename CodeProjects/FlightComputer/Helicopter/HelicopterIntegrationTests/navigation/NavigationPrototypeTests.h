@@ -19,6 +19,7 @@ using namespace helicoptertestscommon::util::testframework;
 int ahrs_test(TestCase *test);
 int prototypefusion_test(TestCase *test);
 int fakedata_test(TestCase *test);
+int imu_test(TestCase *test);
 
 
 #endif /* NAVIGATIONPROTOTYPETESTS_H_ */

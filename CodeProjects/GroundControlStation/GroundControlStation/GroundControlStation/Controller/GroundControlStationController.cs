@@ -251,9 +251,10 @@ namespace GroundControlStation.Controller
                             Model.MSEIterations = Model.MSEIterations + 1;
 
 
-                            Debug.WriteLine(String.Format("RollMSE: {0}, PitchMSE: {1}, YawMSE: {2}, TotalMSE: {3}", Model.RollMSE, Model.PitchMSE, Model.YawMSE, ((Model.RollMSE + Model.PitchMSE) / 2)));
+                            Debug.WriteLine(String.Format("Yaw Calc: {0}, Yaw Real: {1}, Yaw Error: {2}", (telem.YawRads * (180 / Math.PI)), Model.SimTelm.MagHeadingDegrees, (telem.YawRads * (180 / Math.PI)) -  Model.SimTelm.MagHeadingDegrees));
+                            //Debug.WriteLine(String.Format("RollMSE: {0}, PitchMSE: {1}, YawMSE: {2}, TotalMSE: {3}", Model.RollMSE, Model.PitchMSE, Model.YawMSE, ((Model.RollMSE + Model.PitchMSE) / 2)));
                             //Debug.WriteLine(String.Format("RollMSE: {0}, PitchMSE: {1}, YawMSE: {2}, TotalMSE: {3}", Model.RollMSE, Model.PitchMSE, Model.YawMSE, ((rollsquaredError+pitchsquaredError+yawsquaredError)/3)));
-                            Debug.WriteLine(String.Format("RollE: {0}, PitchE: {1}, YawE: {2}, TotalE: {3}", rollError, pitchError, yawError, ((rollError+pitchError+yawError) / 3)));
+                            //Debug.WriteLine(String.Format("RollE: {0}, PitchE: {1}, YawE: {2}, TotalE: {3}", rollError, pitchError, yawError, ((rollError+pitchError+yawError) / 3)));
                         }
 
                     }

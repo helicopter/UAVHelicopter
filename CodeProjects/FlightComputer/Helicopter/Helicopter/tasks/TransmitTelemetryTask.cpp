@@ -28,6 +28,10 @@ void TransmitTelemetryTask::runTaskImpl()
 		//SystemTelemetryMessage *message = model->CreateTelemetryMessage();
 		SystemTelemetryMessage *message = SystemTelemetryMessage::buildMessageFromModel(model);
 	
+message->XMagFrd = model->off1();
+message->YMagFrd = model->off2();
+message->ZMagFrd = model->off3();	
+	
 		//TODO add some error handling in here
 		radioInterface->transmit(message);
 	
@@ -78,11 +82,11 @@ void TransmitTelemetryTask::runTaskImpl()
 			message->YMagFrd = model->YMagFrd();
 			message->ZMagFrd = model->ZMagFrd();
 			
-/*
+
 message->XMagFrd = model->off1();
 message->YMagFrd = model->off2();
 message->ZMagFrd = model->off3();			
-*/
+
 			message->XEcefCm = model->XEcefCm();
 			message->YEcefCm = model->YEcefCm();
 			message->ZEcefCm = model->ZEcefCm();

@@ -58,7 +58,8 @@ int main(void)
 	//helicopterTests.addTest(readRealSensor_test, 11);
 	//helicopterTests.addTest(asyncserialdriver_test, 11);
 	
-	helicopterTests.addTest(gainsmessageasync_test, 11);
+	//helicopterTests.addTest(gainsmessageasync_test, 11);
+	helicopterTests.addTest(imu_test, 11);
 	
 	
 	helicopterTests.runTests();

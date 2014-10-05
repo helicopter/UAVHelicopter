@@ -40,6 +40,20 @@ void NavigationTask::runTaskImpl()
 	model->PitchRads(ahrs->getPitchRads());
 	model->RollRads(ahrs->getRollRads());
 	
+	
+	
+	
+model->off1(ahrs->debug1);
+model->off2(ahrs->debug2);
+model->off3(ahrs->debug3);	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Process GPS data into NED position and velocity. 
 	 */

@@ -55,6 +55,26 @@ void IMUSensor::init()
 	
 	//configure the sensitivity / scale range of the accelerometer
 	spiDriver->transactionWrite(REG_ACCEL_CONFIG,BITS_AFS_SEL);
+	
+	/*
+	float offsetx = 0.0f;
+	float offsety = 0.0f;
+	float offsetz = 0.0f;
+	
+	//determine offsets for the gyroscopes by calculating the rolling average
+	for (int i = 0; i < 1000; i++)
+	{
+		this->readSensor();
+		
+		offsetx = (this->rawGyroX + i*offsetx) / (i+1);
+		offsety = (this->rawGyroY + i*offsety) / (i+1);
+		offsetz = (this->rawGyroZ + i*offsetz) / (i+1);
+	}
+	
+	this->gyroOffsets[0] = offsetx;
+	this->gyroOffsets[1] = offsety;
+	this->gyroOffsets[2] = offsetz;
+	*/
 }
 
 void IMUSensor::readSensor()
@@ -98,7 +118,8 @@ void IMUSensor::readSensor()
 	float rotatedValues2[3] = {0};
 		
 	int values[3] = {rawAccX, rawAccY, rawAccZ};
-	int values2[3] = {rawGyroX, rawGyroY, rawGyroZ};
+	//int values2[3] = {rawGyroX, rawGyroY, rawGyroZ};
+	float values2[3] = {rawGyroX - gyroOffsets[0], rawGyroY - gyroOffsets[1], rawGyroZ - gyroOffsets[2]};
 		
 	MatrixUtil::RotateMatrix(imuRFUToFRDRotationMatrix, values, rotatedValues);
 	MatrixUtil::RotateMatrix(imuRFUToFRDRotationMatrix, values2, rotatedValues2);
