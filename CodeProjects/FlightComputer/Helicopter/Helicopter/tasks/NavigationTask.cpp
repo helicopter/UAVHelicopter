@@ -42,11 +42,11 @@ void NavigationTask::runTaskImpl()
 	
 	
 	
-	
+	/*
 model->off1(ahrs->debug1);
 model->off2(ahrs->debug2);
 model->off3(ahrs->debug3);	
-	
+	*/
 	
 	
 	

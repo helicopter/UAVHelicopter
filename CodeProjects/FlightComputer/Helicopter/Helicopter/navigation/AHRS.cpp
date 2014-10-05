@@ -251,11 +251,11 @@ float heading = constrain_float2(atan2f(-headY,headX), -3.15f, 3.15f); //+M_PI;
 	MatrixUtil::CrossProduct(accelerometerVector, dcm[2], accelerometerAngularDisplacement);
 	MatrixUtil::CrossProduct(correctedMagnetometerVector, dcm[0], magnetometerAngularDisplacement);
 	
-	
+	/*
 	debug1 = accelerometerVector[0];
 	debug2 = accelerometerVector[1];
 	debug3 = accelerometerVector[2];
-	
+	*/
 	//Calculate the weighted average of the angular displacements to obtain the correction vector
 	//to adjust the DCM.
 	for (int i = 0; i < 3; i++)

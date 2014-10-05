@@ -174,6 +174,7 @@ namespace GroundControlStation.Controller
 
         DateTime startTime = DateTime.Now;
         DateTime startTime2 = DateTime.Now;
+        int previousBlownFrames = 0;
         //int counter = 0;
 
 
@@ -295,6 +296,12 @@ namespace GroundControlStation.Controller
                     {
 
                         SimpleTelemetryMessage telem = (SimpleTelemetryMessage)msg;
+
+
+                        Console.WriteLine("NumOfBlownFrames: " + (telem.NumOfBlownFrames - previousBlownFrames).ToString());
+                        previousBlownFrames = telem.NumOfBlownFrames;
+
+
 
                         Model.XNEDLocalFrame = telem.XNEDLocalFrame;
                         Model.XVelocityMetersPerSecond = telem.XVelocityFRDCms;

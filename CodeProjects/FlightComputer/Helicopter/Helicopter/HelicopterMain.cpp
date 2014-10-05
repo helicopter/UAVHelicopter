@@ -373,14 +373,14 @@ int main(void)
 	
 	
 	//model->FlightMode(SystemModel::HardwareInLoopSimulatedFlight);
-	model->FlightMode(SystemModel::SimulatedFlight);
+	//model->FlightMode(SystemModel::SimulatedFlight);
 	
 	/**
 	 * Checklist:
 	 * turn off gains
 	 * modify start up parameters to read gps and baro data longer before start. 
 	 */
-	//model->FlightMode(SystemModel::RealFlight);
+	model->FlightMode(SystemModel::RealFlight);
 	
 	
 	
@@ -633,6 +633,8 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 	
 	scheduler->addTask(flashTask);
+	
+	
 	scheduler->addTask(gpsSensorTask);
 	scheduler->addTask(imuSensorTask);
 	scheduler->addTask(barometerSensorTask);
@@ -651,7 +653,9 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 	scheduler->addTask(pidInnerLoop);
 	
+	
 	scheduler->addTask(navTask);
+	
 	
 	if (sendControlToServos)
 	{
