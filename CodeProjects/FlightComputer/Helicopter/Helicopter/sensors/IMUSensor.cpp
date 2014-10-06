@@ -56,7 +56,7 @@ void IMUSensor::init()
 	//configure the sensitivity / scale range of the accelerometer
 	spiDriver->transactionWrite(REG_ACCEL_CONFIG,BITS_AFS_SEL);
 	
-	/*
+	
 	float offsetx = 0.0f;
 	float offsety = 0.0f;
 	float offsetz = 0.0f;
@@ -74,7 +74,7 @@ void IMUSensor::init()
 	this->gyroOffsets[0] = offsetx;
 	this->gyroOffsets[1] = offsety;
 	this->gyroOffsets[2] = offsetz;
-	*/
+	
 }
 
 void IMUSensor::readSensor()

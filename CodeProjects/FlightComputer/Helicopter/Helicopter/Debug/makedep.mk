@@ -56,6 +56,8 @@ tasks\PIDInnerLoopTask.cpp
 
 tasks\PIDOuterLoopTask.cpp
 
+tasks\PVNavigationTask.cpp
+
 tasks\ReadBarometerSensorTask.cpp
 
 tasks\ReadGPSSensorTask.cpp

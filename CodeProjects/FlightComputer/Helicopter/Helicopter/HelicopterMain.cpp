@@ -31,6 +31,7 @@
 #include "TWIDriver.h"
 #include "SystemTelemetryMessage.h"
 #include "SensorDataMessage.h"
+#include "PVNavigationTask.h"
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -373,14 +374,14 @@ int main(void)
 	
 	
 	//model->FlightMode(SystemModel::HardwareInLoopSimulatedFlight);
-	//model->FlightMode(SystemModel::SimulatedFlight);
+	model->FlightMode(SystemModel::SimulatedFlight);
 	
 	/**
 	 * Checklist:
 	 * turn off gains
 	 * modify start up parameters to read gps and baro data longer before start. 
 	 */
-	model->FlightMode(SystemModel::RealFlight);
+	//model->FlightMode(SystemModel::RealFlight);
 	
 	
 	
@@ -586,9 +587,11 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 
 	//NavigationTask *navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .01)); //run at 100 hz. experimental latest working 9/30/2014
 	NavigationTask *navTask = NULL;
+	PVNavigationTask *pvNavTask = NULL;
 	
 
-	navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * sensorReadPeriod)); //run at 100 hz.
+	navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * sensorReadPeriod)); //run at 98 hz.
+	pvNavTask = new PVNavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * barometerSensorReadPeriod)); //run at 50 hz
 
 
 
@@ -655,6 +658,7 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 	
 	scheduler->addTask(navTask);
+	scheduler->addTask(pvNavTask);
 	
 	
 	if (sendControlToServos)
@@ -799,6 +803,7 @@ for (int i = 0; i < 5; i++)
 			imuSensorTask->runTaskImpl();
 			
 			navTask->runTaskImpl();
+			pvNavTask->runTaskImpl();
 			
 			_delay_ms(10);
 		}
