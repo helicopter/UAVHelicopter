@@ -10,6 +10,18 @@
 #define MATRIXUTIL_H_
 
 
+#define fsin(input,output) \
+{ \
+    if (input < -3.14159265) \
+		input += 6.28318531f; \
+    else if (input > 3.14159265) \
+		input -= 6.28318531f; \
+    if (input < 0) \
+		output = 1.27323954f * input + .405284735f * input * input; \
+    else \
+		output = 1.27323954f * input - 0.405284735f * input * input; \
+} \
+
 namespace helicopter
 {
 	namespace util
@@ -17,9 +29,20 @@ namespace helicopter
 		class MatrixUtil
 		{	
 			private:
+				
+				/*static const int RESOLUTION = 1000;
+				static float* sinTable;*/
 
+				static const int ARRAYSIZE = sizeof(float) * 3;
 			
 			public: 
+			
+				//static void createLookupTables();
+				
+				//Uses lookup table to determine sin value. 
+				//Value should be in rads.
+				//static float fsin(float valueRads);
+				
 				/**
 				 * Creates a 3x3 rotation matrix which rotates about X, then Y, then Z where positive angles are rotations
 				 * about the given axis in a clockwise direction.
@@ -34,6 +57,13 @@ namespace helicopter
 				 * This rotation matrix can be used to go from Local NED to Body Frame coordinate Systems.
 				 */
 				static void CreateRotationMatrixTransposed( float phiRotationAboutXRads, float thetaRotationAboutYRads, float saiRotationAboutZRads, float (&rotationMatrix)[3][3]);
+				
+				
+				
+				/**
+				 * Creates a transposed rotation matrix using the sin and cos tables rather than the actual methods. 
+				 */
+				//static void CreateEstimatedRotationMatrixTransposed( float phiRotationAboutXRads, float thetaRotationAboutYRads, float saiRotationAboutZRads, float (&rotationMatrix)[3][3]);
 				
 				/**
 				 * Rotates a 3x1 matrix using a 3x3 rotation matrix

@@ -307,7 +307,9 @@ float heading = constrain_float2(atan2f(-headY,headX), -3.15f, 3.15f); //+M_PI;
 	 */
 	//Add the yaw angle to pi to convert from -pi or pi being north and -3pi/2 being east to 0 or 2pi being north, and pi/2 being east
 	yawRads = M_PI + atan2(dcm[1][0], dcm[0][0]);
-	//yawRads = heading;
+	//yawRads = heading;	
+	pitchRads = -asin(dcm[2][0]);
+	rollRads = atan2(dcm[2][1], dcm[2][2]);
 	
 	
 /*	
@@ -333,9 +335,7 @@ yawRads = heading;	*/
 	
 	
 	
-	
-	pitchRads = -asin(dcm[2][0]);
-	rollRads = atan2(dcm[2][1], dcm[2][2]);
+
 }
 
 float AHRS::getYawRads()

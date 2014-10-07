@@ -11,6 +11,8 @@
 
 #include "SystemModel.h"
 
+#include <math.h>
+
 using namespace helicopter::model;
 
 namespace helicopter
@@ -316,7 +318,10 @@ namespace helicopter
 					this->controlMinValue = controlMinValue;
 				}			
 				
-				float calculateProportional(float currentValue, float referenceValue);
+				inline float calculateProportional(float currentValue, float referenceValue)
+				{
+					return currentValue - referenceValue;
+				}
 				
 				/**
 				 * Calculates the proportional error between the current yaw value from the sensors
@@ -355,7 +360,15 @@ namespace helicopter
 				 * applied to this iterations integral term.
 				 * 0 if oldYawControlPreServoAdj == oldYawControl
 				 */
-				float calculateIntegralAntiWindup(float oldControlPreServoAdj, float oldControl, float antiWindupGain);
+				inline float calculateIntegralAntiWindup(float oldControlPreServoAdj, float oldControl, float antiWindupGain)
+				{
+					float antiWindup = 0;
+					
+					//antiWindup = antiWindupGain * (oldControlPreServoAdj - oldControl);
+					antiWindup = antiWindupGain * (oldControl - oldControlPreServoAdj);
+					
+					return antiWindup;
+				}
 				
 				/**
 				 * Calculates the integral of the yaw without weighting.
@@ -365,7 +378,17 @@ namespace helicopter
 				 * the integral term to reset the integral term to 0 if the servos are saturated (at their max value)
 				 * @return the calculated integral value (without weighting).
 				 */
-				float calculateIntegral(float proportional, float oldIntegral, float antiWindup, float integralGain);
+				/**
+				 * Anti-windup algorithms are discussed in Control Systems Design by Karl Johan Astrom 2002. chapter 6
+				 * I'm not directly using their algorithms
+				 */
+				inline float calculateIntegral(float proportional, float oldIntegral, float antiWindup, float integralGain)
+				{
+					float workingIntegral = 0;
+					workingIntegral = proportional * integralGain + antiWindup;
+					workingIntegral = workingIntegral * intervalPeriodSecs + oldIntegral;
+					return workingIntegral;
+				}
 				
 				/**
 				 * Subtracts the yawVelocityDegreesPerSecond and referenceYawVelocityDegreesPerSecond.
@@ -373,7 +396,10 @@ namespace helicopter
 				 * @referenceYawVelocityDegreesPerSecond the desired velocity of rotation in the yaw direction in degrees per second
 				 * @return the difference between the two parameters in degrees per second.
 				 */
-				float calculateVelocityError(float currentVelocity, float referenceVelocity);
+				inline float calculateVelocityError(float currentVelocity, float referenceVelocity)
+				{
+					return currentVelocity - referenceVelocity;
+				}
 				
 				/**
 				 * Calculates the control value for the yaw (pedal) control. The value
@@ -421,7 +447,23 @@ namespace helicopter
 				
 				void addBlownFrame();
 				
-				float convertYawErrorFrom2PitoPlusMinusPi( float yawError );
+				/**
+				 * Converts the error from 0-360, to -180 - 180 (in the equivalent of rads - i.e. yawError should be rads).
+				 */
+				inline float convertYawErrorFrom2PitoPlusMinusPi( float  yawErrorRads )
+				{
+					if (yawErrorRads >= M_PI)
+					{
+						yawErrorRads = yawErrorRads - (2 * M_PI);
+					}
+					else if (yawErrorRads < -M_PI)
+					{
+						yawErrorRads = yawErrorRads + (2 * M_PI);
+					}
+				 
+					return yawErrorRads;
+				}
+
 		};
 	}
 }

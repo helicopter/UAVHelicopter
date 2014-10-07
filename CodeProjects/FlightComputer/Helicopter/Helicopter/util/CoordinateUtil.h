@@ -9,6 +9,8 @@
 #ifndef COORDINATEUTIL_H_
 #define COORDINATEUTIL_H_
 
+#include <math.h>
+
 namespace helicopter
 {
 	namespace util
@@ -24,6 +26,8 @@ namespace helicopter
 		class CoordinateUtil
 		{	
 			private:
+			
+				static const float PIOVER180;
 				
 				//The first eccentricity, used to convert lat/long to ecef
 				static const float E;
@@ -44,7 +48,11 @@ namespace helicopter
 				/**
 				 * Converts degrees to radians
 				 */
-				static float DegreesToRad(float valueDegrees);
+				inline static float DegreesToRad(float valueDegrees)
+				{
+					return valueDegrees * PIOVER180;
+				}
+
 			
 				/**
 				 * This method creates a rotation matrix that is used to convert from Earth-Center-Earth-Fixed to Local North-East-Down

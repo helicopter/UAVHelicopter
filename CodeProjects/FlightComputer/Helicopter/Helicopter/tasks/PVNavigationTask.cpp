@@ -57,10 +57,9 @@ void PVNavigationTask::runTaskImpl()
 	 * Multiply by -100 because in NED, 'down' is positive. And to convert meters to cm.
 	 * -0.00000687535 = -6.8755856 * 10^-6
 	 */
-	
-
-	
-	float altitudeMslCm = (((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-0.00000687535)) / 3.28084) * -100.0f;
+	//float altitudeMslCm = (((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-0.00000687535)) / 3.28084) * -100.0f;
+	//4433228.712 is a number I came up with from simplifying the expression (((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-0.00000687535)) / 3.28084) * -100.0f;
+	float altitudeMslCm = (pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1) * 4433228.712; 
 	
 	//bool hasGoodAltitude = true;
 	

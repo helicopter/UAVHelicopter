@@ -28,7 +28,7 @@ using namespace helicopter::util;
 int fwdGpsData_test(TestCase *test)
 {
 	Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 50);
-	Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 500);
+	//Timer *gpsTimer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 500);
 	
 	/**
 	 * Note, this serial driver must be on baud rate 9600 because the GPS code is

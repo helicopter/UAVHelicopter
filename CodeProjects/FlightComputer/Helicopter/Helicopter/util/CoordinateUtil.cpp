@@ -17,32 +17,37 @@ using namespace helicopter::util;
 const float CoordinateUtil::E = 0.08181919;
 const float CoordinateUtil::REA = 6378137.0;
 
-float CoordinateUtil::DegreesToRad(float valueDegrees)
-{
-	return valueDegrees * (M_PI / 180.0);
-}
+
+const float CoordinateUtil::PIOVER180 = M_PI / 180.0f;
 
 void CoordinateUtil::CalculateECEFToLocalNEDRotationMatrix(float latitudeDegrees, float longitudeDegrees, float  (&ecefToLocalNEDRotationMatrix)[3][3])
 {
 	float radLat = DegreesToRad(latitudeDegrees);
 	float radLong = DegreesToRad(longitudeDegrees);
+	
+	float sinLat = sin(radLat);
+	float cosLat = cos(radLat);
+	
+	float sinLong = sin(radLong);
+	float cosLong = cos(radLong);
 
 	//Create a rotation matrix for rotating earth-centered-earth-fixed coordinates
 	//into Local North-East-Down coordinates.
-	ecefToLocalNEDRotationMatrix[0][0] = -1 * sin(radLat) * cos(radLong);
-	ecefToLocalNEDRotationMatrix[0][1] = -1 * sin(radLat) * sin(radLong);
-	ecefToLocalNEDRotationMatrix[0][2] = cos(radLat);
-	ecefToLocalNEDRotationMatrix[1][0] = -1 * sin (radLong);
-	ecefToLocalNEDRotationMatrix[1][1] = cos(radLong);
+	ecefToLocalNEDRotationMatrix[0][0] = -1 * sinLat * cosLong;
+	ecefToLocalNEDRotationMatrix[0][1] = -1 * sinLat * sinLong;
+	ecefToLocalNEDRotationMatrix[0][2] = cosLat;
+	ecefToLocalNEDRotationMatrix[1][0] = -1 * sinLong;
+	ecefToLocalNEDRotationMatrix[1][1] = cosLong;
 	ecefToLocalNEDRotationMatrix[1][2] = 0;
-	ecefToLocalNEDRotationMatrix[2][0] = -1 * cos(radLat) * cos(radLong);
-	ecefToLocalNEDRotationMatrix[2][1] = -1 * cos(radLat) * sin(radLong);
-	ecefToLocalNEDRotationMatrix[2][2] = -1 * sin(radLat);
+	ecefToLocalNEDRotationMatrix[2][0] = -1 * cosLat * cosLong;
+	ecefToLocalNEDRotationMatrix[2][1] = -1 * cosLat * sinLong;
+	ecefToLocalNEDRotationMatrix[2][2] = -1 * sinLat;
 }
 
 float CoordinateUtil::calculateNe(float E, float latitudeRads)
 {
-	return REA / sqrt(1 - pow(E, 2) * pow(sin(latitudeRads), 2));
+	//return REA / sqrt(1 - pow(E, 2) * pow(sin(latitudeRads), 2));
+	return REA / sqrt(1 - (E*E) * pow(sin(latitudeRads), 2));
 }
 
 /**
@@ -59,7 +64,7 @@ void CoordinateUtil::ConvertFromGeodeticToECEF(float latitudeDegrees, float long
 	
 	ecefX = (Ne + altitudeFeetAgl) * cos(radLat) * cos(radLong);
 	ecefY = (Ne + altitudeFeetAgl) * cos(radLat) * sin(radLong);
-	ecefZ = ((Ne * (1 - pow(E, 2))) + altitudeFeetAgl) * sin(radLat);
+	ecefZ = ((Ne * (1 - (E*E))) + altitudeFeetAgl) * sin(radLat);
 }
 
 void CoordinateUtil::ConvertFromECEFToLocalNED(float ecefReferenceX, float ecefReferenceY, float ecefReferenceZ,

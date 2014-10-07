@@ -1155,18 +1155,73 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
         }
 
 
+        static float threeFactorial = 3 * 2 * 1;
+        static float fiveFactorial = 5 * 4 * 3 * 2 * 1;
+        static float sevenFactorial = 7 * 6 * 5 * 4 * 3 * 2 * 1;
+        static float nineFactorial = 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1;
+
+        //static float fsin(float valueRads)
+        static float fsin(float x)
+        {
+
+
+           /* float two = valueRads * valueRads;
+            float three = two * valueRads;
+            float five = three * two;
+            float seven = five * two;
+            //float nine = seven * two;
+
+
+            return valueRads - (three / threeFactorial) + (five / fiveFactorial); //- (seven / sevenFactorial);// +(nine / nineFactorial);
+            */
+
+            float sin = 0;
+
+            //always wrap input angle to -PI..PI
+            if (x < -3.14159265)
+                x += 6.28318531f;
+            else
+                if (x > 3.14159265)
+                    x -= 6.28318531f;
+
+            //compute sine
+            if (x < 0)
+                sin = 1.27323954f * x + .405284735f * x * x;
+            else
+                sin = 1.27323954f * x - 0.405284735f * x * x;
+
+            //compute cosine: sin(x + PI/2) = cos(x)
+            /*x += 1.57079632;
+            if (x > 3.14159265)
+                x -= 6.28318531;*/
+
+            return sin;
+        }
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
+
+
+            DateTime start = DateTime.Now;
+
+            for (int i = 0; i < 100000; i++)
+            {
+                float a = fsin(3.13f);
+                float b = (float)(Math.Sin(3.13));
+            }
+
+            TimeSpan end = start - DateTime.Now;
+
             //TODO focus on thread ui update.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            //FlightModes flightMode = FlightModes.RealFlight;
-            FlightModes flightMode = FlightModes.SimulatedFlight;
+            FlightModes flightMode = FlightModes.RealFlight;
+            //FlightModes flightMode = FlightModes.SimulatedFlight;
 
             //SerialPort port = new SerialPort("COM7", 76800, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One); //MOST RECENT

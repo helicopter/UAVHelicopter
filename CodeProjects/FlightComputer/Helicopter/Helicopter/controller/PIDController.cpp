@@ -58,129 +58,12 @@ PIDController::~PIDController()
 
 }
 
-float PIDController::calculateProportional(float currentValue, float referenceValue)
-{
-	return currentValue - referenceValue; 
-}
-
-//TODO refactor to make this common for all PID calculations. I'll want to include the specific
-//variables max values as parameters so I can 'generalize' it.
-float PIDController::calculateIntegralAntiWindup(float oldControlPreServoAdj, float oldControl, float antiWindupGain)
-{
-	float antiWindup = 0;
-	
-	//antiWindup = antiWindupGain * (oldControlPreServoAdj - oldControl);
-	antiWindup = antiWindupGain * (oldControl - oldControlPreServoAdj);
-	
-	return antiWindup;
-}
 
 
-/**
- * Anti-windup algorithms are discussed in Control Systems Design by Karl Johan Astrom 2002. chapter 6
- * I'm not directly using their algorithms
- */
-float PIDController::calculateIntegral(float proportional, float oldIntegral, float antiWindup, float integralGain)
-{
-	
-	float workingIntegral = 0;
-	
-	
-	workingIntegral = proportional * integralGain + antiWindup;
-	
-	
-	workingIntegral = workingIntegral * intervalPeriodSecs + oldIntegral;
-	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//float workingIntegral = 0;
-	//
-//
-	//workingIntegral = proportional * intervalPeriodSecs * integralGain;
-	//workingIntegral = workingIntegral + oldIntegral;
-	//
-	///*
-	//if (antiWindup == 0)
-	//{
-		////If the servos haven't been saturated (theres no anti-windup), then calculate the integral as normal.
-		//workingIntegral = proportional * intervalPeriodSecs * integralGain;
-		//workingIntegral = workingIntegral + oldIntegral;
-	//} else*/
-	//if (antiWindup != 0)
-	//{
-		///**
-		 //* Take the absolute values of the working integral and the anti-windup so that the
-		 //* anti windup is always subtracted from the integral. Then convert the integral back to a
-		 //* negative value if it was already a negative value.
-		 //*/
-		//float absWorkingIntegral = abs(workingIntegral);
-		//float absAntiWindup = abs(antiWindup);
-		//
-		////If the anti windup value is greater than the integral, just set the integral to 0, and if the working integral
-		////is already 0, leave it at zero. i.e. don't subtract out the anti-windup value from a nonexistent integral.
-		//if (absAntiWindup > absWorkingIntegral || absWorkingIntegral == 0)
-		//{
-			//workingIntegral = 0;
-		//}else
-		//{
-			//absWorkingIntegral = absWorkingIntegral - absAntiWindup;
-			//
-			//if (workingIntegral < 0)
-			//{
-				//workingIntegral = absWorkingIntegral * -1;
-			//}
-		//}
-		//
-		//
-		//
-		////We want to know if the integral is greater than 0 or less than 0 so that when we subtract
-		////the antiwindup value, we get closer to 0, and don't exceed 0.
-		///*if (workingIntegral > 0 && antiWindup > workingIntegral)
-		//{
-			//workingIntegral = 0;
-		//}else if (workingIntegral < 0 && antiWindup < workingIntegral)
-		//{
-			//workingIntegral = 0;
-		//}
-		//
-		//if (workingIntegral != 0)
-		//{
-			////Subtract the anti-windup value from the working integral. 
-			//workingIntegral = workingIntegral - antiWindup;
-		//}*/
-	//}
-	
-	return workingIntegral;
-}
 
-float PIDController::calculateVelocityError(float currentVelocity, float referenceVelocity)
-{
-	return currentVelocity - referenceVelocity;
-}
+
+
 
 float PIDController::calculateOuterLoopControlValue(float proportionalError, float velocityError, float integral, float proportionalGain, float derivativeGain, int directionFactor)
 {
@@ -261,22 +144,6 @@ void PIDController::addBlownFrame()
 	model->BlownFrames(model->BlownFrames() + 1);
 }
 
-/**
- * Converts the error from 0-360, to -180 - 180 (in the equivalent of rads - i.e. yawError should be rads).
- */
-float PIDController::convertYawErrorFrom2PitoPlusMinusPi( float yawErrorRads )
-{
-	if (yawErrorRads >= M_PI)
-	{
-		yawErrorRads = yawErrorRads - (2 * M_PI);
-	}
-	else if (yawErrorRads < -M_PI)
-	{
-		yawErrorRads = yawErrorRads + (2 * M_PI); 
-	}
-	
-	return yawErrorRads;
-}
 
 
 
