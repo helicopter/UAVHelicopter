@@ -33,6 +33,7 @@
 #include "SensorDataMessage.h"
 #include "PVNavigationTask.h"
 
+
 #include <avr/io.h>
 #include <util/delay.h>
 
@@ -193,7 +194,7 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 }
 
 
-int main2(void)
+int main5(void)
 {
 	
 	//AHRS *ahrs = new AHRS(1.0f/20.0f);
@@ -201,6 +202,19 @@ int main2(void)
 	
 	//ahrs->update(-1.94171476,3.34171748,-9.517631,-0.05545767,0.3717419,-0.3282723,-0.2521546,-0.199393168,-0.9469216);
 	
+	
+	SystemModel *model2 = new SystemModel();
+	
+	model2->OperationalState(SystemModel::AutoPilot);
+	
+	PIDController *pidController = new PIDController(model2);
+	PIDOuterLoopTask *pidOuterLoop = new PIDOuterLoopTask(pidController, 3, (SCHEDULER_TICK_FREQUENCY_HZ  * PID_OUTER_LOOP_PERIOD));
+	PIDInnerLoopTask *pidInnerLoop = new PIDInnerLoopTask(pidController, 4, (SCHEDULER_TICK_FREQUENCY_HZ  * PID_OUTER_LOOP_PERIOD));
+	
+	MatrixUtil::createLookupTables();
+	
+	pidOuterLoop->runTaskImpl();
+	pidInnerLoop->runTaskImpl();
 	
 	
 	
@@ -365,8 +379,9 @@ int main2(void)
 
 int main(void)
 {	
-	
-	//MatrixUtil::createLookupTables();
+
+	MatrixUtil::createLookupTables();
+
 	
 	bool sendControlToServos = false;
 	bool receiveGains = false;
@@ -377,14 +392,14 @@ int main(void)
 	
 	
 	//model->FlightMode(SystemModel::HardwareInLoopSimulatedFlight);
-	//model->FlightMode(SystemModel::SimulatedFlight);
+	model->FlightMode(SystemModel::SimulatedFlight);
 	
 	/**
 	 * Checklist:
 	 * turn off gains
 	 * modify start up parameters to read gps and baro data longer before start. 
 	 */
-	model->FlightMode(SystemModel::RealFlight);
+	//model->FlightMode(SystemModel::RealFlight);
 	
 	
 	

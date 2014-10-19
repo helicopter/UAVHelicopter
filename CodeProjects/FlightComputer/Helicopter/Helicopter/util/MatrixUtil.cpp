@@ -12,39 +12,142 @@
 
 using namespace helicopter::util;
 
+
 //float MatrixUtil::sinTable[RESOLUTION * 4] = {0};
-/*float * MatrixUtil::sinTable = NULL;
+//float * MatrixUtil::sinTable = NULL;
+//float MatrixUtil::sinTable[91] = {0};
+	
+float MatrixUtil::sinTable[arrMax] = {0};
 
 void MatrixUtil::createLookupTables()
 {
-	sinTable = NULL;
 	
-	sinTable = new float[RESOLUTION * 4];
-	
-	if (sinTable == NULL)
+	for (int i = 0; i <= max; i++)
 	{
-				DDRA |= (1<<PA3);
-				
-				PORTA &= ~(1<<PA3);
+		sinTable[i] = sin((float)i/(float)RESOLUTION);
 	}
+
 	
+	
+	/*for (int i = 0; i < RESOLUTION; i++)
+	{
+		//sinTable[i] = sin()
+	}*/
+	
+	//sinTable = NULL;
+	
+	/*sinTable = new float[RESOLUTION + 1];
+
 	for (int i = 0; i < RESOLUTION; i++)
 	{
 		sinTable[i] = sin(i/RESOLUTION);
 	}
-	
-}
-*/
+	*/
+	//sinTable = new float[91];
+
 
 /*
-float MatrixUtil::fsin(float valueRads)
-{
+	for (int i = 0; i < 91; i++)
+	{
+		
+		sinTable[i] = sin(2*M_PI * (i / 360)); //sin(i*(M_PI / 180));
+		
+	}*/
 	
-	int index = valueRads * (float)(RESOLUTION);
-	return MatrixUtil::sinTable[index];
 	
+	/*
+	sinTable = new float[1000];
+	for (int i = 1; i <= 1000; i++)
+	{
+		sinTable[i-1] = sin(M_PI * i / 1000.0);
+	}
+	*/
 }
-*/
+
+
+
+
+
+float MatrixUtil::fsin(float angle)
+{
+	/*float output = 0.0f;
+    if (angle < -3.14159265)
+		angle += 6.28318531f;
+    else if (angle > 3.14159265)
+		angle -= 6.28318531f;
+    if (angle < 0)
+		output = 1.27323954f * angle + .405284735f * angle * angle;
+    else
+		output = 1.27323954f * angle - 0.405284735f * angle * angle; 
+	return output;*/
+	
+	
+	float estimate = 0;
+	
+	if (angle >= 0 && angle <= M_PI_2)
+	{
+		estimate = sinTable[(int) (angle * RESOLUTION)];
+	}else if (angle > M_PI_2)
+	{
+		estimate = sinTable[(int)((M_PI_2 - (angle - M_PI_2))*RESOLUTION)];
+	}
+	else if (angle < 0 && angle >= -M_PI_2)
+	{
+		estimate = sinTable[(int) ((angle * RESOLUTION) * -1)] * -1;
+	}else if (angle < -M_PI_2)
+	{
+		estimate = sinTable[(int) ((M_PI_2 + (angle + M_PI_2)) * RESOLUTION)] * -1;
+	}
+	
+	return estimate;
+	
+	
+	
+	/*
+	int sin = 1;
+	
+	if (valueRads < 0)
+	{
+		sin = -1;
+	}
+	
+	
+	return sinTable[(int) ((valueRads * RESOLUTION) * sin)] * sin;
+	*/
+	
+	/*
+	int x = valueRads * (180 / M_PI);
+	
+	int y = x % 90;
+	
+	if (x < 90) return sinTable[y];
+	if (x < 180) return sinTable[90 -  y];
+	if (x < 270) return -sinTable[y];
+	return -sinTable[90 - y];
+	
+	*/
+								
+	
+	//int index = valueRads * (float)(RESOLUTION);
+	//return MatrixUtil::sinTable[index];
+	
+	/*
+	int multipleOfPi = valueRads * 
+	
+	//from here: http://stackoverflow.com/questions/3688649/create-sine-lookup-table-in-c
+	if (valueRads == 0) return 0.0f;
+	
+	int sign = 1;
+	
+	if (valueRads < 0)
+	{
+		sign = -1;
+	}
+	
+	return sign * sinTable[sign * valueRads - 1];
+	*/
+}
+
 
 void MatrixUtil::CrossProduct(float vector1[3], float vector2[3], float (&crossProduct)[3])
 {
@@ -97,7 +200,7 @@ void MatrixUtil::CreateRotationMatrix( float phiRotationAboutXRads, float thetaR
 	rotationMatrix[2][2] = cos(phiRotationAboutXRads)*cos(thetaRotationAboutYRads);
 	*/
 	
-	
+	/*
 	float sinSai = sin(saiRotationAboutZRads);
 	float sinTheta = sin(thetaRotationAboutYRads);
 	float sinPhi = sin(phiRotationAboutXRads);
@@ -105,6 +208,18 @@ void MatrixUtil::CreateRotationMatrix( float phiRotationAboutXRads, float thetaR
 	float cosSai = cos(saiRotationAboutZRads);
 	float cosTheta = cos(thetaRotationAboutYRads);
 	float cosPhi = cos(phiRotationAboutXRads);	
+	*/
+	
+
+	float sinSai = fsin(saiRotationAboutZRads);
+	float sinTheta = fsin(thetaRotationAboutYRads);
+	float sinPhi = fsin(phiRotationAboutXRads);
+	
+	float cosSai = fcos(saiRotationAboutZRads);
+	float cosTheta = fcos(thetaRotationAboutYRads);
+	float cosPhi = fcos(phiRotationAboutXRads);
+	
+	
 	
 	rotationMatrix[0][0] = cosTheta*cosSai;
 	rotationMatrix[0][1] = sinPhi*sinTheta*cosSai - cosPhi*sinSai;
@@ -159,14 +274,30 @@ void MatrixUtil::CreateRotationMatrixTransposed( float phiRotationAboutXRads, fl
 	rotationMatrix[2][2] = cos(phiRotationAboutXRads)*cos(thetaRotationAboutYRads);
 	*/
 
+/*
+float blah = 0.0;
 
+fsin(saiRotationAboutZRads, blah);
+*/
+//float blah = fsin((int) (saiRotationAboutZRads));
+
+/*
 	float sinSai = sin(saiRotationAboutZRads);
 	float sinTheta = sin(thetaRotationAboutYRads);
 	float sinPhi = sin(phiRotationAboutXRads);
 	
 	float cosSai = cos(saiRotationAboutZRads);
 	float cosTheta = cos(thetaRotationAboutYRads);
-	float cosPhi = cos(phiRotationAboutXRads);
+	float cosPhi = cos(phiRotationAboutXRads);	
+	*/
+
+	float sinSai = fsin(saiRotationAboutZRads);
+	float sinTheta = fsin(thetaRotationAboutYRads);
+	float sinPhi = fsin(phiRotationAboutXRads);
+	
+	float cosSai = fcos(saiRotationAboutZRads);
+	float cosTheta = fcos(thetaRotationAboutYRads);
+	float cosPhi = fcos(phiRotationAboutXRads);
 	
 	rotationMatrix[0][0] = cosTheta*cosSai;
 	rotationMatrix[0][1] = cosTheta*sinSai;

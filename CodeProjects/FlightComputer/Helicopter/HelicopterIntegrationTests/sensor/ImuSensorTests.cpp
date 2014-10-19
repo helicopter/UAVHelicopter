@@ -36,6 +36,7 @@ void send(SerialDriver *driver, int val)
 
 int imu_test(TestCase *test)
 {
+	
 	//Create objects for reading sensors
 	SPIDriver *spiDriver = new SPIDriver();
 	spiDriver->init();
@@ -53,10 +54,53 @@ int imu_test(TestCase *test)
 	MagnetometerSensor *magnetometerSensor = new MagnetometerSensor(twDriver);
 	magnetometerSensor->init();
 	
+	Timer t(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 500);
 	
+	MatrixUtil::createLookupTables();
 	
 	while(true)
 	{
+		
+		
+		serialDriver->transmit('S');
+		
+		int time = 0;
+		float value = 0;
+		
+		
+		t.startTimer();
+		
+		for (int i = 0; i < 10; i++)
+		{
+			value = (float)sin(i / 10.0f);
+		}
+		
+		time = TCNT0;
+		
+		t.stopTimer();
+		
+		
+		serialDriver->transmit(time);
+		serialDriver->transmit(value);
+		
+		time = 0;
+		
+		
+		t.startTimer();
+		
+		for (int i = 0; i < 10; i++)
+		{
+			value = (float)MatrixUtil::fsin(i / 10.0f);
+		}
+		
+		time = TCNT0;
+				
+		t.stopTimer();
+		
+		serialDriver->transmit(time);
+		serialDriver->transmit(value);
+		
+		/*
 		imuSensor->readSensor();
 		magnetometerSensor->readSensor();
 	
@@ -69,6 +113,7 @@ int imu_test(TestCase *test)
 		serialDriver->transmit(magnetometerSensor->getFRDX());
 		serialDriver->transmit(magnetometerSensor->getFRDY());
 		serialDriver->transmit(magnetometerSensor->getFRDZ());
+		*/
 		
 		/*
 		serialDriver->transmit(imuSensor->getFRDGyroXRs());

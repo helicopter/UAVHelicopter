@@ -38,6 +38,8 @@ namespace helicopter
 				static bool navSolMsgReceived;
 				
 				static bool crcError;
+				
+				static bool processing;
 					
 			private:
 				

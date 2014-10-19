@@ -44,6 +44,19 @@ namespace HelicopterIntegrationTests
         //public static void Main()
         public static void Main()
         {
+
+
+
+
+
+
+
+
+
+
+
+
+
             SerialPort port = new SerialPort("COM7", 115200, Parity.None, 8, StopBits.One);
             SerialPortInterface portInterface = new SerialPortInterface(port);
             portInterface.Open();
@@ -57,7 +70,16 @@ namespace HelicopterIntegrationTests
 
                 }
 
+                float sintime = portInterface.ReadShort();
+                float sinval = portInterface.ReadFloat();
+                float fsintime = portInterface.ReadShort();
+                float fsinval = portInterface.ReadFloat();
 
+                Console.WriteLine(String.Format("{0},{1},{2},{3}", sintime, sinval, fsintime, fsinval));
+
+
+
+                /*
                 float accx = portInterface.ReadFloat();
                 float accy = portInterface.ReadFloat() * (float)(180.0f / Math.PI);
                 float accz = portInterface.ReadFloat() * (float)(180.0f / Math.PI);
@@ -66,6 +88,7 @@ namespace HelicopterIntegrationTests
                 float magz = portInterface.ReadFloat();
 
                 Console.WriteLine(String.Format("{0},{1},{2},{3},{4},{5}", accx, accy, accz, magx, magy, magz));
+                 */
 
             }
 

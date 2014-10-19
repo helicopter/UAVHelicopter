@@ -53,7 +53,7 @@ const byte GPSSensor::CFG_RATE[] = {0xB5, 0x62, 0x06, 0x08, 0x06, 0x00, 0xC8, 0x
 const byte GPSSensor::CFG_RST[] = {0xB5, 0x62, 0x06, 0x04, 0x04, 0x00, 0x00, 0x00, 0x04, 0x00, 0x12, 0x6C};
 	
 	
-
+bool GPSSensor::processing = false;
 
 
 int GPSSensor::receiveAckNack() 
@@ -280,15 +280,17 @@ int GPSSensor::processSensorSolution()
 	
 	if (navSolMsgReceived)
 	{
+		processing = true;
+		
 		//TODO: Do a checksum check on the data.
 				
-		byte navSolMsg[navSolBufferSize] = {0};
+		//byte navSolMsg[navSolBufferSize] = {0};
 			
 		//Copy the nav solution data into a local buffer in case an
 		//interrupt occurs during processing.
-		memcpy(navSolMsg,navSolMsgBuffer2, navSolBufferSize);
+		//memcpy(navSolMsg,navSolMsgBuffer2, navSolBufferSize);
 		
-		
+		/*
 		positionFixStatus =  navSolMsg[16] >= 3 ? VALID : INVALID;
 
 		//Parse position info
@@ -302,14 +304,35 @@ int GPSSensor::processSensorSolution()
 		yVEcefCms =  ((long)navSolMsg[41] << 24) | ((long)navSolMsg[40] << 16) | ((long)navSolMsg[39] << 8) | (long) navSolMsg[38];
 		zVEcefCms =  ((long)navSolMsg[45] << 24) | ((long)navSolMsg[44] << 16) | ((long)navSolMsg[43] << 8) | (long) navSolMsg[42];
 		velocityAccuracyEstimateEcefCms =  ((long)navSolMsg[49] << 24) | ((long)navSolMsg[48] << 16) | ((long)navSolMsg[47] << 8) | (long) navSolMsg[46];		
+		*/
+		
+
+		positionFixStatus =  navSolMsgBuffer2[16] >= 3 ? VALID : INVALID;
+
+		//Parse position info
+		xEcefCm =  ((long)navSolMsgBuffer2[21] << 24) | ((long)navSolMsgBuffer2[20] << 16) | ((long)navSolMsgBuffer2[19] << 8) | (long) navSolMsgBuffer2[18];
+		yEcefCm =  ((long)navSolMsgBuffer2[25] << 24) | ((long)navSolMsgBuffer2[24] << 16) | ((long)navSolMsgBuffer2[23] << 8) | (long) navSolMsgBuffer2[22];
+		zEcefCm =  ((long)navSolMsgBuffer2[29] << 24) | ((long)navSolMsgBuffer2[28] << 16) | ((long)navSolMsgBuffer2[27] << 8) | (long) navSolMsgBuffer2[26];
+		positionAccuracyEstimateEcefCm =  ((long)navSolMsgBuffer2[33] << 24) | ((long)navSolMsgBuffer2[32] << 16) | ((long)navSolMsgBuffer2[31] << 8) | (long) navSolMsgBuffer2[30];
+
+		//Parse velocity info
+		xVEcefCms =  ((long)navSolMsgBuffer2[37] << 24) | ((long)navSolMsgBuffer2[36] << 16) | ((long)navSolMsgBuffer2[35] << 8) | (long) navSolMsgBuffer2[34];
+		yVEcefCms =  ((long)navSolMsgBuffer2[41] << 24) | ((long)navSolMsgBuffer2[40] << 16) | ((long)navSolMsgBuffer2[39] << 8) | (long) navSolMsgBuffer2[38];
+		zVEcefCms =  ((long)navSolMsgBuffer2[45] << 24) | ((long)navSolMsgBuffer2[44] << 16) | ((long)navSolMsgBuffer2[43] << 8) | (long) navSolMsgBuffer2[42];
+		velocityAccuracyEstimateEcefCms =  ((long)navSolMsgBuffer2[49] << 24) | ((long)navSolMsgBuffer2[48] << 16) | ((long)navSolMsgBuffer2[47] << 8) | (long) navSolMsgBuffer2[46];
+
 		
 		navSolMsgReceived = false;
+		processing = false;
+		
 		
 		if (crcError)
 		{
 			status = -1;
 			crcError = false;
 		}
+		
+		
 		
 	}
 	
@@ -576,9 +599,22 @@ ISR(USART1_RX_vect)
 				if (GPSSensor::navSolMsgBuffer[GPSSensor::navSolBufferSize - 2] == ckA && 
 					GPSSensor::navSolMsgBuffer[GPSSensor::navSolBufferSize - 1] == ckB)
 				{
-					memcpy(GPSSensor::navSolMsgBuffer2,GPSSensor::navSolMsgBuffer, GPSSensor::navSolBufferSize);
-					GPSSensor::navSolMsgReceived = true;
-					GPSSensor::navSolBufferCounter = 0;					
+					//Don't change the buffer data if the system is currently processing the buffer.
+					if (GPSSensor::processing == false)
+					{
+						memcpy(GPSSensor::navSolMsgBuffer2,GPSSensor::navSolMsgBuffer, GPSSensor::navSolBufferSize);
+						GPSSensor::navSolMsgReceived = true;
+						GPSSensor::navSolBufferCounter = 0;						
+					}else
+					{
+						//Reset for a new message and drop this message because the system was processing the current message
+						//when the new message came in. 
+						//This could be bad because if the timing planets aligned, and this kept happening and the gps messages
+						//kept getting dropped, then that would be bad. 
+						GPSSensor::navSolMsgReceived = false;
+						GPSSensor::navSolBufferCounter = 0;
+					}
+			
 				}else
 				{
 					//GPS checksum didn't match. 

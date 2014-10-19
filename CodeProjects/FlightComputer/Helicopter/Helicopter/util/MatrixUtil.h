@@ -9,7 +9,7 @@
 #ifndef MATRIXUTIL_H_
 #define MATRIXUTIL_H_
 
-
+/*
 #define fsin(input,output) \
 { \
     if (input < -3.14159265) \
@@ -21,6 +21,7 @@
     else \
 		output = 1.27323954f * input - 0.405284735f * input * input; \
 } \
+*/
 
 namespace helicopter
 {
@@ -30,18 +31,31 @@ namespace helicopter
 		{	
 			private:
 				
-				/*static const int RESOLUTION = 1000;
-				static float* sinTable;*/
+				static const int RESOLUTION = 500;//1000;
+				
+				//static const int max = 1570;//3141; // 3.141* 1000
+				//static const int arrMax = 1571;//3142;
+				static const int max = 785;// 90*  * resolution
+				static const int arrMax = 786;//max+1				
+				
+				//static float* sinTable;
+				static float sinTable[arrMax];
+				
 
 				static const int ARRAYSIZE = sizeof(float) * 3;
 			
 			public: 
 			
-				//static void createLookupTables();
+				static void createLookupTables();
 				
 				//Uses lookup table to determine sin value. 
 				//Value should be in rads.
-				//static float fsin(float valueRads);
+				static float fsin(float valueRads);
+				
+				static float fcos(float angle)
+				{
+					return fsin(angle + M_PI_2);
+				}
 				
 				/**
 				 * Creates a 3x3 rotation matrix which rotates about X, then Y, then Z where positive angles are rotations
