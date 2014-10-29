@@ -200,7 +200,7 @@ void MatrixUtil::CreateRotationMatrix( float phiRotationAboutXRads, float thetaR
 	rotationMatrix[2][2] = cos(phiRotationAboutXRads)*cos(thetaRotationAboutYRads);
 	*/
 	
-	/*
+	
 	float sinSai = sin(saiRotationAboutZRads);
 	float sinTheta = sin(thetaRotationAboutYRads);
 	float sinPhi = sin(phiRotationAboutXRads);
@@ -208,9 +208,9 @@ void MatrixUtil::CreateRotationMatrix( float phiRotationAboutXRads, float thetaR
 	float cosSai = cos(saiRotationAboutZRads);
 	float cosTheta = cos(thetaRotationAboutYRads);
 	float cosPhi = cos(phiRotationAboutXRads);	
-	*/
 	
-
+	
+/*
 	float sinSai = fsin(saiRotationAboutZRads);
 	float sinTheta = fsin(thetaRotationAboutYRads);
 	float sinPhi = fsin(phiRotationAboutXRads);
@@ -218,7 +218,7 @@ void MatrixUtil::CreateRotationMatrix( float phiRotationAboutXRads, float thetaR
 	float cosSai = fcos(saiRotationAboutZRads);
 	float cosTheta = fcos(thetaRotationAboutYRads);
 	float cosPhi = fcos(phiRotationAboutXRads);
-	
+*/
 	
 	
 	rotationMatrix[0][0] = cosTheta*cosSai;
@@ -281,7 +281,7 @@ fsin(saiRotationAboutZRads, blah);
 */
 //float blah = fsin((int) (saiRotationAboutZRads));
 
-/*
+
 	float sinSai = sin(saiRotationAboutZRads);
 	float sinTheta = sin(thetaRotationAboutYRads);
 	float sinPhi = sin(phiRotationAboutXRads);
@@ -289,8 +289,9 @@ fsin(saiRotationAboutZRads, blah);
 	float cosSai = cos(saiRotationAboutZRads);
 	float cosTheta = cos(thetaRotationAboutYRads);
 	float cosPhi = cos(phiRotationAboutXRads);	
-	*/
+	
 
+/*
 	float sinSai = fsin(saiRotationAboutZRads);
 	float sinTheta = fsin(thetaRotationAboutYRads);
 	float sinPhi = fsin(phiRotationAboutXRads);
@@ -298,7 +299,7 @@ fsin(saiRotationAboutZRads, blah);
 	float cosSai = fcos(saiRotationAboutZRads);
 	float cosTheta = fcos(thetaRotationAboutYRads);
 	float cosPhi = fcos(phiRotationAboutXRads);
-	
+	*/
 	rotationMatrix[0][0] = cosTheta*cosSai;
 	rotationMatrix[0][1] = cosTheta*sinSai;
 	rotationMatrix[0][2] = -sinTheta;

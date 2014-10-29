@@ -55,14 +55,15 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	 * These are the setpoints that the helicopter to navigate/orient to.
 	 * This includes the final location that the helicopter should travel to.
 	 */
-	model->ReferenceMagYawRads(0.0); //point north
+//	model->ReferenceMagYawRads(0.0); //point north
+	model->ReferenceMagYawRads(1.52f); //point north
 	//model->ReferenceMagYawRads(1.9722); //113* south east
 	model->ReferenceYawVelocityRadsPerSecond(0.0);
 	
 	//Negative values because positive values are 'down' in NED. So we want a negative altitude setpoint.
 	//model->ReferenceZNEDLocalFrameCm(-3048.0);
 	//model->ReferenceZNEDLocalFrameCm(-304.8);
-	model->ReferenceZNEDLocalFrameCm(-914.4); // 30 feet.
+	model->ReferenceZNEDLocalFrameCm(-914.4f); // 30 feet.
 	model->ReferenceZVelocityCms(0);
 	model->ReferenceXNEDLocalFrameCm(0);
 	//model->ReferenceXNEDLocalFrameCm(15000);
@@ -110,7 +111,8 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	*/
 	
 	
-	
+	//old gains 10/25/2014
+	/*
 	pidController->setXProportionalGain(.0151f);
 	pidController->setXIntegralGain(0);
 	pidController->setXDerivativeGain(.052f);
@@ -138,7 +140,32 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 		pidController->setYawIntegralGain(.806);
 		pidController->setYawDerivativeGain(.391);
 		pidController->setYawAntiWindupGain(0.135);
+	*/
 	
+	pidController->setXProportionalGain(0.000071f);
+	pidController->setXIntegralGain(0);
+	pidController->setXDerivativeGain(.00025f);
+	pidController->setXAntiWindupGain(0);
+	pidController->setLongitudeInnerLoopGain(.272);
+	pidController->setPitchAngularVelocityGain(.972);
+	
+	pidController->setYProportionalGain(0.000114f);
+	pidController->setYIntegralGain(0);
+	pidController->setYDerivativeGain(.049f);
+	pidController->setYAntiWindupGain(0);
+	pidController->setLateralInnerLoopGain(.43f);
+	pidController->setRollAngularVelocityGain(.014f);
+	
+	pidController->setZProportionalGain(.0015f);
+	pidController->setZIntegralGain(.00f);
+	pidController->setZDerivativeGain(.22f);
+	pidController->setZAntiWindupGain(.6685f);
+	
+	
+	pidController->setYawProportionalGain(.797f);
+	pidController->setYawIntegralGain(.263f);
+	pidController->setYawDerivativeGain(.172);
+	pidController->setYawAntiWindupGain(0.11f);
 	
 	
 	
@@ -414,8 +441,8 @@ int main(void)
 		model->CommunicationMethod(SystemModel::USB);
 		//model->CommunicationMethod(SystemModel::Radio);
 		
-		sendControlToServos = false;
-//sendControlToServos = true;
+		//sendControlToServos = false;
+sendControlToServos = true;
 	
 
 		
@@ -438,6 +465,7 @@ receiveGains = true;
 		model->CommunicationMethod(SystemModel::Radio);
 //model->CommunicationMethod(SystemModel::USB);
 		sendControlToServos = true;
+		receiveGains = true;
 	}
 	
 	
@@ -524,6 +552,7 @@ receiveGains = true;
 	//TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
 
 	SimTelemetryTask *simTelemTask = NULL;
+	SimTelemetryTask *gainsTelemTask = NULL;
 	TransmitTelemetryTask *transTelemTask = NULL;
 
 	if (model->FlightMode() == SystemModel::RealFlight)
@@ -534,6 +563,12 @@ receiveGains = true;
 		//not actually used
 		//simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
 		
+		
+		if (receiveGains)
+		{
+			gainsTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::GAINSDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ)); //execute once a sec
+		}
+		/*
 		if (receiveGains)
 		{
 			simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::GAINSDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ)); //execute once a sec
@@ -541,6 +576,7 @@ receiveGains = true;
 		{
 			simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .5));
 		}
+		*/
 		
 	}else if (model->FlightMode() == SystemModel::SimulatedFlight)
 	{
@@ -554,6 +590,10 @@ receiveGains = true;
 		transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::CONTROLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
 		simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
 		
+		if (receiveGains)
+		{
+			gainsTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::GAINSDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ)); //execute once a sec
+		}
 	}
 
 	//SimTelemetryTask *simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
@@ -662,11 +702,20 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	scheduler->addTask(magSensorTask);
 
 
-	if (model->SensorInput() == SystemModel::SimulatedSensors || receiveGains == true)
+	//if (model->SensorInput() == SystemModel::SimulatedSensors || receiveGains == true)
+	if (model->SensorInput() == SystemModel::SimulatedSensors)
 	{
 		//Add a task to read simulator data if setup to receive sensor data from the simulator.
 		scheduler->addTask(simTelemTask);
 	}
+	
+	if (receiveGains == true)
+	{
+		scheduler->addTask(gainsTelemTask);
+	}
+	
+	
+	
 	
 	scheduler->addTask(transTelemTask);
 	
@@ -679,10 +728,12 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	scheduler->addTask(pvNavTask);
 	
 	
+	
 	if (sendControlToServos)
 	{
 		scheduler->addTask(servoControlTask);
 	}
+	
 	
 
 

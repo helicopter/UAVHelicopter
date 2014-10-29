@@ -526,10 +526,21 @@ void RadioControllerInterface::start()
 void RadioControllerInterface::CCPM(float inAileron, float inElevator, float inCollective, float &outAileron, float &outElevator, float &outPitch)
 {
 	//look at spreadsheet for the math behind this (swashmixingaltorithm.xlsx). calculated based on observation of the behavior of my remote control.
+	/*
 	outPitch = PWM_NEUTRAL_POSITION+PITCH_COLLECTIVE_SCALER*SWASHOFFSETPITCHMULTIPLYER*inCollective*-1 + ELEVATOR_SCALER*SWASHOFFSETELEVATORMULTIPLYER*inElevator+AILERON_SCALER*SWASHOFFSETSAILERONMULTIPLIER*inAileron*-1;
 	outAileron = PWM_NEUTRAL_POSITION+PITCH_COLLECTIVE_SCALER*SWASHOFFSETPITCHMULTIPLYER*inCollective+ELEVATOR_SCALER*SWASHOFFSETELEVATORMULTIPLYER*inElevator*-1+AILERON_SCALER*SWASHOFFSETSAILERONMULTIPLIER*inAileron*-1;
 	outElevator = PWM_NEUTRAL_POSITION+PITCH_COLLECTIVE_SCALER*SWASHOFFSETPITCHMULTIPLYER*inCollective*-1 + ELEVATOR_SCALER*SWASHOFFSETELEVATORELEVATORMULTIPLYER*inElevator*-1;
+	*/	
 	
+	
+	float scaledCollectiveWithOffsets = PWM_NEUTRAL_POSITION+PITCH_COLLECTIVE_SCALER*SWASHOFFSETPITCHMULTIPLYER*inCollective;
+	float scaledElevator = ELEVATOR_SCALER*inElevator;
+	float scaledElevatorWithOffsets = scaledElevator*SWASHOFFSETELEVATORMULTIPLYER;
+	float negativeScaledAileronWithOffsets = AILERON_SCALER*SWASHOFFSETSAILERONMULTIPLIER*inAileron*-1;
+	
+	outPitch = scaledCollectiveWithOffsets*-1 + scaledElevatorWithOffsets+negativeScaledAileronWithOffsets;
+	outAileron = scaledCollectiveWithOffsets+scaledElevatorWithOffsets*-1+negativeScaledAileronWithOffsets;
+	outElevator = scaledCollectiveWithOffsets*-1 + scaledElevator*SWASHOFFSETELEVATORELEVATORMULTIPLYER*-1;
 	
 	
 
