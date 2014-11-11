@@ -9,6 +9,9 @@
 #ifndef SYSTEMMODEL_H_
 #define SYSTEMMODEL_H_
 
+#include "AHRS.h"
+
+using namespace helicopter::navigation;
 
 namespace helicopter
 {
@@ -36,6 +39,9 @@ namespace helicopter
 			enum CommunicationMethods {USB, Radio};
 				
 			private:
+			
+			AHRS *ahrs;
+			
 			OperatingStates operationalState;
 			FlightModes flightMode;
 			SensorInputs sensorInput;
@@ -157,6 +163,7 @@ namespace helicopter
 			float EcefToLocalNEDRotationMatrix[3][3];
 			
 			SystemModel():
+				ahrs(NULL),
 				operationalState(ManualControl),
 				flightMode(SimulatedFlight),
 				sensorInput(SimulatedSensors),
@@ -486,7 +493,8 @@ namespace helicopter
 			float AuxChannelValue() const {return auxChannelValue;}
 			void AuxChannelValue(float val) {auxChannelValue = val;}
 
-
+			AHRS* Ahrs() const {return ahrs;}
+			void Ahrs(AHRS *val) {ahrs = val;}
 
 
 

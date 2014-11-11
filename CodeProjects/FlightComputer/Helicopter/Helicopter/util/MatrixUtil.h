@@ -84,6 +84,8 @@ namespace helicopter
 				 */
 				static void RotateMatrix( float rotationMatrix[][3], float valuesToRotate[3], float (&rotatedValues)[3]);
 				
+				static void RotateMatrixT( float rotationMatrix[][3], float valuesToRotate[3], float (&rotatedValues)[3]);
+				
 				/**
 				 * Rotates a 3x1 matrix using a 3x3 rotation matrix
 				 */

@@ -611,8 +611,11 @@ namespace GroundControlStation.Messages
 
 
             //float[,] rotationMatrix = Util.Util.CreateRotationMatrixTransposed(rollRads,pitchRads,yawRads);
-            float[] rotatedUnitVector = Util.Util.RotateMatrix(nedToFRDRotationMatrix, new float[3] { 0, 0, -1 });
             //float[] rotatedUnitVector = Util.Util.RotateMatrix(nedToFRDRotationMatrix, new float[3] { 0, 0, 1 });
+            //float[] rotatedUnitVector = Util.Util.RotateMatrix(nedToFRDRotationMatrix, new float[3] { 0, 0, -1 });//mostrecent 11/10/2014
+
+            //I changed this back to be 1 because now the gravitational vector is in FRD frame, not the acceleration vector. 
+            float[] rotatedUnitVector = Util.Util.RotateMatrix(nedToFRDRotationMatrix, new float[3] { 0, 0, 1 });
 
             float xGrav = rotatedUnitVector[0] * Util.Util.GRAVITY;
             float yGrav = rotatedUnitVector[1] * Util.Util.GRAVITY;
@@ -638,11 +641,16 @@ System.Diagnostics.Debug.WriteLine("XLinearAccel: " + linearAccelerationFRDBodyF
 System.Diagnostics.Debug.WriteLine("YLinearAccel: " + linearAccelerationFRDBodyFrameMss[1]);
 System.Diagnostics.Debug.WriteLine("ZLinearAccel: " + linearAccelerationFRDBodyFrameMss[2]);
 */
-//System.Diagnostics.Debug.WriteLine("ygrav before: " + yGrav + ", adjustment " + linearAccelerationFRDBodyFrameMss[1]);            
-            xGrav += linearAccelerationFRDBodyFrameMss[0];
+//System.Diagnostics.Debug.WriteLine("ygrav before: " + yGrav + ", adjustment " + linearAccelerationFRDBodyFrameMss[1]);  
+          
+            //Subtract out linear acceleration because in FRD the gravitational vector is what is FRD, not acceleration due to vehicle motion.
+            xGrav -= linearAccelerationFRDBodyFrameMss[0];
+            yGrav -= linearAccelerationFRDBodyFrameMss[1];
+            zGrav -= linearAccelerationFRDBodyFrameMss[2];
+            /*xGrav += linearAccelerationFRDBodyFrameMss[0];
             //yGrav += linearAccelerationFRDBodyFrameMss[1];
             yGrav += linearAccelerationFRDBodyFrameMss[1];
-            zGrav += linearAccelerationFRDBodyFrameMss[2];
+            zGrav += linearAccelerationFRDBodyFrameMss[2];*/
             
             
             //System.Diagnostics.Debug.WriteLine("XLinearAccel: " + xGrav + ", YLinearAccel: " + yGrav + ", ZLinearAccel: " + zGrav + ", Xvel " + bodyFrameVelocities[0] + ", yvel " + bodyFrameVelocities[1] + ", zvel " + bodyFrameVelocities[2]);

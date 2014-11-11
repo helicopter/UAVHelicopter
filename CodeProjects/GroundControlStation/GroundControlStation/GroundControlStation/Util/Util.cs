@@ -105,6 +105,24 @@ namespace GroundControlStation.Util
 
 
 
+        public static float[] RotateMatrix2(float[][] rotationMatrix, float[] valuesToRotate)
+        {
+            float[] rotatedValues = new float[3];
+
+            //iterate through the rows of the rotation matrix.
+            for (int row = 0; row < 3; row++)
+            {
+                //iterate through the columns of the rotation matrix
+                for (int column = 0; column < 3; column++)
+                {
+                    //technically the rotatedMatrix[row] is writing to a 'column' in the matrix, and velocitiesNEDCms is actually the 'row'.
+                    rotatedValues[row] += rotationMatrix[row][column] * valuesToRotate[column];
+                }
+            }
+
+            return rotatedValues;
+        }
+
 
 
         public static float[] RotateMatrix(float[,] rotationMatrix, float[] valuesToRotate)

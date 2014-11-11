@@ -312,6 +312,23 @@ fsin(saiRotationAboutZRads, blah);
 	
 }
 
+void MatrixUtil::RotateMatrixT( float rotationMatrix[][3], float valuesToRotate[3], float (&rotatedValues)[3] )
+{
+	//clear out the rotated values list;
+	memset(rotatedValues,0,ARRAYSIZE);
+	
+	//iterate through the rows of the rotation matrix.
+	for (int row = 0; row < 3; row++)
+	{
+		//iterate through the columns of the rotation matrix
+		for (int column = 0; column < 3; column++)
+		{
+			//technically the rotatedMatrix[row] is writing to a 'column' in the matrix, and valuesToRotate is actually the 'row'.
+			rotatedValues[row] += rotationMatrix[column] [row] * valuesToRotate[column];
+		}
+	}
+}
+
 void MatrixUtil::RotateMatrix( float rotationMatrix[][3], int valuesToRotate[3], float (&rotatedValues)[3] )
 {
 	//clear out the rotated values list;

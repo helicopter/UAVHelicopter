@@ -57,26 +57,39 @@ namespace helicopter
 				 * and the ground frame vectors. This can be thought of as the x,y,z components which is mapped from
 				 * one frame to the other.
 				 *
+				 * This matrix consists of body frame vectors with respect to the ground (inertial) frame. 
+				 *
 				 * The matrix can be used to rotate a vector from body frame to ground frame
 				 * 
 				 * This matrix consists of the vectors I(X),J(Y) and K(Z), and i, j, k
-				 * where I,J,K are unity vectors of the magnetic (north) vector, the cross product of the gravitational and magnetic (north) vector), and the gravitational vector respectively
+				 * where I,J,K are unity vectors of the magnetic (north) vector, the cross product of the gravitational and magnetic (north) vector, and the gravitational vector respectively
 				 * I,J,K represents the ground frame.
 				 * i,j, and k are the vectors in body frame (magnetic, ixk, gravitation)
 				 * Cos(I,i) represents the magnetic vector's projection onto the ground frames X axis (I). Cos(I,i) = I.i (the dot product between I and i = i sub x in ground frame (ixG) - the x component of the i vector projected onto the I (magnetic north) ground frame vector
 				 * Cos(K,k) represents the gravitational vector's body frame projection onto the ground frames Z axis.
 				 * (etc)
 				 *
+				 * This matrix is a DCMg matrix found here:http://www.starlino.com/dcm_tutorial.html
+				 * You'll notice that according to that paper, it's actually the DCMb matrix. However, because that paper does it's
+				 * matrix multiplication by 'column' instead of by 'row', this matrix is actually the DCMg matrix because the
+				 * iG vector in this matrix is defined within the first ROW, and NOT the first column. 
+				 * Because in the paper, iG is defined by {I.i, J.i, K.i}T, but in my matrix, iG is defined by {I.i, J.i, K.i} (without the transpose)
+				 * Again, he transposes the vectors because he does his matrix multiplication by column and not by vector. 
+				 *
 				 * The directed cosine matrix is defined as follows:
-				 * Row 1 = Cos(I,i), Cos(I,j), Cos(I,k) - Magnetic
-				 * Row 2 = Cos(J,i), Cos(J,j), Cos(J,k) - Mag X Gravity - cross product of magnetic and gravity vectors - i.e. a vector that is orthogonal to the plane formed by the mag and grav vectors
-				 * Row 3 = Cos(K,i), Cos(K,k), Cos(K,k) - Gravity
-				 * dcm{v][0] = x component of the vector - North East Down frame
-				 * dcm[v][1] = y component of the vector - North East Down frame
-				 * dcm[v][2] = z component of the vector - North East Down frame
+				 * Row 1 = Cos(I,i), Cos(J,i), Cos(K,i) - Magnetic
+				 * Row 2 = Cos(I,j), Cos(J,j), Cos(K,j) - Mag x Gravity - cross product of magnetic and gravity vectors - i.e. a vector that is orthogonal to the plane formed by the mag and grav vectors
+				 * Row 3 = Cos(I,k), Cos(J,k) cos(K,k) - Gravity
+				 *
+				 * dcm{v][0] = x component of the vector - body frame front, right, down, to ground frame North East Down
+				 * dcm[v][1] = y component of the vector - body frame front, right, down, to ground frame North East Down
+				 * dcm[v][2] = z component of the vector - body frame front, right, down, to ground frame North East Down
+				 *
 				 */
+				public:
 				float dcm[3][3];
 				
+				private:
 				/**
 				 * Takes the vectorToScale and multiplies that by the scalerValue.
 				 * Then takes the vectorToAdjust and subtracts the scaled vector.

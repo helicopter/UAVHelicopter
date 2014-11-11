@@ -24,7 +24,7 @@ namespace helicopter
 	namespace scheduler
 	{
 		/**
-		 * This class represents a scheduler used to schedule tasks to execute at precise intervals.
+		 * This class represents a real time scheduler used to schedule tasks to execute at precise intervals.
 		 * This class uses a timer to setup an interrupt routine. That routine gets kicked off at
 		 * a given frequency. The tasks which are to be executed at that frequency are then marked
 		 * as being ready to be executed within the interrupt service handler. However
@@ -35,39 +35,23 @@ namespace helicopter
 		{
 			private:
 			
-			
-				//static Scheduler *scheduler;
-			
-			    //TODO Switch this to an ENUM.
-				
-				
-				//Prescalers for different timers are different
+				//Prescaler for timer 2
 				static const int NoPrescaling = 1;
 				static const int PrescaleByEight = (1 << CS21);
 				static const int PrescaleBySixtyFour = (1 << CS22);
 				static const int PrescaleByTwofiftysix = (1 << CS22) | (1 << CS21);
 				static const int PrescaleByTentwentyfour = (1 << CS22) | (1<< CS21) | (1 << CS20);
 				
-				/*static const int NoPrescaling = 1;
-				static const int PrescaleByEight = (1 << CS21);
-				static const int PrescaleBySixtyFour = (1 << CS20) | (1 << CS21);
-				static const int PrescaleByTwofiftysix = (1 << CS22);
-				static const int PrescaleByTentwentyfour = (1 << CS22) | (1 << CS20);*/
-				
-						
-			
-				//TODO: Remove this and just use the heap.
 				static const int MAXNUMOFTASKS = 25;
 			
 				Task *tasks [MAXNUMOFTASKS];
 				
 				int numOfTasks;
 				
-				//This is the value feed to the timer to meet the 
-				//desired frequency.
+				//This is the timer counter value which is fed to the timer to operate at the desired frequency
 				int targetTimerCount;
 				
-				//This is a value feed to the timer to prescale the clock by this number
+				//Prescale value that is fed to the timer to adjust the timers resolution
 				PRESCALER prescaler;
 				
 				//Flag for indicating that the processing of the dispatched tasks took longer then the
@@ -75,7 +59,7 @@ namespace helicopter
 				//processing. (Thereby interrupting those dispatching tasks.)
 				bool blowFrameDetected;
 				
-				//flag which indicates that the processor completed dispatching the tasks.
+				//Flag which indicates that the processor completed dispatching the tasks.
 				//This is used to detect if a frame was blown because this flag will be
 				//false if the dispatching didn't complete by the time the timer triggered again.
 				bool completedDispatch;
@@ -89,6 +73,9 @@ namespace helicopter
 				 * Target Timer Count = (((Input Frequency / Prescaler) / Target Frequency) 
 				 * Where target timer count is the number that the timer will use to
 				 * determine if the interrupt routine will execute.
+				 *
+				 * Since this is an 8 bit timer, the scheduler tick freq cant be less than 70.
+				 *
 				 * @param cpuSpeed The speed of the processor (e.g. 16,000,000 hz)
 				 * @param prescaler The prescaler to be applied to the scheduler's timer
 				 * @param schedulerTickFrequencyHz the desired frequency that the scheduler should run at.
@@ -99,7 +86,7 @@ namespace helicopter
 				 * (((16000000 / 64) / 200)) = 1250
 				 * (((1000000 / 8) / 200)) = 625
 				 *
-				 * Because this is now using an 8 bit timer, the scheduler tick freq cant be less than 70.
+				 * 
 				*/
 				Scheduler(unsigned long cpuSpeed, PRESCALER prescaler, int schedulerTickFrequencyHz);
 				~Scheduler();
@@ -125,7 +112,7 @@ namespace helicopter
 				* Iterates through the tasks calling their init methods
 				* and sets up the timer for execution, but does not
 				* start the timer.
-				* The timer thats used is timer 1 (TCCR1B)
+				* The timer thats used is timer 2 (TCCR2B)
 				*/
 				void init();
 			
@@ -165,7 +152,7 @@ namespace helicopter
 				
 				/**
 				 * Sets whether a blown frame was detected. (I.e. the dispatcher didn't finish before
-				 * the scheduler timmer was triggered again)
+				 * the scheduler timer was triggered again)
 				 * @param blownFrameDetected true if a frame was blown, false otherwise.
 				 */
 				void hasBlownFrame(bool blowFrameDetected)

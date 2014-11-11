@@ -701,7 +701,7 @@ namespace GroundControlStation
 
 
         [STAThread]
-        static void Main43()
+        static void Main()
         {
 
            
@@ -783,25 +783,25 @@ namespace GroundControlStation
             double lowestAccel = 0;
             double lowestMag = 0;
 
-            //for (int mag = 1; mag < 100; mag++)
+            for (int mag = 1; mag < 100; mag++)
             //int mag = 75;//1;//8;
             //int mag = 150;
          //   int mag = 57;
             //int mag = 75;
             //int mag = 2;
-            int mag = 1;
+            //int mag = 1;
             //int mag = 6;
             {
                 //for (int accel = 1; accel < 100; accel++)
                 //for (int accel = 1; accel < 40; accel++)
-                //for (int accel = 1; accel < 1000; accel++)
+                for (int accel = 1; accel < 1000; accel++)
                 
                 //int accel = 1;//1;
                 //int accel = 8;
          //       int accel = 7;
                 //int accel = 8;
                 //int accel = 14;
-                int accel = 1;
+                //int accel = 1;
                 //int accel = 20;
                 //int accel = 5;
                 {
@@ -828,8 +828,9 @@ namespace GroundControlStation
                     float magVal = mag / 100.0f;
                     float accelVal = accel / 1000.0f;
 
-                    magVal = .01f;
-                    accelVal = .0005f;
+                    //magVal = .01f;
+                    //accelVal = .0005f;
+                    //accelVal = .001f;
 
 
 /*
@@ -1056,10 +1057,11 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
 
                                 model.MSEIterations = model.MSEIterations + 1;
 
-
+                                /*
                                 Debug.WriteLine(String.Format("{0},{1},{2}", rollError, pitchError, yawError));
                                 Debug.WriteLine(String.Format("Actual Pitch {0},Calc pitch {1}, Error {2}", model.SimTelm.PitchDegrees, (pitch * (180 / Math.PI)), pitchError));
                                 Debug.WriteLine(String.Format("Actual yaw {0},Calc yaw {1}, Error {2}", simMag, yaw, yawError));
+                                 */
                             }
                         }
                         catch (Exception e)
@@ -1198,11 +1200,162 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
             return sin;
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        static void Main5555()
+        {
+
+
+            /*AHRS.ahrs(sensorData.XAccelFrdMss, sensorData.YAccelFrdMss, sensorData.ZAccelFrdMss,
+                sensorData.RollAngularVelocityRadsPerSecond, sensorData.PitchAngularVelocityRadsPerSecond, sensorData.YawAngularVelocityRadsPerSecond,
+                sensorData.XMagFrd, sensorData.YMagFrd, sensorData.ZMagFrd, accelVal, magVal);
+             */
+
+
+
+
+            //upward pitch. technically a negative rotation since 'upward' is negative. 
+            //float[,] rotationMatrix = Util.Util.CreateRotationMatrix(0.01f, -.5235f, 0.01f);
+            //float[,] rotationMatrix = Util.Util.CreateRotationMatrix(0.01f, -.5235f,0.01f);
+            //float[,] rotationMatrix = Util.Util.CreateRotationMatrix(-.5235f, 0.01f, 0.01f);//need transpose matrix
+            //float[,] rotationMatrix = Util.Util.CreateRotationMatrix( 0, 0,6.0f);
+
+            //The rotation matrix is used to map body frame to inertial frame. so the transpose goes from inertial frame
+            //to body frame. 
+            //float[,] rotationMatrix = Util.Util.CreateRotationMatrixTransposed(-.5235f, 0.01f, 0.01f);
+            //float[,] rotationMatrix = Util.Util.CreateRotationMatrixTransposed(0.01f, 0.01f, 3.3f);
+            float[,] rotationMatrix = Util.Util.CreateRotationMatrixTransposed(0.01f, -.5235f, 0.01f);
+
+            float[] xvec = {1f,0,0};
+
+            float[] yvec = { 0, 1f, 0 };
+
+
+            //float[] zvec = { .001f, .001f, .99f };
+            //According to doc, i should probably multiply zvec by -1 in ahrs, or as part of rotation to FRD
+            float[] zvec = { 0, 0, -1f };
+
+            float[] xBodyFrame = Util.Util.RotateMatrix(rotationMatrix, xvec);
+            float[] yBodyFrame = Util.Util.RotateMatrix(rotationMatrix, yvec);
+            float[] zBodyFrame = Util.Util.RotateMatrix(rotationMatrix, zvec);
+
+
+            zBodyFrame[0] *= -1;
+            zBodyFrame[1] *= -1;
+            zBodyFrame[2] *= -1;
+
+            for (int i = 0; i < 10000; i++)
+            {
+                
+                //the reason why i'm not getting a messed up yaw is because I increased my mag value over
+                //my accerlometer gain. otherwise i would get 180 yaw. 
+                AHRS.ahrs(zBodyFrame[0], zBodyFrame[1], zBodyFrame[2],
+                    0, 0, 0,
+                    xBodyFrame[0], xBodyFrame[1], xBodyFrame[2], .001f, .01f);
+                 
+                /*AHRS.ahrs(0.01f, -0.5f, -.50f,
+                        0, 0, 0,
+                        1f, -.01f, 0.001f, .01f, .001f);*/
+            }
+
+            //matrix to go from body frame to inertial frame. 
+            float[][] dcm2 = AHRS.dcm;
+            
+            float[,]dcm3 = new float[3,3];
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    dcm3[i,j] = dcm2[j][i];
+                }
+
+            }
+
+            //so if i take transpose of dcm, then rotate a vecotor, i should get the original unrotated value. 
+            //sicne the dcm is a dcm of body frame values. so dcmBT = DCM G
+            //float[] zGroundFrame = Util.Util.RotateMatrix2(dcm2, zBodyFrame);
+            //float[] zGroundFrame = Util.Util.RotateMatrix(dcm3, zBodyFrame);
+
+
+            //The reason why this works even though dcm2 is a 'body frame' matrix
+            //is because the way that the paper was doing matrix multiplication was 
+            //the transpose of the way I do matrix multiplication. 
+            float[] zGroundFrame = Util.Util.RotateMatrix2(dcm2, zBodyFrame);
+
+
+            Console.Write("done");
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main111()
         {
 
 
