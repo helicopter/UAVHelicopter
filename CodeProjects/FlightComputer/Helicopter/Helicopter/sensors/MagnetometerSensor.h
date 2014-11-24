@@ -38,6 +38,8 @@ namespace helicopter
 		 * X pointing out the nose (front) of the aircraft
 		 * Y is pointing out of the right of the aircraft
 		 * Z is pointing down out of the aircraft
+		 *
+		 * With the external compass the raw orientation is y out the front, x out the left, and z is down. 
 		 */
 		class MagnetometerSensor
 		{
@@ -76,6 +78,7 @@ namespace helicopter
 				 * and the Z axis points up from the device. This rotation matrix
 				 * rotates those values to X-Front, Y-Right, Z-Down
 				 */
+				//technically i think this is LBD instead of LBU since the z axis seems to be positive downard. 
 				float magLBUToFRDRotationMatrix[3][3];			
 				
 				TWIDriver *driver;

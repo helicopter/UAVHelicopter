@@ -140,7 +140,7 @@ namespace helicopter
 					dcm[1][2] = 0;
 					dcm[2][0] = 0;
 					dcm[2][1] = 0;
-					dcm[2][2] = -1;
+					dcm[2][2] = 1;
 				}
 			
 				/**

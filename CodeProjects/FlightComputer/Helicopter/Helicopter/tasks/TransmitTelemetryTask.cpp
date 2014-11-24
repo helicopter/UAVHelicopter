@@ -9,6 +9,7 @@
 #include "ControlMessage.h"
 #include "SimpleTelemetryMessage.h"
 
+#include <math.h>
 using namespace helicopter::tasks;
 
 TransmitTelemetryTask::TransmitTelemetryTask(GroundControlStationInterface *radioInterface, SystemModel *model, DATATOSEND dataToSend, int delay, int period) :
@@ -23,6 +24,20 @@ TransmitTelemetryTask::TransmitTelemetryTask(GroundControlStationInterface *radi
 
 void TransmitTelemetryTask::runTaskImpl()
 {
+	
+	if (dataToSend == ALLDATA || dataToSend == SIMPLEDATA)
+	{
+		
+		float yawRads = atan2(model->Ahrs()->dcm[1][0], model->Ahrs()->dcm[0][0]);
+		if (yawRads < 0)
+		{
+			yawRads = 2.0f * M_PI + yawRads;
+		}
+		model->YawRads(yawRads);
+		model->PitchRads(-asin(model->Ahrs()->dcm[2][0]));
+		model->RollRads(atan2(model->Ahrs()->dcm[2][1], model->Ahrs()->dcm[2][2]));
+	}
+	
 	if (dataToSend == ALLDATA)
 	{
 		//SystemTelemetryMessage *message = model->CreateTelemetryMessage();

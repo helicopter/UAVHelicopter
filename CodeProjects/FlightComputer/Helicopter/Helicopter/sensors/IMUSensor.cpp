@@ -113,6 +113,7 @@ void IMUSensor::readSensor()
 	 */
 	spiDriver->endTransaction();
 	
+	/*
 	//Convert the raw values to FRD values.
 	float rotatedValues[3] = {0};
 	float rotatedValues2[3] = {0};
@@ -121,14 +122,48 @@ void IMUSensor::readSensor()
 	//int values2[3] = {rawGyroX, rawGyroY, rawGyroZ};
 	float values2[3] = {rawGyroX - gyroOffsets[0], rawGyroY - gyroOffsets[1], rawGyroZ - gyroOffsets[2]};
 		
+		
+	
 	MatrixUtil::RotateMatrix(imuRFUToFRDRotationMatrix, values, rotatedValues);
 	MatrixUtil::RotateMatrix(imuRFUToFRDRotationMatrix, values2, rotatedValues2);
+	
 	
 	frdAccXMss = rotatedValues[0] * RAW_ACC_TO_RADS_PER_SECOND_SECOND_CONVERTER;
 	frdAccYMss = rotatedValues[1] * RAW_ACC_TO_RADS_PER_SECOND_SECOND_CONVERTER;
 	frdAccZMss = rotatedValues[2] * RAW_ACC_TO_RADS_PER_SECOND_SECOND_CONVERTER;
+	//Multiplying by negative 1 because technically the gravity vector is what we want to be 
+	//FRD, not the acceleration vector. so since gravity is -9.8 we want to convert it to 9.8.
+	frdAccXMss *= -1;
+	frdAccYMss *= -1;
+	frdAccZMss *= -1;
 	
 	frdGyroXRs = rotatedValues2[0] / RAW_GYRO_TO_RADS_PER_SECOND_CONVERTER;
 	frdGyroYRs = rotatedValues2[1] / RAW_GYRO_TO_RADS_PER_SECOND_CONVERTER;
 	frdGyroZRs = rotatedValues2[2] / RAW_GYRO_TO_RADS_PER_SECOND_CONVERTER;
+	*/
+	
+	
+	
+	
+	//values = accel, values2 = gyro
+
+	
+	/*
+	* manually rotate sensor data since rotation method is to slow. 
+	*/
+	
+	frdAccXMss = rawAccY * RAW_ACC_TO_RADS_PER_SECOND_SECOND_CONVERTER;
+	frdAccYMss = rawAccX * RAW_ACC_TO_RADS_PER_SECOND_SECOND_CONVERTER;
+	frdAccZMss = -rawAccZ * RAW_ACC_TO_RADS_PER_SECOND_SECOND_CONVERTER;
+	//Multiplying by negative 1 because technically the gravity vector is what we want to be
+	//FRD, not the acceleration vector. so since gravity is -9.8 we want to convert it to 9.8.
+	frdAccXMss *= -1;
+	frdAccYMss *= -1;
+	frdAccZMss *= -1;
+	
+	frdGyroXRs = (rawGyroY - gyroOffsets[1]) / RAW_GYRO_TO_RADS_PER_SECOND_CONVERTER;
+	frdGyroYRs = (rawGyroX - gyroOffsets[0]) / RAW_GYRO_TO_RADS_PER_SECOND_CONVERTER;
+	frdGyroZRs = -(rawGyroZ - gyroOffsets[2]) / RAW_GYRO_TO_RADS_PER_SECOND_CONVERTER;
+	
+	
 }

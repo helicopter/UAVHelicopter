@@ -731,8 +731,7 @@ int MagnetometerSensor::readSensor()
 	//transmit stop condition
 	driver->stop();
 	
-	//Convert the raw values to FRD values.
-	float rotatedValues[3] = {0};
+
 		
 		
 		
@@ -754,6 +753,8 @@ int MagnetometerSensor::readSensor()
 		
 		
 	
+	//Convert the raw values to FRD values.
+	float rotatedValues[3] = {0};
 	int values[3] = {rawMagX, rawMagY, rawMagZ};
 	
 	MatrixUtil::RotateMatrix(magLBUToFRDRotationMatrix, values, rotatedValues);
@@ -763,6 +764,23 @@ int MagnetometerSensor::readSensor()
 	frdMagX = rotatedValues[0];
 	frdMagY = rotatedValues[1];
 	frdMagZ = rotatedValues[2];
+	
+	
+	
+
+	//Manually rotate in order to reduce processing
+	
+	/*frdMagX = rawMagY;
+	frdMagY = -rawMagX;*/
+	frdMagX = -rawMagY;
+	frdMagY = rawMagX;
+	frdMagZ = rawMagZ;
+	
+		
+		
+		
+		
+		
 		
 		
 		

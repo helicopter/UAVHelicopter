@@ -164,12 +164,11 @@ void PIDController::outerLoopUpdate()
 		float positionErrorsLocalNED[3] = {xErrorNED, yErrorNED, zErrorNED};
 	
 	
-		MatrixUtil::CreateRotationMatrixTransposed(model->RollRads(), model->PitchRads(), model->YawRads(), nedToBodyFrameRotationMatrix);
-		MatrixUtil::RotateMatrix(nedToBodyFrameRotationMatrix, positionErrorsLocalNED, bodyFrameErrors);
-	
-	
 		//MatrixUtil::CreateRotationMatrixTransposed(model->RollRads(), model->PitchRads(), model->YawRads(), nedToBodyFrameRotationMatrix);
-		//MatrixUtil::RotateMatrixT(model->Ahrs()->dcm, positionErrorsLocalNED, bodyFrameErrors);
+		//MatrixUtil::RotateMatrix(nedToBodyFrameRotationMatrix, positionErrorsLocalNED, bodyFrameErrors);
+	
+	
+		MatrixUtil::RotateMatrixT(model->Ahrs()->dcm, positionErrorsLocalNED, bodyFrameErrors);
 	
 
 		this->cyclicLongitudeOuterLoopUpdate(bodyFrameErrors[0]);

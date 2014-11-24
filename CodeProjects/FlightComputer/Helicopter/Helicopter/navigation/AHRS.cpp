@@ -172,7 +172,7 @@ void AHRS::update(float frdAccXMss, float frdAccYMss, float frdAccZMss,
 	 *
 	 * Taken from Starlino's January 20, 2012 post at http://www.starlino.com/dcm_tutorial.html 
 	 */
-	float westFacingVector[3] = {0};
+	float westFacingVector[3] = {0};//since the acceleration vector is pointing down, this is actually an east facing vector in our case. 
 	float correctedMagnetometerVector[3] = {0};
 		
 	
@@ -248,8 +248,10 @@ float heading = constrain_float2(atan2f(-headY,headX), -3.15f, 3.15f); //+M_PI;
 	//This gives the angular displacement that the helicopter has moved since the last
 	//iteration.
 	//d?a ­= dt wa = KB0 x (KB1A­ - KB0) - see http://www.starlino.com/dcm_tutorial.html for proof		
-	MatrixUtil::CrossProduct(accelerometerVector, dcm[2], accelerometerAngularDisplacement);
-	MatrixUtil::CrossProduct(correctedMagnetometerVector, dcm[0], magnetometerAngularDisplacement);
+	/*MatrixUtil::CrossProduct(accelerometerVector, dcm[2], accelerometerAngularDisplacement);
+	MatrixUtil::CrossProduct(correctedMagnetometerVector, dcm[0], magnetometerAngularDisplacement);*/
+	MatrixUtil::CrossProduct(dcm[2], accelerometerVector, accelerometerAngularDisplacement);
+	MatrixUtil::CrossProduct(dcm[0], correctedMagnetometerVector, magnetometerAngularDisplacement);
 	
 	/*
 	debug1 = accelerometerVector[0];
@@ -298,18 +300,36 @@ float heading = constrain_float2(atan2f(-headY,headX), -3.15f, 3.15f); //+M_PI;
 	 * the accelerometer's value from the proportion due to gravity. 
 	 * (You actually add the two values together because gravity is a negative value)
 	 */
+	/*commenting out since it's not used. 
 	linearAccelerationXMss = frdAccXMss + dcm[2][0] * GRAVITY_MSS;
 	linearAccelerationYMss = frdAccYMss + dcm[2][1] * GRAVITY_MSS;
 	linearAccelerationZMss = frdAccZMss + dcm[2][2] * GRAVITY_MSS;
+	*/
 	
 	/**
 	 * Calculate the euler angles. Eqn 3. In Euler Angles.pdf By William Premerlani
 	 */
 	//Add the yaw angle to pi to convert from -pi or pi being north and -3pi/2 being east to 0 or 2pi being north, and pi/2 being east
-	yawRads = M_PI + atan2(dcm[1][0], dcm[0][0]);
+	/*yawRads = M_PI + atan2(dcm[1][0], dcm[0][0]);
 	//yawRads = heading;	
 	pitchRads = -asin(dcm[2][0]);
+	rollRads = atan2(dcm[2][1], dcm[2][2]);*/
+	
+	
+	
+	//commented out due to speed. 
+	/*
+	yawRads = atan2(dcm[1][0], dcm[0][0]);
+	if (yawRads < 0)
+	{
+		yawRads = 2.0f * M_PI + yawRads;
+	}
+	pitchRads = -asin(dcm[2][0]);
 	rollRads = atan2(dcm[2][1], dcm[2][2]);
+	*/
+	
+	
+	
 	
 	
 /*	

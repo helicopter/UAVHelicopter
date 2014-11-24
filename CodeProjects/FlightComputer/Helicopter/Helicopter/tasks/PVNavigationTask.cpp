@@ -40,8 +40,12 @@ void PVNavigationTask::runTaskImpl()
 
 	//rotate velocity into body frame
 	float nedToBodyFrameMatrix[3][3] = {};
+	/*
 	MatrixUtil::CreateRotationMatrixTransposed(ahrs->getRollRads(), ahrs->getPitchRads(), ahrs->getYawRads(), nedToBodyFrameMatrix);
-	MatrixUtil::RotateMatrix(nedToBodyFrameMatrix,rotatedVelocityMatrix, velocityBodyFrame);	
+	MatrixUtil::RotateMatrix(nedToBodyFrameMatrix,rotatedVelocityMatrix, velocityBodyFrame);
+	*/
+	
+	MatrixUtil::RotateMatrixT(model->Ahrs()->dcm,rotatedVelocityMatrix, velocityBodyFrame);	
 	
 	model->XVelocityFRDCms(velocityBodyFrame[0]);
 	model->YVelocityFRDCms(velocityBodyFrame[1]);

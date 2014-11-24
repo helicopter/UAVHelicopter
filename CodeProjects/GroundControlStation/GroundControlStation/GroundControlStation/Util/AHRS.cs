@@ -178,15 +178,11 @@ namespace GroundControlStation.Util
 	        for (int i = 0; i < 3; i++)
 	        {
 
-		        /*angularDisplacementWeightedAverage[i] = (-gyroscopeAngularDisplacement[i] + 
+		        angularDisplacementWeightedAverage[i] = (-gyroscopeAngularDisplacement[i] + 
 												        accelerometerAngularDisplacement[i] * accelWeight + 
 												        magnetometerAngularDisplacement[i] * magWeight) /
 												        (1.0f + accelWeight + magWeight);
-                 */
-                angularDisplacementWeightedAverage[i] = (-gyroscopeAngularDisplacement[i] +
-                                                        accelerometerAngularDisplacement[i] * accelWeight +
-                                                        magnetometerAngularDisplacement[i] * magWeight) /
-                                                        (1.0f + accelWeight + magWeight);
+
 
 	        }
 
