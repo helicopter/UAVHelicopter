@@ -59,7 +59,8 @@ int main(void)
 	//helicopterTests.addTest(asyncserialdriver_test, 11);
 	
 	//helicopterTests.addTest(gainsmessageasync_test, 11);
-	helicopterTests.addTest(imu_test, 11);
+	//helicopterTests.addTest(imu_test, 11);
+	helicopterTests.addTest(systemtelemetrytransmitandreceive_test, 3);
 	
 	
 	helicopterTests.runTests();
@@ -84,7 +85,6 @@ int main(void)
 		
 		PORTA &= ~(1<<PA5);
 		
-		return -1;
 	}else
 	{
 		//Turn on the blue led to indicate test success.
@@ -92,6 +92,13 @@ int main(void)
 		DDRA |= (1<<PA3);
 		
 		PORTA &= ~(1<<PA3);
+	}
+	
+	int counter = 0;
+	//infinite loop so the tests don't run again
+	while (true)
+	{
+		counter++;
 	}
 	
 	return 0;

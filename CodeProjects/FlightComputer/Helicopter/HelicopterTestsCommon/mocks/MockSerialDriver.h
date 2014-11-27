@@ -26,7 +26,7 @@ class MockSerialDriver : public SerialDriver
 	int transmitCounter;
 	int receiveCounter;
 		
-	byte *buffer;
+	byte *receiveBuffer;
 
 	MockSerialDriver (int numOfChars, bool ignoreTransmits = false):
 		SerialDriver(0, SerialDriver::Zero,NULL),
@@ -36,30 +36,30 @@ class MockSerialDriver : public SerialDriver
 		ignoreTransmits(ignoreTransmits),
 		transmitCounter(0),
 		receiveCounter(0),
-		buffer(NULL)	
+		receiveBuffer(NULL)	
 	{
-		buffer = new byte[numOfChars];
+		receiveBuffer = new byte[numOfChars];
 	}
 	
 	~MockSerialDriver()
 	{
-		if (buffer != NULL)
+		if (receiveBuffer != NULL)
 		{
-			delete buffer;
-			buffer = NULL;
+			delete receiveBuffer;
+			receiveBuffer = NULL;
 		}
 	}
 	
 	//resets the internal state as if it's ready to read a brand new message.
 	void reset()
 	{
-		if (buffer != NULL)
+		if (receiveBuffer != NULL)
 		{
 			//commenting out in order to support new test cases.
 			//delete buffer;
-			buffer = NULL;
+			receiveBuffer = NULL;
 		}
-		buffer = new byte[numOfCharsInMsg];
+		receiveBuffer = new byte[numOfCharsInMsg];
 		
 		transmitCounter = 0;
 		receiveCounter = 0;

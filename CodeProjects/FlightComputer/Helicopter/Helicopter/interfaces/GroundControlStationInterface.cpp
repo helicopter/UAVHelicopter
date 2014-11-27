@@ -5,6 +5,7 @@
  *  Author: HP User
  */ 
 #include <string.h>
+#include <avr/io.h>
 
 #include "CommonHeader.h"
 #include "GroundControlStationInterface.h"
@@ -68,6 +69,16 @@ int GroundControlStationInterface::transmit(Message *msgToSend)
 		
 		delete [] msgPayload;
 		msgPayload = NULL;
+		
+		//Enable data register empty interrupt so the next byte will be transmitted.
+		//I added this code here because enabling interrupts after every byte caused it to not transmit all the data. the system didn't like rapidly enabling interrupts.
+		if (serialDriver->uartPort == SerialDriver::Zero)
+		{
+			UCSR0B |= (1<<UDRIE0);
+		}else if (serialDriver->uartPort == SerialDriver::One)
+		{
+			UCSR1B |= (1<<UDRIE1);
+		}		
 	}
 	
 	return status;
@@ -96,7 +107,7 @@ int GroundControlStationInterface::receive(Message * &receivedMessage)
 	//Read until the sync bytes are received or we time out.
 	//Throw away any 'garbage' bytes.
 	//while(!(firstSyncByte == SyncByte1 && secondSyncByte == SyncByte2 && thirdSyncByte == SyncByte3) && status == 0)
-	while(!(firstSyncByte == SyncByte1 && secondSyncByte == SyncByte2 && thirdSyncByte == SyncByte3) && status != -1) //!= -1 because for -2, we want to ignore timeouts.
+	while(!(firstSyncByte == SyncByte1 && secondSyncByte == SyncByte2 && thirdSyncByte == SyncByte3) && status != -1) //!= -1 because for -2, we want to ignore buffer overruns.
 	{
 		firstSyncByte = secondSyncByte;
 		secondSyncByte = thirdSyncByte;

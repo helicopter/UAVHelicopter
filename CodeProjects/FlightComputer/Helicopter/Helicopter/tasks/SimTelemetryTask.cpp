@@ -294,5 +294,9 @@ void SimTelemetryTask::runTaskImpl()
 	
 	//Send this out after receiving data so if there is asynchronous processing, the system doesn't try to
 	//read a partial message that might have actually been transmitted just after sending the transmit message.
-	radioInterface->transmit(&syncMsg);	
+	//radioInterface->transmit(&syncMsg);	
+	if (radioInterface->transmit(&syncMsg) != 0)
+	{
+		model->SerialCommunicationBufferOverruns(model->SerialCommunicationBufferOverruns()+1);
+	}
 }

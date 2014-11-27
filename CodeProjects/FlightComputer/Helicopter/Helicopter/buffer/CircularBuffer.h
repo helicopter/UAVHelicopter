@@ -9,6 +9,8 @@
 #ifndef CIRCULARBUFFER_H_
 #define CIRCULARBUFFER_H_
 
+#include <string.h>
+
 #include "CommonHeader.h"
 
 namespace helicopter
@@ -38,6 +40,7 @@ namespace helicopter
 				CircularBuffer(int bufferSize) :  buffer(NULL), bufferSize(bufferSize), headIndex(0), tailIndex(0), bytesInQueue(0)
 				{
 					buffer = new byte[bufferSize];
+					memset(buffer, 0, bufferSize);
 				}
 				~CircularBuffer()
 				{

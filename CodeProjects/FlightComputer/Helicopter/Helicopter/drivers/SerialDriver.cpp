@@ -15,7 +15,8 @@
 
 using namespace helicopter::drivers;
 
-CircularBuffer SerialDriver::buffer(1000);
+CircularBuffer SerialDriver::receiveBuffer(1000);
+CircularBuffer SerialDriver::transmitBuffer(1000);
 
 void SerialDriver::startTimer()
 {
@@ -64,6 +65,8 @@ void SerialDriver::init()
 		{
 			UCSR0A &= ~(1<<U2X0);
 		}
+		
+		UCSR0B &= ~(1<<UDRIE0);
 
 		/* Enable receiver and transmitter. Receiver Enable(RXEN), Transmitter Enable (TXEN) */
 		UCSR0B |= (1<<RXEN0) | (1<<TXEN0);
@@ -85,16 +88,18 @@ void SerialDriver::init()
 		{
 			UCSR1A &= ~(1<<U2X1);
 		}
+		
+		UCSR1B &= ~(1<<UDRIE1);
 
 		/* Enable receiver and transmitter. Receiver Enable(RXEN), Transmitter Enable (TXEN) */
 		UCSR1B |= (1<<RXEN1) | (1<<TXEN1);		
 	}
 	
 	
-	if (asyncReceiveData)
+	if (asyncReceiveTransmitData)
 	{
 		cli();
-		//enable interrupts for asynchronously receiving data. 
+		//enable interrupts for asynchronously receiving/transmitting data. 
 		if (uartPort == Zero)
 		{
 			UCSR0B |= (1<<RXCIE0);
@@ -240,6 +245,32 @@ int SerialDriver::timedTransmit(const char *buffer, int numOfBytes)
 
 int SerialDriver::transmit(byte valueToSend)
 {
+	
+	if (asyncReceiveTransmitData)
+	{
+		bool status = transmitBuffer.enqueue(valueToSend);
+
+		if (!status)
+		{
+			return -1;
+		}
+		
+		/*
+		//Enable data register empty interrupt so the next byte will be transmitted.
+		if (uartPort == SerialDriver::Zero)
+		{
+			UCSR0B |= (1<<UDRIE0);
+		}else if (uartPort == SerialDriver::One)
+		{
+			UCSR1B |= (1<<UDRIE1);
+		}
+		*/
+		
+		return 0;
+	}
+	
+		
+	
 	int status = 0;
 
 	
@@ -309,9 +340,9 @@ int SerialDriver::receive(byte &receivedByte)
 {
 	int status = 0;
 	
-	if (asyncReceiveData)
+	if (asyncReceiveTransmitData)
 	{
-		bool status = buffer.dequeue(receivedByte);
+		bool status = receiveBuffer.dequeue(receivedByte);
 		
 		if (!status)
 		{
@@ -442,5 +473,30 @@ ISR(USART0_RX_vect)
 {
 			
 	byte b = UDR0;
-	SerialDriver::buffer.enqueue(b);
+	SerialDriver::receiveBuffer.enqueue(b);
+}
+
+ISR(USART0_UDRE_vect)
+{
+	byte val;
+	if (SerialDriver::transmitBuffer.dequeue(val) == true)
+	{
+		UDR0 = val;
+	}else
+	{
+		//no more data to transmit so disable data register empty interrupt (page 214 of spec)
+		UCSR0B &= ~(1<<UDRIE0);
+	}
+}
+ISR(USART1_UDRE_vect)
+{
+	byte val;
+	if (SerialDriver::transmitBuffer.dequeue(val) == true)
+	{
+		UDR1 = val;
+	}else
+	{
+		//no more data to transmit so disable data register empty interrupt (page 214 of spec)
+		UCSR1B &= ~(1<<UDRIE1);
+	}	
 }

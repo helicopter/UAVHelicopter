@@ -33,9 +33,11 @@ namespace helicopter
 				 */
 				enum UartPort {Zero, One};
 					
-				static CircularBuffer buffer;
+				static CircularBuffer receiveBuffer;
+				
+				static CircularBuffer transmitBuffer;
 					
-			private:
+			//private:
 				
 				unsigned long baudRate;
 				
@@ -43,7 +45,7 @@ namespace helicopter
 				
 				bool useDoubleSpeedMode;
 				
-				bool asyncReceiveData;
+				bool asyncReceiveTransmitData;
 				
 				Timer *timer;
 				
@@ -71,12 +73,12 @@ namespace helicopter
 					unsigned long baudRate, 
 					UartPort uartPort,
 					bool useDoubleSpeedMode = true,
-					bool asyncReceiveData = false,
+					bool asyncReceiveTransmitData = false,
 					Timer *timer = NULL) :
 				baudRate(baudRate),
 				uartPort(uartPort),
 				useDoubleSpeedMode(useDoubleSpeedMode),
-				asyncReceiveData(asyncReceiveData),
+				asyncReceiveTransmitData(asyncReceiveTransmitData),
 				timer(timer)
 				{
 

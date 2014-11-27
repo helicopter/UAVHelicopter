@@ -952,7 +952,8 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	
 	//note:for production, we'll want to set the variable to 'true'
 	//SerialDriver *serialDriver = new SerialDriver(250000, SerialDriver::Zero, true, t);
-	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, false, t);
+	//SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, false, false, t);
+	SerialDriver *serialDriver = new SerialDriver(57600, SerialDriver::Zero, false, true, NULL);
 	serialDriver->init();
 	
 	
@@ -975,7 +976,7 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	model->LongitudeControl(2.22);
 	model->MainRotorCollectiveControl(2.22);
 	
-	model->YawControl(3.22f);
+	//model->YawControl(3.22f);
 	model->XProportional(4.22f);
 	model->YProportional(1.22f);
 	model->ZProportional(6.22f);
@@ -997,22 +998,55 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	// Test receiving a message
 	//////////////////////////////////////////////////////////////////////////
 	Message *receiveMessage = NULL;
+
+/*
+	int status = radioInterface.receive(receiveMessage);
+	
+	
+	if (status == -1 || status == -2)
+	{
+		DDRA |= (1<<PA4);
+		PORTA &= ~(1<<PA4);
+	}
+	AssertTrue2(status == 0, 2);
+	*/
+	/*
+		if (status == -4)
+		{
+			DDRA |= (1<<PA3);
+			PORTA &= ~(1<<PA3);
+		}else if (status == -1 || status == -2)
+		{
+			DDRA |= (1<<PA4);
+			PORTA &= ~(1<<PA4);
+		}
+		*/
+		
+		
+	_delay_ms(300);
 	
 	AssertTrue2(radioInterface.receive(receiveMessage) == 0, 2);
 	
+
+	
 	AssertTrue2(receiveMessage->getType() == SystemTelemetryMessage::MessageType, 3);
 	
-	SystemTelemetryMessage *receivedMsg = (SystemTelemetryMessage *)receiveMessage;
+	SystemTelemetryMessage *receivedMsg = (SystemTelemetryMessage *) receiveMessage;
+	
+	
+	
 	
 	SystemModel *model2 = new SystemModel();
 	
 	receivedMsg->updateModelFromMessage(model2);
 	
+	
+	
 	AssertTrue(model2->ChecksumErrors() == 2);
 	//AssertTrue(model2->MagYawDegrees() == 2.22);
 	AssertTrue(model2->Timeouts() == 2);
 	AssertTrue(model2->UnrecognizedMsgTypes() == 2);
-	AssertTrue(model2->YawControl() == 3.22);
+	//AssertTrue(model2->YawControl() == 3.22);
 	AssertTrue(model2->YawDerivativeError() == 2.22);
 	AssertTrue(model2->YawIntegral() == 2.22);
 	AssertTrue(model2->YawProportional() == 2.22);
@@ -1021,6 +1055,7 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	AssertTrue(model2->XVEcefCms() == 42);
 	AssertTrue(model2->YVEcefCms() == 12);
 	AssertTrue(model2->ZVEcefCms() == 32);
+	
 
 	/* Can't test these values because I don't convert them.
 	AssertTrue(model2->YawControl() == 3.22f);
@@ -1040,8 +1075,17 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	transmitMessage->PressureMillibars = 12;
 	
 	AssertTrue2(radioInterface.transmit(transmitMessage) == 0, 7);
-	
+	if (SerialDriver::transmitBuffer.getBytesInQueue() > 0)
+	{
+		DDRA |= (1<<PA4);
+		
+		PORTA &= ~(1<<PA4);
+	}	
 	delete transmitMessage;
+	
+	_delay_ms(200);
+	
+
 
 	return 0;
 }

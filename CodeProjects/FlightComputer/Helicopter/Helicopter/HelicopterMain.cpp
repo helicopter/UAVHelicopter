@@ -652,7 +652,7 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 
 	navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * sensorReadPeriod)); //run at 98 hz.
-	pvNavTask = new PVNavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * barometerSensorReadPeriod)); //run at 50 hz
+	pvNavTask = new PVNavigationTask(barometerSensorReadPeriod, ahrs, model, 6, (SCHEDULER_TICK_FREQUENCY_HZ * barometerSensorReadPeriod)); //run at 50 hz
 
 
 

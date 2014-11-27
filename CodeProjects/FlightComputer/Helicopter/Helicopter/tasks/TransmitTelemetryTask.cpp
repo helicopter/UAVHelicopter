@@ -50,7 +50,10 @@ message->ZMagFrd = model->off3();
 */	
 	
 		//TODO add some error handling in here
-		radioInterface->transmit(message);
+		if (radioInterface->transmit(message) != 0)
+		{
+			model->SerialCommunicationBufferOverruns(model->SerialCommunicationBufferOverruns()+1);
+		}
 	
 		delete message;
 	}else if (dataToSend == CONTROLDATA)
@@ -62,7 +65,10 @@ message->ZMagFrd = model->off3();
 		message->YawControl = model->YawControl();
 		
 		//TODO add some error handling in here
-		radioInterface->transmit(message);
+		if (radioInterface->transmit(message) != 0)
+		{
+			model->SerialCommunicationBufferOverruns(model->SerialCommunicationBufferOverruns()+1);
+		}
 		
 		delete message;		
 		}else if (dataToSend == SIMPLEDATA)
@@ -120,7 +126,10 @@ message->ZMagFrd = model->off3();
 			message->NumOfBlownFrames = model->BlownFrames();
 			message->SerialCommunicationBufferOverruns = model->SerialCommunicationBufferOverruns();
 			
-			radioInterface->transmit(message);
+			if (radioInterface->transmit(message) != 0)
+			{
+				model->SerialCommunicationBufferOverruns(model->SerialCommunicationBufferOverruns()+1);
+			}
 	
 			delete message;
 		}

@@ -11,7 +11,7 @@ int MockSerialDriver::transmit(byte byteToSend)
 {
 	if (ignoreTransmits == false)
 	{
-		buffer[transmitCounter++] = byteToSend;
+		receiveBuffer[transmitCounter++] = byteToSend;
 	}
 	
 	return 0;
@@ -25,7 +25,7 @@ int MockSerialDriver::receive(byte &receivedByte)
 		return -1;
 	}
 	
-	receivedByte = buffer[receiveCounter++];
+	receivedByte = receiveBuffer[receiveCounter++];
 	
 	return 0;
 }
