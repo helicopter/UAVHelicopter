@@ -651,7 +651,8 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	PVNavigationTask *pvNavTask = NULL;
 	
 
-	navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * sensorReadPeriod)); //run at 98 hz.
+	//navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * sensorReadPeriod)); //run at 98 hz.
+	navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .01f)); //run at 100 hz.
 	pvNavTask = new PVNavigationTask(barometerSensorReadPeriod, ahrs, model, 6, (SCHEDULER_TICK_FREQUENCY_HZ * barometerSensorReadPeriod)); //run at 50 hz
 
 
@@ -686,7 +687,8 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	//ReadIMUSensorTask *imuSensorTask = new ReadIMUSensorTask(model, imuSensor, 8,  (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz.
 	ReadIMUSensorTask *imuSensorTask = new ReadIMUSensorTask(model, imuSensor, 8,  (SCHEDULER_TICK_FREQUENCY_HZ * .01)); //run at 100 hz.
 	ReadBarometerSensorTask *barometerSensorTask = new ReadBarometerSensorTask(model, baroSensor, 9, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. needs to run so that at least 10 ms is between each operation. since it's a 3 step process, this is really only executes hz/3 for a complete cycle (*** this will probably cause huge timeouts since it takes like 8ms to complete.)
-	ReadMagnetometerSensorTask *magSensorTask = new ReadMagnetometerSensorTask(model, magSensor, 10, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz, although the sensor is reading at 75 hz.
+	//ReadMagnetometerSensorTask *magSensorTask = new ReadMagnetometerSensorTask(model, magSensor, 10, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz, although the sensor is reading at 75 hz.
+	ReadMagnetometerSensorTask *magSensorTask = new ReadMagnetometerSensorTask(model, magSensor, 10, (SCHEDULER_TICK_FREQUENCY_HZ * .01)); //run at 100 hz, although the sensor is reading at 75 hz.
 	
 
 	RadioControllerInterface *rcInterface = RadioControllerInterface::getRadioControllerInterface();

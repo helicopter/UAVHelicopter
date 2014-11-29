@@ -79,6 +79,13 @@ void IMUSensor::init()
 
 void IMUSensor::readSensor()
 {
+	if (!hasBeenRead)
+	{
+		missedRead = true;
+	}
+	
+	hasBeenRead = false;
+	
 	//indicate that this device is about to begin communicating with the sensor.
 	spiDriver->beginTransaction();
 

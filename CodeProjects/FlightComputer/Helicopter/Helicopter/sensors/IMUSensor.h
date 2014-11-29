@@ -117,8 +117,12 @@ namespace helicopter
 				float frdGyroYRs;
 				float frdGyroZRs;
 				
+				bool hasBeenRead;
+				bool missedRead;
+				
 				//Offsets for raw gyro readings. [0] = x, [1] = y, [2] = z
 				float gyroOffsets[3];
+				
 				
 				
 			public:
@@ -140,7 +144,9 @@ namespace helicopter
 					frdAccZMss(0),
 					frdGyroXRs(0),
 					frdGyroYRs(0),
-					frdGyroZRs(0)
+					frdGyroZRs(0),
+					hasBeenRead(true),
+					missedRead(false)
 				{
 					/**
 					 * Create a rotation matrix to rotate the accelerometer sensor data by
@@ -154,6 +160,18 @@ namespace helicopter
 					gyroOffsets[0] = 0;
 					gyroOffsets[1] = 0;
 					gyroOffsets[2] = 0;
+				}
+				
+				bool missedReading()
+				{
+					//when sensor receives new sensor reading, set hasBeenRead to false.
+					//if hasBeenRead is still false when another sensor reading happens, then set
+					//missedReading to true.
+					bool val = missedRead;
+					missedRead = false;
+					hasBeenRead = true;
+					return val;
+					
 				}
 				
 				/**
