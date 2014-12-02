@@ -14,7 +14,7 @@ imuSensor(imuSensor)
 void ReadIMUSensorTask::runTaskImpl()
 {
 	
-	if(imuSensor->missedReading())
+	//if(imuSensor->missedReading())
 	{
 		model->SerialCommunicationBufferOverruns(model->SerialCommunicationBufferOverruns() + 1);
 	}
@@ -31,5 +31,6 @@ void ReadIMUSensorTask::runTaskImpl()
 		model->RollAngularVelocityRadsPerSecond(imuSensor->getFRDGyroXRs());
 		model->PitchAngularVelocityRadsPerSecond(imuSensor->getFRDGyroYRs());
 		model->YawAngularVelocityRadsPerSecond(imuSensor->getFRDGyroZRs());		
+				
 	}
 }

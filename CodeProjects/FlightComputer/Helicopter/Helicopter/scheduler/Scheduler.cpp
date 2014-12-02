@@ -6,8 +6,10 @@
  */ 
 #include <avr/sleep.h>
 #include "Scheduler.h"
+#include "SystemModel.h"
 
 using namespace helicopter::scheduler;
+using namespace helicopter::model;
 
 Scheduler* Scheduler::scheduler = NULL;
 
@@ -142,17 +144,32 @@ void Scheduler::start()
 	}
 }
 
+
+//extern SystemModel *publicModel;
+
 /**
  * Interrupt service routine for determining when tasks are ready to execute.
  */
 ISR(TIMER2_COMPA_vect)
 {
+/*
+if (publicModel != NULL)
+{
+
+publicModel->SerialCommunicationBufferOverruns(publicModel->SerialCommunicationBufferOverruns() + 1);	
+}
+	*/
+	
+	
 	Scheduler *scheduler = Scheduler::getScheduler();
 	
 	//Detect if the scheduler blew a frame
 	if (!scheduler->hasCompletedDispatch())
 	{
-		scheduler->hasBlownFrame(true);
+//		scheduler->hasBlownFrame(true);
+//publicModel->SerialCommunicationBufferOverruns(publicModel->SerialCommunicationBufferOverruns() + 1);		
+//SystemModel::publicModel->SerialCommunicationBufferOverruns(SystemModel::publicModel->SerialCommunicationBufferOverruns() + 1);		
+SystemModel::publicModel->BlownFrames(SystemModel::publicModel->BlownFrames() + 1);		
 	}
 	
 	Task *task = NULL;
@@ -163,7 +180,7 @@ ISR(TIMER2_COMPA_vect)
 	{
 		task = scheduler->getTasks()[i];
 		
-		if (task->getDelay() == 0)
+		if (task->getDelay() <= 1)
 		{
 			//Mark the task as ready to run
 			task->setIsReadyToRun(true);

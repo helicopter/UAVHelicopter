@@ -7,3 +7,5 @@
 
 #include "SystemModel.h"
 using namespace helicopter::model;
+
+SystemModel * SystemModel::publicModel = NULL;

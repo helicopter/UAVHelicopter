@@ -37,6 +37,10 @@ namespace helicopter
 				
 				SystemModel *model;
 				
+				float oldpitchAngularVelocityRs;
+				float oldrollAngularVelocityRs;
+				float oldyawAngularVelocityRs;				
+				
 			public:
 
 				NavigationTask (float barometerSensorReadPeriod, AHRS *ahrs, SystemModel *model, int delay, int period);

@@ -172,9 +172,11 @@ namespace GroundControlStation.Controller
             }
         }
 
+        DateTime lastRead = DateTime.Now;
         DateTime startTime = DateTime.Now;
         DateTime startTime2 = DateTime.Now;
         int previousBlownFrames = 0;
+        int previousNumReads = 0;
         //int counter = 0;
 
 
@@ -298,8 +300,12 @@ namespace GroundControlStation.Controller
                         SimpleTelemetryMessage telem = (SimpleTelemetryMessage)msg;
 
 
-                        Console.WriteLine("NumOfBlownFrames: " + (telem.NumOfBlownFrames - previousBlownFrames).ToString());
+                        Console.WriteLine("NumOfBlownFrames: " + (telem.NumOfBlownFrames - previousBlownFrames).ToString() + " num of reads: " + (telem.SerialCommunicationBufferOverruns - previousNumReads).ToString() + " time interval: " + DateTime.Now.Subtract(lastRead).TotalMilliseconds);
+
+                        lastRead = DateTime.Now;
+
                         previousBlownFrames = telem.NumOfBlownFrames;
+                        previousNumReads = telem.SerialCommunicationBufferOverruns;
 
 
 

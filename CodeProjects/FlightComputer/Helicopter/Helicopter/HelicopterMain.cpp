@@ -404,6 +404,10 @@ int main5(void)
 
 }
 
+
+//SystemModel *publicModel = NULL;
+//static SystemModel *publicModel = new SystemModel();
+
 int main(void)
 {	
 
@@ -416,7 +420,10 @@ int main(void)
 	Scheduler *scheduler = Scheduler::getScheduler();
 	
 	SystemModel *model = new SystemModel();
+	SystemModel::publicModel = model;
+	//publicModel = model;
 	
+	//SystemModel *model = publicModel;
 	
 	//model->FlightMode(SystemModel::HardwareInLoopSimulatedFlight);
 	//model->FlightMode(SystemModel::SimulatedFlight);
@@ -504,6 +511,8 @@ receiveGains = true;
 		//Use a slower baud rate because the real helicopter uses the radio for communication
 		//which is slower than USB.
 		serialDriver = new SerialDriver(serialDriverBaudRate, SerialDriver::Zero, true, true, timer);
+		
+		//serialDriver = new SerialDriver(serialDriverBaudRate, SerialDriver::Zero, true, false, timer);
 	}
 	
 	serialDriver->init();
@@ -559,6 +568,7 @@ receiveGains = true;
 	{
 		//transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
 		transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .5));
+		//transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ));
 		
 		//not actually used
 		//simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
@@ -686,6 +696,7 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	ReadGPSSensorTask *gpsSensorTask = new ReadGPSSensorTask(model, gpsSensor, 7, SCHEDULER_TICK_FREQUENCY_HZ * .1); //run at 10 hz
 	//ReadIMUSensorTask *imuSensorTask = new ReadIMUSensorTask(model, imuSensor, 8,  (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz.
 	ReadIMUSensorTask *imuSensorTask = new ReadIMUSensorTask(model, imuSensor, 8,  (SCHEDULER_TICK_FREQUENCY_HZ * .01)); //run at 100 hz.
+	//ReadIMUSensorTask *imuSensorTask = new ReadIMUSensorTask(model, imuSensor, 8,  2); //run at 100 hz.
 	ReadBarometerSensorTask *barometerSensorTask = new ReadBarometerSensorTask(model, baroSensor, 9, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz. needs to run so that at least 10 ms is between each operation. since it's a 3 step process, this is really only executes hz/3 for a complete cycle (*** this will probably cause huge timeouts since it takes like 8ms to complete.)
 	//ReadMagnetometerSensorTask *magSensorTask = new ReadMagnetometerSensorTask(model, magSensor, 10, (SCHEDULER_TICK_FREQUENCY_HZ * .02)); //run at 50 hz, although the sensor is reading at 75 hz.
 	ReadMagnetometerSensorTask *magSensorTask = new ReadMagnetometerSensorTask(model, magSensor, 10, (SCHEDULER_TICK_FREQUENCY_HZ * .01)); //run at 100 hz, although the sensor is reading at 75 hz.
@@ -959,6 +970,8 @@ for (int i = 0; i < 5; i++)
 	
 	while(1)
 	{
+
+	
 		//Checks to see if any tasks are ready to run an executes them.
 		//goes to sleep (until the next timer tick) after processing all available tasks.
 		scheduler->dispatch();

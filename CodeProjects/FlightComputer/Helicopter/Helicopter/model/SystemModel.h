@@ -26,6 +26,8 @@ namespace helicopter
 		{
 			public: 
 			
+			static SystemModel *publicModel;
+			
 			/**
 			 * Enum representing whether the helicopter is being controlled
 			 * by a radio transmitter (ManualControl) or by the PID algorithm (AutoPilot).
@@ -255,7 +257,7 @@ namespace helicopter
 				EcefToLocalNEDRotationMatrix[2][1] = 0;
 				EcefToLocalNEDRotationMatrix[2][2] = 0;								
 			}
-				
+			
 			float ReferenceMagYawRads() const {return referenceMagYawRads;}
 			void ReferenceMagYawRads(float val) { referenceMagYawRads = val;}
 				

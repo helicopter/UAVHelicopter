@@ -25,7 +25,7 @@
 using namespace helicopter::buffer;
 using namespace helicopter::messages;
 
-int main(void)
+int main99(void)
 {	
 	TestSuite helicopterTests;
 	

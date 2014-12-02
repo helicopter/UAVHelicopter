@@ -32,3 +32,9 @@ _ReSharper*/
 FlightComputerLog*.csv
 SimulatorLog*.csv
 CodeProjects/FlightComputer/Helicopter/Helicopter.atsuo
+CodeProjects/GroundControlStation/logs/ahrsopt/evaluations/~$Analysis5.xlsx
+CodeProjects/GroundControlStation/logs/ahrsopt/evaluations/Analysis2.xlsx
+CodeProjects/GroundControlStation/logs/ahrsopt/evaluations/Analysis3.xlsx
+CodeProjects/GroundControlStation/logs/ahrsopt/evaluations/Analysis4.xlsx
+CodeProjects/GroundControlStation/logs/ahrsopt/evaluations/Analysis5.xlsx
+CodeProjects/GroundControlStation/logs/ahrsopt/evaluations/experimentalAHRSEval.xlsx

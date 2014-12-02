@@ -22,24 +22,37 @@ NavigationTask::NavigationTask (float barometerSensorReadPeriod, AHRS *ahrs, Sys
 Task(delay, period),
 barometerSensorReadPeriod(barometerSensorReadPeriod),
 ahrs(ahrs),
-model(model)
+model(model),
+oldpitchAngularVelocityRs(0),
+oldrollAngularVelocityRs(0),
+oldyawAngularVelocityRs(0)
 {
 	
 }
 
 void NavigationTask::runTaskImpl()
 {
-	/**
-	 * Update the AHRS
-	 */
-	ahrs->update(model->XAccelFrdMss(), model->YAccelFrdMss(), model->ZAccelFrdMss(),
-				model->RollAngularVelocityRadsPerSecond(), model->PitchAngularVelocityRadsPerSecond(), model->YawAngularVelocityRadsPerSecond(),
-				model->XMagFrd(), model->YMagFrd(), model->ZMagFrd());
+	//avoid oversampling by only calculating a new ahrs value if we have new gyro data (since our AHRS is most sensitive to gyro data).
+	if (model->RollAngularVelocityRadsPerSecond() != oldrollAngularVelocityRs || 
+		model->PitchAngularVelocityRadsPerSecond() != oldpitchAngularVelocityRs ||
+		model->YawAngularVelocityRadsPerSecond() != oldyawAngularVelocityRs)
+	{
+		/**
+		 * Update the AHRS
+		 */
+		ahrs->update(model->XAccelFrdMss(), model->YAccelFrdMss(), model->ZAccelFrdMss(),
+					model->RollAngularVelocityRadsPerSecond(), model->PitchAngularVelocityRadsPerSecond(), model->YawAngularVelocityRadsPerSecond(),
+					model->XMagFrd(), model->YMagFrd(), model->ZMagFrd());
 				
-	model->YawRads(ahrs->getYawRads());
-	model->PitchRads(ahrs->getPitchRads());
-	model->RollRads(ahrs->getRollRads());
-	
+		model->YawRads(ahrs->getYawRads());
+		model->PitchRads(ahrs->getPitchRads());
+		model->RollRads(ahrs->getRollRads());
+		
+		oldrollAngularVelocityRs = model->RollAngularVelocityRadsPerSecond();
+		oldpitchAngularVelocityRs = model->PitchAngularVelocityRadsPerSecond();
+		oldyawAngularVelocityRs = model->YawAngularVelocityRadsPerSecond();
+		
+	}
 	
 	
 	/*
