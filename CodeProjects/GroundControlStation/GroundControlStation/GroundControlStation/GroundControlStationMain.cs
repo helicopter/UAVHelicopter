@@ -1373,8 +1373,8 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            FlightModes flightMode = FlightModes.RealFlight;
-            //FlightModes flightMode = FlightModes.SimulatedFlight;
+            //FlightModes flightMode = FlightModes.RealFlight;
+            FlightModes flightMode = FlightModes.SimulatedFlight;
 
             //SerialPort port = new SerialPort("COM7", 76800, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One); //MOST RECENT
@@ -1725,7 +1725,7 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
 
 
 
-
+            // Most recent 12/2/2014
             model.YawIntegralGain = .263f;//0.333f;
             model.YawProportionalGain = .797f;//.42f;
             model.YawDerivativeGain = .172f;// 0.168f;
@@ -1754,6 +1754,7 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
             model.ZProportionalGain = .0015f;//0.003f;
             model.ZDerivativeGain = .22f;
             model.ZAntiWindupGain = .6685f;// .300874f;
+            
 
 
 
@@ -1762,10 +1763,33 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
 
 
 
+            /*
+            model.YawIntegralGain = 0f;
+            model.YawProportionalGain = 0f;
+            model.YawDerivativeGain = 0f;
+            model.YawAntiWindupGain = 0f;
 
 
+            model.XIntegralGain = 0.0f;
+            model.XProportionalGain = 0f;
+            model.XDerivativeGain = 0f;
+            model.XAntiWindupGain = 0.0f;
+            model.LongitudeInnerLoopGain = 0f;
+            model.PitchAngularVelocityGain = 0f;
 
+            model.YIntegralGain = 0.0f;
 
+            model.YProportionalGain = 0f;
+            model.YDerivativeGain = 0f;
+            model.YAntiWindupGain = 0.0f;
+            model.LateralInnerLoopGain = 0f;
+            model.RollAngularVelocityGain = 0f;
+
+            model.ZIntegralGain = 0f;
+            model.ZProportionalGain = 0f;
+            model.ZDerivativeGain = 0f;
+            model.ZAntiWindupGain = 0f;
+            */
 
 
 

@@ -70,15 +70,19 @@ int GroundControlStationInterface::transmit(Message *msgToSend)
 		delete [] msgPayload;
 		msgPayload = NULL;
 		
-		//Enable data register empty interrupt so the next byte will be transmitted.
-		//I added this code here because enabling interrupts after every byte caused it to not transmit all the data. the system didn't like rapidly enabling interrupts.
-		if (serialDriver->uartPort == SerialDriver::Zero)
+		if (serialDriver->asyncReceiveTransmitData)
 		{
-			UCSR0B |= (1<<UDRIE0);
-		}else if (serialDriver->uartPort == SerialDriver::One)
-		{
-			UCSR1B |= (1<<UDRIE1);
-		}		
+			//Enable data register empty interrupt so the next byte will be transmitted.
+			//I added this code here because enabling interrupts after every byte caused it to not transmit all the data. the system didn't like rapidly enabling interrupts.
+			if (serialDriver->uartPort == SerialDriver::Zero)
+			{
+				UCSR0B |= (1<<UDRIE0);
+			}else if (serialDriver->uartPort == SerialDriver::One)
+			{
+				UCSR1B |= (1<<UDRIE1);
+			}			
+		}
+	
 	}
 	
 	return status;

@@ -66,6 +66,7 @@ void SerialDriver::init()
 			UCSR0A &= ~(1<<U2X0);
 		}
 		
+		//The spec says to set this flag to 0 whenever UCSR0A is set if you are going to be using it.  
 		UCSR0B &= ~(1<<UDRIE0);
 
 		/* Enable receiver and transmitter. Receiver Enable(RXEN), Transmitter Enable (TXEN) */
@@ -471,7 +472,12 @@ void SerialDriver::clearBuffer()
 //ISR for receiving serial data from the gps when an interrupt occurs
 ISR(USART0_RX_vect)
 {
-			
+	/*
+if ((UCSR0A & ((1 << DOR0) | (1<<FE0) | (1<<UPE0))) != 0)
+{
+	PORTA &= ~(1<<PA5);
+}	
+*/		
 	byte b = UDR0;
 	SerialDriver::receiveBuffer.enqueue(b);
 }

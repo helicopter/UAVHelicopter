@@ -13,12 +13,6 @@ imuSensor(imuSensor)
 
 void ReadIMUSensorTask::runTaskImpl()
 {
-	
-	//if(imuSensor->missedReading())
-	{
-		model->SerialCommunicationBufferOverruns(model->SerialCommunicationBufferOverruns() + 1);
-	}
-	
 	//Read the sensor values from the IMU Sensor.
 	imuSensor->readSensor();
 	
