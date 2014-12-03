@@ -324,10 +324,10 @@ float heading = constrain_float2(atan2f(-headY,headX), -3.15f, 3.15f); //+M_PI;
 	{
 		yawRads = 2.0f * M_PI + yawRads;
 	}
-	/*
+	
 	pitchRads = -asin(dcm[2][0]);
 	rollRads = atan2(dcm[2][1], dcm[2][2]);
-	*/
+	
 	
 	
 	
