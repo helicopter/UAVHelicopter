@@ -85,7 +85,8 @@ static const int SCHEDULER_TICK_FREQUENCY_HZ = 200;
 
 //static const int SCHEDULER_TICK_FREQUENCY_HZ = 100; //good when not transmitting to GCS
 
-static const double PID_OUTER_LOOP_PERIOD = .05; //most recent 4/9/2014
+static const double PID_OUTER_LOOP_PERIOD = .05; //most recent 4/9/2014 // 20 hz
+static const double PID_INNER_LOOP_PERIOD = .02;  // 50 hz
 
 //static const double PID_OUTER_LOOP_PERIOD = .02;
 

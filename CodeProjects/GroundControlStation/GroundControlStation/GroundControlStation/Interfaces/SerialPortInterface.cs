@@ -142,6 +142,7 @@ namespace GroundControlStation.Interfaces
 
         public virtual byte ReadByte()
         {
+
             return (byte) port.ReadByte();
         }
 

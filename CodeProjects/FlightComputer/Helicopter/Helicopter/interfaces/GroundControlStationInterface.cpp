@@ -37,50 +37,60 @@ int GroundControlStationInterface::transmit(Message *msgToSend)
 	{
 		byte *msgPayload = msgToSend->getBytes();
 		
-		int payloadSize = msgToSend->getMessageSize();
+		//check for out of memory. (shouldn't be necessary).
+		//if (msgPayload != NULL)
+		{
+			
 		
-		int completeMsgSize = payloadSize + MsgHeaderFooterSize;;
+			int payloadSize = msgToSend->getMessageSize();
+		
+			int completeMsgSize = payloadSize + MsgHeaderFooterSize;;
 
-		byte completeMsg[completeMsgSize];
+			byte completeMsg[completeMsgSize];
 		
-		completeMsg[0] = GroundControlStationInterface::SyncByte1;
-		completeMsg[1] = GroundControlStationInterface::SyncByte2;
-		completeMsg[2] = GroundControlStationInterface::SyncByte3;
+			completeMsg[0] = GroundControlStationInterface::SyncByte1;
+			completeMsg[1] = GroundControlStationInterface::SyncByte2;
+			completeMsg[2] = GroundControlStationInterface::SyncByte3;
 		
-		memcpy(&completeMsg[3], msgPayload, payloadSize);
+			memcpy(&completeMsg[3], msgPayload, payloadSize);
 		
-		byte checksumA = 0;
-		byte checksumB = 0;
+			byte checksumA = 0;
+			byte checksumB = 0;
 		
-		calculateChecksum(msgPayload, payloadSize, checksumA, checksumB);
+			calculateChecksum(msgPayload, payloadSize, checksumA, checksumB);
 		
-		completeMsg[completeMsgSize - 2] = checksumA;
-		completeMsg[completeMsgSize - 1] = checksumB;
+			completeMsg[completeMsgSize - 2] = checksumA;
+			completeMsg[completeMsgSize - 1] = checksumB;
 		
-		serialDriver->startTimer();
+			serialDriver->startTimer();
 		
-		//iterate over the bytes and transmit them, unless there was an error.
-		for (int i = 0; i < completeMsgSize && status == 0; i++)
-		{
-			status = serialDriver->transmit(completeMsg[i]);
-		}
-		
-		serialDriver->stopTimer();
-		
-		delete [] msgPayload;
-		msgPayload = NULL;
-		
-		if (serialDriver->asyncReceiveTransmitData)
-		{
-			//Enable data register empty interrupt so the next byte will be transmitted.
-			//I added this code here because enabling interrupts after every byte caused it to not transmit all the data. the system didn't like rapidly enabling interrupts.
-			if (serialDriver->uartPort == SerialDriver::Zero)
+			//iterate over the bytes and transmit them, unless there was an error.
+			for (int i = 0; i < completeMsgSize && status == 0; i++)
 			{
-				UCSR0B |= (1<<UDRIE0);
-			}else if (serialDriver->uartPort == SerialDriver::One)
+				status = serialDriver->transmit(completeMsg[i]);
+			}
+		
+			serialDriver->stopTimer();
+		
+			delete [] msgPayload;
+			msgPayload = NULL;
+		
+			
+			if (serialDriver->asyncReceiveTransmitData)
 			{
-				UCSR1B |= (1<<UDRIE1);
-			}			
+				//Enable data register empty interrupt so the next byte will be transmitted.
+				//I added this code here because enabling interrupts after every byte caused it to not transmit all the data. the system didn't like rapidly enabling interrupts.
+				if (serialDriver->uartPort == SerialDriver::Zero)
+				{
+					UCSR0B |= (1<<UDRIE0);
+				}else if (serialDriver->uartPort == SerialDriver::One)
+				{
+					UCSR1B |= (1<<UDRIE1);
+				}			
+			}
+			
+		
+		
 		}
 	
 	}

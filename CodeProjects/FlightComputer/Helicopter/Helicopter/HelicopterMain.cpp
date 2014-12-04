@@ -426,14 +426,14 @@ int main(void)
 	//SystemModel *model = publicModel;
 	
 	//model->FlightMode(SystemModel::HardwareInLoopSimulatedFlight);
-	model->FlightMode(SystemModel::SimulatedFlight);
+	//model->FlightMode(SystemModel::SimulatedFlight);
 	
 	/**
 	 * Checklist:
 	 * turn off gains
 	 * modify start up parameters to read gps and baro data longer before start. 
 	 */
-	//model->FlightMode(SystemModel::RealFlight);
+	model->FlightMode(SystemModel::RealFlight);
 	
 	
 	
@@ -498,7 +498,8 @@ receiveGains = true;
 		//Timer *timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 100); //Good timeout when using the USB
 		timer = new Timer(F_CPU, PRESCALE_BY_TENTWENTYFOUR, 50); //Good timeout when using the USB
 		//serialDriver = new SerialDriver(250000, SerialDriver::Zero, true, timer);//MOSTRECENT
-		serialDriver = new SerialDriver(serialDriverBaudRate, SerialDriver::Zero, false, true, timer);
+		serialDriver = new SerialDriver(serialDriverBaudRate, SerialDriver::Zero, false, true, timer); //latest 12/3/2014
+		//serialDriver = new SerialDriver(serialDriverBaudRate, SerialDriver::Zero, false, false, timer);
 		//serialDriver = new SerialDriver(250000, SerialDriver::Zero, true, NULL);
 	}else if (model->CommunicationMethod() == SystemModel::Radio)
 	{
@@ -590,10 +591,12 @@ receiveGains = true;
 		
 	}else if (model->FlightMode() == SystemModel::SimulatedFlight)
 	{
-		transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::ALLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
+		transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::ALLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05)); //latest 12/3/2014
 		//transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::CONTROLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
+		//transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::ALLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .02));
 		
 		simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::ALLDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));//execute 20 hz
+		//simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::ALLDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .02));
 		
 	}else if (model->FlightMode() == SystemModel::HardwareInLoopSimulatedFlight)
 	{
@@ -624,12 +627,13 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	//execute the pid outer loop at the PID_OUTER_LOOP_PERIOD rate. The division is to convert the period into ticks for the scheduler.
 
 	PIDOuterLoopTask *pidOuterLoop = new PIDOuterLoopTask(pidController, 3, (SCHEDULER_TICK_FREQUENCY_HZ  * PID_OUTER_LOOP_PERIOD));
-	PIDInnerLoopTask *pidInnerLoop = new PIDInnerLoopTask(pidController, 4, (SCHEDULER_TICK_FREQUENCY_HZ  * PID_OUTER_LOOP_PERIOD));
+	PIDInnerLoopTask *pidInnerLoop = new PIDInnerLoopTask(pidController, 4, (SCHEDULER_TICK_FREQUENCY_HZ  * PID_INNER_LOOP_PERIOD));
 	
 	
 //	PIDInnerLoopTask *pidInnerLoop = new PIDInnerLoopTask(pidController, 4, 1);
 	
-	float barometerSensorReadPeriod = 1/20.0f; //will be 1/50 for production (or will it? because the ahrs uses this too.
+	float barometerSensorReadPeriod = 1/20.0f; //will be 1/50 for production (or will it? because the ahrs uses this too. //latest 12/3/2014
+	//float barometerSensorReadPeriod = 1/50.0f;
 	float simulatorSensorReadPeriod = barometerSensorReadPeriod;
 	
 	float sensorReadPeriod = 0;
@@ -967,7 +971,6 @@ for (int i = 0; i < 5; i++)
 		rcInterface->start();
 	}
 	
-	
 	while(1)
 	{
 
@@ -984,6 +987,10 @@ for (int i = 0; i < 5; i++)
 			pidController->addBlownFrame();
 		}
 	}
+	
+	
+	
+	
 	
 	return 0;	
 }

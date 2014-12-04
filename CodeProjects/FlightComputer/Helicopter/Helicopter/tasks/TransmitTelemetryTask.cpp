@@ -10,6 +10,7 @@
 #include "SimpleTelemetryMessage.h"
 
 #include <math.h>
+#include <avr/io.h>
 using namespace helicopter::tasks;
 
 TransmitTelemetryTask::TransmitTelemetryTask(GroundControlStationInterface *radioInterface, SystemModel *model, DATATOSEND dataToSend, int delay, int period) :

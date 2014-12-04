@@ -10,6 +10,7 @@
 #define CIRCULARBUFFER_H_
 
 #include <string.h>
+#include <avr/io.h>
 
 #include "CommonHeader.h"
 
@@ -40,6 +41,7 @@ namespace helicopter
 				CircularBuffer(int bufferSize) :  buffer(NULL), bufferSize(bufferSize), headIndex(0), tailIndex(0), bytesInQueue(0)
 				{
 					buffer = new byte[bufferSize];
+					
 					memset(buffer, 0, bufferSize);
 				}
 				~CircularBuffer()
@@ -63,6 +65,10 @@ namespace helicopter
 				 * @return true if there was a byte poped off, False if there wasn't a byte to pop off. (the byte value returned will be 0);
 				 */
 				bool dequeue(byte &val);
+				
+				
+				bool enqueueInt(byte val);
+				bool dequeueInt(byte &val);
 		};
 	}
 }

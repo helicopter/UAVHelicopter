@@ -478,14 +478,15 @@ if ((UCSR0A & ((1 << DOR0) | (1<<FE0) | (1<<UPE0))) != 0)
 	PORTA &= ~(1<<PA5);
 }	
 */		
+			
 	byte b = UDR0;
-	SerialDriver::receiveBuffer.enqueue(b);
+	SerialDriver::receiveBuffer.enqueueInt(b);
 }
 
 ISR(USART0_UDRE_vect)
 {
 	byte val;
-	if (SerialDriver::transmitBuffer.dequeue(val) == true)
+	if (SerialDriver::transmitBuffer.dequeueInt(val) == true)
 	{
 		UDR0 = val;
 	}else
@@ -497,7 +498,7 @@ ISR(USART0_UDRE_vect)
 ISR(USART1_UDRE_vect)
 {
 	byte val;
-	if (SerialDriver::transmitBuffer.dequeue(val) == true)
+	if (SerialDriver::transmitBuffer.dequeueInt(val) == true)
 	{
 		UDR1 = val;
 	}else
