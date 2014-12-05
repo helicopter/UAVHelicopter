@@ -19,7 +19,7 @@
 using namespace helicoptertestscommon::util::testframework;
 
 
-int main9(void)
+int main(void)
 {
 	TestSuite helicopterTests;
 

@@ -5,6 +5,7 @@
  *  Author: HP User
  */ 
 #include <util/delay.h>
+#include <math.h>
 
 #include "IMUSensor.h"
 #include "CommonHeader.h"
@@ -61,14 +62,71 @@ void IMUSensor::init()
 	float offsety = 0.0f;
 	float offsetz = 0.0f;
 	
-	//determine offsets for the gyroscopes by calculating the rolling average
-	for (int i = 0; i < 1000; i++)
+	bool isStable = false;
+	
+	while (!isStable)
 	{
-		this->readSensor();
+		offsetx = 0.0f;
+		offsety = 0.0f;
+		offsetz = 0.0f;
 		
-		offsetx = (this->rawGyroX + i*offsetx) / (i+1);
-		offsety = (this->rawGyroY + i*offsety) / (i+1);
-		offsetz = (this->rawGyroZ + i*offsetz) / (i+1);
+		//read the sensor a few times before start taking the average. 
+		//The first gyro reads can be radically different. 
+		for (int i = 0; i < 20; i++)
+		{
+			this->readSensor();
+		}
+		
+
+
+		float minoffsetx = this->rawGyroX;
+		float minoffsety = this->rawGyroY;
+		float minoffsetz = this->rawGyroZ;
+		
+		float maxoffsetx = this->rawGyroX;
+		float maxoffsety = this->rawGyroY;
+		float maxoffsetz = this->rawGyroZ;	
+	
+		//determine offsets for the gyroscopes by calculating the rolling average
+		for (int i = 0; i < 1000; i++)
+		{
+			this->readSensor();
+		
+			offsetx = (this->rawGyroX + i*offsetx) / (i+1);
+			offsety = (this->rawGyroY + i*offsety) / (i+1);
+			offsetz = (this->rawGyroZ + i*offsetz) / (i+1);
+			
+			minoffsetx = this->rawGyroX < minoffsetx ? this->rawGyroX : minoffsetx;
+			minoffsety = this->rawGyroY < minoffsety ? this->rawGyroY : minoffsety;
+			minoffsetz = this->rawGyroZ < minoffsetz ? this->rawGyroZ : minoffsetz;
+			
+			maxoffsetx = this->rawGyroX > maxoffsetx ? this->rawGyroX : maxoffsetx;
+			maxoffsety = this->rawGyroY > maxoffsety ? this->rawGyroY : maxoffsety;
+			maxoffsetz = this->rawGyroZ > maxoffsetz ? this->rawGyroZ : maxoffsetz;
+			
+			
+		}
+
+		
+		float differenceX = fabs(maxoffsetx - minoffsetx);
+		float differenceY = fabs(maxoffsety - minoffsety);
+		float differenceZ = fabs(maxoffsetz - minoffsetz);
+		/*isStable = true;
+			this->gyroOffsets[0] = this->rawGyroX;
+			this->gyroOffsets[1] = this->rawGyroY;
+			this->gyroOffsets[2] = this->rawGyroZ;*/
+		
+		/**
+		 * Ensure that the difference between the amximum gyro reading and min gyro reading
+		 * is below a threshold. This is so that if the heli is moving when it starts up,
+		 * the system doesn't start up with a huge gyro offset which would cause the helicopter
+		 * to think that it's moving constantly. 
+		 */
+		if (differenceX < 50 && differenceY < 50 && differenceZ < 50)
+		{
+			isStable = true;
+		}
+		
 	}
 	
 	this->gyroOffsets[0] = offsetx;

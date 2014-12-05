@@ -121,11 +121,12 @@ namespace helicopter
 				bool missedRead;
 				
 				//Offsets for raw gyro readings. [0] = x, [1] = y, [2] = z
-				float gyroOffsets[3];
+				//float gyroOffsets[3];
 				
 				
 				
 			public:
+float gyroOffsets[3];			
 				/**
 				 * Constructs the Inertial Measurement Unit sensor.
 				 * @param driver The SPI driver used to communicate with the

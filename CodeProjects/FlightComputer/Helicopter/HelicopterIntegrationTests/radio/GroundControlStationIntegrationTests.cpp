@@ -18,6 +18,8 @@
 #include "MagnetometerSensor.h"
 #include "GainsMessage.h"
 #include "GPSSensor.h"
+#include "IMUSensor.h"
+#include "SPIDriver.h"
 
 #include <string.h>
 #include <util/delay.h>
@@ -987,6 +989,27 @@ int systemtelemetrytransmitandreceive_test(TestCase *test)
 	model->XVEcefCms(42);
 	model->YVEcefCms(12);
 	model->ZVEcefCms(32);
+	
+	
+	
+	
+	
+	/*
+	SPIDriver *spiDriver = new SPIDriver();
+	spiDriver->init();	
+	
+		IMUSensor *imuSensor = new IMUSensor(spiDriver);
+		imuSensor->init();
+	
+	model->XVEcefCms(imuSensor->gyroOffsets[0]);
+	model->YVEcefCms(imuSensor->gyroOffsets[1]);
+	model->ZVEcefCms(imuSensor->gyroOffsets[2]);	
+	
+	*/
+	
+	
+	
+	
 	
 	SystemTelemetryMessage *transmitMessage = SystemTelemetryMessage::buildMessageFromModel(model);
 	

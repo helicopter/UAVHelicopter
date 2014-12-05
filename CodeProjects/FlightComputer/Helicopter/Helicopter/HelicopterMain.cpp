@@ -410,7 +410,9 @@ int main5(void)
 
 int main(void)
 {	
-
+	DDRA |= (1<<PA4);
+	PORTA &= ~(1<<PA4);
+	
 	MatrixUtil::createLookupTables();
 
 	
@@ -426,14 +428,14 @@ int main(void)
 	//SystemModel *model = publicModel;
 	
 	//model->FlightMode(SystemModel::HardwareInLoopSimulatedFlight);
-	//model->FlightMode(SystemModel::SimulatedFlight);
+	model->FlightMode(SystemModel::SimulatedFlight);
 	
 	/**
 	 * Checklist:
 	 * turn off gains
 	 * modify start up parameters to read gps and baro data longer before start. 
 	 */
-	model->FlightMode(SystemModel::RealFlight);
+	//model->FlightMode(SystemModel::RealFlight);
 	
 	
 	
@@ -773,7 +775,8 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	}
 	
 	
-	
+
+	PORTA |= (1<<PA4);
 	
 	//Set the red led to 'on' to indicate the system is initializing. I have this down here because there is a bug which might lock up the system when the GPS initializes, so
 	//we turn on the red led after that bug can take place so we know we past that point in the init sequence. 
