@@ -122,7 +122,7 @@ void IMUSensor::init()
 		 * the system doesn't start up with a huge gyro offset which would cause the helicopter
 		 * to think that it's moving constantly. 
 		 */
-		if (differenceX < 50 && differenceY < 50 && differenceZ < 50)
+		if (differenceX < 10 && differenceY < 10 && differenceZ < 10)
 		{
 			isStable = true;
 		}
