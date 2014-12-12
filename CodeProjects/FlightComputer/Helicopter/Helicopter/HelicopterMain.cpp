@@ -566,9 +566,18 @@ receiveGains = true;
 	SimTelemetryTask *simTelemTask = NULL;
 	//SimTelemetryTask *gainsTelemTask = NULL;
 	TransmitTelemetryTask *transTelemTask = NULL;
+	
+	
+	int gpsAcceptanceThreshold = 20000;
+	int barometerInitReadings = 5;
+	int sensorInitReadings = 5;
 
 	if (model->FlightMode() == SystemModel::RealFlight)
 	{
+		gpsAcceptanceThreshold = 20000;
+		barometerInitReadings = 1000;
+		sensorInitReadings = 500;
+		
 		//transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
 		transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .5));
 		//transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ));
@@ -799,7 +808,7 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	
 		//Initialize GPS readings and position
 		//while (!gpsSensor->isGpsReady() || gpsSensor->getPositionAccuracyEstimateEcefCm() > 400)
-while (!gpsSensor->isGpsReady() || gpsSensor->getPositionAccuracyEstimateEcefCm() > 20000)		
+while (!gpsSensor->isGpsReady() || gpsSensor->getPositionAccuracyEstimateEcefCm() > gpsAcceptanceThreshold)		
 		{
 			//gpsSensor->processSensorSolution();
 			gpsSensor->readSensorLLH();
@@ -857,7 +866,7 @@ while (!gpsSensor->isGpsReady() || gpsSensor->getPositionAccuracyEstimateEcefCm(
 		
 		//Initialize barometer readings. The barometer needs lots of time to stabilize. 
 		//for (int i = 0; i < 1000; i++)
-for (int i = 0; i < 5; i++)		
+for (int i = 0; i < barometerInitReadings; i++)		
 		{
 			//baro task is a 3 step process, so run 3 times.
 			for (int i = 0; i < 3; i++)
@@ -881,7 +890,7 @@ for (int i = 0; i < 5; i++)
 		
 		//execute all the senor tasks a bunch of times to initialize the ahrs and nav systems.
 		//for (int i = 0; i < 500; i++)
-for (int i = 0; i < 5; i++)		
+for (int i = 0; i < sensorInitReadings; i++)		
 		{
 			magSensorTask->runTaskImpl();
 			gpsSensorTask->runTaskImpl();
