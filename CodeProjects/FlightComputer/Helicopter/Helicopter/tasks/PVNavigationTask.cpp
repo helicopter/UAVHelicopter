@@ -67,6 +67,9 @@ void PVNavigationTask::runTaskImpl()
 	
 	//bool hasGoodAltitude = true;
 	
+	//model->ZNEDLocalFrameCm((float) (altitudeMslCm - model->InitialAltitudeCm()));
+	
+	
 	if (!isnanf(altitudeMslCm) && 
 		((altitudeMslCm - model->InitialAltitudeCm()) - model->ZNEDLocalFrameCm()) < 800 && 
 		((altitudeMslCm - model->InitialAltitudeCm()) - model->ZNEDLocalFrameCm()) > -800)

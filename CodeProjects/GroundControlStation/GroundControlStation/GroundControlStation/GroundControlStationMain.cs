@@ -1724,7 +1724,7 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
 
 
 
-            /*
+            
            // Most recent 12/2/2014
            model.YawIntegralGain = .263f;//0.333f;
            model.YawProportionalGain = .797f;//.42f;
@@ -1757,7 +1757,7 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
             
 
 
-           */
+           
 
 
 
@@ -1769,6 +1769,7 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
             model.YawDerivativeGain = 0f;
             model.YawAntiWindupGain = 0f;
             */
+            /*
             model.YawIntegralGain = .263f;//0.333f;
             model.YawProportionalGain = .797f;//.42f;
             model.YawDerivativeGain = .172f;// 0.168f;
@@ -1794,7 +1795,7 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
             model.ZProportionalGain = 0f;
             model.ZDerivativeGain = 0f;
             model.ZAntiWindupGain = 0f;
-
+            */
 
 
 

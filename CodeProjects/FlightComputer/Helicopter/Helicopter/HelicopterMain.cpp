@@ -410,6 +410,8 @@ int main5(void)
 
 int main(void)
 {	
+	
+	
 	DDRA |= (1<<PA4);
 	PORTA &= ~(1<<PA4);
 	
@@ -568,15 +570,19 @@ receiveGains = true;
 	TransmitTelemetryTask *transTelemTask = NULL;
 	
 	
-	int gpsAcceptanceThreshold = 20000;
+	unsigned long gpsAcceptanceThreshold = 20000;
 	int barometerInitReadings = 5;
 	int sensorInitReadings = 5;
 
 	if (model->FlightMode() == SystemModel::RealFlight)
 	{
-		gpsAcceptanceThreshold = 20000;
+		
+		/*gpsAcceptanceThreshold = 20000;
 		barometerInitReadings = 1000;
-		sensorInitReadings = 500;
+		sensorInitReadings = 500;*/
+		gpsAcceptanceThreshold = 20000;
+		barometerInitReadings = 1300;
+		sensorInitReadings = 100;
 		
 		//transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
 		transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .5));
@@ -876,9 +882,26 @@ for (int i = 0; i < barometerInitReadings; i++)
 			}
 		}
 		
-		//set the initial altitude based on sensor readings.
-		model->InitialAltitudeCm((((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-6.8755856 * 0.000001)) / 3.28084) * -100);
 		
+		float average = 0;
+		int iterations = 10;
+		for (int i = 0; i < iterations; i++)
+		{
+			//baro task is a 3 step process, so run 3 times.
+			for (int i = 0; i < 3; i++)
+			{
+				barometerSensorTask->runTaskImpl();
+				_delay_ms(BarometerSensor::ADC_PROCESSING_TIME_MS);
+			}
+			average +=model->PressureMillibars();
+			
+		}
+		
+		model->PressureMillibars((float)average/((float)iterations));
+		
+		//set the initial altitude based on sensor readings.
+		//model->InitialAltitudeCm((((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-6.8755856 * 0.000001)) / 3.28084) * -100);
+		model->InitialAltitudeCm((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1) * 4433228.712);
 		
 		
 		float accelGain = ahrs->ACCELEROMETER_ANGULARDISPLACEMENT_WEIGHT;
@@ -953,7 +976,8 @@ for (int i = 0; i < sensorInitReadings; i++)
 				//model->InitialAltitudeMeters(((288.15/(6.5/1000.0))*(1-(pow((model->PressureMillibars()/101325.0),(6.5/1000.0)*(287.052/9.78))))) * -1);
 			
 				//https://www.brisbanehotairballooning.com.au/faqs/education/113-pressure-altitude-conversion.html
-				model->InitialAltitudeCm((((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-6.8755856 * 0.000001)) / 3.28084) * -100);
+				//model->InitialAltitudeCm((((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-6.8755856 * 0.000001)) / 3.28084) * -100);
+				model->InitialAltitudeCm((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1) * 4433228.712);
 			}
 			_delay_ms(100);
 		}
