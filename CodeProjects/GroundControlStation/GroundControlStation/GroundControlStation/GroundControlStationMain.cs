@@ -1762,15 +1762,15 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
 
             //new values 1/24/2015
             model.YawIntegralGain = 0.0f;//.942f;//.263f;//0.333f; //bad because if you lose control, your permanently out of control. 
-            model.YawProportionalGain = 1.1f;//.797f;//.42f;
+            model.YawProportionalGain = 1.2f;//1.1f;//.797f;//.42f;
             model.YawDerivativeGain = .275f;//.172f;// 0.168f;
             //model.YawAntiWindupGain = 0.02f;
             model.YawAntiWindupGain = 0.0f;//0.11f;
 
 
             model.XIntegralGain = 0.0f;
-            model.XProportionalGain = .00036f;//0.000071f;//.00075f;//.001f;//.623f;//.0151f;
-            model.XDerivativeGain = .0004f;//.00019f;//.00025f;//.004f;//1.783f;//0.0f;
+            model.XProportionalGain = .00021f;//.00013f; //.00036f;//0.000071f;//.00075f;//.001f;//.623f;//.0151f;
+            model.XDerivativeGain = .00041f;//.00039f;//.0004f;//.00019f;//.00025f;//.004f;//1.783f;//0.0f;
             model.XAntiWindupGain = 0.0f;
             //model.LongitudeInnerLoopGain = 1.0f;
             model.LongitudeInnerLoopGain = 1.0f;//.8f;//.272f;//.252f;//0.17081f;
@@ -1778,8 +1778,8 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
 
             model.YIntegralGain = 0.0f;
 
-            model.YProportionalGain = .0003f;//.000971f;//0.000114f;//.00151f;//.0151f;
-            model.YDerivativeGain = .000253f;//0.00002f; //0f;//.0009f;//.009f;//0.0f;
+            model.YProportionalGain = .00025f;//.0003f;//.000971f;//0.000114f;//.00151f;//.0151f;
+            model.YDerivativeGain = .000501f;//.00065f;//.000253f;//0.00002f; //0f;//.0009f;//.009f;//0.0f;
             model.YAntiWindupGain = 0.0f;
             //model.LateralInnerLoopGain = 1.0f;
             model.LateralInnerLoopGain = 1.0f;//.43f;//.277f;//0.17081f;
