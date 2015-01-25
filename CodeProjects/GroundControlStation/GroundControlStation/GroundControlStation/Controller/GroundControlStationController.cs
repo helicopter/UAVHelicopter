@@ -202,7 +202,9 @@ namespace GroundControlStation.Controller
 //                        System.Diagnostics.Debug.WriteLine("collective control: " + telem.MainRotorCollectiveControl + ", lat control: " + telem.LateralControl + ", long control: " + telem.LongitudeControl + ", Rudder control: " + telem.YawControl);
 
 
-                        Console.WriteLine("NumOfBlownFrames: " + (telem.NumOfBlownFrames - previousBlownFrames).ToString() + " num of reads: " + (telem.SerialCommunicationBufferOverruns - previousNumReads).ToString() + " time interval: " + DateTime.Now.Subtract(lastRead).TotalMilliseconds);
+                        //Console.WriteLine("NumOfBlownFrames: " + (telem.NumOfBlownFrames - previousBlownFrames).ToString() + " num of reads: " + (telem.SerialCommunicationBufferOverruns - previousNumReads).ToString() + " time interval: " + DateTime.Now.Subtract(lastRead).TotalMilliseconds);
+                        //Console.WriteLine("Altitude: " + telem.ZNEDLocalFrame + ", Altitude Velocity: " + telem.ZVelocityFRDCms);
+
                         lastRead = DateTime.Now;
                         previousBlownFrames = telem.NumOfBlownFrames;
                         previousNumReads = telem.SerialCommunicationBufferOverruns;
@@ -307,7 +309,9 @@ namespace GroundControlStation.Controller
                         SimpleTelemetryMessage telem = (SimpleTelemetryMessage)msg;
 
 
-                        Console.WriteLine("NumOfBlownFrames: " + (telem.NumOfBlownFrames - previousBlownFrames).ToString() + " num of reads: " + (telem.SerialCommunicationBufferOverruns - previousNumReads).ToString() + " time interval: " + DateTime.Now.Subtract(lastRead).TotalMilliseconds);
+                        //Console.WriteLine("NumOfBlownFrames: " + (telem.NumOfBlownFrames - previousBlownFrames).ToString() + " num of reads: " + (telem.SerialCommunicationBufferOverruns - previousNumReads).ToString() + " time interval: " + DateTime.Now.Subtract(lastRead).TotalMilliseconds);
+                        Console.WriteLine("Altitude: " + telem.ZNEDLocalFrame + ", Altitude Velocity: " + telem.ZVelocityFRDCms);
+
 
                         lastRead = DateTime.Now;
 

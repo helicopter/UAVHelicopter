@@ -1373,8 +1373,8 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            FlightModes flightMode = FlightModes.RealFlight;
-            //FlightModes flightMode = FlightModes.SimulatedFlight;
+            //FlightModes flightMode = FlightModes.RealFlight;
+            FlightModes flightMode = FlightModes.SimulatedFlight;
 
             //SerialPort port = new SerialPort("COM7", 76800, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One); //MOST RECENT
@@ -1726,55 +1726,90 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
 
             
            // Most recent 12/2/2014
-           model.YawIntegralGain = .263f;//0.333f;
-           model.YawProportionalGain = .797f;//.42f;
-           model.YawDerivativeGain = .172f;// 0.168f;
-           //model.YawAntiWindupGain = 0.02f;
-           model.YawAntiWindupGain = 0.11f;
+            //model.YawIntegralGain = .263f;//0.333f;
+            //model.YawProportionalGain = .797f;//.42f;
+            //model.YawDerivativeGain = .172f;// 0.168f;
+            ////model.YawAntiWindupGain = 0.02f;
+            //model.YawAntiWindupGain = 0.11f;
 
 
-           model.XIntegralGain = 0.0f;
-           model.XProportionalGain = 0.000071f;//.00075f;//.001f;//.623f;//.0151f;
-           model.XDerivativeGain = .00025f;//.004f;//1.783f;//0.0f;
-           model.XAntiWindupGain = 0.0f;
-           //model.LongitudeInnerLoopGain = 1.0f;
-           model.LongitudeInnerLoopGain = .272f;//.252f;//0.17081f;
-           model.PitchAngularVelocityGain =  .972f;//0.0f;
+            //model.XIntegralGain = 0.0f;
+            //model.XProportionalGain = 0.000071f;//.00075f;//.001f;//.623f;//.0151f;
+            //model.XDerivativeGain = .00025f;//.004f;//1.783f;//0.0f;
+            //model.XAntiWindupGain = 0.0f;
+            ////model.LongitudeInnerLoopGain = 1.0f;
+            //model.LongitudeInnerLoopGain = .272f;//.252f;//0.17081f;
+            //model.PitchAngularVelocityGain = .972f;//0.0f;
 
-           model.YIntegralGain = 0.0f;
+            //model.YIntegralGain = 0.0f;
 
-           model.YProportionalGain = 0.000114f;//.00151f;//.0151f;
-           model.YDerivativeGain = 0f;//.0009f;//.009f;//0.0f;
-           model.YAntiWindupGain = 0.0f;
-           //model.LateralInnerLoopGain = 1.0f;
-           model.LateralInnerLoopGain = .43f;//.277f;//0.17081f;
-           model.RollAngularVelocityGain = .014f;//.739f;//0.0f;
+            //model.YProportionalGain = 0.000114f;//.00151f;//.0151f;
+            //model.YDerivativeGain = 0f;//.0009f;//.009f;//0.0f;
+            //model.YAntiWindupGain = 0.0f;
+            ////model.LateralInnerLoopGain = 1.0f;
+            //model.LateralInnerLoopGain = .43f;//.277f;//0.17081f;
+            //model.RollAngularVelocityGain = .014f;//.739f;//0.0f;
 
-           model.ZIntegralGain = 0f;//.0005f;// .001f;
-           model.ZProportionalGain = .0015f;//0.003f;
-           model.ZDerivativeGain = .22f;
-           model.ZAntiWindupGain = .6685f;// .300874f;
+            //model.ZIntegralGain = 0f;//.0005f;// .001f;
+            //model.ZProportionalGain = .0015f;//0.003f;
+            //model.ZDerivativeGain = .22f;
+            //model.ZAntiWindupGain = .6685f;// .300874f;
             
 
 
+
+
+
+            //new values 1/24/2015
+            model.YawIntegralGain = 0.0f;//.942f;//.263f;//0.333f; //bad because if you lose control, your permanently out of control. 
+            model.YawProportionalGain = 1.1f;//.797f;//.42f;
+            model.YawDerivativeGain = .275f;//.172f;// 0.168f;
+            //model.YawAntiWindupGain = 0.02f;
+            model.YawAntiWindupGain = 0.0f;//0.11f;
+
+
+            model.XIntegralGain = 0.0f;
+            model.XProportionalGain = .00036f;//0.000071f;//.00075f;//.001f;//.623f;//.0151f;
+            model.XDerivativeGain = .0004f;//.00019f;//.00025f;//.004f;//1.783f;//0.0f;
+            model.XAntiWindupGain = 0.0f;
+            //model.LongitudeInnerLoopGain = 1.0f;
+            model.LongitudeInnerLoopGain = 1.0f;//.8f;//.272f;//.252f;//0.17081f;
+            model.PitchAngularVelocityGain = 0.0f;//.972f;//0.0f;
+
+            model.YIntegralGain = 0.0f;
+
+            model.YProportionalGain = .0003f;//.000971f;//0.000114f;//.00151f;//.0151f;
+            model.YDerivativeGain = .000253f;//0.00002f; //0f;//.0009f;//.009f;//0.0f;
+            model.YAntiWindupGain = 0.0f;
+            //model.LateralInnerLoopGain = 1.0f;
+            model.LateralInnerLoopGain = 1.0f;//.43f;//.277f;//0.17081f;
+            model.RollAngularVelocityGain = 0.0f;//.014f;//.739f;//0.0f;
+
+            model.ZIntegralGain = 0f;//.0005f;// .001f;
+            model.ZProportionalGain = .0015f;//0.003f;
+            model.ZDerivativeGain = .22f;
+            model.ZAntiWindupGain = 0.0f;//.6685f;// .300874f;
            
 
 
 
 
 
-           /*
-            model.YawIntegralGain = 0f;
-            model.YawProportionalGain = 0f;
-            model.YawDerivativeGain = 0f;
-            model.YawAntiWindupGain = 0f;
-            */
+           
+
+            
             /*
             model.YawIntegralGain = .263f;//0.333f;
             model.YawProportionalGain = .797f;//.42f;
             model.YawDerivativeGain = .172f;// 0.168f;
             model.YawAntiWindupGain = 0.11f;
+             */
 
+            /*
+            model.YawIntegralGain = 0f;
+            model.YawProportionalGain = 0f;
+            model.YawDerivativeGain = 0f;
+            model.YawAntiWindupGain = 0f;
 
             model.XIntegralGain = 0.0f;
             model.XProportionalGain = 0f;

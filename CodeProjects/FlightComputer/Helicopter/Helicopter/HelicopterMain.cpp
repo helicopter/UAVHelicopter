@@ -430,14 +430,14 @@ int main(void)
 	//SystemModel *model = publicModel;
 	
 	//model->FlightMode(SystemModel::HardwareInLoopSimulatedFlight);
-	//model->FlightMode(SystemModel::SimulatedFlight);
+	model->FlightMode(SystemModel::SimulatedFlight);
 	
 	/**
 	 * Checklist:
 	 * turn off gains
 	 * modify start up parameters to read gps and baro data longer before start. 
 	 */
-	model->FlightMode(SystemModel::RealFlight);
+	//model->FlightMode(SystemModel::RealFlight);
 	
 	
 	
