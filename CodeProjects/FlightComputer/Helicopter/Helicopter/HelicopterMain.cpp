@@ -55,8 +55,8 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	 * These are the setpoints that the helicopter to navigate/orient to.
 	 * This includes the final location that the helicopter should travel to.
 	 */
-//	model->ReferenceMagYawRads(0.0); //point north
-	model->ReferenceMagYawRads(1.52f); //point north
+	model->ReferenceMagYawRads(0.0); //point north
+	//model->ReferenceMagYawRads(1.52f); //point north
 	//model->ReferenceMagYawRads(1.9722); //113* south east
 	model->ReferenceYawVelocityRadsPerSecond(0.0);
 	
@@ -142,30 +142,116 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 		pidController->setYawAntiWindupGain(0.135);
 	*/
 	
-	pidController->setXProportionalGain(0.000071f);
-	pidController->setXIntegralGain(0);
-	pidController->setXDerivativeGain(.00025f);
-	pidController->setXAntiWindupGain(0);
-	pidController->setLongitudeInnerLoopGain(.272);
-	pidController->setPitchAngularVelocityGain(.972);
+	//pidController->setXProportionalGain(0.000071f);
+	//pidController->setXIntegralGain(0);
+	//pidController->setXDerivativeGain(.00025f);
+	//pidController->setXAntiWindupGain(0);
+	//pidController->setLongitudeInnerLoopGain(.272);
+	//pidController->setPitchAngularVelocityGain(.972);
+	//
+	//pidController->setYProportionalGain(0.000114f);
+	//pidController->setYIntegralGain(0);
+	//pidController->setYDerivativeGain(.049f);
+	//pidController->setYAntiWindupGain(0);
+	//pidController->setLateralInnerLoopGain(.43f);
+	//pidController->setRollAngularVelocityGain(.014f);
+	//
+	//pidController->setZProportionalGain(.0015f);
+	//pidController->setZIntegralGain(.00f);
+	//pidController->setZDerivativeGain(.22f);
+	//pidController->setZAntiWindupGain(.6685f);
+	//
+	//
+	//pidController->setYawProportionalGain(.797f);
+	//pidController->setYawIntegralGain(.263f);
+	//pidController->setYawDerivativeGain(.172);
+	//pidController->setYawAntiWindupGain(0.11f);
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	////TODO: Don't forget that there is a difference between how often the sensors
+	////are read and how often the control algorithm runs. 
+	//pidController->setIntervalPeriodSecs(PID_OUTER_LOOP_PERIOD);
+//
+///*	
+	//pidController->setMinYawServoControl (-.8);
+	//pidController->setMaxYawServoControl(.8);
+	//*/
+//
+////pidController->setMinYawServoControl (-10);
+////pidController->setMaxYawServoControl(10);
+//
+//
+//
+	//pidController->setControlMaxValue(1.0d);
+	//pidController->setControlMinValue(-1.0d);
+	//
+	//pidController->setMinYawServoControl (-.96d);
+	//pidController->setMaxYawServoControl (.96d);
+	//
+	////due to bad design, if these servo control values change, so does the
+	////radiocontrollerinterface method for converting control values to control signals.
+	//pidController->setMaxLongitudeServoControlValue(1.0d);
+	//pidController->setMinLongitudeServoControlValue(-1.0d);
+	//pidController->setMaxLateralServoControlValue(1.0d);
+	//pidController->setMinLateralServoControlValue(-1.0d);
+	//
+	////just changed
+	//pidController->setMaxMainRotorServoControlValue(.5d);
+	//pidController->setMinMainRotorServoControlValue(0.0d);
+	//
+	//////5 degrees
+	//pidController->setMaxRollSetpointRads(0.0872664626);
+	//pidController->setMinRollSetpointRads(-0.0872664626);
+////10 degrees
+////pidController->setMaxRollSetpointRads(0.1745328);
+////pidController->setMinRollSetpointRads(-0.1745328);	
+	//
+	////13 degrees
+	//pidController->setMaxPitchSetpointRads(0.226892803);
+	//pidController->setMinPitchSetpointRads(-0.226892803);
 	
-	pidController->setYProportionalGain(0.000114f);
-	pidController->setYIntegralGain(0);
-	pidController->setYDerivativeGain(.049f);
-	pidController->setYAntiWindupGain(0);
-	pidController->setLateralInnerLoopGain(.43f);
-	pidController->setRollAngularVelocityGain(.014f);
+	//lets try 7 degree max pitch
+	//pidController->setMaxPitchSetpointRads(0.122173048);
+	//pidController->setMinPitchSetpointRads(-0.122173048);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	pidController->setXProportionalGain(.00021f);
+	pidController->setXIntegralGain(0);
+	pidController->setXDerivativeGain(.00041f);
+	pidController->setXAntiWindupGain(0.0f);
+	pidController->setLongitudeInnerLoopGain(1.0f);
+	pidController->setPitchAngularVelocityGain(0.0f);
+	
+	pidController->setYProportionalGain(.00025f);
+	pidController->setYIntegralGain(0.0f);
+	pidController->setYDerivativeGain(.000501f);
+	pidController->setYAntiWindupGain(0.0f);
+	pidController->setLateralInnerLoopGain(1.0f);
+	pidController->setRollAngularVelocityGain(0.0f);
 	
 	pidController->setZProportionalGain(.0015f);
 	pidController->setZIntegralGain(.00f);
 	pidController->setZDerivativeGain(.22f);
-	pidController->setZAntiWindupGain(.6685f);
+	pidController->setZAntiWindupGain(0.0f);
 	
 	
-	pidController->setYawProportionalGain(.797f);
-	pidController->setYawIntegralGain(.263f);
-	pidController->setYawDerivativeGain(.172);
-	pidController->setYawAntiWindupGain(0.11f);
+	pidController->setYawProportionalGain(1.2f);
+	pidController->setYawIntegralGain(.0f);
+	pidController->setYawDerivativeGain(.275f);
+	pidController->setYawAntiWindupGain(0.0f);
 	
 	
 	
@@ -176,15 +262,6 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	//TODO: Don't forget that there is a difference between how often the sensors
 	//are read and how often the control algorithm runs. 
 	pidController->setIntervalPeriodSecs(PID_OUTER_LOOP_PERIOD);
-
-/*	
-	pidController->setMinYawServoControl (-.8);
-	pidController->setMaxYawServoControl(.8);
-	*/
-
-//pidController->setMinYawServoControl (-10);
-//pidController->setMaxYawServoControl(10);
-
 
 
 	pidController->setControlMaxValue(1.0d);
@@ -207,17 +284,13 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	////5 degrees
 	pidController->setMaxRollSetpointRads(0.0872664626);
 	pidController->setMinRollSetpointRads(-0.0872664626);
-//10 degrees
-//pidController->setMaxRollSetpointRads(0.1745328);
-//pidController->setMinRollSetpointRads(-0.1745328);	
-	
+
 	//13 degrees
 	pidController->setMaxPitchSetpointRads(0.226892803);
-	pidController->setMinPitchSetpointRads(-0.226892803);
+	pidController->setMinPitchSetpointRads(-0.226892803);	
 	
-	//lets try 7 degree max pitch
-	//pidController->setMaxPitchSetpointRads(0.122173048);
-	//pidController->setMinPitchSetpointRads(-0.122173048);
+	
+	
 }
 
 
@@ -253,7 +326,7 @@ int main5(void)
 	
 	
 	SystemModel *model = new SystemModel();
-	model->FlightMode(SystemModel::RealFlight);
+	model->FlightMode(SystemModel::RealFlightTest);
 	
 	
 	SerialDriver *serialDriver = NULL;
@@ -430,13 +503,14 @@ int main(void)
 	//SystemModel *model = publicModel;
 	
 	//model->FlightMode(SystemModel::HardwareInLoopSimulatedFlight);
-	model->FlightMode(SystemModel::SimulatedFlight);
+	//model->FlightMode(SystemModel::SimulatedFlight);
 	
 	/**
 	 * Checklist:
 	 * turn off gains
 	 * modify start up parameters to read gps and baro data longer before start. 
 	 */
+	model->FlightMode(SystemModel::RealFlightTest);
 	//model->FlightMode(SystemModel::RealFlight);
 	
 	
@@ -457,7 +531,7 @@ int main(void)
 	
 
 		
-	}else if (model->FlightMode() == SystemModel::RealFlight)
+	}else if (model->FlightMode() == SystemModel::RealFlightTest)
 	{
 		model->SensorInput(SystemModel::RealSensors);
 		//model->SensorInput(SystemModel::SimulatedSensors);
@@ -477,6 +551,13 @@ receiveGains = true;
 //model->CommunicationMethod(SystemModel::USB);
 		sendControlToServos = true;
 		receiveGains = true;
+	}else if (model->FlightMode() == SystemModel::RealFlight)
+	{
+		model->SensorInput(SystemModel::RealSensors);
+		model->CommunicationMethod(SystemModel::Radio);
+
+		sendControlToServos = true;
+		receiveGains = false;
 	}
 	
 	
@@ -574,15 +655,18 @@ receiveGains = true;
 	int barometerInitReadings = 5;
 	int sensorInitReadings = 5;
 
-	if (model->FlightMode() == SystemModel::RealFlight)
+	if (model->FlightMode() == SystemModel::RealFlightTest)
 	{
 		
 		/*gpsAcceptanceThreshold = 20000;
 		barometerInitReadings = 1000;
 		sensorInitReadings = 500;*/
-		gpsAcceptanceThreshold = 20000;
+		
+		//latest??
+		/*gpsAcceptanceThreshold = 20000;
 		barometerInitReadings = 1300;
 		sensorInitReadings = 100;
+		*/
 		
 		//transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05));
 		transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .5));
@@ -606,6 +690,20 @@ receiveGains = true;
 		}
 		
 		
+	}else if (model->FlightMode() == SystemModel::RealFlight)
+	{
+		gpsAcceptanceThreshold = 900;
+		barometerInitReadings = 1000;
+		sensorInitReadings = 500;
+		
+		transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::SIMPLEDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .5));
+		if (receiveGains)
+		{
+			simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::GAINSDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ)); //execute once a sec
+		}else
+		{
+			simTelemTask = new SimTelemetryTask(gcsInterface, model, pidController,SimTelemetryTask::SENSORDATA, 0, (SCHEDULER_TICK_FREQUENCY_HZ  * .5));
+		}
 	}else if (model->FlightMode() == SystemModel::SimulatedFlight)
 	{
 		transTelemTask = new TransmitTelemetryTask(gcsInterface, model, TransmitTelemetryTask::ALLDATA, 1, (SCHEDULER_TICK_FREQUENCY_HZ  * .05)); //latest 12/3/2014
@@ -872,7 +970,7 @@ while (!gpsSensor->isGpsReady() || gpsSensor->getPositionAccuracyEstimateEcefCm(
 		
 		//Initialize barometer readings. The barometer needs lots of time to stabilize. 
 		//for (int i = 0; i < 1000; i++)
-for (int i = 0; i < barometerInitReadings; i++)		
+		for (int i = 0; i < barometerInitReadings; i++)		
 		{
 			//baro task is a 3 step process, so run 3 times.
 			for (int i = 0; i < 3; i++)

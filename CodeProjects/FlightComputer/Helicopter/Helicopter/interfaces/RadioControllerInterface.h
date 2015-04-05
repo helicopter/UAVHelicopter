@@ -63,12 +63,12 @@ namespace helicopter
 				//represents the 'middle' of the scalers. I.e. in a numberline between -100 and 100, this value is actually the 0 point. 
 				//for some reason, on my rc controller, 60 is like the middle. 
 				static const int ZERO_SCALER = 60;
-				
+				//These are the settings in the 'swashplate' section on the rc controller. These values limit
+				//the maximum pitch angle, roll angle, etc. that the blades can have. (limits the max and min values)				
 				static const int AILERON_SCALER = 43;
-				
 				static const int ELEVATOR_SCALER = 43;
-				
-				static const int PITCH_COLLECTIVE_SCALER = 35;
+				//static const int PITCH_COLLECTIVE_SCALER = 35;
+				static const int PITCH_COLLECTIVE_SCALER = 37;
 				
 				
 				
