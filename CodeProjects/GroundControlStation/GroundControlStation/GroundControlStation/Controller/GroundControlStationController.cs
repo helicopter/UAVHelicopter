@@ -369,10 +369,31 @@ namespace GroundControlStation.Controller
                         Model.ChecksumErrors = telem.ChecksumErrors;
                         Model.NumOfBlownFrames = telem.NumOfBlownFrames;
                         Model.SerialCommunicationBufferOverruns = telem.SerialCommunicationBufferOverruns;
+
+
+                        /*
+                        Model.XVelocityMetersPerSecond = 20f;
+                        Model.YVelocityMetersPerSecond = 40f;
+                        Model.ZVelocityFeetPerSecond = 60f;
+                         */
                         UpdateViews();
 
 
                         flightComputerFileLogger.WriteLine(DateTime.Now.ToString("hh.mm.ss.ffffff") + ", " + LoggingUtil.ToCsv(",", telem));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     }
                     else if (msg.MsgType == SyncMessage.MessageType)
                     {

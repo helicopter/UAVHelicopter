@@ -53,48 +53,52 @@ void PVNavigationTask::runTaskImpl()
 
 	
 	
-	
-	
-	/**
-	 * Process barometer data into altitude
-	 * altitude equation from:https://www.brisbanehotairballooning.com.au/faqs/education/113-pressure-altitude-conversion.html
-	 * Multiply by -100 because in NED, 'down' is positive. And to convert meters to cm.
-	 * -0.00000687535 = -6.8755856 * 10^-6
-	 */
-	//float altitudeMslCm = (((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-0.00000687535)) / 3.28084) * -100.0f;
-	//4433228.712 is a number I came up with from simplifying the expression (((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-0.00000687535)) / 3.28084) * -100.0f;
-	float altitudeMslCm = (pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1) * 4433228.712; 
-	
-	//bool hasGoodAltitude = true;
-	
-	//model->ZNEDLocalFrameCm((float) (altitudeMslCm - model->InitialAltitudeCm()));
-	
-	
-	if (!isnanf(altitudeMslCm) && 
-		((altitudeMslCm - model->InitialAltitudeCm()) - model->ZNEDLocalFrameCm()) < 800 && 
-		((altitudeMslCm - model->InitialAltitudeCm()) - model->ZNEDLocalFrameCm()) > -800)
+	if (model->HasNewPressureReading == true)
 	{
+	
+	
 		/**
-		 * If we get a NAN number, or the difference between the new altitude and previous altitude is over 800, then ignore the value.
-		 * this could happen because the baro didn't get enough time to properly process it's data, so it gives junk values. 
+		 * Process barometer data into altitude
+		 * altitude equation from:https://www.brisbanehotairballooning.com.au/faqs/education/113-pressure-altitude-conversion.html
+		 * Multiply by -100 because in NED, 'down' is positive. And to convert meters to cm.
+		 * -0.00000687535 = -6.8755856 * 10^-6
 		 */
+		//float altitudeMslCm = (((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-0.00000687535)) / 3.28084) * -100.0f;
+		//4433228.712 is a number I came up with from simplifying the expression (((pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1)/ (-0.00000687535)) / 3.28084) * -100.0f;
+		float altitudeMslCm = (pow(10,log10(model->PressureMillibars()/1013.25) / 5.2558797) - 1) * 4433228.712; 
 	
-		//exponential smoothing. http://en.wikipedia.org/wiki/Exponential_smoothing
-		//St = aX + (1-a)St-1
-		float altitudeCmAglTemp = (float) (altitudeMslCm - model->InitialAltitudeCm());
-		float previousAltitudeCmAgl = model->ZNEDLocalFrameCm();
-		float currentAltitudeCmAgl = WEIGHT * (altitudeCmAglTemp) + (1 - WEIGHT)*previousAltitudeCmAgl;
-		//model->AltitudeMetersAgl(currentAltitudeMetersAgl);
+		//bool hasGoodAltitude = true;
 	
-		//Calculate altitude speed.
-		//model->ZVelocityFRDCms(((currentAltitudeCmAgl - previousAltitudeCmAgl) * BAROMETER_SENSOR_READ_PERIOD));
-		model->ZVelocityFRDCms(((currentAltitudeCmAgl - previousAltitudeCmAgl) * barometerSensorReadPeriod));
+		//model->ZNEDLocalFrameCm((float) (altitudeMslCm - model->InitialAltitudeCm()));
+	
+	
+		if (!isnanf(altitudeMslCm) && 
+			((altitudeMslCm - model->InitialAltitudeCm()) - model->ZNEDLocalFrameCm()) < 800 && 
+			((altitudeMslCm - model->InitialAltitudeCm()) - model->ZNEDLocalFrameCm()) > -800)
+		{
+			/**
+			 * If we get a NAN number, or the difference between the new altitude and previous altitude is over 800, then ignore the value.
+			 * this could happen because the baro didn't get enough time to properly process it's data, so it gives junk values. 
+			 */
+	
+			//exponential smoothing. http://en.wikipedia.org/wiki/Exponential_smoothing
+			//St = aX + (1-a)St-1
+			float altitudeCmAglTemp = (float) (altitudeMslCm - model->InitialAltitudeCm());
+			float previousAltitudeCmAgl = model->ZNEDLocalFrameCm();
+			float currentAltitudeCmAgl = WEIGHT * (altitudeCmAglTemp) + (1 - WEIGHT)*previousAltitudeCmAgl;
+			//model->AltitudeMetersAgl(currentAltitudeMetersAgl);
+	
+			//Calculate altitude speed.
+			//model->ZVelocityFRDCms(((currentAltitudeCmAgl - previousAltitudeCmAgl) * BAROMETER_SENSOR_READ_PERIOD));
+			model->ZVelocityFRDCms(((currentAltitudeCmAgl - previousAltitudeCmAgl) / barometerSensorReadPeriod));
 	
 		
-		model->ZNEDLocalFrameCm(currentAltitudeCmAgl); //don't use localnedz as the z value because the altitude from barometer is more accurate
-	}
+			model->ZNEDLocalFrameCm(currentAltitudeCmAgl); //don't use localnedz as the z value because the altitude from barometer is more accurate
+		}
 					
-
+		
+		model->HasNewPressureReading = false;
+	}
 	
 	
 				

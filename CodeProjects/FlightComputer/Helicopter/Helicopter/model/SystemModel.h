@@ -40,6 +40,8 @@ namespace helicopter
 				
 			enum CommunicationMethods {USB, Radio};
 				
+			
+				
 			private:
 			
 			AHRS *ahrs;
@@ -164,6 +166,8 @@ namespace helicopter
 			
 			float EcefToLocalNEDRotationMatrix[3][3];
 			
+			bool HasNewPressureReading;
+			
 			SystemModel():
 				ahrs(NULL),
 				operationalState(ManualControl),
@@ -245,7 +249,8 @@ namespace helicopter
 				yVEcefCms(0),
 				zVEcefCms(0),
 				pressureMillibars(0),
-				auxChannelValue(0)					
+				auxChannelValue(0),
+				HasNewPressureReading(false)				
 			{
 				EcefToLocalNEDRotationMatrix[0][0] = 0;
 				EcefToLocalNEDRotationMatrix[0][1] = 0;

@@ -39,7 +39,9 @@ void ReadBarometerSensorTask::runTaskImpl()
 			if (model->SensorInput() == SystemModel::RealSensors)
 			{
 				model->PressureMillibars(barometerSensor->getPressureMillibars() / 100.0f);
+				model->HasNewPressureReading = true;
 			}
+			
 			
 			step = 0;
 		break;

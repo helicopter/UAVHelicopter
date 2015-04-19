@@ -242,9 +242,11 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	pidController->setLateralInnerLoopGain(1.0f);
 	pidController->setRollAngularVelocityGain(0.0f);
 	
-	pidController->setZProportionalGain(.0015f);
+	//pidController->setZProportionalGain(.0015f);
+	pidController->setZProportionalGain(.002f);
 	pidController->setZIntegralGain(.00f);
-	pidController->setZDerivativeGain(.22f);
+	//pidController->setZDerivativeGain(.22f);
+	pidController->setZDerivativeGain(.0015f);
 	pidController->setZAntiWindupGain(0.0f);
 	
 	
@@ -503,14 +505,14 @@ int main(void)
 	//SystemModel *model = publicModel;
 	
 	//model->FlightMode(SystemModel::HardwareInLoopSimulatedFlight);
-	//model->FlightMode(SystemModel::SimulatedFlight);
+	model->FlightMode(SystemModel::SimulatedFlight);
 	
 	/**
 	 * Checklist:
 	 * turn off gains
 	 * modify start up parameters to read gps and baro data longer before start. 
 	 */
-	model->FlightMode(SystemModel::RealFlightTest);
+	//model->FlightMode(SystemModel::RealFlightTest);
 	//model->FlightMode(SystemModel::RealFlight);
 	
 	
@@ -748,6 +750,7 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 //	PIDInnerLoopTask *pidInnerLoop = new PIDInnerLoopTask(pidController, 4, 1);
 	
 	float barometerSensorReadPeriod = 1/20.0f; //will be 1/50 for production (or will it? because the ahrs uses this too. //latest 12/3/2014
+	float newBarometerSensorReadPeriod = barometerSensorReadPeriod;// how frequently NEW barometer sensor data is received. 
 	//float barometerSensorReadPeriod = 1/50.0f;
 	float simulatorSensorReadPeriod = barometerSensorReadPeriod;
 	
@@ -759,7 +762,9 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 	}else
 	{
 		barometerSensorReadPeriod = 1/50.0f;
+		newBarometerSensorReadPeriod = 1.0f/(50.0f/3.0f); //This is multiplied by 3 because reading the baro data is a 3 step process. So you only get actual new baro data every third sensor reading. But when you are using the simulator, it updates with every new message that comes in, so thats 1/20 seconds. 
 		sensorReadPeriod = GYRO_SENSOR_READ_PERIOD;
+		
 	}
 	
 		
@@ -782,7 +787,7 @@ TransmitTelemetryTask *transTelemTask = new TransmitTelemetryTask(gcsInterface, 
 
 	//navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * sensorReadPeriod)); //run at 98 hz.
 	navTask = new NavigationTask(barometerSensorReadPeriod, ahrs, model, 5, (SCHEDULER_TICK_FREQUENCY_HZ * .01f)); //run at 100 hz.
-	pvNavTask = new PVNavigationTask(barometerSensorReadPeriod, ahrs, model, 6, (SCHEDULER_TICK_FREQUENCY_HZ * barometerSensorReadPeriod)); //run at 50 hz
+	pvNavTask = new PVNavigationTask(newBarometerSensorReadPeriod, ahrs, model, 6, (SCHEDULER_TICK_FREQUENCY_HZ * barometerSensorReadPeriod)); //run at 50 hz
 
 
 

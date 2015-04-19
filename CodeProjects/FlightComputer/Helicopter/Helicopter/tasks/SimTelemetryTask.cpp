@@ -202,6 +202,8 @@ void SimTelemetryTask::runTaskImpl()
 			pidController->setZDerivativeGain(telemMsg->ZDerivativeGain);
 			pidController->setZProportionalGain(telemMsg->ZProportionalGain);
 			pidController->setZAntiWindupGain(telemMsg->ZAntiWindupGain);
+			
+			model->HasNewPressureReading = true;
 		}else if (message->getType() == SensorDataMessage::MessageType)
 		{
 			SensorDataMessage *sensorMsg = (SensorDataMessage*) message;
@@ -221,6 +223,8 @@ void SimTelemetryTask::runTaskImpl()
 			model->YVEcefCms(sensorMsg->YVEcefCms);
 			model->ZVEcefCms(sensorMsg->ZVEcefCms);
 			model->PressureMillibars(sensorMsg->PressureMillibars);
+			
+			model->HasNewPressureReading = true;
 				
 		}else if (message->getType() == GainsMessage::MessageType)
 		{

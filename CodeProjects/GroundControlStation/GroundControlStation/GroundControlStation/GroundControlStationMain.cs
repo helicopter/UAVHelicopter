@@ -1373,8 +1373,8 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            FlightModes flightMode = FlightModes.RealFlight;
-            //FlightModes flightMode = FlightModes.SimulatedFlight;
+            //FlightModes flightMode = FlightModes.RealFlight;
+            FlightModes flightMode = FlightModes.SimulatedFlight;
 
             //SerialPort port = new SerialPort("COM7", 76800, Parity.None, 8, StopBits.One);
             //SerialPort port = new SerialPort("COM7", 250000, Parity.None, 8, StopBits.One); //MOST RECENT
@@ -1786,8 +1786,10 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
             model.RollAngularVelocityGain = 0.0f;//.014f;//.739f;//0.0f;
 
             model.ZIntegralGain = 0f;//.0005f;// .001f;
-            model.ZProportionalGain = .0015f;//0.003f;
-            model.ZDerivativeGain = .22f;
+            //model.ZProportionalGain = .0015f;//0.003f;
+            model.ZProportionalGain = .002f;
+            //model.ZDerivativeGain = .22f;
+            model.ZDerivativeGain = .0015f;
             model.ZAntiWindupGain = 0.0f;//.6685f;// .300874f;
            
 
