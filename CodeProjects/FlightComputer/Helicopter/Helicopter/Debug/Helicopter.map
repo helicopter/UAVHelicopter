@@ -2681,7 +2681,7 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .debug_str     0x0000c0ad       0xf4 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
                                 0x17c (size before relaxing)
 
-.debug_loc      0x00000000    0x1fb5f
+.debug_loc      0x00000000    0x1fb61
  *(.debug_loc)
  .debug_loc     0x00000000      0x1f4 buffer/Buffer.o
  .debug_loc     0x000001f4       0xa0 buffer/CircularBuffer.o
@@ -2690,39 +2690,39 @@ LOAD c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr
  .debug_loc     0x00002d1e     0x140f drivers/SerialDriver.o
  .debug_loc     0x0000412d      0x436 drivers/SPIDriver.o
  .debug_loc     0x00004563      0x166 drivers/TWIDriver.o
- .debug_loc     0x000046c9     0x1881 HelicopterMain.o
- .debug_loc     0x00005f4a      0x943 interfaces/GroundControlStationInterface.o
- .debug_loc     0x0000688d     0x1143 interfaces/RadioControllerInterface.o
- .debug_loc     0x000079d0      0x56b messages/ControlMessage.o
- .debug_loc     0x00007f3b     0x1bdc messages/GainsMessage.o
- .debug_loc     0x00009b17       0x74 messages/Message.o
- .debug_loc     0x00009b8b     0x116b messages/SensorDataMessage.o
- .debug_loc     0x0000acf6     0x23c8 messages/SimpleTelemetryMessage.o
- .debug_loc     0x0000d0be      0x172 messages/SyncMessage.o
- .debug_loc     0x0000d230     0x67b8 messages/SystemTelemetryMessage.o
- .debug_loc     0x000139e8      0x844 navigation/AHRS.o
- .debug_loc     0x0001422c      0x70e scheduler/Scheduler.o
- .debug_loc     0x0001493a     0x2349 sensors/BarometerSensor.o
- .debug_loc     0x00016c83      0xe71 sensors/GPSSensor.o
- .debug_loc     0x00017af4      0x66e sensors/IMUSensor.o
- .debug_loc     0x00018162     0x1347 sensors/MagnetometerSensor.o
- .debug_loc     0x000194a9      0x3f0 tasks/NavigationTask.o
- .debug_loc     0x00019899      0x19d tasks/PIDInnerLoopTask.o
- .debug_loc     0x00019a36      0x16e tasks/PIDOuterLoopTask.o
- .debug_loc     0x00019ba4      0x6e8 tasks/PVNavigationTask.o
- .debug_loc     0x0001a28c      0x27e tasks/ReadBarometerSensorTask.o
- .debug_loc     0x0001a50a      0x4c7 tasks/ReadGPSSensorTask.o
- .debug_loc     0x0001a9d1      0x43c tasks/ReadIMUSensorTask.o
- .debug_loc     0x0001ae0d      0x36d tasks/ReadMagnetometerSensorTask.o
- .debug_loc     0x0001b17a      0x2d1 tasks/ServoControlTask.o
- .debug_loc     0x0001b44b     0x181c tasks/SimTelemetryTask.o
- .debug_loc     0x0001cc67       0x74 tasks/Task.o
- .debug_loc     0x0001ccdb      0x89a tasks/TransmitTelemetryTask.o
- .debug_loc     0x0001d575       0x98 util/CommonHeader.o
- .debug_loc     0x0001d60d      0xbf6 util/CoordinateUtil.o
- .debug_loc     0x0001e203     0x1368 util/MatrixUtil.o
- .debug_loc     0x0001f56b       0xfc util/Timer.o
- .debug_loc     0x0001f667      0x4f8 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
+ .debug_loc     0x000046c9     0x1883 HelicopterMain.o
+ .debug_loc     0x00005f4c      0x943 interfaces/GroundControlStationInterface.o
+ .debug_loc     0x0000688f     0x1143 interfaces/RadioControllerInterface.o
+ .debug_loc     0x000079d2      0x56b messages/ControlMessage.o
+ .debug_loc     0x00007f3d     0x1bdc messages/GainsMessage.o
+ .debug_loc     0x00009b19       0x74 messages/Message.o
+ .debug_loc     0x00009b8d     0x116b messages/SensorDataMessage.o
+ .debug_loc     0x0000acf8     0x23c8 messages/SimpleTelemetryMessage.o
+ .debug_loc     0x0000d0c0      0x172 messages/SyncMessage.o
+ .debug_loc     0x0000d232     0x67b8 messages/SystemTelemetryMessage.o
+ .debug_loc     0x000139ea      0x844 navigation/AHRS.o
+ .debug_loc     0x0001422e      0x70e scheduler/Scheduler.o
+ .debug_loc     0x0001493c     0x2349 sensors/BarometerSensor.o
+ .debug_loc     0x00016c85      0xe71 sensors/GPSSensor.o
+ .debug_loc     0x00017af6      0x66e sensors/IMUSensor.o
+ .debug_loc     0x00018164     0x1347 sensors/MagnetometerSensor.o
+ .debug_loc     0x000194ab      0x3f0 tasks/NavigationTask.o
+ .debug_loc     0x0001989b      0x19d tasks/PIDInnerLoopTask.o
+ .debug_loc     0x00019a38      0x16e tasks/PIDOuterLoopTask.o
+ .debug_loc     0x00019ba6      0x6e8 tasks/PVNavigationTask.o
+ .debug_loc     0x0001a28e      0x27e tasks/ReadBarometerSensorTask.o
+ .debug_loc     0x0001a50c      0x4c7 tasks/ReadGPSSensorTask.o
+ .debug_loc     0x0001a9d3      0x43c tasks/ReadIMUSensorTask.o
+ .debug_loc     0x0001ae0f      0x36d tasks/ReadMagnetometerSensorTask.o
+ .debug_loc     0x0001b17c      0x2d1 tasks/ServoControlTask.o
+ .debug_loc     0x0001b44d     0x181c tasks/SimTelemetryTask.o
+ .debug_loc     0x0001cc69       0x74 tasks/Task.o
+ .debug_loc     0x0001ccdd      0x89a tasks/TransmitTelemetryTask.o
+ .debug_loc     0x0001d577       0x98 util/CommonHeader.o
+ .debug_loc     0x0001d60f      0xbf6 util/CoordinateUtil.o
+ .debug_loc     0x0001e205     0x1368 util/MatrixUtil.o
+ .debug_loc     0x0001f56d       0xfc util/Timer.o
+ .debug_loc     0x0001f669      0x4f8 c:/program files (x86)/atmel/atmel toolchain/avr8 gcc/native/3.4.2.1002/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr6\libc.a(malloc.o)
 
 .debug_macinfo
  *(.debug_macinfo)

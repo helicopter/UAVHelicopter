@@ -656,7 +656,7 @@ receiveGains = true;
 	
 	unsigned long gpsAcceptanceThreshold = 20000;
 	int barometerInitReadings = 5;
-	int sensorInitReadings = 5;
+	int sensorInitReadings = 100;
 
 	if (model->FlightMode() == SystemModel::RealFlightTest)
 	{

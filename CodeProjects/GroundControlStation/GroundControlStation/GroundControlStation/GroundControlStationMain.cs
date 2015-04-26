@@ -1761,9 +1761,18 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
 
 
             //new values 1/24/2015
+            /*
             model.YawIntegralGain = 0.0f;//.942f;//.263f;//0.333f; //bad because if you lose control, your permanently out of control. 
             model.YawProportionalGain = 1.2f;//1.1f;//.797f;//.42f;
             model.YawDerivativeGain = .275f;//.172f;// 0.168f;
+            //model.YawAntiWindupGain = 0.02f;
+            model.YawAntiWindupGain = 0.0f;//0.11f;
+             * */
+            //newvalues 4/26/2015
+
+            model.YawIntegralGain = 0.0f;//.942f;//.263f;//0.333f; //bad because if you lose control, your permanently out of control. 
+            model.YawProportionalGain = .04f;//1.1f;//.797f;//.42f;
+            model.YawDerivativeGain = .072f;
             //model.YawAntiWindupGain = 0.02f;
             model.YawAntiWindupGain = 0.0f;//0.11f;
 
