@@ -68,7 +68,12 @@ namespace helicopter
 				//+- 2g scale range of the accelerometer. This is the minimum setting. LSB  sensitivity = 16384 LSB/g (page 30)
 				//Note: if this is changed, you have to change the RAW_ACC_TO_RADS_PER_SECOND_SECOND_CONVERTER which converts raw data to
 				//acceleration
-				static const byte BITS_AFS_SEL = 0x00; 
+				//static const byte BITS_AFS_SEL = 0x00; 
+				
+				//+- 4g scale range of the accelerometer. LSB  sensitivity = 8192 LSB/g (page 30)
+				//Note: if this is changed, you have to change the RAW_ACC_TO_RADS_PER_SECOND_SECOND_CONVERTER which converts raw data to
+				//acceleration
+				static const byte BITS_AFS_SEL = 0x08;//1<<4				
 	
 				static const byte readCommand = 0x80;
 				
@@ -84,6 +89,13 @@ namespace helicopter
 				/**
 				 * Per page 30 in the RM-MPU-6000A document, since AFS_SEL is 
 				 * set to +-2g, there are 16384 LSB's per g
+				 * This value converts from the raw data to acceleration in meters per second per second.
+				 */				
+				//static const float RAW_ACC_TO_RADS_PER_SECOND_SECOND_CONVERTER;
+				
+				/**
+				 * Per page 30 in the RM-MPU-6000A document, since AFS_SEL is 
+				 * set to +-4g, there are 8192 LSB's per g
 				 * This value converts from the raw data to acceleration in meters per second per second.
 				 */				
 				static const float RAW_ACC_TO_RADS_PER_SECOND_SECOND_CONVERTER;

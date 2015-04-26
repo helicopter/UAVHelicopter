@@ -505,14 +505,14 @@ int main(void)
 	//SystemModel *model = publicModel;
 	
 	//model->FlightMode(SystemModel::HardwareInLoopSimulatedFlight);
-	model->FlightMode(SystemModel::SimulatedFlight);
+	//model->FlightMode(SystemModel::SimulatedFlight);
 	
 	/**
 	 * Checklist:
 	 * turn off gains
 	 * modify start up parameters to read gps and baro data longer before start. 
 	 */
-	//model->FlightMode(SystemModel::RealFlightTest);
+	model->FlightMode(SystemModel::RealFlightTest);
 	//model->FlightMode(SystemModel::RealFlight);
 	
 	
@@ -542,7 +542,8 @@ int main(void)
 		model->CommunicationMethod(SystemModel::Radio);
 //model->CommunicationMethod(SystemModel::USB);
 
-		sendControlToServos = true;
+		//sendControlToServos = true;
+sendControlToServos = false;	
 		
 		//receiveGains = false;
 receiveGains = true;		

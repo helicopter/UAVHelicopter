@@ -172,10 +172,20 @@ void AHRS::update(float frdAccXMss, float frdAccYMss, float frdAccZMss,
 	 *
 	 * Taken from Starlino's January 20, 2012 post at http://www.starlino.com/dcm_tutorial.html 
 	 */
-	float westFacingVector[3] = {0};//since the acceleration vector is pointing down, this is actually an east facing vector in our case. 
+	float westFacingVector[3] = {0};//since the acceleration vector is pointing down, this is actually an east facing vector in our case. it's actually facing out the right side of the ship. 
 	float correctedMagnetometerVector[3] = {0};
 		
 	
+	/* The reason why we take the cross product of the DCM's gravity vector and the magnetometer value
+	* is because if we took the double CP od the mag and accel directly, then the mag heading value
+	* would be highly noisy due to the noise from both the mag value, and the accelerometer values.
+	* I.e. if the helicopter was accelerating forward, the accel vector would be pointing slightly forward
+	* rather than down with gravity, so the double CP of the mag and accel would be affected by that.
+	* I also ran into the issue where the accel was vibrating so heavily that the y and z values were maxed out
+	* this caused a gravity vector that pointed 45* down and west, this caused the heading value to
+	* slowly start rotating. But if I had used the mag and accel values, it would have immediately given
+	* erroneous results and would have started to rotate immediately.
+	*/
 	MatrixUtil::CrossProduct(dcm[2], magnetometerVector, westFacingVector);	
 	MatrixUtil::CrossProduct(westFacingVector, dcm[2], correctedMagnetometerVector);
 	
