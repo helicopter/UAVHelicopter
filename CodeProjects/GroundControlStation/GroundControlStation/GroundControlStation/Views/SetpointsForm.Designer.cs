@@ -143,7 +143,7 @@
             // 
             this.tbZ.Location = new System.Drawing.Point(66, 93);
             this.tbZ.Maximum = 0;
-            this.tbZ.Minimum = -100;
+            this.tbZ.Minimum = -500;
             this.tbZ.Name = "tbZ";
             this.tbZ.Size = new System.Drawing.Size(459, 45);
             this.tbZ.TabIndex = 9;

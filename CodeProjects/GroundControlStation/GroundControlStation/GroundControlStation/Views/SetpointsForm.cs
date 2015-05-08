@@ -16,6 +16,15 @@ namespace GroundControlStation.Views
         public SetpointsForm()
         {
             InitializeComponent();
+
+            tbZ.ValueChanged -= tbX_ValueChanged;
+
+            tbZ.Value = -270;//Default the z altitude to 88 feet.
+            //controller.Model.ZRefSetpoint = (float)tbZ.Value * 10;
+            txtZ.Text = (tbZ.Value * 10).ToString();
+
+            tbZ.ValueChanged += tbX_ValueChanged;
+ 
         }
 
 

@@ -1780,7 +1780,8 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
             model.XDerivativeGain = .00041f;//.00039f;//.0004f;//.00019f;//.00025f;//.004f;//1.783f;//0.0f;
             model.XAntiWindupGain = 0.0f;
             //model.LongitudeInnerLoopGain = 1.0f;
-            model.LongitudeInnerLoopGain = 1.0f;//.8f;//.272f;//.252f;//0.17081f;
+            //model.LongitudeInnerLoopGain = 1.0f;//.8f;//.272f;//.252f;//0.17081f;
+            model.LongitudeInnerLoopGain = 1.522f;
             model.PitchAngularVelocityGain = 0.0f;//.972f;//0.0f;
 
             model.YIntegralGain = 0.0f;
@@ -1789,7 +1790,8 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
             model.YDerivativeGain = .000501f;//.00065f;//.000253f;//0.00002f; //0f;//.0009f;//.009f;//0.0f;
             model.YAntiWindupGain = 0.0f;
             //model.LateralInnerLoopGain = 1.0f;
-            model.LateralInnerLoopGain = 1.0f;//.43f;//.277f;//0.17081f;
+            //model.LateralInnerLoopGain = 1.0f;//.43f;//.277f;//0.17081f;
+            model.LateralInnerLoopGain = 1.522f;
             model.RollAngularVelocityGain = 0.0f;//.014f;//.739f;//0.0f;
 
             model.ZIntegralGain = 0f;//.0005f;// .001f;
@@ -1800,8 +1802,8 @@ madgwick.getYawPitchRoll(out y1, out p1, out r1);
             model.ZAntiWindupGain = 0.0f;//.6685f;// .300874f;
            
 
-
-
+            model.ZRefSetpoint = -2700.2f;//88 feet. this isn't where the default it set on the bar.
+            
 
 
            
