@@ -64,7 +64,8 @@ void setupDefaultsandReferencePosition(SystemModel *model, PIDController *pidCon
 	//model->ReferenceZNEDLocalFrameCm(-3048.0);
 	//model->ReferenceZNEDLocalFrameCm(-304.8);
 	//model->ReferenceZNEDLocalFrameCm(-914.4f); // 30 feet.
-	model->ReferenceZNEDLocalFrameCm(-1219.2f); // 40 feet.
+	//model->ReferenceZNEDLocalFrameCm(-1219.2f); // 40 feet.
+	model->ReferenceZNEDLocalFrameCm(-2700.2f); // 88.5 feet.
 	model->ReferenceZVelocityCms(0);
 	model->ReferenceXNEDLocalFrameCm(0);
 	//model->ReferenceXNEDLocalFrameCm(15000);
@@ -513,8 +514,8 @@ int main(void)
 	 * turn off gains
 	 * modify start up parameters to read gps and baro data longer before start. 
 	 */
-	//model->FlightMode(SystemModel::RealFlightTest);
-	model->FlightMode(SystemModel::RealFlight);
+	model->FlightMode(SystemModel::RealFlightTest);
+	//model->FlightMode(SystemModel::RealFlight);
 	
 	
 	
